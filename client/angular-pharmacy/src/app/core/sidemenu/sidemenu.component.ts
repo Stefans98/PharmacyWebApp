@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { menus } from './menu-element';
+import { dermatologistMenus } from './menu-element-dermatologist';
 import { patientMenus } from './menu-element-patient';
 
 @Component({
@@ -14,10 +15,13 @@ export class SidemenuComponent implements OnInit {
     
     public menus = menus;
     public patientMenus = patientMenus;
+    public dermatologistMenus = dermatologistMenus;
     
-    public role : boolean = false;
+    public userRole : String = '';
 
-    constructor() { }
+    constructor() { 
+      this.userRole = 'Patient';
+    }
 
     ngOnInit() {
     }

@@ -16,6 +16,13 @@ import { TakingDrugsComponent } from '../patient/drugs/taking-drugs/taking-drugs
 import { EPrescriptionComponent } from '../patient/e-prescription/e-prescription.component';
 import { PenaltyComponent } from '../patient/penalty/penalty.component';
 import { ComplaintsComponent } from '../patient/complaints/complaints.component';
+import { DermatologistWorkCalendarComponent } from '../dermatologist/dermatologist-work-calendar/dermatologist-work-calendar.component';
+import { DermatologistPatientsComponent } from '../dermatologist/dermatologist-patients/dermatologist-patients.component';
+import { DermatologistStartAppointmentComponent } from '../dermatologist/dermatologist-start-appointment/dermatologist-start-appointment.component';
+import { DermatologistNewAppointmentComponent } from '../dermatologist/dermatologist-new-appointment/dermatologist-new-appointment.component';
+import { DermatologistVacationRequestComponent } from '../dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
+import { DermatologistAbsenceRequestComponent } from '../dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
+import { DermatologistProfileComponent } from '../dermatologist/dermatologist-profile/dermatologist-profile.component';
 
 
 export const appRoutes: Routes = [{
@@ -36,6 +43,13 @@ export const appRoutes: Routes = [{
         { path: 'patient/penalty', component: PenaltyComponent },
         { path: 'patient/complaints', component: ComplaintsComponent },
         { path: 'patient/patient-profile', component: PatientProfileComponent },
+        { path: 'dermatologist/work-calendar', component: DermatologistWorkCalendarComponent },
+        { path: 'dermatologist/patients', component: DermatologistPatientsComponent },
+        { path: 'dermatologist/start-appointment', component: DermatologistStartAppointmentComponent },
+        { path: 'dermatologist/new-appointment', component: DermatologistNewAppointmentComponent },
+        { path: 'dermatologist/vacation-request', component: DermatologistVacationRequestComponent },
+        { path: 'dermatologist/absence-request', component: DermatologistAbsenceRequestComponent },
+        { path: 'dermatologist/profile', component: DermatologistProfileComponent },
         { path: 'scrumboard', loadChildren: () => import('../scrumboard/scrumboard.module').then(m => m.ScrumboardModule) },
     ]
 }];
