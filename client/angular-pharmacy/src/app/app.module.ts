@@ -21,6 +21,13 @@ import { EPrescriptionComponent } from './patient/e-prescription/e-prescription.
 import { PenaltyComponent } from './patient/penalty/penalty.component';
 import { ComplaintsComponent } from './patient/complaints/complaints.component';
 import { HomeComponent } from './home/home.component';
+import { DermatologistPatientsComponent } from './dermatologist/dermatologist-patients/dermatologist-patients.component';
+import { DermatologistStartAppointmentComponent } from './dermatologist/dermatologist-start-appointment/dermatologist-start-appointment.component';
+import { DermatologistWorkCalendarComponent } from './dermatologist/dermatologist-work-calendar/dermatologist-work-calendar.component';
+import { DermatologistProfileComponent } from './dermatologist/dermatologist-profile/dermatologist-profile.component';
+import { DermatologistNewAppointmentComponent } from './dermatologist/dermatologist-new-appointment/dermatologist-new-appointment.component';
+import { DermatologistVacationRequestComponent } from './dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
+import { DermatologistAbsenceRequestComponent } from './dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +47,15 @@ import { HomeComponent } from './home/home.component';
     EPrescriptionComponent,
     PenaltyComponent,
     ComplaintsComponent,
-    HomeComponent
+    HomeComponent,
+    DermatologistPatientsComponent,
+    DermatologistStartAppointmentComponent,
+    DermatologistWorkCalendarComponent,
+    DermatologistProfileComponent,
+    DermatologistNewAppointmentComponent,
+    DermatologistWorkCalendarComponent,
+    DermatologistVacationRequestComponent,
+    DermatologistAbsenceRequestComponent
   ],
   imports: [
     BrowserModule,

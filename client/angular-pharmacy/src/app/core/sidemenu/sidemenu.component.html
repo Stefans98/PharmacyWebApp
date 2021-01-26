@@ -6,8 +6,11 @@
         <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
             <img width="50" [style.borderRadius]="'50%'" src="./assets/images/user.png">
         </div>
-        <div *ngIf="!role">
+        <div *ngIf="userRole == 'Patient'">
             <cdk-sidemenu-item *ngFor="let menu of patientMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
+        </div>
+        <div *ngIf="userRole == 'Dermatologist'">
+            <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
     </div>   
 </ng-scrollbar>
