@@ -6,7 +6,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="appointments")
-@Inheritance(strategy=SINGLE_TABLE)
 public class Appointment {
 
     @Id
@@ -26,6 +25,13 @@ public class Appointment {
     private TimePeriod timePeriod;
 
     public Appointment() {
+    }
+
+    public Appointment(double price, AppointmentState appointmentState, AppointmentType appointmentType, TimePeriod timePeriod) {
+        this.price = price;
+        this.appointmentState = appointmentState;
+        this.appointmentType = appointmentType;
+        this.timePeriod = timePeriod;
     }
 
     public Long getId() {

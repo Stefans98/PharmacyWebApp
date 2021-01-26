@@ -7,7 +7,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="subscriptions")
-@Inheritance(strategy=SINGLE_TABLE)
 public class Subscription {
 
     @Id
@@ -19,6 +18,11 @@ public class Subscription {
     private List<Promotion> promotions;
 
     public Subscription() {
+    }
+
+    public Subscription(Pharmacy pharmacy, List<Promotion> promotions) {
+        this.pharmacy = pharmacy;
+        this.promotions = promotions;
     }
 
     public Long getId() {

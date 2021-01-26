@@ -11,7 +11,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="work_days")
-@Inheritance(strategy=SINGLE_TABLE)
 public class WorkDay {
 
     @Id
@@ -19,13 +18,22 @@ public class WorkDay {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @Column(name="date", nullable=false)
+    private Date date;
+
     private Pharmacy pharmacy;
     private Employee employee;
     private List<Appointment> appointments;
 
-    private Date date;
 
     public WorkDay() {
+    }
+
+    public WorkDay(Date date, Pharmacy pharmacy, Employee employee, List<Appointment> appointments) {
+        this.date = date;
+        this.pharmacy = pharmacy;
+        this.employee = employee;
+        this.appointments = appointments;
     }
 
     public Long getId() {
@@ -34,6 +42,14 @@ public class WorkDay {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Pharmacy getPharmacy() {
@@ -58,13 +74,5 @@ public class WorkDay {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

@@ -6,8 +6,7 @@ import java.util.List;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Table(name="price_list")
-@Inheritance(strategy=SINGLE_TABLE)
+@Table(name="price_lists")
 public class Pricelist {
 
     @Id
@@ -19,6 +18,11 @@ public class Pricelist {
     private List<AppointmentPrice> appointmentPrices;
 
     public Pricelist() {
+    }
+
+    public Pricelist(List<MedicinePrice> medicinePrices, List<AppointmentPrice> appointmentPrices) {
+        this.medicinePrices = medicinePrices;
+        this.appointmentPrices = appointmentPrices;
     }
 
     public Long getId() {

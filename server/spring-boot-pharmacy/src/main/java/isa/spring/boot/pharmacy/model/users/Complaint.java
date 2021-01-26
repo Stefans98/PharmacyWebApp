@@ -1,14 +1,12 @@
-package isa.spring.boot.pharmacy.model.pharmacy;
-
-import isa.spring.boot.pharmacy.model.schedule.TimePeriod;
+package isa.spring.boot.pharmacy.model.users;
 
 import javax.persistence.*;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Table(name="promotions")
-public class Promotion {
+@Table(name="complaints")
+public class Complaint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,14 +16,14 @@ public class Promotion {
     @Column(name = "text", nullable = false)
     private String text;
 
-    private TimePeriod timePeriod;
+    private Patient patient;
 
-    public Promotion() {
+    public Complaint() {
     }
 
-    public Promotion(String text, TimePeriod timePeriod) {
+    public Complaint(String text, Patient patient) {
         this.text = text;
-        this.timePeriod = timePeriod;
+        this.patient = patient;
     }
 
     public Long getId() {
@@ -44,11 +42,11 @@ public class Promotion {
         this.text = text;
     }
 
-    public TimePeriod getTimePeriod() {
-        return timePeriod;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setTimePeriod(TimePeriod timePeriod) {
-        this.timePeriod = timePeriod;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

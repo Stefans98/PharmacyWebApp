@@ -7,7 +7,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="appointment_histories")
-@Inheritance(strategy=SINGLE_TABLE)
 public class AppointmentHistory {
 
     @Id
@@ -18,6 +17,10 @@ public class AppointmentHistory {
     private List<AppointmentReport> appointmentReports;
 
     public AppointmentHistory() {
+    }
+
+    public AppointmentHistory(List<AppointmentReport> appointmentReports) {
+        this.appointmentReports = appointmentReports;
     }
 
     public Long getId() {

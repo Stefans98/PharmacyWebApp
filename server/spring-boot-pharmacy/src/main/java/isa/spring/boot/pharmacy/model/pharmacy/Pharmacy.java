@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
+import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.users.Address;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
@@ -12,7 +13,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="pharmacies")
-@Inheritance(strategy=SINGLE_TABLE)
 public class Pharmacy {
 
     @Id
@@ -32,15 +32,19 @@ public class Pharmacy {
     private Address address;
     private List<Pharmacist> pharmacists;
     private List<Dermatologist> dermatologists;
+    private List<Medicine> medicines;
 
     public Pharmacy() {
     }
 
-    public Pharmacy(Long id, String name, String description, double averageGrade) {
-        this.id = id;
+    public Pharmacy(String name, String description, double averageGrade, Address address, List<Pharmacist> pharmacists, List<Dermatologist> dermatologists, List<Medicine> medicines) {
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
+        this.address = address;
+        this.pharmacists = pharmacists;
+        this.dermatologists = dermatologists;
+        this.medicines = medicines;
     }
 
     public Long getId() {
@@ -73,5 +77,37 @@ public class Pharmacy {
 
     public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Pharmacist> getPharmacists() {
+        return pharmacists;
+    }
+
+    public void setPharmacists(List<Pharmacist> pharmacists) {
+        this.pharmacists = pharmacists;
+    }
+
+    public List<Dermatologist> getDermatologists() {
+        return dermatologists;
+    }
+
+    public void setDermatologists(List<Dermatologist> dermatologists) {
+        this.dermatologists = dermatologists;
+    }
+
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
     }
 }
