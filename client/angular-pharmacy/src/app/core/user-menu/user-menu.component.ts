@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cdk-user-menu',
@@ -20,13 +21,10 @@ export class UserMenuComponent implements OnInit {
     	if (!clickedInside) {
       		this.isOpen = false;
     	}
-  	}
-  	
+  	}  	
     
-  	constructor(private elementRef: ElementRef) { }
-
+  	constructor(private elementRef: ElementRef, private router: Router) { }
 
   	ngOnInit() {
   	}
-
 }
