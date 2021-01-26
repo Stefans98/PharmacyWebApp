@@ -19,7 +19,12 @@ public class MedicineOrderList {
     @Column(name = "final_offer_date", nullable = false)
     private Date finalOfferDate;
 
+    @OneToMany(mappedBy = "medicineOrderList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    // ***
+    @OneToMany(mappedBy = "medicineOrderList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Offer> offers;
 
     public MedicineOrderList() {
     }
@@ -51,5 +56,13 @@ public class MedicineOrderList {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 }

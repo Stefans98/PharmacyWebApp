@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.schedule;
 
+import isa.spring.boot.pharmacy.model.users.Patient;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,7 +16,12 @@ public class AppointmentHistory {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @OneToMany(mappedBy = "appointmentHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AppointmentReport> appointmentReports;
+
+    // ***
+    @OneToOne(mappedBy = "appointmentHistory")
+    private Patient patient;
 
     public AppointmentHistory() {
     }
@@ -37,5 +44,13 @@ public class AppointmentHistory {
 
     public void setAppointmentReports(List<AppointmentReport> appointmentReports) {
         this.appointmentReports = appointmentReports;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

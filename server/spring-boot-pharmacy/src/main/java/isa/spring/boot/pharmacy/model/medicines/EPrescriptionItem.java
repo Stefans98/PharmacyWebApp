@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.medicines;
 
+import isa.spring.boot.pharmacy.model.users.Patient;
+
 import javax.persistence.*;
 
 import java.util.Date;
@@ -18,7 +20,12 @@ public class EPrescriptionItem {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private EPrescription ePrescription;
 
     public EPrescriptionItem() {
     }
@@ -50,5 +57,13 @@ public class EPrescriptionItem {
 
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
+    }
+
+    public EPrescription getePrescription() {
+        return ePrescription;
+    }
+
+    public void setePrescription(EPrescription ePrescription) {
+        this.ePrescription = ePrescription;
     }
 }

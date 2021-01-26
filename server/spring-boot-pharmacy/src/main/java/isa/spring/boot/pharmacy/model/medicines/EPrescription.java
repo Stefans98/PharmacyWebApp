@@ -24,7 +24,10 @@ public class EPrescription {
     @Column(name = "issuing_date", nullable = false)
     private Date issuingDate;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
+
+    @OneToMany(mappedBy = "ePrescription", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EPrescriptionItem> ePrescriptionItems;
 
     public EPrescription() {

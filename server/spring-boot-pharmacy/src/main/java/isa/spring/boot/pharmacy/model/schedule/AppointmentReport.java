@@ -16,7 +16,12 @@ public class AppointmentReport {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AppointmentHistory appointmentHistory;
 
     public AppointmentReport() {
     }
@@ -48,5 +53,13 @@ public class AppointmentReport {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    public AppointmentHistory getAppointmentHistory() {
+        return appointmentHistory;
+    }
+
+    public void setAppointmentHistory(AppointmentHistory appointmentHistory) {
+        this.appointmentHistory = appointmentHistory;
     }
 }

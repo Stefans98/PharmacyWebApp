@@ -16,6 +16,7 @@ public class Complaint {
     @Column(name = "text", nullable = false)
     private String text;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
 
     public Complaint() {

@@ -18,7 +18,10 @@ public class Prescription {
     @Column(name = "therapy_day_length", nullable = false)
     private int therapyDayLength;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
 
     public Prescription() {

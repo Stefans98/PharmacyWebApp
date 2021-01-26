@@ -1,11 +1,10 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
 import isa.spring.boot.pharmacy.model.schedule.AppointmentType;
-import isa.spring.boot.pharmacy.model.schedule.TimePeriod;
 
 import javax.persistence.*;
 
-import static javax.persistence.InheritanceType.SINGLE_TABLE;
+import java.util.Date;
 
 @Entity
 @Table(name="appointment_prices")
@@ -22,15 +21,24 @@ public class AppointmentPrice {
     @Column(name = "appointment_type", nullable = false)
     private AppointmentType appointmentType;
 
-    private TimePeriod timePeriod;
+    @Column(name = "start_time", nullable = false)
+    private Date startTime;
+
+    @Column(name = "end_time", nullable = false)
+    private Date endTime;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Pricelist pricelist;
 
     public AppointmentPrice() {
     }
 
-    public AppointmentPrice(double price, AppointmentType appointmentType, TimePeriod timePeriod) {
+    public AppointmentPrice(double price, AppointmentType appointmentType, Date startTime, Date endTime) {
         this.price = price;
         this.appointmentType = appointmentType;
-        this.timePeriod = timePeriod;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public Long getId() {
@@ -57,11 +65,27 @@ public class AppointmentPrice {
         this.appointmentType = appointmentType;
     }
 
-    public TimePeriod getTimePeriod() {
-        return timePeriod;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTimePeriod(TimePeriod timePeriod) {
-        this.timePeriod = timePeriod;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Pricelist getPricelist() {
+        return pricelist;
+    }
+
+    public void setPricelist(Pricelist pricelist) {
+        this.pricelist = pricelist;
     }
 }

@@ -14,7 +14,10 @@ public class Pricelist {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @OneToMany(mappedBy = "pricelist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicinePrice> medicinePrices;
+
+    @OneToMany(mappedBy = "pricelist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AppointmentPrice> appointmentPrices;
 
     public Pricelist() {

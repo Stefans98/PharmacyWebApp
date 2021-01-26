@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.medicines;
 
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+
 import javax.persistence.*;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
@@ -16,7 +18,12 @@ public class OrderItem {
     @Column(name = "quantity")
     private String quantity;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private MedicineOrderList medicineOrderList;
 
     public OrderItem() {
     }
@@ -48,5 +55,13 @@ public class OrderItem {
 
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
+    }
+
+    public MedicineOrderList getMedicineOrderList() {
+        return medicineOrderList;
+    }
+
+    public void setMedicineOrderList(MedicineOrderList medicineOrderList) {
+        this.medicineOrderList = medicineOrderList;
     }
 }

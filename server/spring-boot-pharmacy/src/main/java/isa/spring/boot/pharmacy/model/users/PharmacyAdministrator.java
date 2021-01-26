@@ -2,15 +2,14 @@ package isa.spring.boot.pharmacy.model.users;
 
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="pharmacy_administrators")
-@DiscriminatorValue("PharmacyAdministrator")
+@DiscriminatorValue("PHARMACY_ADMIN")
 public class PharmacyAdministrator extends User {
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
 
     public PharmacyAdministrator() {

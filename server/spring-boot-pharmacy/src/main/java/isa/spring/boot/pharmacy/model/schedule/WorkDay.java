@@ -21,10 +21,14 @@ public class WorkDay {
     @Column(name="date", nullable=false)
     private Date date;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
-    private Employee employee;
-    private List<Appointment> appointments;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Employee employee;
+
+    @OneToMany(mappedBy = "workDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
 
     public WorkDay() {
     }

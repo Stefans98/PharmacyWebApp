@@ -18,6 +18,10 @@ public class Allergy {
     @Column(name = "name", nullable = false)
     private String name;
 
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Patient patient;
+
     public Allergy() {
     }
 
@@ -39,5 +43,13 @@ public class Allergy {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

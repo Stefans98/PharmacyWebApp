@@ -1,11 +1,10 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
-import isa.spring.boot.pharmacy.model.schedule.TimePeriod;
 
 import javax.persistence.*;
 
-import static javax.persistence.InheritanceType.SINGLE_TABLE;
+import java.util.Date;
 
 @Entity
 @Table(name="medicine_prices")
@@ -19,16 +18,27 @@ public class MedicinePrice {
     @Column(name = "price", nullable = false)
     private double price;
 
+    @Column(name = "start_time", nullable = false)
+    private Date startTime;
+
+    @Column(name = "end_time", nullable = false)
+    private Date endTime;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
-    private TimePeriod timePeriod;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Pricelist pricelist;
 
     public MedicinePrice() {
     }
 
-    public MedicinePrice(double price, Medicine medicine, TimePeriod timePeriod) {
+    public MedicinePrice(double price, Medicine medicine, Date startTime, Date endTime) {
         this.price = price;
         this.medicine = medicine;
-        this.timePeriod = timePeriod;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public Long getId() {
@@ -55,11 +65,27 @@ public class MedicinePrice {
         this.medicine = medicine;
     }
 
-    public TimePeriod getTimePeriod() {
-        return timePeriod;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTimePeriod(TimePeriod timePeriod) {
-        this.timePeriod = timePeriod;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Pricelist getPricelist() {
+        return pricelist;
+    }
+
+    public void setPricelist(Pricelist pricelist) {
+        this.pricelist = pricelist;
     }
 }

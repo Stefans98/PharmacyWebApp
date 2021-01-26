@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.model.medicines;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
@@ -18,14 +19,15 @@ public class Ingredient {
     @Column(name = "name", nullable = false)
     private String name;
 
-    private List<MedicineSpecification> medicineSpecifications;
+    // ***
+    @ManyToMany(mappedBy = "ingredients")
+    private List<MedicineSpecification> medicineSpecification = new ArrayList<MedicineSpecification>();
 
     public Ingredient() {
     }
 
-    public Ingredient(String name, List<MedicineSpecification> medicineSpecifications) {
+    public Ingredient(String name) {
         this.name = name;
-        this.medicineSpecifications = medicineSpecifications;
     }
 
     public Long getId() {
@@ -44,11 +46,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public List<MedicineSpecification> getMedicineSpecifications() {
-        return medicineSpecifications;
+    public List<MedicineSpecification> getMedicineSpecification() {
+        return medicineSpecification;
     }
 
-    public void setMedicineSpecifications(List<MedicineSpecification> medicineSpecifications) {
-        this.medicineSpecifications = medicineSpecifications;
+    public void setMedicineSpecification(List<MedicineSpecification> medicineSpecification) {
+        this.medicineSpecification = medicineSpecification;
     }
 }

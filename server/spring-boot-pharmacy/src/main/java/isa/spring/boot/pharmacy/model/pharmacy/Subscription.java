@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
+import isa.spring.boot.pharmacy.model.users.Patient;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,8 +16,15 @@ public class Subscription {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
+
+    @OneToMany(mappedBy = "subscription", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Promotion> promotions;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Patient patient;
 
     public Subscription() {
     }
@@ -47,5 +56,13 @@ public class Subscription {
 
     public void setPromotions(List<Promotion> promotions) {
         this.promotions = promotions;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

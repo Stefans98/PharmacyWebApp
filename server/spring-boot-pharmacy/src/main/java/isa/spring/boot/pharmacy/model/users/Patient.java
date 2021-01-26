@@ -1,28 +1,50 @@
 package isa.spring.boot.pharmacy.model.users;
 
+import isa.spring.boot.pharmacy.model.medicines.EPrescription;
+import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.model.medicines.Prescription;
 import isa.spring.boot.pharmacy.model.pharmacy.Subscription;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentHistory;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="patients")
-@DiscriminatorValue("Patient")
+@DiscriminatorValue("PATIENT")
 public class Patient extends User {
 
-    @Column(name = "points", nullable = false)
+    @Column(name = "points")
     private int points;
 
     @Column(name = "user_category")
     private UserCategory userCategory;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_history_id", referencedColumnName = "id")
     private AppointmentHistory appointmentHistory;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Allergy> allergies;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Subscription> subscriptions;
+
+    // ***
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Complaint> complaints = new ArrayList<Complaint>();
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Prescription> Prescription;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineReservation> medicineReservations;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<EPrescription> ePrescription;
 
     public Patient() {
     }
@@ -75,5 +97,37 @@ public class Patient extends User {
 
     public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public List<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(List<Complaint> complaints) {
+        this.complaints = complaints;
+    }
+
+    public List<isa.spring.boot.pharmacy.model.medicines.Prescription> getPrescription() {
+        return Prescription;
+    }
+
+    public void setPrescription(List<isa.spring.boot.pharmacy.model.medicines.Prescription> prescription) {
+        Prescription = prescription;
+    }
+
+    public List<MedicineReservation> getMedicineReservations() {
+        return medicineReservations;
+    }
+
+    public void setMedicineReservations(List<MedicineReservation> medicineReservations) {
+        this.medicineReservations = medicineReservations;
+    }
+
+    public List<EPrescription> getePrescription() {
+        return ePrescription;
+    }
+
+    public void setePrescription(List<EPrescription> ePrescription) {
+        this.ePrescription = ePrescription;
     }
 }

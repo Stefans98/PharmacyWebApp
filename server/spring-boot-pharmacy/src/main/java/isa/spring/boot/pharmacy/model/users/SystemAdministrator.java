@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="system_administrators")
-@DiscriminatorValue("SystemAdministrator")
+@DiscriminatorValue("SYSTEM_ADMIN")
 public class SystemAdministrator extends User  {
 
     public SystemAdministrator() {

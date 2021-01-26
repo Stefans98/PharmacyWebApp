@@ -12,22 +12,13 @@ public class Authority implements GrantedAuthority {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(name="name")
-    private String name;
+    String name;
 
     @Override
     public String getAuthority() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonIgnore
-    public String getName() {
         return name;
     }
 
@@ -38,6 +29,15 @@ public class Authority implements GrantedAuthority {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -24,8 +24,13 @@ public class MedicineReservation {
     @Column(name = "is_canceled", nullable = false)
     private boolean isCanceled;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
 
     public MedicineReservation() {

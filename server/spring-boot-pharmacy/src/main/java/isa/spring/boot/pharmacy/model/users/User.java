@@ -39,12 +39,12 @@ public class User implements UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "last_password_reset_date")
-    private Timestamp lastPasswordResetDate;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",

@@ -26,18 +26,21 @@ public class Offer {
     @Column(name = "delivery_deadline", nullable = false)
     private Date deliveryDeadline;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Supplier supplier;
-    private MedicineOrderList medicineOrderLists;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private MedicineOrderList medicineOrderList;
 
     public Offer() {
     }
 
-    public Offer(OfferState offerState, double price, Date deliveryDeadline, Supplier supplier, MedicineOrderList medicineOrderLists) {
+    public Offer(OfferState offerState, double price, Date deliveryDeadline, Supplier supplier, MedicineOrderList medicineOrderList) {
         this.offerState = offerState;
         this.price = price;
         this.deliveryDeadline = deliveryDeadline;
         this.supplier = supplier;
-        this.medicineOrderLists = medicineOrderLists;
+        this.medicineOrderList = medicineOrderList;
     }
 
     public Long getId() {
@@ -81,10 +84,18 @@ public class Offer {
     }
 
     public MedicineOrderList getMedicineOrderLists() {
-        return medicineOrderLists;
+        return medicineOrderList;
     }
 
     public void setMedicineOrderLists(MedicineOrderList medicineOrderLists) {
-        this.medicineOrderLists = medicineOrderLists;
+        this.medicineOrderList = medicineOrderLists;
+    }
+
+    public MedicineOrderList getMedicineOrderList() {
+        return medicineOrderList;
+    }
+
+    public void setMedicineOrderList(MedicineOrderList medicineOrderList) {
+        this.medicineOrderList = medicineOrderList;
     }
 }

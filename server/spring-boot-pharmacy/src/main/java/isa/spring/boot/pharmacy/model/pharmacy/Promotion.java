@@ -1,10 +1,10 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
-import isa.spring.boot.pharmacy.model.schedule.TimePeriod;
+import isa.spring.boot.pharmacy.model.schedule.AppointmentHistory;
 
 import javax.persistence.*;
 
-import static javax.persistence.InheritanceType.SINGLE_TABLE;
+import java.util.Date;
 
 @Entity
 @Table(name="promotions")
@@ -18,14 +18,23 @@ public class Promotion {
     @Column(name = "text", nullable = false)
     private String text;
 
-    private TimePeriod timePeriod;
+    @Column(name = "start_time", nullable = false)
+    private Date startTime;
+
+    @Column(name = "end_time", nullable = false)
+    private Date endTime;
+
+    // ***
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Subscription subscription;
 
     public Promotion() {
     }
 
-    public Promotion(String text, TimePeriod timePeriod) {
+    public Promotion(String text, Date startTime, Date endTime) {
         this.text = text;
-        this.timePeriod = timePeriod;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public Long getId() {
@@ -44,11 +53,27 @@ public class Promotion {
         this.text = text;
     }
 
-    public TimePeriod getTimePeriod() {
-        return timePeriod;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTimePeriod(TimePeriod timePeriod) {
-        this.timePeriod = timePeriod;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 }
