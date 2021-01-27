@@ -24,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<UserDto>> getUsers() {
         List<UserDto> usersDto = new ArrayList<UserDto>();
         for(User user : userService.findAll()) {

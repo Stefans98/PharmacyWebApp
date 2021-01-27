@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.users;
 
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique=true, nullable=false)
     private Long id;
 
     @Column(name = "country")
@@ -19,17 +22,21 @@ public class Address {
     @Column(name = "street")
     private String street;
 
+    // ***
     @OneToOne(mappedBy = "address")
     private User user;
+
+    @OneToOne(mappedBy = "address")
+    private Pharmacy pharmacy;
 
     public Address() {
     }
 
-    public Address(Long id, String country, String city, String street) {
-        this.id = id;
+    public Address(String country, String city, String street, User user) {
         this.country = country;
         this.city = city;
         this.street = street;
+        this.user = user;
     }
 
     public Long getId() {
@@ -70,5 +77,13 @@ public class Address {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }
