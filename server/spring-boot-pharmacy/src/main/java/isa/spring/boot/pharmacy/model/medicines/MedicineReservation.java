@@ -10,7 +10,7 @@ import java.util.Date;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Table(name="medicine_reservation")
+@Table(name="medicine_reservations")
 public class MedicineReservation {
 
     @Id
