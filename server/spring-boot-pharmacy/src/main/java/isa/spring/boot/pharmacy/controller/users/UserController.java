@@ -28,7 +28,7 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getUsers() {
         List<UserDto> usersDto = new ArrayList<UserDto>();
         for(User user : userService.findAll()) {
-            usersDto.add(UserMapper.ConvertToDto(user));
+            usersDto.add(UserMapper.convertToDto(user));
         }
         return new ResponseEntity<>(usersDto, HttpStatus.OK);
     }

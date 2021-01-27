@@ -1,24 +1,39 @@
 package isa.spring.boot.pharmacy.dto.users;
 
-public class UserRegistrationDto {
+public class PatientDto {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String city;
+    private String country;
+    private String street;
     private String email;
     private String phoneNumber;
     private String password;
+    private int points;
 
-    public UserRegistrationDto() {
+    public PatientDto() {
     }
 
-    public UserRegistrationDto(String firstName, String lastName, String address, String email, String phoneNumber, String password) {
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public PatientDto(String firstName, String lastName, String city, String country, String street,
+                      String email, String phoneNumber, String password, int points) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.street = street;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
+        this.points = points;
     }
 
     public String getFirstName() {
@@ -37,12 +52,28 @@ public class UserRegistrationDto {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getEmail() {

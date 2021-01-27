@@ -1,13 +1,17 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.dto.users.UserLoginDto;
-import isa.spring.boot.pharmacy.dto.users.UserRegistrationDto;
+import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.dto.users.UserTokenDto;
+import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
+import isa.spring.boot.pharmacy.mapper.users.UserMapper;
+import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.security.authentication.TokenUtils;
 import isa.spring.boot.pharmacy.service.users.UserService;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 
 @RestController
 @RequestMapping(value="api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,12 +49,15 @@ public class AuthenticationController {
                                                         tokenUtils.getExpiresIn()));
     }
 
-    /*@PostMapping("/signup")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserRegistrationDto userRegistrationDto)
+    @PostMapping("/signupPatient")
+    public ResponseEntity<PatientDto> registerUser(@RequestBody PatientDto patientDto)
     {
-        if (userService.findByEmail(userRegistrationDto.getEmail()) == null)
+        if (userService.findByEmail(patientDto.getEmail()) != null)
         {
-            throw new Exception();
+            throw new RuntimeException();
         }
-    }*/
+        Patient patient = userService.savePatient(PatientMapper.convertToEntity(patientDto));
+
+        return new ResponseEntity<>(PatientMapper.convertToDto(patient), HttpStatus.CREATED);
+    }
 }

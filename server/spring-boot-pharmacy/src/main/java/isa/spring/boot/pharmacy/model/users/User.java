@@ -158,4 +158,6 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
+
+    public void setAuthorities(List<Authority> authorities) { this.authorities = authorities; }
 }
