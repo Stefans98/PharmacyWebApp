@@ -1,1 +1,162 @@
-<p>patient-profile works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Pacijentov profil</h3> 
+
+			</div>
+			<mat-divider></mat-divider>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="40" fxLayoutAlign="space-between center">
+					<img class="avatar" src="assets/images/user.png"/>
+				</div>
+
+				<div fxFlex="0" fxLayout="column" fxLayoutAlign="center start" >
+					<br>
+					<mat-form-field class="example-form-field">
+						<mat-label>Ime</mat-label>
+						<input matInput type="text" [(ngModel)]="name">
+						<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+					  <mat-form-field class="example-form-field">
+						<mat-label>Prezime</mat-label>
+						<input matInput type="text" [(ngModel)]="surname">
+						<button mat-button *ngIf="surname" matSuffix mat-icon-button aria-label="Clear" (click)="surname=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Email</mat-label>
+						<input matInput type="text" disabled  [(ngModel)]="email">
+					  </mat-form-field>
+					  <mat-form-field class="example-form-field">
+						<mat-label>Lozinka</mat-label>
+						<input matInput type="password" [(ngModel)]="password">
+						<button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Telefon</mat-label>
+						<input matInput type="tel" [(ngModel)]="phoneNumber">
+						<button mat-button *ngIf="phoneNumber" matSuffix mat-icon-button aria-label="Clear" (click)="phoneNumber=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+					<mat-form-field class="example-form-field">
+						<mat-label>Potvrda lozinke</mat-label>
+						<input matInput type="password" [(ngModel)]="repetPassword">
+						<button mat-button *ngIf="repetPassword" matSuffix mat-icon-button aria-label="Clear" (click)="repetPassword=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Grad</mat-label>
+						<input matInput type="tel" [(ngModel)]="city">
+						<button mat-button *ngIf="city" matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Država</mat-label>
+						<input matInput type="tel" [(ngModel)]="country">
+						<button mat-button *ngIf="country" matSuffix mat-icon-button aria-label="Clear" (click)="country=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Ulica</mat-label>
+						<input matInput type="tel" [(ngModel)]="street">
+						<button mat-button *ngIf="street" matSuffix mat-icon-button aria-label="Clear" (click)="street=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+
+
+					  <mat-form-field class="example-full-width">
+						<mat-label>Alergije na lekove</mat-label>
+						<mat-select [formControl]="allergies" multiple>
+						  <mat-select-trigger>
+							{{allergies.value ? allergies.value[0] : ''}}
+							<span *ngIf="allergies.value?.length > 1" class="example-additional-selection">
+							  (+ još {{allergies.value.length - 1}}) 
+							</span>
+						  </mat-select-trigger>
+						  <mat-option *ngFor="let allergy of allergyList" [value]="allergy">{{allergy}}</mat-option>
+						</mat-select>
+					  </mat-form-field>
+				</div>
+				
+			</div> 
+
+			<div fxFlex="60"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Poeni</mat-label>
+						<input matInput type="text" disabled  [(ngModel)]="points">
+					</mat-form-field>
+
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Kategorija korisnika</mat-label>
+						<input matInput type="text" disabled  [(ngModel)]="userCategory">
+					</mat-form-field>
+
+				</div>
+				
+			</div>
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="end stretch" >
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="warn">Odustani</button>
+					<button mat-raised-button color="basic" (click)="openDialog()" class="modal-dialog">Pogledaj pogodnosti</button>
+					<button mat-raised-button color="primary">Sačuvaj</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>

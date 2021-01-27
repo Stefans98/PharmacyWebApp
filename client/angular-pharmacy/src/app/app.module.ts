@@ -28,6 +28,12 @@ import { DermatologistProfileComponent } from './dermatologist/dermatologist-pro
 import { DermatologistNewAppointmentComponent } from './dermatologist/dermatologist-new-appointment/dermatologist-new-appointment.component';
 import { DermatologistVacationRequestComponent } from './dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
 import { DermatologistAbsenceRequestComponent } from './dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
+import { MaterialModule } from './material-module';
+
+import { FormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits-modal-dialog/benefits-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,13 +61,18 @@ import { DermatologistAbsenceRequestComponent } from './dermatologist/dermatolog
     DermatologistNewAppointmentComponent,
     DermatologistWorkCalendarComponent,
     DermatologistVacationRequestComponent,
-    DermatologistAbsenceRequestComponent
+    DermatologistAbsenceRequestComponent,
+    BenefitsModalDialogComponent,
   ],
   imports: [
     BrowserModule,
     LazyLoadModule,
     CoreModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

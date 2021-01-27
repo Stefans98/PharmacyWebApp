@@ -1,0 +1,5 @@
+<h1 mat-dialog-title class="benefits-dialog-titile">Pogodnosti</h1>
+<div mat-dialog-conten *ngFor="let benefit of benefitList" [value]="benefit" class="benefits-dialog">{{benefit}}</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>
