@@ -34,6 +34,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits-modal-dialog/benefits-modal-dialog.component';
+import { LoginComponent } from './login/login.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits
     DermatologistVacationRequestComponent,
     DermatologistAbsenceRequestComponent,
     BenefitsModalDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +75,8 @@ import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits
     MaterialModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
