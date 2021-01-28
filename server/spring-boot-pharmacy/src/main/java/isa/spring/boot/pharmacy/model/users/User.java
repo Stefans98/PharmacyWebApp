@@ -108,9 +108,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        Timestamp now = new Timestamp(new Date().getTime());
-        this.setLastPasswordResetDate(now);
+    public void setPassword(String password, boolean isPasswordChanged) {
+        if (isPasswordChanged) {
+            Timestamp now = new Timestamp(new Date().getTime());
+            this.setLastPasswordResetDate(now);
+        }
         this.password = password;
     }
 
@@ -157,5 +159,12 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) { this.authorities = authorities; }
+
+    @Transient
+    public String getDiscriminatorValue() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
     }
 }

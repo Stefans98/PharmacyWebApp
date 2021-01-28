@@ -48,6 +48,10 @@ import { AddDermatologistComponent } from './pharmacy-administrator/add-dermatol
 import { AllOrderListsComponent } from './pharmacy-administrator/all-order-lists/all-order-lists.component';
 import { CreateOrderListComponent } from './pharmacy-administrator/create-order-list/create-order-list.component';
 
+import { LoginComponent } from './login/login.component';
+import { MatCardModule } from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +93,8 @@ import { CreateOrderListComponent } from './pharmacy-administrator/create-order-
     AddDermatologistComponent,
     AllOrderListsComponent,
     CreateOrderListComponent,
+
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +104,9 @@ import { CreateOrderListComponent } from './pharmacy-administrator/create-order-
     MaterialModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

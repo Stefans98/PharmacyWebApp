@@ -5,7 +5,7 @@ import isa.spring.boot.pharmacy.model.users.User;
 
 public class UserMapper {
 
-    public static UserDto ConvertToDto(User user) {
+    public static UserDto convertToDto(User user) {
         UserDto dto = new UserDto();
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
@@ -15,7 +15,7 @@ public class UserMapper {
         return dto;
     }
 
-    public static User ConvertToEntity(UserDto dto) {
+    public static User convertToEntity(UserDto dto) {
         User user = new User();
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());

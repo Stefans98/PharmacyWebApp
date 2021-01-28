@@ -67,8 +67,8 @@
 					  </mat-form-field>
 					<mat-form-field class="example-form-field">
 						<mat-label>Potvrda lozinke</mat-label>
-						<input matInput type="password" [(ngModel)]="repetPassword">
-						<button mat-button *ngIf="repetPassword" matSuffix mat-icon-button aria-label="Clear" (click)="repetPassword=''">
+						<input matInput type="password" [(ngModel)]="repeatPassword">
+						<button mat-button *ngIf="repeatPassword" matSuffix mat-icon-button aria-label="Clear" (click)="repeatPassword=''">
 						  <mat-icon>close</mat-icon>
 						</button>
 					  </mat-form-field>
@@ -112,14 +112,14 @@
 
 					  <mat-form-field class="example-full-width">
 						<mat-label>Alergije na lekove</mat-label>
-						<mat-select [formControl]="allergies" multiple>
+						<mat-select [formControl]="medicines" multiple>
 						  <mat-select-trigger>
-							{{allergies.value ? allergies.value[0] : ''}}
-							<span *ngIf="allergies.value?.length > 1" class="example-additional-selection">
-							  (+ još {{allergies.value.length - 1}}) 
+							{{medicines.value ? medicines.value[0].name : ''}}
+							<span *ngIf="medicines.value?.length > 1" class="example-additional-selection">
+							  (+ još {{medicines.value.length - 1}}) 
 							</span>
 						  </mat-select-trigger>
-						  <mat-option *ngFor="let allergy of allergyList" [value]="allergy">{{allergy}}</mat-option>
+						  <mat-option *ngFor="let medicine of medicineList" [value]="medicine">{{medicine.name}}</mat-option>
 						</mat-select>
 					  </mat-form-field>
 				</div>
@@ -141,7 +141,7 @@
 
 					<mat-form-field class="example-form-field">
 						<mat-label>Kategorija korisnika</mat-label>
-						<input matInput type="text" disabled  [(ngModel)]="userCategory">
+						<input matInput type="text" disabled  [(ngModel)]="category">
 					</mat-form-field>
 
 				</div>
@@ -150,13 +150,13 @@
 			
 			<div fxFlex fxLayout="column" fxLayoutAlign="end stretch" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
-					<button mat-raised-button color="warn">Odustani</button>
+					<button mat-raised-button color="warn" (click)="cancelClick()">Odustani</button>
 					<button mat-raised-button color="basic" (click)="openDialog()" class="modal-dialog">Pogledaj pogodnosti</button>
-					<button mat-raised-button color="primary">Sačuvaj</button>
+					<button mat-raised-button color="primary" (click)="saveClick()">Sačuvaj</button>
 				</div>
 			</div>
 		</div>
 
 	</div>
-
+	
 </div>
