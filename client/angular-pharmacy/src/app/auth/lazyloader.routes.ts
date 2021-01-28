@@ -23,6 +23,18 @@ import { DermatologistNewAppointmentComponent } from '../dermatologist/dermatolo
 import { DermatologistVacationRequestComponent } from '../dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
 import { DermatologistAbsenceRequestComponent } from '../dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
 import { DermatologistProfileComponent } from '../dermatologist/dermatologist-profile/dermatologist-profile.component';
+import { PharmacyAdministratorMyPharmacyComponent } from '../pharmacy-administrator/pharmacy-administrator-my-pharmacy/pharmacy-administrator-my-pharmacy.component';
+import { FreeAppointmentsComponent } from '../pharmacy-administrator/free-appointments/free-appointments.component';
+import { BusinessReportComponent } from '../pharmacy-administrator/business-report/business-report.component';
+import { AllAvailableMedicinesComponent } from '../pharmacy-administrator/all-available-medicines/all-available-medicines.component';
+import { AddMedicineComponent } from '../pharmacy-administrator/add-medicine/add-medicine.component';
+import { RequestForMedicinesComponent } from '../pharmacy-administrator/request-for-medicines/request-for-medicines.component';
+import { AllPharmacistsComponent } from '../pharmacy-administrator/all-pharmacists/all-pharmacists.component';
+import { AddPharmacistComponent } from '../pharmacy-administrator/add-pharmacist/add-pharmacist.component';
+import { AllDermatologistsComponent } from '../pharmacy-administrator/all-dermatologists/all-dermatologists.component';
+import { AddDermatologistComponent } from '../pharmacy-administrator/add-dermatologist/add-dermatologist.component';
+import { AllOrderListsComponent } from '../pharmacy-administrator/all-order-lists/all-order-lists.component';
+import { CreateOrderListComponent } from '../pharmacy-administrator/create-order-list/create-order-list.component';
 
 
 export const appRoutes: Routes = [{
@@ -50,6 +62,18 @@ export const appRoutes: Routes = [{
         { path: 'dermatologist/vacation-request', component: DermatologistVacationRequestComponent },
         { path: 'dermatologist/absence-request', component: DermatologistAbsenceRequestComponent },
         { path: 'dermatologist/profile', component: DermatologistProfileComponent },
+        { path: 'pharmacy-administrator/my-pharmacy', component: PharmacyAdministratorMyPharmacyComponent },
+        { path: 'pharmacy-administrator/free-appointments', component: FreeAppointmentsComponent },
+        { path: 'pharmacy-administrator/business-report', component: BusinessReportComponent },
+        { path: 'pharmacy-administrator/all-available-medicines', component: AllAvailableMedicinesComponent },
+        { path: 'pharmacy-administrator/add-medicine', component: AddMedicineComponent },
+        { path: 'pharmacy-administrator/request-for-medicines', component: RequestForMedicinesComponent },
+        { path: 'pharmacy-administrator/all-pharmacists', component: AllPharmacistsComponent },
+        { path: 'pharmacy-administrator/add-pharmacist', component: AddPharmacistComponent },
+        { path: 'pharmacy-administrator/all-dermatologists', component: AllDermatologistsComponent },
+        { path: 'pharmacy-administrator/add-dermatologist', component: AddDermatologistComponent },
+        { path: 'pharmacy-administrator/all-order-lists', component: AllOrderListsComponent },
+        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent },
         { path: 'scrumboard', loadChildren: () => import('../scrumboard/scrumboard.module').then(m => m.ScrumboardModule) },
     ]
 }];

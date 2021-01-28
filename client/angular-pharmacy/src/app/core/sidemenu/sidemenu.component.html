@@ -12,5 +12,8 @@
         <div *ngIf="userRole == 'Dermatologist'">
             <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
+        <div *ngIf="userRole == 'PharmacyAdministrator'">
+            <cdk-sidemenu-item *ngFor="let menu of pharmacyAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
+        </div>
     </div>   
 </ng-scrollbar>
