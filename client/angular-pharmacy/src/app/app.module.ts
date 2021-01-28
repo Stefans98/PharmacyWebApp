@@ -34,6 +34,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits-modal-dialog/benefits-modal-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits
     MaterialModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

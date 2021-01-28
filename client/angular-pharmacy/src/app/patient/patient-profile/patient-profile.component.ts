@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Patient } from '../../models/patient.model';
+import { PatientService } from '../../services/users/patient.service';
 import { BenefitsModalDialogComponent } from './benefits-modal-dialog/benefits-modal-dialog.component';
+import { MedicineService } from '../../services/medicines/medicine.service';
+import { Medicine } from '../../models/medicine.model';
 
 @Component({
   selector: 'app-patient-profile',
@@ -9,44 +13,100 @@ import { BenefitsModalDialogComponent } from './benefits-modal-dialog/benefits-m
   styleUrls: ['./patient-profile.component.scss']
 })
 export class PatientProfileComponent implements OnInit {
+
+  public id : number;
+  public patient: Patient;
   public name: String;
   public surname: String;
   public email: String;
   public phoneNumber: String;
   public password: String;
-  public repetPassword: String;
+  public repeatPassword: String;
   public city: String;
   public street: String;
   public country: String;
-  allergies = new FormControl();
-  public allergyList: string[];
+  medicines = new FormControl();
+  public medicineList: Medicine[] = [];
   public points: number;
-  public userCategory: String;
+  public userCategory: number;
+  public category: String;
 
-  constructor(public dialog: MatDialog) { 
-    this.name = 'Petar';
-    this.surname = 'Petrovic';
-    this.email = 'pera@test.com'
-    this.phoneNumber = '+381/65-123-456';
-    this.password = '12345';
-    this.repetPassword = this.password;
-    this.city = "Beograd";
-    this.street = "Cara Lazara 1";
-    this.country = "Srbija";
-    this.allergyList = ['Brufen', 'Paracetamol', 'Probiotik', 'Panadol', 'Andol'];
-    this.points = 13;
-    this.userCategory = "Regularna"
+  constructor(public dialog: MatDialog, private patientService: PatientService,  private medicineService: MedicineService) { 
+
+      this.medicineService.getAll().subscribe(
+        data => {
+          this.medicineList = data;
+          console.log(this.medicineList)
+        }
+      );
+      this.fillData();
+  }
+  
+  fillData() {
+    this.patientService.getPatientById(1).subscribe(
+      data => {
+        this.patient = data;
+        this.prepareDate(this.patient); 
+      }
+    );
+  }
+
+  prepareDate(patient: Patient) : void {
+    this.id = patient.id;
+    this.name = patient.firstName;
+    this.surname = patient.lastName;
+    this.email = patient.email;
+    this.phoneNumber = patient.phoneNumber;
+    this.city = patient.city;
+    this.street = patient.street;
+    this.country = patient.country;
+    this.points = patient.points;
+    if(patient.userCategory == 0) {
+      this.category = 'Regular';
+    } else if (patient.userCategory == 1) {
+      this.category = 'Silver';
+    } else {
+      this.category = 'Gold';
+    }
   }
 
   ngOnInit(): void {
+
   }
 
-  openDialog() {
+  openDialog(): void {
     this.dialog.open(BenefitsModalDialogComponent, {
       panelClass: 'my-centered-dialog',
       width: '450px',
       height: '250px',
       position: {left: '855px'}
     });
+  }
+
+  cancelClick(): void {
+    if(confirm("Da li ste sigurni da želite da odustanete?")) {
+      this.fillData();
+    }
+  }
+
+  saveClick(): void {
+    if(confirm("Da li ste sigurni da želite da odustanete?")) {
+      this.updatePatient();
+    }
+  }
+
+  updatePatient(): void {
+    this.patientService.updatePatient(this.id, new Patient(this.patient.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, this.points, this.userCategory, this.password)).subscribe(
+      data => {
+        this.patient = data;
+        this.prepareDate(this.patient);
+      },
+      error => {
+        if (error.status = 500){
+          if(confirm("Nije moguće promeniti podatke")) {
+
+          }
+        }
+      });
   }
 }

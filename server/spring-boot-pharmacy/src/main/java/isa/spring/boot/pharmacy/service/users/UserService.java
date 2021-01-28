@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
 import org.apache.commons.logging.Log;
@@ -24,7 +25,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User findByEmail(String email) { return  userRepository.findByEmail(email); }
+    public User findByEmail(String email) {
+        return  userRepository.findByEmail(email);
+    }
+
+    public User findById(long id) {
+        return userRepository.findById(id);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
