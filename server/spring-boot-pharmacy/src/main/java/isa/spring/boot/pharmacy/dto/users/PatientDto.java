@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.dto.users;
 
+
 import isa.spring.boot.pharmacy.model.users.UserCategory;
 
 public class PatientDto {
@@ -10,12 +11,36 @@ public class PatientDto {
     private String country;
     private String street;
     private String email;
-    private String password;
     private String phoneNumber;
+    private String password;
     private int points;
     private int userCategory;
 
+
     public PatientDto() {
+    }
+
+
+    public PatientDto(String firstName, String lastName, String city, String country, String street,
+                      String email, String phoneNumber, String password, int points, int userCategory) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.country = country;
+        this.street = street;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.points = points;
+        this.userCategory = userCategory;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -66,20 +91,20 @@ public class PatientDto {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getPoints() {
@@ -96,13 +121,5 @@ public class PatientDto {
 
     public void setUserCategory(int userCategory) {
         this.userCategory = userCategory;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

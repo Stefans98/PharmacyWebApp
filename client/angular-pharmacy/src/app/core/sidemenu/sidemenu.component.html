@@ -6,10 +6,10 @@
         <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
             <img width="50" [style.borderRadius]="'50%'" src="./assets/images/user.png">
         </div>
-        <div *ngIf="userRole == 'Patient'">
+        <div *ngIf="userRole == 'PATIENT'">
             <cdk-sidemenu-item *ngFor="let menu of patientMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
-        <div *ngIf="userRole == 'Dermatologist'">
+        <div *ngIf="userRole == 'DERMATOLOGIST'">
             <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
     </div>   

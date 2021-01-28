@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.security.authentication;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import isa.spring.boot.pharmacy.model.users.Authority;
 import isa.spring.boot.pharmacy.model.users.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,14 +29,15 @@ public class TokenUtils {
 
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-    public String generateToken(String username) {
+    public String generateToken(Long userId, String email, String userRole) {
         return Jwts.builder()
                 .setIssuer(APP_NAME)
-                .setSubject(username)
+                .setSubject(email)
                 .setAudience("web")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + EXPIRES_IN))
-                // .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
+                .claim("userId", userId)
+                .claim("userRole", userRole) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 

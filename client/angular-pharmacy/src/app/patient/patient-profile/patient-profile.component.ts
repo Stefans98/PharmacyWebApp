@@ -20,8 +20,8 @@ export class PatientProfileComponent implements OnInit {
   public surname: string;
   public email: string;
   public phoneNumber: string;
-  public password: string;
-  public repeatPassword: string;
+  public password: string = '';
+  public repeatPassword: string = '';
   public city: string;
   public street: string;
   public country: string;
@@ -89,7 +89,7 @@ export class PatientProfileComponent implements OnInit {
   }
 
   saveClick(): void {
-    if(confirm("Da li ste sigurni da želite da odustanete?")) {
+    if(confirm("Da li ste sigurni da želite da sačuvate izmene?")) {
       this.updatePatient();
     }
   }

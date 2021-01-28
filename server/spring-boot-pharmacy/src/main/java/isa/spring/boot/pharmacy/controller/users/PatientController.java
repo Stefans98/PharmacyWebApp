@@ -30,7 +30,7 @@ public class PatientController {
         if (patient == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(PatientMapper.ConvertToDto(patient), HttpStatus.OK);
+        return new ResponseEntity<>(PatientMapper.convertToDto(patient), HttpStatus.OK);
     }
 
     @PutMapping(value = "/updateProfile/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,11 +40,11 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Patient updatedPatient = (Patient)userService.save(PatientMapper.ConvertToEntity(patientDto));
+        Patient updatedPatient = userService.updatePatient(PatientMapper.convertToEntity(patientDto, true));
         if (updatedPatient == null){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(PatientMapper.ConvertToDto(updatedPatient), HttpStatus.OK);
+        return new ResponseEntity<>(PatientMapper.convertToDto(updatedPatient), HttpStatus.OK);
     }
 }

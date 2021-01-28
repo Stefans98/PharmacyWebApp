@@ -3,36 +3,44 @@ package isa.spring.boot.pharmacy.mapper.users;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.model.users.Address;
 import isa.spring.boot.pharmacy.model.users.Patient;
-import isa.spring.boot.pharmacy.model.users.UserCategory;
+
+import java.util.ArrayList;
 
 public class PatientMapper {
-    public static PatientDto ConvertToDto(Patient patient) {
-        PatientDto dto = new PatientDto();
-        dto.setId(patient.getId());
-        dto.setFirstName(patient.getFirstName());
-        dto.setLastName(patient.getLastName());
-        dto.setStreet(patient.getAddress().getStreet());
-        dto.setCity(patient.getAddress().getCity());
-        dto.setCountry(patient.getAddress().getCountry());
-        dto.setEmail(patient.getEmail());
-        dto.setPassword(null);
-        dto.setPhoneNumber(patient.getPhoneNumber());
-        dto.setPoints(patient.getPoints());
-        //dto.setUserCategory(patient.getUserCategory().ordinal());
-        return dto;
+
+    public static Patient convertToEntity(PatientDto patientDto, boolean alreadyExist) {
+        Patient patient = new Patient();
+
+        if (alreadyExist) {
+            patient.setId(patientDto.getId());
+        }
+        patient.setFirstName(patientDto.getFirstName());
+        patient.setLastName(patientDto.getLastName());
+        patient.setEmail(patientDto.getEmail());
+        patient.setPhoneNumber(patientDto.getPhoneNumber());
+        patient.setAddress(new Address(patientDto.getCountry(), patientDto.getCity(),
+                patientDto.getStreet(), patient));
+        patient.setPassword(patientDto.getPassword(), false);
+        patient.setPoints(0);
+        patient.setAllergies(new ArrayList<>());
+
+        return patient;
     }
 
-    public static Patient ConvertToEntity(PatientDto dto) {
-        Patient patient = new Patient();
-        patient.setId(dto.getId());
-        patient.setFirstName(dto.getFirstName());
-        patient.setLastName(dto.getLastName());
-        patient.setAddress(new Address(dto.getCountry(), dto.getCity(), dto.getStreet()));
-        patient.setEmail(dto.getEmail());
-        patient.setPassword(dto.getPassword());
-        patient.setPhoneNumber(dto.getPhoneNumber());
-        patient.setPoints(dto.getPoints());
-        //patient.setUserCategory(UserCategory.values()[dto.getUserCategory()]);
-        return patient;
+    public static PatientDto convertToDto(Patient patient) {
+        PatientDto patientDto = new PatientDto();
+
+        patientDto.setId(patient.getId());
+        patientDto.setFirstName(patient.getFirstName());
+        patientDto.setLastName(patient.getLastName());
+        patientDto.setEmail(patient.getEmail());
+        patientDto.setPhoneNumber(patient.getPhoneNumber());
+        patientDto.setCity(patient.getAddress().getCity());
+        patientDto.setCountry(patient.getAddress().getCountry());
+        patientDto.setStreet(patient.getAddress().getStreet());
+        patientDto.setPassword(null);
+        patientDto.setPoints(patient.getPoints());
+
+        return patientDto;
     }
 }
