@@ -31,16 +31,30 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User findByEmail(String email) { return  userRepository.findByEmail(email); }
+    public User findByEmail(String email) {
+        return  userRepository.findByEmail(email);
+    }
 
-    public Patient savePatient(Patient patient)
-    {
-        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+    public User findById(long id) {
+        return userRepository.findById(id);
+    }
+
+    public Patient updatePatient(Patient patient) {
+        if (patient.getPassword() == null || patient.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(patient.getId()).getPassword();
+            patient.setPassword(currentPassword, false);
+        } else {
+            patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
+        }
+        return userRepository.save(patient);
+    }
+
+    public Patient savePatient(Patient patient) {
+        patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
         patient.setAuthorities(authorities);
 
-        patient = userRepository.save(patient);
-        return patient;
+        return userRepository.save(patient);
     }
 
     @Override

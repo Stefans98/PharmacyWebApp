@@ -45,8 +45,8 @@ public class AuthenticationController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new UserTokenDto(tokenUtils.generateToken(user.getEmail()),
-                                                        tokenUtils.getExpiresIn()));
+        return ResponseEntity.ok(new UserTokenDto(tokenUtils.generateToken(user.getId(), user.getEmail(),
+                                user.getDiscriminatorValue()), tokenUtils.getExpiresIn()));
     }
 
     @PostMapping("/signupPatient")
@@ -56,7 +56,7 @@ public class AuthenticationController {
         {
             throw new RuntimeException();
         }
-        Patient patient = userService.savePatient(PatientMapper.convertToEntity(patientDto));
+        Patient patient = userService.savePatient(PatientMapper.convertToEntity(patientDto, false));
 
         return new ResponseEntity<>(PatientMapper.convertToDto(patient), HttpStatus.CREATED);
     }

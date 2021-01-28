@@ -20,7 +20,8 @@ export class SidemenuComponent implements OnInit {
     public userRole : String = '';
 
     constructor() { 
-      this.userRole = 'Dermatologist';
+      this.userRole = localStorage.getItem('userRole');
+      console.log(this.userRole);
     }
 
     ngOnInit() {

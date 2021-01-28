@@ -36,6 +36,8 @@ import { CommonModule } from '@angular/common';
 import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits-modal-dialog/benefits-modal-dialog.component';
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import { MatCardModule } from '@angular/material/card';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

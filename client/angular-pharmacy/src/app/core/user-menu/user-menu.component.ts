@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class UserMenuComponent implements OnInit {
 	isOpen: boolean = false;
-  	Hari;	
+	role: string = localStorage.getItem('userRole');	
 
   	@Input() currentUser = null;
   	@HostListener('document:click', ['$event', '$event.target'])
@@ -26,5 +26,14 @@ export class UserMenuComponent implements OnInit {
   	constructor(private elementRef: ElementRef, private router: Router) { }
 
   	ngOnInit() {
-  	}
+	  }
+	  
+	logoutClick() : void {
+		localStorage.removeItem('token');
+		localStorage.removeItem('userRole');
+		localStorage.removeItem('userId');
+		localStorage.removeItem('email');
+
+		this.router.navigate(['login']);
+	}
 }
