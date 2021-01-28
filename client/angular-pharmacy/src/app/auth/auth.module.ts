@@ -9,7 +9,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { appRoutes } from './lazyloader.routes';
-import { DashboardCrmModule } from '../dashboard-crm/dashboard-crm.module';
 import { CoreModule } from '../core/core.module';
 
 @NgModule({
@@ -17,7 +16,6 @@ import { CoreModule } from '../core/core.module';
         CommonModule,
         RouterModule.forChild(appRoutes),
         MatToolbarModule,
-        DashboardCrmModule,
         MatButtonModule,
         MatIconModule,
         MatTabsModule,

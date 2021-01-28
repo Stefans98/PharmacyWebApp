@@ -27,8 +27,18 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('userRole', tokenPayload['userRole']);
       if(tokenPayload['userRole'] == 'PATIENT'){
         this.router.navigate(['/auth/patient/pharmacy/all-pharmacies']);
+      } else if(tokenPayload['userRole'] == 'PHARMACIST') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
       } else if(tokenPayload['userRole'] == 'DERMATOLOGIST') {
         this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else if(tokenPayload['userRole'] == 'SUPPLIER') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else if(tokenPayload['userRole'] == 'PHARMACY_ADMIN') {
+        this.router.navigate(['/auth/pharmacy-administrator/my-pharmacy']);
+      } else if(tokenPayload['userRole'] == 'SYSTEM_ADMIN') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else{
+        this.router.navigate(['/login']);
       }
     });
   }

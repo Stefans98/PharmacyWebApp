@@ -8,8 +8,20 @@
             <h1 *ngIf="role == 'PATIENT'" class="logo" style="margin-left:36px">
                 Pacijent
             </h1>
+            <h1 *ngIf="role == 'PHARMACIST'" class="logo" style="margin-left:36px">
+                Farmaceut
+            </h1>
             <h1 *ngIf="role == 'DERMATOLOGIST'" class="logo" style="margin-left:36px">
                 Dermatolog
+            </h1>
+            <h1 *ngIf="role == 'SUPPLIER'" class="logo" style="margin-left:36px">
+                Dobavljač
+            </h1>
+            <h1 *ngIf="role == 'PHARMACY_ADMIN'" class="logo" style="margin-left:0px">
+                Administrator apoteke
+            </h1>
+            <h1 *ngIf="role == 'SYSTEM_ADMIN'" class="logo" style="margin-left:0px">
+                Administrator sistema
             </h1>
         </mat-toolbar>
         <cdk-sidemenu></cdk-sidemenu>

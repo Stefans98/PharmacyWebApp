@@ -34,10 +34,23 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BenefitsModalDialogComponent } from './patient/patient-profile/benefits-modal-dialog/benefits-modal-dialog.component';
+import { PharmacyComponent } from './pharmacy-administrator/pharmacy/pharmacy.component';
+import { PharmacyAdministratorMyPharmacyComponent } from './pharmacy-administrator/pharmacy-administrator-my-pharmacy/pharmacy-administrator-my-pharmacy.component';
+import { FreeAppointmentsComponent } from './pharmacy-administrator/free-appointments/free-appointments.component';
+import { BusinessReportComponent } from './pharmacy-administrator/business-report/business-report.component';
+import { AllAvailableMedicinesComponent } from './pharmacy-administrator/all-available-medicines/all-available-medicines.component';
+import { AddMedicineComponent } from './pharmacy-administrator/add-medicine/add-medicine.component';
+import { RequestForMedicinesComponent } from './pharmacy-administrator/request-for-medicines/request-for-medicines.component';
+import { AllPharmacistsComponent } from './pharmacy-administrator/all-pharmacists/all-pharmacists.component';
+import { AddPharmacistComponent } from './pharmacy-administrator/add-pharmacist/add-pharmacist.component';
+import { AllDermatologistsComponent } from './pharmacy-administrator/all-dermatologists/all-dermatologists.component';
+import { AddDermatologistComponent } from './pharmacy-administrator/add-dermatologist/add-dermatologist.component';
+import { AllOrderListsComponent } from './pharmacy-administrator/all-order-lists/all-order-lists.component';
+import { CreateOrderListComponent } from './pharmacy-administrator/create-order-list/create-order-list.component';
+
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   declarations: [
@@ -67,7 +80,21 @@ import { HttpClientModule } from '@angular/common/http';
     DermatologistVacationRequestComponent,
     DermatologistAbsenceRequestComponent,
     BenefitsModalDialogComponent,
-    LoginComponent,
+    PharmacyComponent,
+    PharmacyAdministratorMyPharmacyComponent,
+    FreeAppointmentsComponent,
+    BusinessReportComponent,
+    AllAvailableMedicinesComponent,
+    AddMedicineComponent,
+    RequestForMedicinesComponent,
+    AllPharmacistsComponent,
+    AddPharmacistComponent,
+    AllDermatologistsComponent,
+    AddDermatologistComponent,
+    AllOrderListsComponent,
+    CreateOrderListComponent,
+
+    LoginComponent
   ],
   imports: [
     BrowserModule,

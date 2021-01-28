@@ -14,6 +14,6 @@ export class MedicineService {
 
   public getAll(): Observable<Medicine[]> {
     return this.http
-      .get<Medicine[]>(this.medicineUrl + 'getAll/');
+      .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
 }

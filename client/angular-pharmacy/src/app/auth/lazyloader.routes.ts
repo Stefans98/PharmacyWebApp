@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
-import { DashboardCrmComponent } from '../dashboard-crm/dashboard-crm.component';
 import { AllPharmaciesComponent } from '../patient/pharmacy/all-pharmacies/all-pharmacies.component';
 import { MyPharmaciesComponent } from '../patient/pharmacy/my-pharmacies/my-pharmacies.component';
 import { DermatologistAppointmentHistoryComponent } from '../patient/dermatologist/dermatologist-appointment-history/dermatologist-appointment-history.component';
@@ -23,12 +22,23 @@ import { DermatologistNewAppointmentComponent } from '../dermatologist/dermatolo
 import { DermatologistVacationRequestComponent } from '../dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
 import { DermatologistAbsenceRequestComponent } from '../dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
 import { DermatologistProfileComponent } from '../dermatologist/dermatologist-profile/dermatologist-profile.component';
-import { RouteGuardService } from '../services/users/route-guard.service';
+import { PharmacyAdministratorMyPharmacyComponent } from '../pharmacy-administrator/pharmacy-administrator-my-pharmacy/pharmacy-administrator-my-pharmacy.component';
+import { FreeAppointmentsComponent } from '../pharmacy-administrator/free-appointments/free-appointments.component';
+import { BusinessReportComponent } from '../pharmacy-administrator/business-report/business-report.component';
+import { AllAvailableMedicinesComponent } from '../pharmacy-administrator/all-available-medicines/all-available-medicines.component';
+import { AddMedicineComponent } from '../pharmacy-administrator/add-medicine/add-medicine.component';
+import { RequestForMedicinesComponent } from '../pharmacy-administrator/request-for-medicines/request-for-medicines.component';
+import { AllPharmacistsComponent } from '../pharmacy-administrator/all-pharmacists/all-pharmacists.component';
+import { AddPharmacistComponent } from '../pharmacy-administrator/add-pharmacist/add-pharmacist.component';
+import { AllDermatologistsComponent } from '../pharmacy-administrator/all-dermatologists/all-dermatologists.component';
+import { AddDermatologistComponent } from '../pharmacy-administrator/add-dermatologist/add-dermatologist.component';
+import { AllOrderListsComponent } from '../pharmacy-administrator/all-order-lists/all-order-lists.component';
+import { CreateOrderListComponent } from '../pharmacy-administrator/create-order-list/create-order-list.component';
 
+import { RouteGuardService } from '../services/users/route-guard.service';
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
-        { path: 'dashboard', component: DashboardCrmComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/pharmacy/all-pharmacies', component: AllPharmaciesComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/pharmacy/my-pharmacies', component: MyPharmaciesComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/dermatologist/dermatologist-appointment-history', component: DermatologistAppointmentHistoryComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
@@ -51,6 +61,18 @@ export const appRoutes: Routes = [{
         { path: 'dermatologist/vacation-request', component: DermatologistVacationRequestComponent, canActivate: [RouteGuardService], data : { role: 'DERMATOLOGIST'}  },
         { path: 'dermatologist/absence-request', component: DermatologistAbsenceRequestComponent, canActivate: [RouteGuardService], data : { role: 'DERMATOLOGIST'}  },
         { path: 'dermatologist/profile', component: DermatologistProfileComponent, canActivate: [RouteGuardService], data : { role: 'DERMATOLOGIST'}  },
+        { path: 'pharmacy-administrator/my-pharmacy', component: PharmacyAdministratorMyPharmacyComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/free-appointments', component: FreeAppointmentsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/business-report', component: BusinessReportComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/all-available-medicines', component: AllAvailableMedicinesComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/add-medicine', component: AddMedicineComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/request-for-medicines', component: RequestForMedicinesComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/all-pharmacists', component: AllPharmacistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/add-pharmacist', component: AddPharmacistComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/all-dermatologists', component: AllDermatologistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/add-dermatologist', component: AddDermatologistComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/all-order-lists', component: AllOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  
