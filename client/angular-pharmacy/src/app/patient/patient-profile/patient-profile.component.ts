@@ -16,27 +16,26 @@ export class PatientProfileComponent implements OnInit {
 
   public id : number;
   public patient: Patient;
-  public name: String;
-  public surname: String;
-  public email: String;
-  public phoneNumber: String;
-  public password: String;
-  public repeatPassword: String;
-  public city: String;
-  public street: String;
-  public country: String;
+  public name: string;
+  public surname: string;
+  public email: string;
+  public phoneNumber: string;
+  public password: string;
+  public repeatPassword: string;
+  public city: string;
+  public street: string;
+  public country: string;
   medicines = new FormControl();
   public medicineList: Medicine[] = [];
   public points: number;
   public userCategory: number;
-  public category: String;
+  public category: string;
 
   constructor(public dialog: MatDialog, private patientService: PatientService,  private medicineService: MedicineService) { 
 
       this.medicineService.getAll().subscribe(
         data => {
           this.medicineList = data;
-          console.log(this.medicineList)
         }
       );
       this.fillData();
@@ -96,16 +95,14 @@ export class PatientProfileComponent implements OnInit {
   }
 
   updatePatient(): void {
-    this.patientService.updatePatient(this.id, new Patient(this.patient.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, this.points, this.userCategory, this.password)).subscribe(
+    this.patientService.updatePatient(this.id, new Patient(this.patient.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, this.points, this.userCategory, encodeURIComponent(this.password))).subscribe(
       data => {
         this.patient = data;
         this.prepareDate(this.patient);
       },
       error => {
         if (error.status = 500){
-          if(confirm("Nije moguće promeniti podatke")) {
-
-          }
+          if(confirm("Nije moguće promeniti podatke")) { }
         }
       });
   }

@@ -1,15 +1,15 @@
 export class Patient {
     constructor(
         public id: number,
-        public firstName: String,
-        public lastName: String,
-        public city: String,
-        public country: String,
-        public street: String,
-        public email: String,
-        public phoneNumber: String,
+        public firstName: string,
+        public lastName: string,
+        public city: string,
+        public country: string,
+        public street: string,
+        public email: string,
+        public phoneNumber: string,
         public points: number,
         public userCategory: number,
-        public password: String
+        public password: string
         ) { }
 }

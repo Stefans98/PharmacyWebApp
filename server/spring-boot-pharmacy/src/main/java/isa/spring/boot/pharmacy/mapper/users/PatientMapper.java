@@ -15,7 +15,7 @@ public class PatientMapper {
         dto.setCity(patient.getAddress().getCity());
         dto.setCountry(patient.getAddress().getCountry());
         dto.setEmail(patient.getEmail());
-        dto.setPassword(patient.getPassword());
+        dto.setPassword(null);
         dto.setPhoneNumber(patient.getPhoneNumber());
         dto.setPoints(patient.getPoints());
         //dto.setUserCategory(patient.getUserCategory().ordinal());
