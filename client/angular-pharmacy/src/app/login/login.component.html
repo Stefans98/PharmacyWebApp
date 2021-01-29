@@ -11,8 +11,9 @@
                     placeholder="Email"
                     required
                     name="email"
-                    ngModel
-                    #email="ngModel">
+                    [(ngModel)]="emailLogin"
+                    #email="ngModel"
+                    >
                     <mat-error *ngIf="email.invalid">Morate uneti email</mat-error>
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
@@ -23,8 +24,8 @@
                     type="password"
                     required
                     minlength="3"
-                    name="password"
-                    ngModel
+                    name="loginPassword"
+                    [(ngModel)]="passwordLogin"
                     #password="ngModel">
                     <mat-error
                       *ngIf="password.errors && password.errors.required">
@@ -32,7 +33,7 @@
                     </mat-error>
                     <mat-error
                       *ngIf="password.errors && password.errors.minlength">
-                      Password must be of length 6
+                      Lozinka mora imati najmanje 3 karaktera
                     </mat-error>
                   <mat-icon matSuffix>lock</mat-icon>
                 </mat-form-field>
@@ -40,7 +41,7 @@
                   mat-raised-button
                   color="primary"
                   class="login-button"
-                  (click) = "loginClick(email.viewModel, password.viewModel)">
+                  (click) = "loginClick()">
                   Prijavi se
                 </button>
               </form>
@@ -55,12 +56,12 @@
                         matInput
                         placeholder="Ime"
                         required
-                        name="username"
-                        ngModel
-                        #username="ngModel">
+                        name="firstName"
+                        [(ngModel)]="firstNameSignup"
+                        #firstName="ngModel">
                     <mat-icon matSuffix>perm_identity</mat-icon>
                     <mat-error
-                        *ngIf="username.invalid">
+                        *ngIf="firstName.invalid">
                         Morate uneti ime
                     </mat-error>
         
@@ -70,25 +71,23 @@
                         matInput
                         placeholder="Prezime"
                         required
-                        name="username"
-                        ngModel
-                        #username="ngModel">
+                        name="lastNameSignup"
+                        [(ngModel)]="lastNameSignup"
+                        #lastName="ngModel">
                     <mat-icon matSuffix>perm_identity</mat-icon>
                     <mat-error
-                        *ngIf="username.invalid">
+                        *ngIf="lastName.invalid">
                         Morate uneti prezime
                     </mat-error>
-        
-                    </mat-form-field>
-            
+              </mat-form-field>
               
               <mat-form-field style="width: 40%; float: left; margin-left: 33px;">
                 <input
                   matInput
                   placeholder="Email"
                   required
-                  name="email"
-                  ngModel
+                  name="emailSignup"
+                  [(ngModel)]="emailSignup"
                   #email="ngModel">
                   <mat-error *ngIf="email.invalid">Morate uneti email</mat-error>
                 <mat-icon matSuffix>email</mat-icon>
@@ -99,7 +98,7 @@
                   placeholder="Broj telefona"
                   required
                   name="phoneNumber"
-                  ngModel
+                  [(ngModel)]="phoneNumberSignup"
                   #phoneNumber="ngModel">
                   <mat-error *ngIf="phoneNumber.invalid">Morate uneti broj telefona</mat-error>
                 <mat-icon matSuffix>phone</mat-icon>
@@ -111,9 +110,9 @@
                   placeholder="Lozinka"
                   type="password"
                   required
-                  minlength="6"
-                  name="password"
-                  ngModel
+                  minlength="3"
+                  name="passwordSignup"
+                  [(ngModel)]="passwordSignup"
                   #password="ngModel">
                   <mat-error
                     *ngIf="password.errors && password.errors.required">
@@ -127,7 +126,6 @@
   
               </mat-form-field>
               
-              
               <mat-form-field  style="width: 40%; float: left; margin-left: 30px;">
                   <input
                   matInput
@@ -135,8 +133,8 @@
                   type="password"
                   required
                   minlength="3"
-                  name="repassword"
-                  ngModel
+                  name="repasswordSignup"
+                  [(ngModel)]="repasswordSignup"
                   #repassword="ngModel">
                   <mat-error
                     *ngIf="repassword.errors && repassword.errors.required">
@@ -151,7 +149,7 @@
                   placeholder="Ulica i broj"
                   required
                   name="street"
-                  ngModel
+                  [(ngModel)]="streetSignup"
                   #street="ngModel">
                   <mat-error
                     *ngIf="street.invalid">
@@ -167,8 +165,8 @@
                   matInput
                   placeholder="Grad"
                   required
-                  name="citz"
-                  ngModel
+                  name="city"
+                  [(ngModel)]="citySignup"
                   #city="ngModel">
                   <mat-error
                     *ngIf="city.invalid">
@@ -182,7 +180,7 @@
                 placeholder="Država"
                 required
                 name="country"
-                ngModel
+                [(ngModel)]="countrySignup"
                 #country="ngModel">
                 <mat-error
                   *ngIf="country.invalid">
@@ -194,6 +192,7 @@
                 mat-raised-button
                 color="primary"
                 class="login-button"
+                (click)="signupClick()"
                 >
                 Registruj se
               </button>

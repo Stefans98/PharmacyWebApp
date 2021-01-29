@@ -6,6 +6,7 @@ import { PatientService } from '../../services/users/patient.service';
 import { BenefitsModalDialogComponent } from './benefits-modal-dialog/benefits-modal-dialog.component';
 import { MedicineService } from '../../services/medicines/medicine.service';
 import { Medicine } from '../../models/medicine.model';
+import { AuthenticationService } from '../../services/users/authentication.service';
 
 @Component({
   selector: 'app-patient-profile',
@@ -31,7 +32,8 @@ export class PatientProfileComponent implements OnInit {
   public userCategory: number;
   public category: string;
 
-  constructor(public dialog: MatDialog, private patientService: PatientService,  private medicineService: MedicineService) { 
+  constructor(public dialog: MatDialog, private patientService: PatientService,  private medicineService: MedicineService,
+                    private authService: AuthenticationService) { 
 
       this.medicineService.getAll().subscribe(
         data => {
@@ -42,7 +44,7 @@ export class PatientProfileComponent implements OnInit {
   }
   
   fillData() {
-    this.patientService.getPatientById(1).subscribe(
+    this.patientService.getPatientById(this.authService.getLoggedUserId()).subscribe(
       data => {
         this.patient = data;
         this.prepareDate(this.patient); 

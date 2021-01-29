@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
 import { 
   Router,
-  CanActivate,
-  ActivatedRouteSnapshot
+  ActivatedRouteSnapshot,
+  CanLoad,
+  Route,
+  UrlSegment,
+  UrlTree
 } from '@angular/router';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 @Injectable()
-export class RouteGuardService implements CanActivate 
+export class RouteGuardService implements CanLoad
 {  
 
-  constructor(public auth: AuthService, public router: Router) {}  
+  constructor(public auth: AuthenticationService, public router: Router) {}  
+  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    throw new Error('Method not implemented.');
+  }
 
-  canActivate(route: ActivatedRouteSnapshot): boolean { 
+  CanLoad(route: ActivatedRouteSnapshot): boolean { 
     
     if (!this.auth.isAuthenticated() || localStorage.getItem('userRole') != route.data.role){
       
