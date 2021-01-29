@@ -28,10 +28,20 @@ export class AuthService {
     }
 
     let jwtHelper = new JwtHelperService();
+    if (jwtHelper.isTokenExpired(token)){
+        this.logout();
+    }
     return !jwtHelper.isTokenExpired(token);
   }
 
   public getToken(): string {
     return localStorage.getItem('token');
+  }
+
+  public logout() : void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
   }
 }

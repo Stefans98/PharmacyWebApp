@@ -21,7 +21,7 @@ public class PatientMapper {
         patient.setAddress(new Address(patientDto.getCountry(), patientDto.getCity(),
                 patientDto.getStreet(), patient));
         patient.setPassword(patientDto.getPassword(), false);
-        patient.setPoints(0);
+        patient.setPoints(patientDto.getPoints());
         patient.setAllergies(new ArrayList<>());
 
         return patient;
