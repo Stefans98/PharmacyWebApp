@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.model.schedule;
 
+import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.model.users.User;
 
 import javax.persistence.*;
@@ -31,6 +32,9 @@ public class Appointment {
 
     @Column(name = "end_time", nullable = false)
     private Date endTime;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Patient patient;
 
     // ***
     @OneToOne(mappedBy = "appointment")
@@ -112,5 +116,13 @@ public class Appointment {
 
     public void setWorkDay(WorkDay workDay) {
         this.workDay = workDay;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

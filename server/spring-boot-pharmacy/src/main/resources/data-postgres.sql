@@ -4,6 +4,17 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Danil
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Car Dusana 100');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 17');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive Andrica 77');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Milosa Obilica 47');
+insert into address (country, city, street) values ('Srbija', 'Beograd', 'Bulevar Oslobodjenja 30');
+insert into address (country, city, street) values ('Srbija', 'Beograd', 'Danila Kisa 15');
+insert into address (country, city, street) values ('Srbija', 'Beograd', 'Car Dusana 100');
+insert into address (country, city, street) values ('Srbija', 'Beograd', 'Josifa Runjanina 17');
+insert into address (country, city, street) values ('Srbija', 'Beograd', 'Ive Andrica 77');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Dositejeva 20');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Mise Dimitrijevica 20');
+
+insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
+insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 9.3, 2);
 
 insert into authority (name) values ('PATIENT');
 insert into authority (name) values ('PHARMACIST');
@@ -12,22 +23,40 @@ insert into authority (name) values ('SUPPLIER');
 insert into authority (name) values ('PHARMACY_ADMIN');
 insert into authority (name) values ('SYSTEM_ADMIN');
 
+insert into appointment_histories (id) values (1);
+
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'pera1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 1, 10);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('PHARMACIST', 'pera2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('DERMATOLOGIST', 'pera3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'pera4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('PHARMACY_ADMIN', 'pera5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SYSTEM_ADMIN', 'pera6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'pera2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'pera3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'pera4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 10);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pera5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pera6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6, 2);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('DERMATOLOGIST', 'pera7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 7);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('DERMATOLOGIST', 'pera8@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 8);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'pera9@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 9);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'pera10@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 10);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('PHARMACY_ADMIN', 'pera11@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 11);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('PHARMACY_ADMIN', 'pera12@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 12);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SYSTEM_ADMIN', 'pera13@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 13);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SYSTEM_ADMIN', 'pera14@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 14);
 
 insert into user_authority (user_id, authority_id) values (1, 1);
-insert into user_authority (user_id, authority_id) values (2, 2);
-insert into user_authority (user_id, authority_id) values (3, 3);
-insert into user_authority (user_id, authority_id) values (4, 4);
-insert into user_authority (user_id, authority_id) values (5, 5);
-insert into user_authority (user_id, authority_id) values (6, 6);
+insert into user_authority (user_id, authority_id) values (2, 1);
+insert into user_authority (user_id, authority_id) values (3, 1);
+insert into user_authority (user_id, authority_id) values (4, 1);
+insert into user_authority (user_id, authority_id) values (5, 2);
+insert into user_authority (user_id, authority_id) values (6, 2);
+insert into user_authority (user_id, authority_id) values (7, 3);
+insert into user_authority (user_id, authority_id) values (8, 3);
+insert into user_authority (user_id, authority_id) values (9, 4);
+insert into user_authority (user_id, authority_id) values (10, 4);
+insert into user_authority (user_id, authority_id) values (11, 5);
+insert into user_authority (user_id, authority_id) values (12, 5);
+insert into user_authority (user_id, authority_id) values (13, 6);
+insert into user_authority (user_id, authority_id) values (14, 6);
 
-insert into allergies (name, patient_id) values ('prasina', 1);
-insert into allergies (name, patient_id) values ('ambrozija', 1);
+insert into allergies (name, patient_id) values ('Prasina', 1);
+insert into allergies (name, patient_id) values ('Ambrozija', 1);
 
 insert into complaints (text, patient_id) values ('Zalba na urednost apoteke', 1);
 insert into complaints (text, patient_id) values ('Zalba na ljubaznost dermatologa', 1);
@@ -43,19 +72,31 @@ insert into medicine_prices (price, start_time, end_time, pricelist_id) values (
 
 insert into medicine_specifications (contraindication, daily_dose) values ('mucnina', 2);
 
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'brf123', 'lek protiv bolova', 6, 'Hemofarm', 1);
-
-insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'lek protiv bolova', 6, 'Hemofarm', 1);
 
 insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 2, 1);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 5, 1);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 5, 1);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 6, 2);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 6, 2);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 1);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 1);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 2);
+insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 2);
 
-insert into appointments (price, appointment_state, appointment_type, start_time, end_time, work_day_id) values (2500, 0, 1, '2021-01-29 09:30:00', '2021-03-29 10:00:00', 1);
-
-insert into appointment_histories (id) values (1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 0, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 5, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 5, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 2, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 5, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 2);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 0, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 3);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 2, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 
 insert into appointment_reports (description ,appointment_id, appointment_history_id) values ('Na pregledu je sve bilo u redu', 1, 1);
 
@@ -75,7 +116,9 @@ insert into e_prescription_items (quantity, e_prescription_id, medicine_id) valu
 
 insert into prescriptions (therapy_day_length, medicine_id, patient_id) values (28, 1, 1);
 
-insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 3);
+insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
+insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
+insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (2, 8);
 
 insert into medicine_ingredients (medicine_specification_id, ingredient_id) values (1, 1);
 
