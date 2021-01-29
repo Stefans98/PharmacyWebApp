@@ -1,1 +1,184 @@
-<p>dermatologist-start-appointment works!</p>
+<mat-horizontal-stepper labelPosition="bottom" #stepper
+  style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 620px;">
+
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Započnite pregled</ng-template>
+      <!-- <div class="example-action-buttons">
+          <button mat-button (click)="accordion.openAll()">Expand All</button>
+          <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+        </div> -->
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Pacijent se pojavio na pregledu
+            </mat-panel-title>
+            <mat-panel-description>
+              Potvrdite početak pregleda
+              <mat-icon>slideshow</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div>
+            <button mat-raised-button color="primary" matStepperNext
+              style="float: left;margin-top: 10px;">Započni</button>
+          </div>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Pacijent se nije pojavio na pregledu
+            </mat-panel-title>
+            <mat-panel-description>
+              Završite pregled zbog nedolaženja pacijenta
+              <mat-icon>highlight_off</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div>
+            <button mat-raised-button color="warn" style="float: left;margin-top: 10px;">Završi</button>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <mat-form-field style="margin-top: 5px;">
+        <input matInput placeholder="Pronađite pacijenta">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" style="margin-left:8px">Pronađi</button>
+
+      <mat-selection-list (selectionChange)="onChange($event)">
+        <mat-list-option *ngFor="let patient of patients" [selected]="patient.selected" [value]="patient">
+          {{patient}}
+        </mat-list-option>
+      </mat-selection-list>
+
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" optional>
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Unesite informacije o pregledu</ng-template>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Unesite informacije o pregledu</mat-label>
+        <textarea matInput placeholder=""></textarea>
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="warn" matStepperPrevious style="float: left;">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext style="float: right;">Dalje</button>
+      </div>
+
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" optional>
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Prepišite lekove</ng-template>
+      
+      <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" class="medicinesTable">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> Rbr. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Neziv leka </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+        </ng-container>
+      
+        <!-- Specification Column -->
+        <ng-container matColumnDef="specification">
+          <th mat-header-cell *matHeaderCellDef> Specifikacija leka </th>
+          <td mat-cell *matCellDef="let element"><button mat-stroked-button color="warn" (click)="openDialog()" class="modal-dialog">Prikaži</button> </td>
+        </ng-container>
+
+        <!-- Specification Column -->
+        <ng-container matColumnDef="substitute">
+          <th mat-header-cell *matHeaderCellDef> Zamenski lekovi </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field style="max-width:140px;">
+              <mat-label>Zamenski lekovi</mat-label>
+              <mat-select [formControl]="medicines" multiple>
+                <mat-select-trigger>
+                {{medicines.value ? medicines.value[0].name : ''}}
+                <span *ngIf="medicines.value?.length > 1" class="example-additional-selection">
+                  (+ još {{medicines.value.length - 1}}) 
+                </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let medicine of medicineList" [value]="medicine">{{medicine}}</mat-option>
+              </mat-select>
+              </mat-form-field> 
+          </td>
+        </ng-container>
+   
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row)">
+        </tr>
+      </table>
+      </div>
+
+      <div>
+        <button mat-raised-button color="warn" matStepperPrevious style="float: left;margin-top: 40px;">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext style="float: right;;margin-top: 40px;">Dalje</button>
+      </div>
+
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup" optional>
+    <form [formGroup]="fourthFormGroup">
+      <ng-template matStepLabel>Zakažite nov pregled</ng-template>
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+      </mat-form-field>
+      
+      <div>
+        <button mat-raised-button color="warn" matStepperPrevious style="float: left;margin-top: 40px;">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext style="float: right;;margin-top: 40px;">Dalje</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Kraj pregleda</ng-template>
+
+    <br><h1 class="mat-h1" style="margin-top: 50px; margin-left: 350px;">Uspešno ste izvršili pregled za pacijenta</h1><br><br>
+    <h1 class="mat-h1" style="margin-left: 442px;">Potvrdite kraj pregleda</h1><br><br>
+
+    <div>
+      <button mat-raised-button color="primary" matStepperNext style="margin-left: 522px;">Potvrdi</button>
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>

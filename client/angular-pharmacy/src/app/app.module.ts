@@ -51,6 +51,9 @@ import { CreateOrderListComponent } from './pharmacy-administrator/create-order-
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { MedicineSpecificationModalDialogComponent } from './dermatologist/dermatologist-start-appointment/medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -94,7 +97,9 @@ import { HttpClientModule } from '@angular/common/http';
     AllOrderListsComponent,
     CreateOrderListComponent,
 
-    LoginComponent
+    LoginComponent,
+
+    MedicineSpecificationModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +113,13 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 

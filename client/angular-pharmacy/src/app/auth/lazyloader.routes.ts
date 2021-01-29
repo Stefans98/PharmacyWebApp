@@ -39,6 +39,7 @@ import { RouteGuardService } from '../services/users/route-guard.service';
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
+
         { path: 'patient/pharmacy/all-pharmacies', component: AllPharmaciesComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/pharmacy/my-pharmacies', component: MyPharmaciesComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/dermatologist/dermatologist-appointment-history', component: DermatologistAppointmentHistoryComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
