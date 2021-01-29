@@ -54,6 +54,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MedicineSpecificationModalDialogComponent } from './dermatologist/dermatologist-start-appointment/medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
+import { PharmacistAbsenceRequestComponent } from './pharmacist/pharmacist-absence-request/pharmacist-absence-request.component';
+import { PharmacistPatientsComponent } from './pharmacist/pharmacist-patients/pharmacist-patients.component';
+import { PharmacistProfileComponent } from './pharmacist/pharmacist-profile/pharmacist-profile.component';
+import { PharmacistNewAppointmentComponent } from './pharmacist/pharmacist-new-appointment/pharmacist-new-appointment.component';
+import { PharmacistStartAppointmentComponent } from './pharmacist/pharmacist-start-appointment/pharmacist-start-appointment.component';
+import { PharmacistVacationRequestComponent } from './pharmacist/pharmacist-vacation-request/pharmacist-vacation-request.component';
+import { PharmacistWorkCalendarComponent } from './pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
+import { PharmacistMedicineIssueComponent } from './pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +107,23 @@ import { TokenInterceptor } from './services/token.interceptor';
 
     LoginComponent,
 
-    MedicineSpecificationModalDialogComponent
+    MedicineSpecificationModalDialogComponent,
+
+    PharmacistAbsenceRequestComponent,
+
+    PharmacistPatientsComponent,
+
+    PharmacistProfileComponent,
+
+    PharmacistNewAppointmentComponent,
+
+    PharmacistStartAppointmentComponent,
+
+    PharmacistVacationRequestComponent,
+
+    PharmacistWorkCalendarComponent,
+
+    PharmacistMedicineIssueComponent
   ],
   imports: [
     BrowserModule,
