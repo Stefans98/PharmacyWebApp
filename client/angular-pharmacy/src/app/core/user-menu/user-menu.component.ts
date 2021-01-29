@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/users/auth.service';
 
 @Component({
   selector: 'cdk-user-menu',
@@ -23,17 +24,12 @@ export class UserMenuComponent implements OnInit {
     	}
   	}  	
     
-  	constructor(private elementRef: ElementRef, private router: Router) { }
+  	constructor(private elementRef: ElementRef, private router: Router, private authService : AuthService) { }
 
-  	ngOnInit() {
-	  }
+  	ngOnInit() { }
 	  
 	logoutClick() : void {
-		localStorage.removeItem('token');
-		localStorage.removeItem('userRole');
-		localStorage.removeItem('userId');
-		localStorage.removeItem('email');
-
+		this.authService.logout();
 		this.router.navigate(['login']);
 	}
 }
