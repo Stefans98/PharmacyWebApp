@@ -6,8 +6,8 @@ import { PatientService } from '../../services/users/patient.service';
 import { BenefitsModalDialogComponent } from './benefits-modal-dialog/benefits-modal-dialog.component';
 import { MedicineService } from '../../services/medicines/medicine.service';
 import { Medicine } from '../../models/medicine.model';
+import { AuthenticationService } from '../../services/users/authentication.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { AuthService } from '../../services/users/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -35,7 +35,7 @@ export class PatientProfileComponent implements OnInit {
   public category: string = '';
 
   constructor(public dialog: MatDialog, private patientService: PatientService, private router: Router,
-    private medicineService: MedicineService, private snackBar: MatSnackBar, private authService : AuthService) { 
+    private medicineService: MedicineService, private snackBar: MatSnackBar, private authService : AuthenticationService) { 
 
       this.medicineService.getAll().subscribe(
         data => {
@@ -46,7 +46,7 @@ export class PatientProfileComponent implements OnInit {
   }
   
   fillData() {
-    this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(
+    this.patientService.getPatientById(this.authService.getLoggedUserId()).subscribe(
       data => {
         this.patient = data;
         this.prepareDate(this.patient); 

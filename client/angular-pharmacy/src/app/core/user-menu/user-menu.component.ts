@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/users/auth.service';
+import { AuthenticationService } from '../../services/users/authentication.service';
+import { PatientService } from '../../services/users/patient.service';
+
 
 @Component({
   selector: 'cdk-user-menu',
@@ -9,7 +11,8 @@ import { AuthService } from '../../services/users/auth.service';
 })
 export class UserMenuComponent implements OnInit {
 	isOpen: boolean = false;
-	role: string = localStorage.getItem('userRole');	
+	role: string = localStorage.getItem('userRole');
+	loggedUserName: string;	
 
   	@Input() currentUser = null;
   	@HostListener('document:click', ['$event', '$event.target'])
@@ -24,7 +27,12 @@ export class UserMenuComponent implements OnInit {
     	}
   	}  	
     
-  	constructor(private elementRef: ElementRef, private router: Router, private authService : AuthService) { }
+
+	constructor(private elementRef: ElementRef, private router: Router, private patientService: PatientService, 
+						private authService: AuthenticationService) {
+		this.patientService.getPatientById(authService.getLoggedUserId())
+							.subscribe(user => this.loggedUserName = user.firstName + ' ' + user.lastName);
+	}
 
   	ngOnInit() { }
 	  
