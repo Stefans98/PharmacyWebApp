@@ -1,7 +1,9 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.DermatologistPatientDto;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.model.users.Employee;
 import isa.spring.boot.pharmacy.model.users.Patient;
@@ -14,7 +16,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/patients")
@@ -24,7 +28,7 @@ public class PatientController {
     private UserService userService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<PatientDto> getPatientById(@PathVariable Long id) {
         Patient patient = (Patient)userService.findById(id);
         if (patient == null){
@@ -34,6 +38,7 @@ public class PatientController {
     }
 
     @PutMapping(value = "/updateProfile/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<PatientDto> updatePatient(@PathVariable(value = "id") Long patientId, @RequestBody PatientDto patientDto) throws  Exception{
         Patient patient = (Patient)userService.findById(patientId);
         if (patient == null){
@@ -46,5 +51,15 @@ public class PatientController {
         }
 
         return new ResponseEntity<>(PatientMapper.convertToDto(updatedPatient), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/patientsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<Set<DermatologistPatientDto>> getPatientsForDermatologist(@PathVariable Long dermatologistId) {
+        Set<DermatologistPatientDto> patientsForDermatologist = new HashSet<DermatologistPatientDto>();
+        for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
+            patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
+        }
+        return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
     }
 }

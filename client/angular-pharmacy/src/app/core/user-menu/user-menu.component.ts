@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { PatientService } from '../../services/users/patient.service';
 
+
 @Component({
   selector: 'cdk-user-menu',
   templateUrl: './user-menu.component.html',
@@ -26,21 +27,17 @@ export class UserMenuComponent implements OnInit {
     	}
   	}  	
     
-	  constructor(private elementRef: ElementRef, private router: Router, private patientService: PatientService, 
+
+	constructor(private elementRef: ElementRef, private router: Router, private patientService: PatientService, 
 						private authService: AuthenticationService) {
 		this.patientService.getPatientById(authService.getLoggedUserId())
 							.subscribe(user => this.loggedUserName = user.firstName + ' ' + user.lastName);
-	   }
+	}
 
-  	ngOnInit() {
-	  }
+  	ngOnInit() { }
 	  
 	logoutClick() : void {
-		localStorage.removeItem('token');
-		localStorage.removeItem('userRole');
-		localStorage.removeItem('userId');
-		localStorage.removeItem('email');
-
+		this.authService.logout();
 		this.router.navigate(['login']);
 	}
 }

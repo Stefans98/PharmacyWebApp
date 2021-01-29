@@ -7,6 +7,8 @@ import { BenefitsModalDialogComponent } from './benefits-modal-dialog/benefits-m
 import { MedicineService } from '../../services/medicines/medicine.service';
 import { Medicine } from '../../models/medicine.model';
 import { AuthenticationService } from '../../services/users/authentication.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-profile',
@@ -17,23 +19,23 @@ export class PatientProfileComponent implements OnInit {
 
   public id : number;
   public patient: Patient;
-  public name: string;
-  public surname: string;
-  public email: string;
-  public phoneNumber: string;
+  public name: string = '';
+  public surname: string = '';
+  public email: string = '';
+  public phoneNumber: string = '';
   public password: string = '';
   public repeatPassword: string = '';
-  public city: string;
-  public street: string;
-  public country: string;
+  public city: string = '';
+  public street: string = '';
+  public country: string = '';
   medicines = new FormControl();
   public medicineList: Medicine[] = [];
   public points: number;
   public userCategory: number;
-  public category: string;
+  public category: string = '';
 
-  constructor(public dialog: MatDialog, private patientService: PatientService,  private medicineService: MedicineService,
-                    private authService: AuthenticationService) { 
+  constructor(public dialog: MatDialog, private patientService: PatientService, private router: Router,
+    private medicineService: MedicineService, private snackBar: MatSnackBar, private authService : AuthenticationService) { 
 
       this.medicineService.getAll().subscribe(
         data => {
@@ -62,7 +64,7 @@ export class PatientProfileComponent implements OnInit {
     this.street = patient.street;
     this.country = patient.country;
     this.points = patient.points;
-    if(patient.userCategory == 0) {
+    if (patient.userCategory == 0) {
       this.category = 'Regular';
     } else if (patient.userCategory == 1) {
       this.category = 'Silver';
@@ -75,25 +77,41 @@ export class PatientProfileComponent implements OnInit {
 
   }
 
-  openDialog(): void {
-    this.dialog.open(BenefitsModalDialogComponent, {
-      panelClass: 'my-centered-dialog',
-      width: '450px',
-      height: '250px',
-      position: {left: '855px'}
-    });
-  }
-
   cancelClick(): void {
-    if(confirm("Da li ste sigurni da želite da odustanete?")) {
       this.fillData();
-    }
   }
 
   saveClick(): void {
-    if(confirm("Da li ste sigurni da želite da sačuvate izmene?")) {
-      this.updatePatient();
+    if (this.checkInputData()) {
+      if (confirm("Da li ste sigurni da želite da sačuvate izmene?")) {   
+          this.updatePatient();
+      }
     }
+  }
+
+  checkInputData() : boolean {
+    if (this.isPasswordValid() && this.isRequiredDataNotEmpty()) {
+      return true;
+    }
+    return false;
+  }
+
+  isPasswordValid() : boolean {
+    if (this.password === this.repeatPassword) {
+      return true;
+    }
+    this.openSnackBar('Nova loznika i lozinka za potvrdu moraju biti iste!', 'Zatvori');
+    return false;
+  }
+
+  isRequiredDataNotEmpty() : boolean {
+    if (this.name === '' || this.surname === ''
+          || this.phoneNumber === '' || this.city === ''
+            || this.street === '' || this.country === '') {
+      this.openSnackBar('Sva obavezna polja moraju biti popunjena!', 'Zatvori');
+      return false;
+    }
+    return true;
   }
 
   updatePatient(): void {
@@ -101,11 +119,41 @@ export class PatientProfileComponent implements OnInit {
       data => {
         this.patient = data;
         this.prepareDate(this.patient);
+        this.openSnackBar('Uspešno ste izmenili profil!', 'Zatvori');
+        if (this.password.length > 0) {
+          this.authService.logout();
+          this.router.navigate(['login']);
+        }
       },
       error => {
         if (error.status = 500){
-          if(confirm("Nije moguće promeniti podatke")) { }
+          this.openSnackBar('Neuspešna izmena profila!', 'Zatvori');
+          this.fillData();
         }
       });
+  }
+
+  // TOAST
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  // MODALNI DIALOG
+  
+  openDialog(): void {
+    this.dialog.open(BenefitsModalDialogComponent, {
+      panelClass: 'my-centered-dialog',
+      width: '450px',
+      height: '250px',
+      position: {left: '675px'}
+    });
   }
 }

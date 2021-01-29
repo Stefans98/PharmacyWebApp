@@ -39,10 +39,26 @@ export class AuthenticationService {
     }
 
     let jwtHelper = new JwtHelperService();
+    if (jwtHelper.isTokenExpired(token)){
+        this.logout();
+    }
     return !jwtHelper.isTokenExpired(token);
   }
 
+
   public getLoggedUserId(): number {
     return parseInt(localStorage.getItem('userId'));
+  }
+
+  public getToken(): string {
+    return localStorage.getItem('token');
+  }
+
+  public logout() : void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
+
   }
 }

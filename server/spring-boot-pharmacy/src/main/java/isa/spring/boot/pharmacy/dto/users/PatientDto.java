@@ -1,9 +1,7 @@
 package isa.spring.boot.pharmacy.dto.users;
 
-
-import isa.spring.boot.pharmacy.model.users.UserCategory;
-
 public class PatientDto {
+
     private Long id;
     private String firstName;
     private String lastName;
@@ -16,23 +14,7 @@ public class PatientDto {
     private int points;
     private int userCategory;
 
-
     public PatientDto() {
-    }
-
-
-    public PatientDto(String firstName, String lastName, String city, String country, String street,
-                      String email, String phoneNumber, String password, int points, int userCategory) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.country = country;
-        this.street = street;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.points = points;
-        this.userCategory = userCategory;
     }
 
     public Long getId() {

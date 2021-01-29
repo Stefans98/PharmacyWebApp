@@ -39,8 +39,18 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('userRole', tokenPayload['userRole']);
       if(tokenPayload['userRole'] == 'PATIENT'){
         this.router.navigate(['/auth/patient/pharmacy/all-pharmacies']);
+      } else if(tokenPayload['userRole'] == 'PHARMACIST') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
       } else if(tokenPayload['userRole'] == 'DERMATOLOGIST') {
         this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else if(tokenPayload['userRole'] == 'SUPPLIER') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else if(tokenPayload['userRole'] == 'PHARMACY_ADMIN') {
+        this.router.navigate(['/auth/pharmacy-administrator/my-pharmacy']);
+      } else if(tokenPayload['userRole'] == 'SYSTEM_ADMIN') {
+        this.router.navigate(['/auth/dermatologist/work-calendar']);
+      } else{
+        this.router.navigate(['/login']);
       }
     }, 
     error => {
@@ -55,6 +65,13 @@ export class LoginComponent implements OnInit {
   }
 
   signupClick(): void {
+    if (!this.checkPasswordMatch()) {
+      this.snackBar.open('Lozinke se moraju poklapati!', null, { 
+        duration : 3000, 
+        verticalPosition: 'top'
+       });
+       return;
+    }
     this.authService.userSignup(new Patient(0, this.firstNameSignup, this.lastNameSignup, this.citySignup, this.countrySignup,
                this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup)) 
                .subscribe( data => {
@@ -63,6 +80,10 @@ export class LoginComponent implements OnInit {
                   verticalPosition: 'top'
                  });
                });               
+  }
+
+  checkPasswordMatch() : boolean {
+    return this.passwordSignup === this.repasswordSignup;
   }
 
 }
