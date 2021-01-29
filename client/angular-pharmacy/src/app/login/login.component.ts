@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   loginClick(email : string, password : string): void {
     this.authService.userLogin(email, password).subscribe(token => {
       const tokenPayload = decode(token.accessToken);
-      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('token', token.accessToken);
       localStorage.setItem('userId', tokenPayload['userId']);
       localStorage.setItem('email', tokenPayload['sub']);
       localStorage.setItem('userRole', tokenPayload['userRole']);
@@ -42,5 +42,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
 }

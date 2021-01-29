@@ -30,4 +30,8 @@ export class AuthService {
     let jwtHelper = new JwtHelperService();
     return !jwtHelper.isTokenExpired(token);
   }
+
+  public getToken(): string {
+    return localStorage.getItem('token');
+  }
 }

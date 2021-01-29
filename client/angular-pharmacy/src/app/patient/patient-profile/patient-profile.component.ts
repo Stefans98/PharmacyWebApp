@@ -42,7 +42,7 @@ export class PatientProfileComponent implements OnInit {
   }
   
   fillData() {
-    this.patientService.getPatientById(1).subscribe(
+    this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(
       data => {
         this.patient = data;
         this.prepareDate(this.patient); 
