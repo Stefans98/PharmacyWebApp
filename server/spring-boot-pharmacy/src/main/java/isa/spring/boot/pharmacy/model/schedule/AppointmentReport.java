@@ -20,6 +20,7 @@ public class AppointmentReport {
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
 
+    // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AppointmentHistory appointmentHistory;
 

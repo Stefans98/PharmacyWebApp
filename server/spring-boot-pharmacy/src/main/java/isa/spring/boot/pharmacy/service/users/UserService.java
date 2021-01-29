@@ -1,7 +1,10 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
+import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
+import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -22,10 +25,23 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AppointmentService appointmentService;
 
     @Autowired
     private AuthorityService authorityService;
+
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(s);
+        if (user == null)
+        {
+            throw new UsernameNotFoundException(String.format("No user found with email '%s'.", s));
+        } else {
+            return user;
+        }
+    }
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -57,14 +73,26 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(s);
-        if (user == null)
-        {
-            throw new UsernameNotFoundException(String.format("No user found with email '%s'.", s));
-        } else {
-            return user;
+    public List<Patient> getAllPatients(){
+        List<Patient> patientsForDermatologist = new ArrayList<Patient>();
+        for(User user : userRepository.findAll()) {
+            if(user instanceof Patient) {
+                Patient patient = (Patient)user;
+                patientsForDermatologist.add(patient);
+            }
         }
+        return patientsForDermatologist;
     }
+
+    public Set<Patient> getPatientsForDermatologist(Long dermatologistId){
+        Set<Patient> patientsForDermatologist = new HashSet<Patient>();
+        for(Appointment appointment : appointmentService.getDermatologistExaminations()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
+                    appointment.getAppointmentState() == AppointmentState.FINISHED) {
+                patientsForDermatologist.add(appointment.getPatient());
+            }
+        }
+        return patientsForDermatologist;
+    }
+
 }

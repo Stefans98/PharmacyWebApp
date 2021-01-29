@@ -27,11 +27,11 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
-            medicineDto.add(MedicineMapper.ConvertToDto(medicine));
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
         }
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }

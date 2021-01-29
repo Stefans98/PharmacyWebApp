@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.Prescription;
 import isa.spring.boot.pharmacy.model.pharmacy.Subscription;
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentHistory;
 
 import javax.persistence.*;
@@ -38,13 +39,16 @@ public class Patient extends User {
     private List<Complaint> complaints = new ArrayList<Complaint>();
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Prescription> Prescription;
+    private List<Prescription> prescriptions;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineReservation> medicineReservations;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<EPrescription> ePrescription;
+    private List<EPrescription> ePrescriptions;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
 
     public Patient() {
     }
@@ -107,14 +111,6 @@ public class Patient extends User {
         this.complaints = complaints;
     }
 
-    public List<isa.spring.boot.pharmacy.model.medicines.Prescription> getPrescription() {
-        return Prescription;
-    }
-
-    public void setPrescription(List<isa.spring.boot.pharmacy.model.medicines.Prescription> prescription) {
-        Prescription = prescription;
-    }
-
     public List<MedicineReservation> getMedicineReservations() {
         return medicineReservations;
     }
@@ -123,11 +119,27 @@ public class Patient extends User {
         this.medicineReservations = medicineReservations;
     }
 
-    public List<EPrescription> getePrescription() {
-        return ePrescription;
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
     }
 
-    public void setePrescription(List<EPrescription> ePrescription) {
-        this.ePrescription = ePrescription;
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
+    public List<EPrescription> getePrescriptions() {
+        return ePrescriptions;
+    }
+
+    public void setePrescriptions(List<EPrescription> ePrescriptions) {
+        this.ePrescriptions = ePrescriptions;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
