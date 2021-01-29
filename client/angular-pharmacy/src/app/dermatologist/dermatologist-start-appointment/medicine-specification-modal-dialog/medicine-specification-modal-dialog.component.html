@@ -1,0 +1,13 @@
+<h1 mat-dialog-title class="benefits-dialog-titile">Brufen</h1>
+
+<!-- <div mat-dialog-conten *ngFor="let benefit of benefitList" [value]="benefit" class="benefits-dialog">{{benefit}}</div> -->
+
+<mat-form-field style="margin-left: 84px;">
+    <mat-label>Dnevna doza leka</mat-label>
+    <input matInput type="number" placeholder="" min="1" max="5">
+    <span matSuffix></span>
+  </mat-form-field>
+
+<div mat-dialog-actions style="margin-left: 144px;">
+  <button mat-stroked-button mat-dialog-close>Potvrdi</button>
+</div>
