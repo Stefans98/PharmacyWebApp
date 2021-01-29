@@ -1,8 +1,10 @@
 package isa.spring.boot.pharmacy.controller.users;
 
 import isa.spring.boot.pharmacy.dto.users.DermatologistPatientDto;
+import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
+import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.model.users.User;
@@ -37,6 +39,16 @@ public class UserController {
             usersDto.add(UserMapper.convertToDto(user));
         }
         return new ResponseEntity<>(usersDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACIST','DERMATOLOGIST','SUPPLIER','PHARMACY_ADMIN','SYSTEM_ADMIN')")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(UserMapper.convertToDto(user), HttpStatus.OK);
     }
 
 }

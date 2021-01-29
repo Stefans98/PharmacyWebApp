@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   loginClick(): void {
-    console.log(this.emailLogin);
     this.authService.userLogin(this.emailLogin, this.passwordLogin).subscribe(token => {
       const tokenPayload = decode(token.accessToken);
       localStorage.setItem('token', token.accessToken);

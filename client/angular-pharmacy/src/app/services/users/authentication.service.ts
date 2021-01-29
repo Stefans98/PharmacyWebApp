@@ -8,6 +8,8 @@ import { Patient } from '../../models/patient.model';
 @Injectable({
   providedIn: 'root'
 })
+
+@Injectable()
 export class AuthenticationService {
   private readonly authUrl = 'http://localhost:8081/api/auth/'
 

@@ -4,7 +4,6 @@ public class UserDto {
 
     private String firstName;
     private String lastName;
-    private String address;
 
     public UserDto() {
     }
@@ -25,11 +24,4 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
