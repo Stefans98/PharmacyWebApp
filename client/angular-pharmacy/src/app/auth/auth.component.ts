@@ -15,6 +15,7 @@ export class AuthComponent implements OnInit{
     matDrawerOpened: boolean = false;
     matDrawerShow: boolean = true;
     sideNavMode: string = 'side';
+    role: string = localStorage.getItem('userRole');
 
     ngOnChanges() {
     this.visibility = this.isVisible ? 'shown' : 'hidden';

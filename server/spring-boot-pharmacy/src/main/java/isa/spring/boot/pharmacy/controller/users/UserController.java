@@ -29,23 +29,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<UserDto>> getUsers() {
         List<UserDto> usersDto = new ArrayList<UserDto>();
         for(User user : userService.findAll()) {
-            usersDto.add(UserMapper.ConvertToDto(user));
+            usersDto.add(UserMapper.convertToDto(user));
         }
         return new ResponseEntity<>(usersDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/patientsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
-    public ResponseEntity<Set<DermatologistPatientDto>> getPatientsForDermatologist(@PathVariable Long dermatologistId) {
-        Set<DermatologistPatientDto> patientsForDermatologist = new HashSet<DermatologistPatientDto>();
-        for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
-            patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
-        }
-        return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
-    }
 }

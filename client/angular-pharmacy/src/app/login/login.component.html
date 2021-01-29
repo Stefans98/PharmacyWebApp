@@ -1,0 +1,205 @@
+<div class="login-page">
+    <mat-card class="mat-elevation-z12">
+      <mat-card-title style="text-align:center; overflow: hidden;">Prijava/Registacija</mat-card-title>
+      <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
+        <mat-tab label="Prijavi se">
+            <mat-card-content>
+              <form action="">
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Email"
+                    required
+                    name="email"
+                    ngModel
+                    #email="ngModel">
+                    <mat-error *ngIf="email.invalid">Morate uneti email</mat-error>
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Lozinka"
+                    type="password"
+                    required
+                    minlength="3"
+                    name="password"
+                    ngModel
+                    #password="ngModel">
+                    <mat-error
+                      *ngIf="password.errors && password.errors.required">
+                      Morate uneti lozinku
+                    </mat-error>
+                    <mat-error
+                      *ngIf="password.errors && password.errors.minlength">
+                      Password must be of length 6
+                    </mat-error>
+                  <mat-icon matSuffix>lock</mat-icon>
+                </mat-form-field>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="login-button"
+                  (click) = "loginClick(email.viewModel, password.viewModel)">
+                  Prijavi se
+                </button>
+              </form>
+            </mat-card-content>
+        </mat-tab>
+        <mat-tab label="Registruj se">
+          <mat-card-content>
+            <form action="">
+                
+                <mat-form-field style="width: 40%; float: left; margin-left: 33px;">
+                    <input
+                        matInput
+                        placeholder="Ime"
+                        required
+                        name="username"
+                        ngModel
+                        #username="ngModel">
+                    <mat-icon matSuffix>perm_identity</mat-icon>
+                    <mat-error
+                        *ngIf="username.invalid">
+                        Morate uneti ime
+                    </mat-error>
+        
+                    </mat-form-field>
+                    <mat-form-field style="width: 40%;float: left; margin-right: 10px; margin-left: 30px;">
+                    <input
+                        matInput
+                        placeholder="Prezime"
+                        required
+                        name="username"
+                        ngModel
+                        #username="ngModel">
+                    <mat-icon matSuffix>perm_identity</mat-icon>
+                    <mat-error
+                        *ngIf="username.invalid">
+                        Morate uneti prezime
+                    </mat-error>
+        
+                    </mat-form-field>
+            
+              
+              <mat-form-field style="width: 40%; float: left; margin-left: 33px;">
+                <input
+                  matInput
+                  placeholder="Email"
+                  required
+                  name="email"
+                  ngModel
+                  #email="ngModel">
+                  <mat-error *ngIf="email.invalid">Morate uneti email</mat-error>
+                <mat-icon matSuffix>email</mat-icon>
+              </mat-form-field>
+              <mat-form-field style="width: 40%; float: left; margin-left: 30px;">
+                <input
+                  matInput
+                  placeholder="Broj telefona"
+                  required
+                  name="phoneNumber"
+                  ngModel
+                  #phoneNumber="ngModel">
+                  <mat-error *ngIf="phoneNumber.invalid">Morate uneti broj telefona</mat-error>
+                <mat-icon matSuffix>phone</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field style="width: 40%; float: left; margin-left: 33px;">
+                <input
+                  matInput
+                  placeholder="Lozinka"
+                  type="password"
+                  required
+                  minlength="6"
+                  name="password"
+                  ngModel
+                  #password="ngModel">
+                  <mat-error
+                    *ngIf="password.errors && password.errors.required">
+                    Morate uneti lozinku
+                  </mat-error>
+                  <mat-error
+                    *ngIf="password.errors && password.errors.minlength">
+                    Lozinka mora imati bar 3 karaktera
+                  </mat-error>
+                <mat-icon matSuffix>lock</mat-icon>
+  
+              </mat-form-field>
+              
+              
+              <mat-form-field  style="width: 40%; float: left; margin-left: 30px;">
+                  <input
+                  matInput
+                  placeholder="Ponovni unos lozinke"
+                  type="password"
+                  required
+                  minlength="3"
+                  name="repassword"
+                  ngModel
+                  #repassword="ngModel">
+                  <mat-error
+                    *ngIf="repassword.errors && repassword.errors.required">
+                    Morate uneti lozinku
+                  </mat-error>
+                <mat-icon matSuffix>lock</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field style="width: 30%; float: left; margin-left: 33px; padding: 0;">
+                <input
+                  matInput
+                  placeholder="Ulica i broj"
+                  required
+                  name="street"
+                  ngModel
+                  #street="ngModel">
+                  <mat-error
+                    *ngIf="street.invalid">
+                    Morate uneti ulicu i broj
+                  </mat-error>
+                <mat-icon matSuffix>address</mat-icon>
+  
+              </mat-form-field>
+              
+              
+              <mat-form-field  style="width: 20%; float: left; margin-left: 20px; padding: 0%;">
+                  <input
+                  matInput
+                  placeholder="Grad"
+                  required
+                  name="citz"
+                  ngModel
+                  #city="ngModel">
+                  <mat-error
+                    *ngIf="city.invalid">
+                    Morate uneti grad
+                  </mat-error>
+                <mat-icon matSuffix>address</mat-icon>
+              </mat-form-field>
+              <mat-form-field  style="width: 20%; float: left; margin-left: 20px; margin-right: 0; padding: 0%;">
+                <input
+                matInput
+                placeholder="Država"
+                required
+                name="country"
+                ngModel
+                #country="ngModel">
+                <mat-error
+                  *ngIf="country.invalid">
+                  Morate uneti državu
+                </mat-error>
+              <mat-icon matSuffix>address</mat-icon>
+            </mat-form-field>
+              <button
+                mat-raised-button
+                color="primary"
+                class="login-button"
+                >
+                Registruj se
+              </button>
+            </form>
+          </mat-card-content>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>

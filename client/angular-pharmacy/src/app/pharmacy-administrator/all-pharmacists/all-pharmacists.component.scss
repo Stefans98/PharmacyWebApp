@@ -1,0 +1,48 @@
+.all-pharmacists{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+.all-pharmacists-table{
+    height: 550px;
+    width: 800px;
+    float: right;
+    overflow:auto;
+}
+
+.all-phrmacists-title{
+    margin-left: 40%;
+    margin-top: 2%;
+}
+table {
+    width: 100%;
+}
+
+table th{
+    text-align: center; 
+}
+
+table td{
+    text-align: center; 
+}
+
+.all-pharmacists-filter-div{
+    height: 550px;
+    width: 300px;
+    float: left;
+}
+
+.all-pharmacists-filter-card{
+    height: 380px;
+}
+
+.filter-pharmacist-grade{
+    margin-top: 10%;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 2%;
+    margin-left: -10%;
+}

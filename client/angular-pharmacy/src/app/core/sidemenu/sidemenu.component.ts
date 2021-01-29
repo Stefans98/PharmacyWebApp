@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { menus } from './menu-element';
 import { dermatologistMenus } from './menu-element-dermatologist';
 import { patientMenus } from './menu-element-patient';
+import { pharmacyAdministratorMenus } from './menu-element-pharmacy-administrator'; 
 
 @Component({
   selector: 'cdk-sidemenu',
@@ -16,11 +17,13 @@ export class SidemenuComponent implements OnInit {
     public menus = menus;
     public patientMenus = patientMenus;
     public dermatologistMenus = dermatologistMenus;
+    public pharmacyAdministratorMenus = pharmacyAdministratorMenus;
+
     
     public userRole : String = '';
 
     constructor() { 
-      this.userRole = 'Patient';
+      this.userRole = localStorage.getItem('userRole');
     }
 
     ngOnInit() {

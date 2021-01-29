@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="api/appointment")
+@RequestMapping(value="api/appointments")
 public class AppointmentController {
 
     @Autowired
