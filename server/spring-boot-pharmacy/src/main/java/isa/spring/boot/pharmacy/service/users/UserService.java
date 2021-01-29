@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -62,6 +63,7 @@ public class UserService implements UserDetailsService {
         } else {
             patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         }
+        patient.setAuthorities(authorityService.findByName("PATIENT"));
         return userRepository.save(patient);
     }
 

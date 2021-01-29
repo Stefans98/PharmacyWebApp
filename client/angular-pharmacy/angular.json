@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cd-admin-v2": {
+    "pharmacy": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cd-admin-v2:build"
+            "browserTarget": "pharmacy:build"
           },
           "configurations": {
             "prod": {
-              "browserTarget": "cd-admin-v2:build:prod"
+              "browserTarget": "pharmacy:build:prod"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cd-admin-v2:build"
+            "browserTarget": "pharmacy:build"
           }
         },
         "test": {
@@ -97,7 +97,7 @@
       }
     }
   },
-  "defaultProject": "cd-admin-v2",
+  "defaultProject": "pharmacy",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

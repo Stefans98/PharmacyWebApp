@@ -21,14 +21,14 @@
 					<br>
 					<mat-form-field class="example-form-field">
 						<mat-label>Ime</mat-label>
-						<input matInput type="text" [(ngModel)]="name">
+						<input matInput type="text" [(ngModel)]="name" required>
 						<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
 						  <mat-icon>close</mat-icon>
 						</button>
 					  </mat-form-field>
 					  <mat-form-field class="example-form-field">
 						<mat-label>Prezime</mat-label>
-						<input matInput type="text" [(ngModel)]="surname">
+						<input matInput type="text" [(ngModel)]="surname" required>
 						<button mat-button *ngIf="surname" matSuffix mat-icon-button aria-label="Clear" (click)="surname=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -47,8 +47,8 @@
 						<input matInput type="text" disabled  [(ngModel)]="email">
 					  </mat-form-field>
 					  <mat-form-field class="example-form-field">
-						<mat-label>Lozinka</mat-label>
-						<input matInput type="password" [(ngModel)]="password">
+						<mat-label>Nova lozinka</mat-label>
+						<input matInput type="password" [(ngModel)]="password" >
 						<button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -60,7 +60,7 @@
 
 					<mat-form-field class="example-form-field">
 						<mat-label>Telefon</mat-label>
-						<input matInput type="tel" [(ngModel)]="phoneNumber">
+						<input matInput type="tel" [(ngModel)]="phoneNumber" required>
 						<button mat-button *ngIf="phoneNumber" matSuffix mat-icon-button aria-label="Clear" (click)="phoneNumber=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -83,7 +83,7 @@
 
 					<mat-form-field class="example-form-field">
 						<mat-label>Grad</mat-label>
-						<input matInput type="tel" [(ngModel)]="city">
+						<input matInput type="tel" [(ngModel)]="city" required>
 						<button mat-button *ngIf="city" matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -91,7 +91,7 @@
 
 					<mat-form-field class="example-form-field">
 						<mat-label>Država</mat-label>
-						<input matInput type="tel" [(ngModel)]="country">
+						<input matInput type="tel" [(ngModel)]="country" required>
 						<button mat-button *ngIf="country" matSuffix mat-icon-button aria-label="Clear" (click)="country=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -103,7 +103,7 @@
 
 					<mat-form-field class="example-form-field">
 						<mat-label>Ulica</mat-label>
-						<input matInput type="tel" [(ngModel)]="street">
+						<input matInput type="tel" [(ngModel)]="street" required>
 						<button mat-button *ngIf="street" matSuffix mat-icon-button aria-label="Clear" (click)="street=''">
 						  <mat-icon>close</mat-icon>
 						</button>
@@ -155,6 +155,7 @@
 					<button mat-raised-button color="primary" (click)="saveClick()">Sačuvaj</button>
 				</div>
 			</div>
+
 		</div>
 
 	</div>

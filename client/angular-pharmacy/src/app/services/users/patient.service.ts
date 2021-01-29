@@ -7,6 +7,8 @@ import { Patient } from '../../models/patient.model';
 @Injectable({
   providedIn: 'root'
 })
+
+@Injectable()
 export class PatientService {
   private readonly patientUrl = 'http://localhost:8081/api/patients/'
 
