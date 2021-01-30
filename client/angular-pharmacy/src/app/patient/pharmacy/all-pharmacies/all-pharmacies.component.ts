@@ -2,41 +2,15 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  grade: number;
-  address: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'Zegin', grade: 9.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Benu', grade: 6.7, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Jankovic apoteka', grade: 8.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Markovic apoteka', grade: 7.9, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Saric apoteka', grade: 9.2, address: 'Stara Pazova, Mise Dimitrijevica 1'},
-  {name: 'Zegin', grade: 8.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Benu', grade: 6.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Jankovic apoteka', grade: 8.7, address: 'Novi Sad, Mise Dimitrijevica 2'},
-  {name: 'Markovic apoteka', grade: 7.9, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Saric apoteka', grade: 9.2, address: 'Stara Pazova, Mise Dimitrijevica 1'},
-  {name: 'Zegin', grade: 6.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Benu', grade: 6.7, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Jankovic apoteka', grade: 8.7, address: 'Novi Sad, Mise Dimitrijevica 2'},
-  {name: 'Markovic apoteka', grade: 7.9, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Saric apoteka', grade: 9.2, address: 'Stara Pazova, Mise Dimitrijevica 1'},
-  {name: 'Zegin', grade: 9.7, address: 'Novi Sad, Mise Dimitrijevica 1'},
-  {name: 'Benu', grade: 6.7, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Jankovic apoteka', grade: 8.7, address: 'Novi Sad, Mise Dimitrijevica 2'},
-  {name: 'Markovic apoteka', grade: 7.9, address: 'Beograd, Mise Dimitrijevica 1'},
-  {name: 'Saric apoteka', grade: 9.2, address: 'Stara Pazova, Mise Dimitrijevica 1'}
-];
+import { Pharmacy } from '../../../models/pharmacy.model';
+import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 
 @Component({
   selector: 'app-all-pharmacies',
   templateUrl: './all-pharmacies.component.html',
   styleUrls: ['./all-pharmacies.component.scss']
 })
+
 export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
@@ -48,10 +22,11 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
 
-  displayedColumns: string[] = ['name', 'grade', 'address'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  newDataSource = new MatTableDataSource(ELEMENT_DATA);
-  dataSourceAfterSearch = new MatTableDataSource(ELEMENT_DATA);
+  pharmacies: Pharmacy[] = [];
+  displayedColumns: string[] = ['name', 'averageGrade', 'address'];
+  dataSource = new MatTableDataSource(this.pharmacies);
+  newDataSource = new MatTableDataSource(this.pharmacies);
+  dataSourceAfterSearch = new MatTableDataSource(this.pharmacies);
 
   gradeRanges: string[] = ['5 - 6', '6 - 7', '7 - 8', '8 - 9', '9 - 10', '10']
   names: string[] = [];
@@ -62,12 +37,26 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar, private pharmacyService: PharmacyService) {
+    this.pharmacyService.getAllPharmacies().subscribe(
+      data => {
+        this.pharmacies = data;
+        this.dataSource.data = this.pharmacies;
+        this.newDataSource.data = this.pharmacies;
+        this.dataSourceAfterSearch.data = this.pharmacies;
 
-  ngOnInit(): void {
-    this.namesWithoutDuplicate = this.getDistinctNames();
-    this.citiesWithoutDuplicate = this.getDistinctCities();
+        this.namesWithoutDuplicate = this.getDistinctNames();
+        this.citiesWithoutDuplicate = this.getDistinctCities();
+      },
+      error => {
+        if (error.status == 404){
+          this.openSnackBar('Trenutno ne postoji nijedna apoteka!', 'Zatvori');
+        }
+      }
+    );
   }
+
+  ngOnInit(): void {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -81,7 +70,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
       if (this.dataSourceChangeIn == 1) {
         return data.name.toLowerCase().startsWith(filter) || data.address.toLowerCase().split(',')[0].startsWith(filter);
       } else if (this.dataSourceChangeIn == 2) {
-        return data.grade.toString().startsWith(filter);
+        return data.averageGrade.toString().startsWith(filter);
       } else if (this.dataSourceChangeIn == 3) {
         return data.name.toLowerCase().includes(filter);
       } else if (this.dataSourceChangeIn == 4) {
@@ -92,11 +81,9 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
 
   applySearch(event: Event) {
 
-    this.selectedGradeRange = 'Ništa od navedenog';
-    this.selectedName = 'Ništa od navedenog';
-    this.selectedCity = 'Ništa od navedenog';
+    this.setDefaultValuesForFilter();
 
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource(this.pharmacies);
     this.setFilterPreditct();
     this.dataSourceChangeIn = 1;
     const filter = (event.target as HTMLInputElement).value
@@ -104,11 +91,10 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filter.trim().toLowerCase();
     this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
     this.dataSourceAfterSearch = new MatTableDataSource(this.dataSource.filteredData);
+    this.dataSource.sort = this.sort;
   }
   
   onChangeGradeRangeFilter(value) {
-    this.selectedName = 'Ništa od navedenog';
-    this.selectedCity = 'Ništa od navedenog';
 
     if (this.searchInputLenght > 0) {
       this.dataSource.filter = this.dataSourceAfterSearch.filter;
@@ -132,14 +118,12 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
         this.dataSource.filter = '10';
       }
     } else {
-      this.selectedGradeRange = 'Ništa od navedenog';
+      this.setDefaultValuesForFilter();
       this.openSnackBar('Fltraciju je moguće vršiti samo nakon pretrage po nazivu ili mestu gde se nalazi apoteka!', 'Zatvori');
     }  
   }
 
   onChangeNameFilter(value) {
-    this.selectedGradeRange = 'Ništa od navedenog';
-    this.selectedCity = 'Ništa od navedenog';
 
     if (this.searchInputLenght > 0) {
       this.setFilterPreditct();
@@ -153,17 +137,14 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
       }
 
     } else {
-      this.selectedName = 'Ništa od navedenog';
+      this.setDefaultValuesForFilter();
       this.openSnackBar('Fltraciju je moguće vršiti samo nakon pretrage po nazivu ili mestu gde se nalazi apoteka!', 'Zatvori');
     }  
   }
 
   onChangeCityFilter(value) {
-    this.selectedGradeRange = 'Ništa od navedenog';
-    this.selectedName = 'Ništa od navedenog';
 
     if (this.searchInputLenght > 0) {
-
       this.setFilterPreditct();
       this.dataSourceChangeIn = 4;
       this.selectedCity = value;
@@ -175,20 +156,20 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
       } 
 
     } else {
-      this.selectedCity = 'Ništa od navedenog';
+      this.setDefaultValuesForFilter();
       this.openSnackBar('Fltraciju je moguće vršiti samo nakon pretrage po nazivu ili mestu gde se nalazi apoteka!', 'Zatvori');
     }  
   }
 
   getDistinctNames() : string[] {
-    for (var n of ELEMENT_DATA) {
+    for (var n of this.pharmacies) {
       this.names.push(n.name)
     } 
     return Array.from(this.names.reduce((m, t) => m.set(t, t), new Map()).values());
   }
 
   getDistinctCities() : string[] {
-    for (var n of ELEMENT_DATA) {
+    for (var n of this.pharmacies) {
       this.cities.push(n.address.split(',')[0].trim())
     } 
     return Array.from(this.cities.reduce((m, t) => m.set(t, t), new Map()).values());
@@ -202,4 +183,9 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
     });
   }
 
+  setDefaultValuesForFilter() : void {
+    this.selectedGradeRange = null;
+    this.selectedName = null;
+    this.selectedCity = null;
+  }
 }
