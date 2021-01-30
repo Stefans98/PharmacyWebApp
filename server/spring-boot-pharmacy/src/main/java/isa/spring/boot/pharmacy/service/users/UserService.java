@@ -1,9 +1,11 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
+import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +28,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @Autowired
     private AuthorityService authorityService;
@@ -67,6 +72,29 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
+    public Pharmacist updatePharmacist(Pharmacist pharmacist) {
+        if (pharmacist.getPassword() == null || pharmacist.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(pharmacist.getId()).getPassword();
+            pharmacist.setPassword(currentPassword, false);
+        } else {
+            pharmacist.setPassword(passwordEncoder.encode(pharmacist.getPassword()), true);
+        }
+        pharmacist.setAuthorities(authorityService.findByName("PHARMACIST"));
+        pharmacist.setPharmacy(pharmacyService.getPharmacyForPharmacist(pharmacist.getId()));
+        return userRepository.save(pharmacist);
+    }
+
+    public Dermatologist updateDermatologist(Dermatologist dermatologist) {
+        if (dermatologist.getPassword() == null || dermatologist.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(dermatologist.getId()).getPassword();
+            dermatologist.setPassword(currentPassword, false);
+        } else {
+            dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
+        }
+        dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
+        return userRepository.save(dermatologist);
+    }
+
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
@@ -75,15 +103,26 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
-    public List<Patient> getAllPatients(){
-        List<Patient> patientsForDermatologist = new ArrayList<Patient>();
+    public List<Dermatologist> getAllDermatologists(){
+        List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {
-            if(user instanceof Patient) {
-                Patient patient = (Patient)user;
-                patientsForDermatologist.add(patient);
+            if(user instanceof Dermatologist) {
+                Dermatologist dermatologist = (Dermatologist)user;
+                dermatologists.add(dermatologist);
             }
         }
-        return patientsForDermatologist;
+        return dermatologists;
+    }
+
+    public List<Pharmacist> getAllPharmacists(){
+        List<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
+        for(User user : userRepository.findAll()) {
+            if(user instanceof Pharmacist) {
+                Pharmacist pharmacist = (Pharmacist)user;
+                pharmacists.add(pharmacist);
+            }
+        }
+        return pharmacists;
     }
 
     public Set<Patient> getPatientsForDermatologist(Long dermatologistId){

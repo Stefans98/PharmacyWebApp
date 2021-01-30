@@ -47,13 +47,13 @@ import { AllDermatologistsComponent } from './pharmacy-administrator/all-dermato
 import { AddDermatologistComponent } from './pharmacy-administrator/add-dermatologist/add-dermatologist.component';
 import { AllOrderListsComponent } from './pharmacy-administrator/all-order-lists/all-order-lists.component';
 import { CreateOrderListComponent } from './pharmacy-administrator/create-order-list/create-order-list.component';
-
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { MedicineSpecificationModalDialogComponent } from './dermatologist/dermatologist-start-appointment/medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
+import { PharmaciesModalDialogComponent } from './dermatologist/dermatologist-profile/pharmacies-modal-dialog/pharmacies-modal-dialog.component';
 import { PharmacistAbsenceRequestComponent } from './pharmacist/pharmacist-absence-request/pharmacist-absence-request.component';
 import { PharmacistPatientsComponent } from './pharmacist/pharmacist-patients/pharmacist-patients.component';
 import { PharmacistProfileComponent } from './pharmacist/pharmacist-profile/pharmacist-profile.component';
@@ -62,6 +62,7 @@ import { PharmacistStartAppointmentComponent } from './pharmacist/pharmacist-sta
 import { PharmacistVacationRequestComponent } from './pharmacist/pharmacist-vacation-request/pharmacist-vacation-request.component';
 import { PharmacistWorkCalendarComponent } from './pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistMedicineIssueComponent } from './pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
+import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/pharmacy-modal-dialog/pharmacy-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -104,26 +105,18 @@ import { PharmacistMedicineIssueComponent } from './pharmacist/pharmacist-medici
     AddDermatologistComponent,
     AllOrderListsComponent,
     CreateOrderListComponent,
-
     LoginComponent,
-
     MedicineSpecificationModalDialogComponent,
-
+    PharmaciesModalDialogComponent,
     PharmacistAbsenceRequestComponent,
-
     PharmacistPatientsComponent,
-
     PharmacistProfileComponent,
-
     PharmacistNewAppointmentComponent,
-
     PharmacistStartAppointmentComponent,
-
     PharmacistVacationRequestComponent,
-
     PharmacistWorkCalendarComponent,
-
-    PharmacistMedicineIssueComponent
+    PharmacistMedicineIssueComponent,
+    PharmacyModalDialogComponent
   ],
   imports: [
     BrowserModule,

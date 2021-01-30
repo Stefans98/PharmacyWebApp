@@ -48,8 +48,8 @@ public class Pharmacy {
     private List<Medicine> medicines = new ArrayList<Medicine>();
 
     // ***
-    @OneToOne(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private PharmacyAdministrator pharmacyAdministrator;
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyAdministrator> pharmacyAdministrators = new ArrayList<PharmacyAdministrator>();
 
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WorkDay> workDays = new ArrayList<WorkDay>();
@@ -137,12 +137,12 @@ public class Pharmacy {
         this.medicines = medicines;
     }
 
-    public PharmacyAdministrator getPharmacyAdministrator() {
-        return pharmacyAdministrator;
+    public List<PharmacyAdministrator> getPharmacyAdministrators() {
+        return pharmacyAdministrators;
     }
 
-    public void setPharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator) {
-        this.pharmacyAdministrator = pharmacyAdministrator;
+    public void setPharmacyAdministrators(List<PharmacyAdministrator> pharmacyAdministrators) {
+        this.pharmacyAdministrators = pharmacyAdministrators;
     }
 
     public List<WorkDay> getWorkDays() {
