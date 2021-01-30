@@ -34,6 +34,10 @@ import { AllDermatologistsComponent } from '../pharmacy-administrator/all-dermat
 import { AddDermatologistComponent } from '../pharmacy-administrator/add-dermatologist/add-dermatologist.component';
 import { AllOrderListsComponent } from '../pharmacy-administrator/all-order-lists/all-order-lists.component';
 import { CreateOrderListComponent } from '../pharmacy-administrator/create-order-list/create-order-list.component';
+import { PharmacyRegistrationComponent } from '../system-administrator/pharmacy-registration/pharmacy-registration.component';
+import { DermatologistRegistrationComponent } from '../system-administrator/dermatologist-registration/dermatologist-registration.component';
+import { PharmacyAdministratorRegistrationComponent } from '../system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
+import { SupplierRegistrationComponent } from '../system-administrator/supplier-registration/supplier-registration.component';
 
 import { RouteGuardService } from '../services/users/route-guard.service';
 
@@ -73,7 +77,11 @@ export const appRoutes: Routes = [{
         { path: 'pharmacy-administrator/all-dermatologists', component: AllDermatologistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/add-dermatologist', component: AddDermatologistComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/all-order-lists', component: AllOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
-        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
+        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'system-administrator/pharmacy-registration', component: PharmacyRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/dermatologist-registration', component: DermatologistRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/pharmacy-administrator-registration', component: PharmacyAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} }
     ]
 }];
  

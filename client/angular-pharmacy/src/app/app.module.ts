@@ -53,6 +53,10 @@ import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
+import { DermatologistRegistrationComponent } from './system-administrator/dermatologist-registration/dermatologist-registration.component';
+import { PharmacyRegistrationComponent } from './system-administrator/pharmacy-registration/pharmacy-registration.component';
+import { PharmacyAdministratorRegistrationComponent } from './system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
+import { SupplierRegistrationComponent } from './system-administrator/supplier-registration/supplier-registration.component';
 
 
 @NgModule({
@@ -97,7 +101,15 @@ import { TokenInterceptor } from './services/token.interceptor';
     AllOrderListsComponent,
     CreateOrderListComponent,
 
-    LoginComponent
+    LoginComponent,
+
+    DermatologistRegistrationComponent,
+
+    PharmacyRegistrationComponent,
+
+    PharmacyAdministratorRegistrationComponent,
+
+    SupplierRegistrationComponent
   ],
   imports: [
     BrowserModule,

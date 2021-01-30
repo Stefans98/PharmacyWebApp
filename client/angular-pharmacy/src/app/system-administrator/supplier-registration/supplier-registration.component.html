@@ -1,0 +1,137 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Registracija dobavljača</h3> 
+
+			</div>
+			<mat-divider></mat-divider>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+					<br>
+					<mat-form-field class="example-form-field">
+						<mat-label>Ime</mat-label>
+						<input matInput type="text" [(ngModel)]="firstName" required>
+						<button mat-button *ngIf="firstName" matSuffix mat-icon-button aria-label="Clear" (click)="firstName=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+						<br>
+					<mat-form-field class="example-form-field">
+						<mat-label>Prezime</mat-label>
+						<input matInput type="text" [(ngModel)]="lastName" required>
+						<button mat-button *ngIf="lastName" matSuffix mat-icon-button aria-label="Clear" (click)="lastName=''">
+						<mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+				</div>  
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Email</mat-label>
+						<input matInput type="text" [(ngModel)]="email">
+					  </mat-form-field>
+					  
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+					<mat-form-field class="example-form-field">
+						<mat-label>Telefon</mat-label>
+						<input matInput type="tel" [(ngModel)]="phoneNumber" required>
+						<button mat-button *ngIf="phoneNumber" matSuffix mat-icon-button aria-label="Clear" (click)="phoneNumber=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					  <mat-form-field class="example-form-field">
+						<mat-label>Lozinka</mat-label>
+						<input matInput type="password" [(ngModel)]="password" required>
+						<button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+					<mat-form-field class="example-form-field">
+						<mat-label>Potvrda lozinke</mat-label>
+						<input matInput type="password" [(ngModel)]="repeatPassword">
+						<button mat-button *ngIf="repeatPassword" matSuffix mat-icon-button aria-label="Clear" (click)="repeatPassword=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Ulica</mat-label>
+                        <input matInput type="tel" [(ngModel)]="street" required>
+                        <button mat-button *ngIf="street" matSuffix mat-icon-button aria-label="Clear" (click)="street=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Grad</mat-label>
+                        <input matInput type="tel" [(ngModel)]="city" required>
+                        <button mat-button *ngIf="city" matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>   
+                </div>
+                
+            </div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Država</mat-label>
+                        <input matInput type="tel" [(ngModel)]="country" required>
+                        <button mat-button *ngIf="country" matSuffix mat-icon-button aria-label="Clear" (click)="country=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+    
+                </div>
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+                </div>
+			</div> 
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="primary" (click)="registrationClick()">Potvrdi</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</div>
+

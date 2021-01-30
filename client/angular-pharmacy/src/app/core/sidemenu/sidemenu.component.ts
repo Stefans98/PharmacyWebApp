@@ -3,6 +3,7 @@ import { menus } from './menu-element';
 import { dermatologistMenus } from './menu-element-dermatologist';
 import { patientMenus } from './menu-element-patient';
 import { pharmacyAdministratorMenus } from './menu-element-pharmacy-administrator'; 
+import { systemAdministratorMenus } from './menu-element-system-administrator';
 
 @Component({
   selector: 'cdk-sidemenu',
@@ -18,6 +19,7 @@ export class SidemenuComponent implements OnInit {
     public patientMenus = patientMenus;
     public dermatologistMenus = dermatologistMenus;
     public pharmacyAdministratorMenus = pharmacyAdministratorMenus;
+    public systemAdministratorMenus = systemAdministratorMenus;
 
     
     public userRole : String = '';

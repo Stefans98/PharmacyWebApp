@@ -75,6 +75,26 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
+    public User saveDermatologist(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        Dermatologist dermatologist = new Dermatologist(user);
+        dermatologist.getAddress().setUser(dermatologist);
+        List<Authority> authorities = authorityService.findByName("DERMATOLOGIST");
+        dermatologist.setAuthorities(authorities);
+        return userRepository.save(dermatologist);
+    }
+
+    public User saveSupplier(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        Supplier supplier = new Supplier(user);
+        supplier.getAddress().setUser(supplier);
+        List<Authority> authorities = authorityService.findByName("SUPPLIER");
+        supplier.setAuthorities(authorities);
+        return userRepository.save(supplier);
+    }
+
     public List<Patient> getAllPatients(){
         List<Patient> patientsForDermatologist = new ArrayList<Patient>();
         for(User user : userRepository.findAll()) {

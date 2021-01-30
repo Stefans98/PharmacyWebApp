@@ -50,7 +50,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signupPatient")
-    public ResponseEntity<PatientDto> registerUser(@RequestBody PatientDto patientDto)
+    public ResponseEntity<PatientDto> registerPatient(@RequestBody PatientDto patientDto)
     {
         if (userService.findByEmail(patientDto.getEmail()) != null)
         {

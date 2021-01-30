@@ -16,8 +16,8 @@ public class Pharmacist extends Employee {
     public Pharmacist() {
     }
 
-    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber) {
-        super(email, password, firstName, lastName, phoneNumber);
+    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+        super(email, password, firstName, lastName, phoneNumber, address);
     }
 
     public Pharmacy getPharmacy() {

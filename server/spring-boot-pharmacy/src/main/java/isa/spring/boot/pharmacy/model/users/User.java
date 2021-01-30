@@ -55,12 +55,15 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String email, String password, String firstName, String lastName, String phoneNumber) {
+    public User(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.password = password;
+        Timestamp now = new Timestamp(new Date().getTime());
+        this.setLastPasswordResetDate(now);
     }
 
     public Long getId() {
