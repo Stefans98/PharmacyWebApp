@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       if(tokenPayload['userRole'] == 'PATIENT'){
         this.router.navigate(['/auth/patient/pharmacy/all-pharmacies']);
       } else if(tokenPayload['userRole'] == 'PHARMACIST') {
-        this.router.navigate(['/auth/dermatologist/work-calendar']);
+        this.router.navigate(['/auth/pharmacist/work-calendar']);
       } else if(tokenPayload['userRole'] == 'DERMATOLOGIST') {
         this.router.navigate(['/auth/dermatologist/work-calendar']);
       } else if(tokenPayload['userRole'] == 'SUPPLIER') {
