@@ -38,9 +38,9 @@
                         
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                            <!-- Row shown when there is no matching data. -->
+
                             <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="4">Nema podataka za "{{input.value}}"</td>
+                                <td class="mat-cell" colspan="4">Ne postoje apoteke</td>
                             </tr>
                         </div>             
                     </table>
@@ -58,31 +58,27 @@
             </div>
             <mat-divider></mat-divider>	  
             <div fxLayout="column" fxLayoutGap="30" class="pharmacy-list-container-second" >
-                <mat-form-field class="example-full-width" style="max-width: 200px; padding-top: 20px;padding-left: 100px;">
+                  <mat-form-field class="example-full-width" style="max-width: 200px; padding-top: 20px;padding-left: 100px;">
                     <mat-label>Izberite opseg ocene</mat-label>
-                    <mat-select [ngModel]="selectedGradeRange " (ngModelChange)="onChangeGradeRangeFilter($event)">
+                    <mat-select [ngModel]="selectedGradeRange" (ngModelChange)="onChangeGradeRangeFilter($event)">
                       <mat-option>Ništa od navedenog</mat-option>
-                      <mat-option [value]="grade_range" *ngFor="let grade_range of grade_ranges">{{grade_range}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <!-- <mat-form-field class="example-full-width" style="max-width: 200px; padding-left: 100px;">
-                    <mat-label>Izberite grad</mat-label>
-                    <mat-select [(value)]="selected">
-                      <mat-option>Ništa od navedenog</mat-option>
-                      <mat-option value="grade_from_0_to_1">0 - 1</mat-option>
-                      <mat-option value="grade_from_1_to_2">1 - 2</mat-option>
-                      <mat-option value="grade_from_2_to_3">2 - 3</mat-option>
+                      <mat-option [value]="gradeRange" *ngFor="let gradeRange of gradeRanges">{{gradeRange}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="example-full-width" style="max-width: 200px; padding-left: 100px;">
-                    <mat-label>Izberite mesto</mat-label>
-                    <mat-select [(value)]="selected">
+                    <mat-label>Izberite naziv apoteke</mat-label>
+                    <mat-select [ngModel]="selectedName" (ngModelChange)="onChangeNameFilter($event)">
                       <mat-option>Ništa od navedenog</mat-option>
-                      <mat-option value="grade_from_0_to_1">0 - 1</mat-option>
-                      <mat-option value="grade_from_1_to_2">1 - 2</mat-option>
-                      <mat-option value="grade_from_2_to_3">2 - 3</mat-option>
+                      <mat-option [value]="name" *ngFor="let name of namesWithoutDuplicate">{{name}}</mat-option>
                     </mat-select>
-                  </mat-form-field> -->
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" style="max-width: 200px; padding-left: 100px;">
+                    <mat-label>Izberite grad</mat-label>
+                    <mat-select [ngModel]="selectedCity" (ngModelChange)="onChangeCityFilter($event)">
+                      <mat-option>Ništa od navedenog</mat-option>
+                      <mat-option [value]="city" *ngFor="let city of citiesWithoutDuplicate">{{city}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             
        		
