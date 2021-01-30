@@ -98,7 +98,7 @@ export const patientMenus = [
         ]
     },
     {
-        'name': 'ERecept',
+        'name': 'ERecepti',
         'open': false,
         'link': 'patient/e-prescription',
         'icon': 'receipt',
