@@ -18,8 +18,13 @@ public class Dermatologist extends Employee {
     public Dermatologist() {
     }
 
-    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber) {
-        super(email, password, firstName, lastName, phoneNumber);
+    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+        super(email, password, firstName, lastName, phoneNumber, address);
+    }
+
+    public Dermatologist(User user) {
+        super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
+                user.getAddress());
     }
 
     public List<Pharmacy> getPharmacies() {

@@ -1,19 +1,17 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.UserMapper;
+import isa.spring.boot.pharmacy.model.users.Dermatologist;
+import isa.spring.boot.pharmacy.model.users.Patient;
+import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistPatientDto;
-import isa.spring.boot.pharmacy.dto.users.PatientDto;
-import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
-import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
-import isa.spring.boot.pharmacy.model.users.Dermatologist;
-import isa.spring.boot.pharmacy.model.users.Employee;
-import isa.spring.boot.pharmacy.model.users.Patient;
-import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +27,25 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "api/dermatologists")
+@RequestMapping(value = "/api/dermatologists")
 public class DermatologistController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private PharmacyService pharmacyService;
+    PharmacyService pharmacyService;
+
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
+        if (userService.findByEmail(dermatologistDto.getEmail()) != null) {
+            throw new RuntimeException();
+        }
+        User dermatologist = userService.saveDermatologist(UserMapper.convertToEntity(dermatologistDto, false));
+
+        return new ResponseEntity<>(UserMapper.convertToDto(dermatologist), HttpStatus.CREATED);
+    }
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
@@ -94,4 +103,5 @@ public class DermatologistController {
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
+
 }

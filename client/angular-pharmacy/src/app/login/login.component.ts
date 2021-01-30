@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       } else if(tokenPayload['userRole'] == 'PHARMACY_ADMIN') {
         this.router.navigate(['/auth/pharmacy-administrator/my-pharmacy']);
       } else if(tokenPayload['userRole'] == 'SYSTEM_ADMIN') {
-        this.router.navigate(['/auth/dermatologist/work-calendar']);
+        this.router.navigate(['/auth/system-administrator/pharmacy-registration']);
       } else{
         this.router.navigate(['/login']);
       }

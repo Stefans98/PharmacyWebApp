@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "api/users")
-public class UserController {
+@RequestMapping(value = "api/system-admin")
+public class SystemAdministratorController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACIST','DERMATOLOGIST','SUPPLIER','PHARMACY_ADMIN','SYSTEM_ADMIN')")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user == null){
+    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<UserDto> getSysAdminById(@PathVariable Long id) {
+        User sysAdmin =  userService.findById(id);
+        if (sysAdmin == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(UserMapper.convertToDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(UserMapper.convertToDto(sysAdmin), HttpStatus.OK);
     }
 
 }

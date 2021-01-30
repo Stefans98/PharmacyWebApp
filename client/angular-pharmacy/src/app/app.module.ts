@@ -53,6 +53,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MedicineSpecificationModalDialogComponent } from './dermatologist/dermatologist-start-appointment/medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
+import { DermatologistRegistrationComponent } from './system-administrator/dermatologist-registration/dermatologist-registration.component';
+import { PharmacyRegistrationComponent } from './system-administrator/pharmacy-registration/pharmacy-registration.component';
+import { PharmacyAdministratorRegistrationComponent } from './system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
+import { SupplierRegistrationComponent } from './system-administrator/supplier-registration/supplier-registration.component';
 import { PharmaciesModalDialogComponent } from './dermatologist/dermatologist-profile/pharmacies-modal-dialog/pharmacies-modal-dialog.component';
 import { PharmacistAbsenceRequestComponent } from './pharmacist/pharmacist-absence-request/pharmacist-absence-request.component';
 import { PharmacistPatientsComponent } from './pharmacist/pharmacist-patients/pharmacist-patients.component';
@@ -63,6 +67,7 @@ import { PharmacistVacationRequestComponent } from './pharmacist/pharmacist-vaca
 import { PharmacistWorkCalendarComponent } from './pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistMedicineIssueComponent } from './pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
 import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/pharmacy-modal-dialog/pharmacy-modal-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -105,6 +110,11 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
     AddDermatologistComponent,
     AllOrderListsComponent,
     CreateOrderListComponent,
+    LoginComponent,
+    DermatologistRegistrationComponent,
+    PharmacyRegistrationComponent,
+    PharmacyAdministratorRegistrationComponent,
+    SupplierRegistrationComponent,
     LoginComponent,
     MedicineSpecificationModalDialogComponent,
     PharmaciesModalDialogComponent,
