@@ -60,6 +60,9 @@ public class PatientController {
         for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
             patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
         }
+        if(patientsForDermatologist.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
     }
 }

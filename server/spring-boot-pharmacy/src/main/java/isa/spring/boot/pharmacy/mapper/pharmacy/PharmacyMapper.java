@@ -15,6 +15,7 @@ public class PharmacyMapper {
         pharmacyDto.setStreet(pharmacy.getAddress().getStreet());
         pharmacyDto.setDescription(pharmacy.getDescription());
         pharmacyDto.setAverageGrade(pharmacy.getAverageGrade());
+        pharmacyDto.setAddress(pharmacy.getAddress().getCity() + ", " + pharmacy.getAddress().getStreet());
 
         return pharmacyDto;
     }

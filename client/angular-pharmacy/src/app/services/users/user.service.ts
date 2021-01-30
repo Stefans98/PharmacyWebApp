@@ -7,7 +7,6 @@ import { User } from '../../models/user.model';
   providedIn: 'root'
 })
 
-
 export class UserService {
   private readonly userUrl = 'http://localhost:8081/api/users/'
 
@@ -18,3 +17,4 @@ export class UserService {
       .get<User>(this.userUrl + 'findById/' + id);
   } 
 }
+

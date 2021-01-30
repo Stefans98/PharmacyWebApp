@@ -25,10 +25,17 @@ public class PharmacyController {
     PharmacyService pharmacyService;
 
     @GetMapping(value="/getAllPharmacies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
-    public ResponseEntity<List<Pharmacy>> getAllPharmacies(){
-        List<Pharmacy> pharmacies = pharmacyService.getAllPharmacies();
-        return new ResponseEntity<>(pharmacies, HttpStatus.OK);
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
+    public ResponseEntity<List<PharmacyDto>> getAllPharmacies() {
+        List<PharmacyDto> pharmacyDto = new ArrayList<>();
+        for(Pharmacy pharmacy :  pharmacyService.getAllPharmacies()) {
+            pharmacyDto.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+
+        if (pharmacyDto.isEmpty()) {
+            return new ResponseEntity<>(pharmacyDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmacyByPharmacyAdmin/{pharmacyAdminId}", produces = MediaType.APPLICATION_JSON_VALUE)

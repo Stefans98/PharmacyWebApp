@@ -18,8 +18,13 @@ public class Supplier extends User {
     public Supplier() {
     }
 
-    public Supplier(String email, String password, String firstName, String lastName, String phoneNumber) {
-        super(email, password, firstName, lastName, phoneNumber);
+    public Supplier(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+        super(email, password, firstName, lastName, phoneNumber, address);
+    }
+
+    public Supplier(User user) {
+        super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
+                user.getAddress());
     }
 
     public List<Offer> getOffers() {
