@@ -15,8 +15,9 @@ public class PharmacyAdministrator extends User {
     public PharmacyAdministrator() {
     }
 
-    public PharmacyAdministrator(String email, String password, String firstName, String lastName, String phoneNumber, Pharmacy pharmacy) {
-        super(email, password, firstName, lastName, phoneNumber);
+    public PharmacyAdministrator(String email, String password, String firstName, String lastName, String phoneNumber,
+                                 Address address,Pharmacy pharmacy) {
+        super(email, password, firstName, lastName, phoneNumber, address);
         this.pharmacy = pharmacy;
     }
 

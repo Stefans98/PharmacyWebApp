@@ -11,5 +11,5 @@ export class Patient {
         public points: number,
         public userCategory: number,
         public password: string
-        ) { }
+    ) { }
 }

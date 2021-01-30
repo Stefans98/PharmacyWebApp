@@ -10,7 +10,7 @@
             <cdk-sidemenu-item *ngFor="let menu of patientMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'PHARMACIST'">
-            <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
+            <cdk-sidemenu-item *ngFor="let menu of pharmacistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'DERMATOLOGIST'">
             <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
@@ -22,7 +22,7 @@
             <cdk-sidemenu-item *ngFor="let menu of pharmacyAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'SYSTEM_ADMIN'">
-            <cdk-sidemenu-item *ngFor="let menu of pharmacyAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
+            <cdk-sidemenu-item *ngFor="let menu of systemAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
     </div>   
 </ng-scrollbar>

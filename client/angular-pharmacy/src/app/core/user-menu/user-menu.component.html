@@ -2,7 +2,7 @@
 	<button mat-button (click)="isOpen = !isOpen" class="toolbar-user-btn" [class.open]="isOpen" [ngStyle.xs]="{'min-width': '70px'}">
   		<span fxLayout="row" fxLayoutAlign="start center">
     		<img class="avatar" [src]="currentUser?.photoURL || 'assets/images/nouser.png'">
-    		<span class="name" fxHide fxShow.gt-xs>{{currentUser?.currentUserName}}</span>
+    		<span class="name" fxHide fxShow.gt-xs>{{loggedUserName}}</span>
     		<mat-icon class="icon" fxHide fxShow.gt-xs>keyboard_arrow_down</mat-icon>
   		</span>
   	</button>
@@ -12,7 +12,7 @@
       		<mat-nav-list>
       			<mat-list-item>
 					  <a matLine *ngIf="role == 'PATIENT'" [routerLink]="['/auth/patient/patient-profile']">Moj profil</a>
-					  <a matLine *ngIf="role == 'PHARMACIST'" [routerLink]="['/auth/dermatologist/profile']">Moj profil</a>
+					  <a matLine *ngIf="role == 'PHARMACIST'" [routerLink]="['/auth/pharmacist/profile']">Moj profil</a>
 					  <a matLine *ngIf="role == 'DERMATOLOGIST'" [routerLink]="['/auth/dermatologist/profile']">Moj profil</a>
 					  <a matLine *ngIf="role == 'SUPPLIER'" [routerLink]="['/auth/dermatologist/profile']">Moj profil</a>
 					  <a matLine *ngIf="role == 'PHARMACY_ADMIN'" [routerLink]="['/auth/dermatologist/profile']">Moj profil</a>
