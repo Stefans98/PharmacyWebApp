@@ -123,6 +123,16 @@ public class UserService implements UserDetailsService {
         return userRepository.save(supplier);
     }
 
+    public User savePharmacyAdministrator(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator(user);
+        pharmacyAdministrator.getAddress().setUser(pharmacyAdministrator);
+        List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
+        pharmacyAdministrator.setAuthorities(authorities);
+        return userRepository.save(pharmacyAdministrator);
+    }
+
     public List<Dermatologist> getAllDermatologists(){
         List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {

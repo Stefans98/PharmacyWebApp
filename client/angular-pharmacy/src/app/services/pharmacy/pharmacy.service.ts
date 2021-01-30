@@ -15,6 +15,15 @@ export class PharmacyService{
 
     constructor(private http: HttpClient) { }
 
+    public registerPharmacy(pharmacy: Pharmacy): Observable<Pharmacy> {
+      const body = { name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
+        street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade 
+      };  
+
+      return this.http
+      .post<Pharmacy>(this.pharmacyUrl + 'register', body);
+    }
+
     public getPharmacyByPharmacyAdminId(id: number): Observable<Pharmacy> {
       return this.http
         .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
