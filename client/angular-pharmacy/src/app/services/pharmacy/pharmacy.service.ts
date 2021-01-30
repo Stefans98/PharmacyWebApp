@@ -16,7 +16,12 @@ export class PharmacyService{
     constructor(private http: HttpClient) { }
 
     public getPharmacyByPharmacyAdminId(id: number): Observable<Pharmacy> {
-        return this.http
-          .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
-      } 
+      return this.http
+        .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
+    } 
+
+    public getAllPharmacies(): Observable<Pharmacy[]> {
+      return this.http
+        .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
+    } 
 }
