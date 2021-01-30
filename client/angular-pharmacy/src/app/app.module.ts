@@ -54,6 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MedicineSpecificationModalDialogComponent } from './dermatologist/dermatologist-start-appointment/medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
+import { PharmaciesModalDialogComponent } from './dermatologist/dermatologist-profile/pharmacies-modal-dialog/pharmacies-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,9 @@ import { TokenInterceptor } from './services/token.interceptor';
 
     LoginComponent,
 
-    MedicineSpecificationModalDialogComponent
+    MedicineSpecificationModalDialogComponent,
+
+    PharmaciesModalDialogComponent
   ],
   imports: [
     BrowserModule,

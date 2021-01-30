@@ -67,6 +67,17 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
+    public Dermatologist updateDermatologist(Dermatologist dermatologist) {
+        if (dermatologist.getPassword() == null || dermatologist.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(dermatologist.getId()).getPassword();
+            dermatologist.setPassword(currentPassword, false);
+        } else {
+            dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
+        }
+        dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
+        return userRepository.save(dermatologist);
+    }
+
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
@@ -75,15 +86,15 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
-    public List<Patient> getAllPatients(){
-        List<Patient> patientsForDermatologist = new ArrayList<Patient>();
+    public List<Dermatologist> getAllDermatologists(){
+        List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {
-            if(user instanceof Patient) {
-                Patient patient = (Patient)user;
-                patientsForDermatologist.add(patient);
+            if(user instanceof Dermatologist) {
+                Dermatologist dermatologist = (Dermatologist)user;
+                dermatologists.add(dermatologist);
             }
         }
-        return patientsForDermatologist;
+        return dermatologists;
     }
 
     public Set<Patient> getPatientsForDermatologist(Long dermatologistId){
