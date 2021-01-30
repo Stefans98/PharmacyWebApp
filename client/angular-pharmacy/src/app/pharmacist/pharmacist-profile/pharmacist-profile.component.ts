@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Dermatologist } from '../../models/dermatologist.model';
+import { Pharmacist } from '../../models/pharmacist.model';
 import { AuthenticationService } from '../../services/users/authentication.service';
-import { DermatologistService } from '../../services/users/dermatologist.service';
-import { PharmaciesModalDialogComponent } from './pharmacies-modal-dialog/pharmacies-modal-dialog.component';
+import { PharmacistService } from '../../services/users/pharmacist.service';
+import { PharmacyModalDialogComponent } from './pharmacy-modal-dialog/pharmacy-modal-dialog.component';
 
 @Component({
-  selector: 'app-dermatologist-profile',
-  templateUrl: './dermatologist-profile.component.html',
-  styleUrls: ['./dermatologist-profile.component.scss']
+  selector: 'app-pharmacist-profile',
+  templateUrl: './pharmacist-profile.component.html',
+  styleUrls: ['./pharmacist-profile.component.scss']
 })
-
-export class DermatologistProfileComponent implements OnInit {
+export class PharmacistProfileComponent implements OnInit {
 
   public id : number;
-  public dermatologist: Dermatologist;
+  public pharmacist: Pharmacist;
   public name: string = '';
   public surname: string = '';
   public email: string = '';
@@ -28,7 +26,7 @@ export class DermatologistProfileComponent implements OnInit {
   public street: string = '';
   public country: string = '';
 
-  constructor(private dermatologistService: DermatologistService, private authService : AuthenticationService,
+  constructor(private pharmacistService: PharmacistService, private authService : AuthenticationService,
     private router: Router, private snackBar: MatSnackBar, public dialog: MatDialog) { 
       this.fillData();
   }
@@ -38,23 +36,23 @@ export class DermatologistProfileComponent implements OnInit {
   }
   
   fillData() {
-    this.dermatologistService.getDermatologistById(this.authService.getLoggedUserId()).subscribe(
+    this.pharmacistService.getPharmacistById(this.authService.getLoggedUserId()).subscribe(
       data => {
-        this.dermatologist = data;
-        this.prepareDate(this.dermatologist); 
+        this.pharmacist = data;
+        this.prepareDate(this.pharmacist); 
       }
     );
   }
 
-  prepareDate(dermatologist: Dermatologist) : void {
-    this.id = dermatologist.id;
-    this.name = dermatologist.firstName;
-    this.surname = dermatologist.lastName;
-    this.email = dermatologist.email;
-    this.phoneNumber = dermatologist.phoneNumber;
-    this.city = dermatologist.city;
-    this.street = dermatologist.street;
-    this.country = dermatologist.country;
+  prepareDate(pharmacist: Pharmacist) : void {
+    this.id = pharmacist.id;
+    this.name = pharmacist.firstName;
+    this.surname = pharmacist.lastName;
+    this.email = pharmacist.email;
+    this.phoneNumber = pharmacist.phoneNumber;
+    this.city = pharmacist.city;
+    this.street = pharmacist.street;
+    this.country = pharmacist.country;
   }
 
   cancelClick(): void {
@@ -64,16 +62,16 @@ export class DermatologistProfileComponent implements OnInit {
   saveClick(): void {
     if (this.checkInputData()) {
       if (confirm("Da li ste sigurni da želite da sačuvate izmene?")) {   
-          this.updateDermatologist();
+          this.updatePharmacist();
       }
     }
   }
 
-  updateDermatologist(): void {
-    this.dermatologistService.updateDermatologist(this.id, new Dermatologist(this.dermatologist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password))).subscribe(
+  updatePharmacist(): void {
+    this.pharmacistService.updatePharmacist(this.id, new Pharmacist(this.pharmacist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password))).subscribe(
       data => {
-        this.dermatologist = data;
-        this.prepareDate(this.dermatologist);
+        this.pharmacist = data;
+        this.prepareDate(this.pharmacist);
         this.openSnackBar('Uspešno ste izmenili profil!', 'Zatvori');
         if (this.password.length > 0) {
           this.authService.logout();
@@ -125,10 +123,10 @@ export class DermatologistProfileComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(PharmaciesModalDialogComponent, {
+    this.dialog.open(PharmacyModalDialogComponent, {
       panelClass: 'my-centered-dialog',
-      width: '450px',
-      height: '230px',
+      width: '420px',
+      height: '200px',
       position: {left: '675px'}
     });
   }
