@@ -117,7 +117,7 @@ insert into e_prescription_items (quantity, e_prescription_id, medicine_id) valu
 insert into prescriptions (therapy_day_length, medicine_id, patient_id) values (28, 1, 1);
 
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
-insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
+insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (2, 7);
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (2, 8);
 
 insert into medicine_ingredients (medicine_specification_id, ingredient_id) values (1, 1);

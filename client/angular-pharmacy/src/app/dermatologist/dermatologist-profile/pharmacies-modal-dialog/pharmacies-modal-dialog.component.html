@@ -1,6 +1,6 @@
 <h1 mat-dialog-title class="pharmaies-dialog-titile">Apoteke u kojima radim</h1>
 
-<div mat-dialog-conten *ngFor="let pharmacy of pharmaciesList" [value]="pharmacy" class="pharmaies-dialog">{{pharmacy}}</div>
+<div mat-dialog-conten *ngFor="let pharmacy of pharmaciesList" [value]="pharmacy" class="pharmaies-dialog">{{pharmacy.name}}</div>
 
 <div mat-dialog-actions style="margin-left: 162px;margin-top: 20px;">
   <button mat-button mat-dialog-close>Zatvori</button>

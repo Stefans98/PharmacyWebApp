@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Dermatologist } from '../../models/dermatologist.model';
+import { Pharmacy } from '../../models/pharmacy.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +27,9 @@ export class DermatologistService {
     return this.http
         .put<Dermatologist>(this.dermatologistUrl + 'updateProfile/' + id, body);
   }
+
+  public getPharmaciesForDermatologist(id: number): Observable<Pharmacy[]> {
+    return this.http
+        .get<Pharmacy[]>(this.dermatologistUrl + 'pharmaciesForDermatologist/' + id);
+  } 
 }

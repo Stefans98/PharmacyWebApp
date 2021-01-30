@@ -1,15 +1,20 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistPatientDto;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Employee;
 import isa.spring.boot.pharmacy.model.users.Patient;
+import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
+import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +34,9 @@ public class DermatologistController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
@@ -63,16 +71,27 @@ public class DermatologistController {
         for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
             patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
         }
+        if(patientsForDermatologist.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
     }
 
-    /*@GetMapping(value = "/pharmaciesForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/pharmaciesForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
-    public ResponseEntity<Set<Pharmacy>> getPharmaciesForDermatologist(@PathVariable Long dermatologistId) {
-        Set<DermatologistPatientDto> patientsForDermatologist = new HashSet<DermatologistPatientDto>();
-        for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
-            patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesForDermatologist(@PathVariable Long dermatologistId) {
+        List<PharmacyDto> pharmaciesForDermatologist = new ArrayList<PharmacyDto>();
+        if(pharmacyService.getPharmaciesForDermatologist(dermatologistId) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
-    }*/
+
+        for(Pharmacy pharmacyForDermatologist : pharmacyService.getPharmaciesForDermatologist(dermatologistId)) {
+            pharmaciesForDermatologist.add(PharmacyMapper.convertToDto(pharmacyForDermatologist));
+        }
+        if(pharmaciesForDermatologist.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
+    }
 }
