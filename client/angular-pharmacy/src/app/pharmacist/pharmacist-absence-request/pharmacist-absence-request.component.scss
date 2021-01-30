@@ -1,0 +1,50 @@
+.contact-list-container {
+	background-color: white;
+    padding: 10px;
+    height: 320px;
+    overflow: auto;
+
+	.contact-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	.contact-list-header {
+		background-color: #eee;
+		padding: 10px;
+		div {
+			margin: auto;
+		}
+		
+	}
+}
+.contact-add {
+		padding: 10px;
+		background: white;
+		.avatar {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+		}
+		h3 {
+			margin: auto;
+		}
+	}
+
+.example-form-field {
+    margin: 10px 8px 16px 0px;
+}

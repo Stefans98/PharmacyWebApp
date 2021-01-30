@@ -12,6 +12,7 @@ public class UserDto {
     private String street;
     private String password;
 
+
     public UserDto() {
     }
 
@@ -99,4 +100,5 @@ public class UserDto {
     public void setStreet(String street) {
         this.street = street;
     }
+
 }

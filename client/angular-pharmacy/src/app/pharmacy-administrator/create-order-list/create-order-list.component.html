@@ -1,1 +1,65 @@
-<p>create-order-list works!</p>
+<div class="create-order-list">
+    <mat-card class="create-order-list-card">
+        <mat-card-header>
+            <mat-card-title>Nova narudžbenica</mat-card-title>
+        </mat-card-header>
+        <div class="create-order-list-table mat-elevation-z8">
+            <table class="co-table">
+                <tr>
+                    <th>Kod</th>
+                    <th>Naziv</th>
+                    <th>Kolicina</th>
+                    <th>Ukloni</th>
+                </tr>
+                <tr *ngFor="let med of newMedicineList" [value]="med" style="height: 10px;">
+                    <td> {{ med.code }} </td>
+                    <td> {{ med.name }} </td>
+                    <td> 
+                        <mat-form-field style="width: 70px;">
+                            <input matInput type="number" style="width: 70px;">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <button mat-raised-button color="warn" style="margin-left: 10%;">
+                            Ukloni
+                        </button>
+                    </td>
+                </tr>  
+            </table>
+            </div>
+    </mat-card>
+</div>
+
+<div class="all-medicines">
+    <mat-card class="create-order-list-card">
+        <mat-card-header>
+            <mat-card-title>Lekovi</mat-card-title>
+        </mat-card-header>
+        <div class="create-order-list-table mat-elevation-z8">
+            <table>
+                
+                <tr>
+                    <th>Kod</th>
+                    <th>Naziv</th>
+                    <th>Kolicina</th>
+                    <th>Ukloni</th>
+                </tr>
+                <tr *ngFor="let med of medicineList" [value]="med" style="height: 10px;">
+                    <td> {{ med.code }} </td>
+                    <td> {{ med.name }} </td>
+                    <td> 
+                        <mat-form-field style="width: 70px;">
+                            <input matInput type="number" style="width: 70px;">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <button mat-raised-button color="warn" style="margin-left: 10%;" (click)="addMedicine(med)">
+                            Ukloni
+                        </button>
+                    </td>
+                </tr>  
+                
+            </table>
+            </div>
+    </mat-card>
+</div>

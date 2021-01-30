@@ -7,7 +7,7 @@ import { User } from "../../models/user.model";
     providedIn: 'root'
   })
   export class SupplierService {
-    private readonly supplierUrl = 'http://localhost:8081/api/supplier/'
+    private readonly supplierUrl = 'http://localhost:8081/api/suppliers/'
   
     constructor(private http: HttpClient) { }
   

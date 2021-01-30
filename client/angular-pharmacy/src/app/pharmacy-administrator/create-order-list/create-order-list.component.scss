@@ -1,0 +1,40 @@
+.create-order-list{
+    height: 600px;
+    width: 550px;
+    float: left;
+    margin-top: 2%;
+    margin-left: 5%;
+}
+
+.create-order-list-table{
+    height: 500px;
+    overflow:auto;
+}
+
+.all-medicines{
+    height: 600px;
+    width: 550px;
+    float: right;
+    overflow:auto;
+    margin-top: 2%;
+    margin-right: 5%;
+}
+
+.create-order-list-card{
+    height: 540px;
+}
+
+table{
+    width: 100%;
+}
+
+table tr th{
+    text-align: center; 
+}
+
+table td{
+    text-align: center; 
+}
+table tr{
+    height: 50px;
+}

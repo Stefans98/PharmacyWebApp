@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/supplier")
+@RequestMapping(value = "/api/suppliers")
 public class SupplierController {
 
     @Autowired

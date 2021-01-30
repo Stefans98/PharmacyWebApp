@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "api/users")
 public class UserController {
@@ -24,19 +21,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<List<UserDto>> getUsers() {
-        List<UserDto> usersDto = new ArrayList<UserDto>();
-        for(User user : userService.findAll()) {
-            usersDto.add(UserMapper.convertToDto(user));
-        }
-        return new ResponseEntity<>(usersDto, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACIST','DERMATOLOGIST','SUPPLIER'," +
-                    "'PHARMACY_ADMIN','SYSTEM_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACIST','DERMATOLOGIST','SUPPLIER','PHARMACY_ADMIN','SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         User user = userService.findById(id);
         if (user == null){
