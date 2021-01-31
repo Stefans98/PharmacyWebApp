@@ -23,13 +23,13 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
   } 
 
-  public reserveMedicine(medicineReservation: MedicineReservation): Observable<MedicineReservation> {
+  public reserveMedicine(medicineReservation: MedicineReservation): Observable<void> {
     const body = { id: medicineReservation.id, finalPurchasingDate: medicineReservation.finalPurchasingDate,
       isCanceled: medicineReservation.isCanceled, medicineId: medicineReservation.medicineId,
       pharmacyId: medicineReservation.pharmacyId, patientId: medicineReservation.patientId };  
 
     return this.http
-      .post<MedicineReservation>(this.medicineUrl + 'reserveMedicine', body);
+      .post<void>(this.medicineUrl + 'reserveMedicine', body);
   }
 
   public getAllReservedMedicinesByPatientId(patientId: number): Observable<MedicineReservation[]> {

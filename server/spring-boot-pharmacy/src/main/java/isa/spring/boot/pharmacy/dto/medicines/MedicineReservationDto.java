@@ -13,6 +13,7 @@ public class MedicineReservationDto {
     private Long patientId;
     private MedicineDto medicine;
     private PharmacyDto pharmacy;
+    private double medicinePrice;
 
     public MedicineReservationDto() {
     }
@@ -79,5 +80,13 @@ public class MedicineReservationDto {
 
     public void setPharmacy(PharmacyDto pharmacy) {
         this.pharmacy = pharmacy;
+    }
+
+    public double getMedicinePrice() {
+        return medicinePrice;
+    }
+
+    public void setMedicinePrice(double medicinePrice) {
+        this.medicinePrice = medicinePrice;
     }
 }

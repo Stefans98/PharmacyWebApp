@@ -69,10 +69,10 @@ public class MedicineController {
 
     @PostMapping (value = "/reserveMedicine", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<MedicineReservationDto> reserveMedicine(@RequestBody MedicineReservationDto medicineReservationDto) {
+    public ResponseEntity<Void> reserveMedicine(@RequestBody MedicineReservationDto medicineReservationDto) {
         MedicineReservation medicineReservation = medicineReservationService.reserveMedicine(MedicineReservationMapper.convertToEntity(medicineReservationDto),
                 medicineReservationDto.getMedicineId(), medicineReservationDto.getPharmacyId(), medicineReservationDto.getPatientId());
-        return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/getAllReservedMedicinesByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,7 +80,8 @@ public class MedicineController {
     public ResponseEntity<List<MedicineReservationDto>> getAllReservedMedicinesByPatientId(@PathVariable Long patientId) {
         List<MedicineReservationDto> medicineReservationDto = new ArrayList<>();
         for(MedicineReservation medicineReservation : medicineReservationService.getAllReservedMedicinesByPatientId(patientId)) {
-            medicineReservationDto.add(MedicineReservationMapper.convertToDto(medicineReservation));
+            medicineReservationDto.add(MedicineReservationMapper.convertToDto(medicineReservation,
+                    pharmacyService.getMedicinePriceFromPharmacy(medicineReservation.getMedicine().getId(), medicineReservation.getPharmacy().getId())));
         }
 
         if (medicineReservationDto.isEmpty()) {

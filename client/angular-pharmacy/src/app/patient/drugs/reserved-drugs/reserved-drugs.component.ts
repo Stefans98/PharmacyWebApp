@@ -46,4 +46,12 @@ export class ReservedDrugsComponent implements OnInit {
     });
   }
 
+  convertDate(milliseconds : number): string {
+    let d = new Date(milliseconds);
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1;
+    let day = d.getDate(); 
+    return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+  }
+
 }

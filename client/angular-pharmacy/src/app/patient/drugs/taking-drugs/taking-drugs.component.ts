@@ -91,7 +91,7 @@ export class TakingDrugsComponent implements OnInit {
   }
 
   reserveMedicineClick() : void {
-    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId(), null, null)) 
+    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId(), null, null, 0.0)) 
       .subscribe( data => {
         this.router.navigate(['/auth/patient/drugs/reserved-drugs']);
         this.openSnackBar('Lek je uspešno rezervisan!', 'Zatvori');

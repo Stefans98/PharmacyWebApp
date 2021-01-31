@@ -10,6 +10,7 @@ export class MedicineReservation {
         public pharmacyId: number,
         public patientId: number,
         public pharmacy: Pharmacy,
-        public medicine: Medicine
+        public medicine: Medicine,
+        public medicinePrice : number
     ) { }
 }

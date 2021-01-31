@@ -25,17 +25,17 @@
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef> Cena </th>
-                <td mat-cell *matCellDef="let element"> {{element.medicineId}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.medicinePrice}} RSD </td>
             </ng-container>
 
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell *matHeaderCellDef> Mesto kupovine (apoteka) </th>
-                <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}}, {{element.pharmacy.city}} </td>
             </ng-container>
 
             <ng-container matColumnDef="final_purchasing_date">
             <th mat-header-cell *matHeaderCellDef> Datum najkasnijeg preuzimanja </th>
-            <td mat-cell *matCellDef="let element"> {{element.finalPurchasingDate}} </td>
+            <td mat-cell *matCellDef="let element"> {{convertDate(element.finalPurchasingDate)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="canceling">

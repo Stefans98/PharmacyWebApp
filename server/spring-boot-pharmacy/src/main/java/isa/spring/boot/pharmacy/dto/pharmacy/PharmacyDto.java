@@ -14,9 +14,10 @@ public class PharmacyDto {
     public PharmacyDto() {
     }
 
-    public PharmacyDto(Long id, String name) {
+    public PharmacyDto(Long id, String name, String city) {
         this.id = id;
         this.name = name;
+        this.city = city;
     }
 
     public Long getId() {
