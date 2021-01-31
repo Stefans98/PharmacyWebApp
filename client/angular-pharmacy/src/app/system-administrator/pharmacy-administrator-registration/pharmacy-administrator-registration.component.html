@@ -121,7 +121,22 @@
                 </div>
                 <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
                 </div>
-			</div> 
+			</div>
+			
+			<div fxFlex="70"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+                <div fxFlex="10" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Apoteka</mat-label>
+                        <input matInput type="text" [(ngModel)]="pharmacyName" required disabled>
+                        <button mat-button *ngIf="pharmacyName" matSuffix mat-icon-button aria-label="Clear" (click)="pharmacyName=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+				</div>
+				<div fxFlex="55" fxLayout="column" fxLayoutAlign="center start" >
+					<button mat-raised-button color="basic" (click)="selectPharmacyClick()">Izaberi apoteku</button>
+                </div>
+            </div>
 			
 			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >

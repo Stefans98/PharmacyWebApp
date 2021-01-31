@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Pharmacy } from '../../models/pharmacy.model';
 import { User } from '../../models/user.model';
+import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { PharmacyAdministratorService } from '../../services/users/pharmacy-administrator.service';
+import { SysAdminPharmaciesModalDialogComponent } from './pharmacies-modal-dialog/pharmacies-modal-dialog.component';
 
 @Component({
   selector: 'app-pharmacy-administrator-registration',
@@ -20,8 +24,11 @@ export class PharmacyAdministratorRegistrationComponent implements OnInit {
   public city: string;
   public street: string;
   public country: string;
+  public pharmacy: Pharmacy;
+  public pharmacyName: string;
 
-  constructor(private pharmacyAdministatorService : PharmacyAdministratorService, private snackBar : MatSnackBar) { }
+  constructor(private pharmacyAdministatorService : PharmacyAdministratorService, private pharmacyService : PharmacyService,
+                private snackBar : MatSnackBar, private dialog : MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -35,12 +42,29 @@ export class PharmacyAdministratorRegistrationComponent implements OnInit {
        return;
     }
     this.pharmacyAdministatorService.registerPharmacyAdministrator(new User(0, this.firstName, this.lastName, this.city, this.country,
-      this.street, this.email, this.phoneNumber, this.password)).subscribe(user => {
-        this.snackBar.open('Dermatolog je uspešno registrovan!', null, { 
+      this.street, this.email, this.phoneNumber, this.password), this.pharmacy.id).subscribe(user => {
+        this.snackBar.open('Administrator apoteke je uspešno registrovan!', null, { 
           duration : 3000, 
           verticalPosition: 'top'
          });
       })
+  }
+
+  selectPharmacyClick() : void {
+    const dialogRef = this.dialog.open(SysAdminPharmaciesModalDialogComponent, {
+      panelClass: 'my-centered-dialog',
+      width: '550px',
+      height: '350px',
+      position: {left: '675px'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined)
+      {
+        this.pharmacy = result.pharmacy;
+        this.pharmacyName = this.pharmacy.name;
+      }
+    });
   }
 
   checkPasswordMatch() : boolean {

@@ -68,7 +68,7 @@
             <div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
                 <mat-form-field class="example-form-field" style="width: 66.5%;">
                     <mat-label>Opis apoteke</mat-label>
-                    <textarea matInput [(ngModel)]="description" rows="5" required></textarea>
+                    <textarea matInput [(ngModel)]="description" rows="5"></textarea>
                     <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''">
                         <mat-icon>close</mat-icon>
                     </button>

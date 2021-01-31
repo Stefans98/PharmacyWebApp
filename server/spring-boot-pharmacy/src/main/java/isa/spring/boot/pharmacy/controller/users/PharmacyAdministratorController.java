@@ -1,6 +1,8 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.PharmacyAdministratorDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.PharmacyAdministratorMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.service.users.UserService;
@@ -23,13 +25,14 @@ public class PharmacyAdministratorController {
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
-    public ResponseEntity<UserDto> registerSupplier(@RequestBody UserDto pharmacyAdministratorDto)
+    public ResponseEntity<UserDto> registerSupplier(@RequestBody PharmacyAdministratorDto pharmacyAdministratorDto)
     {
         if (userService.findByEmail(pharmacyAdministratorDto.getEmail()) != null)
         {
             throw new RuntimeException();
         }
-        User pharmacyAdministrator = userService.savePharmacyAdministrator(UserMapper.convertToEntity(pharmacyAdministratorDto, false));
+        User pharmacyAdministrator = userService.savePharmacyAdministrator(PharmacyAdministratorMapper.convertToEntity(pharmacyAdministratorDto, false)
+                    , pharmacyAdministratorDto.getPharmacyId());
 
         return new ResponseEntity<>(UserMapper.convertToDto(pharmacyAdministrator), HttpStatus.CREATED);
     }

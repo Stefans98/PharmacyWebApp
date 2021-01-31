@@ -51,5 +51,7 @@ public class PharmacyService {
         return null;
     }
 
-
+    public Pharmacy getPharmacyById(Long pharmacyId) {
+        return  pharmacyRepository.getOne(pharmacyId);
+    }
 }

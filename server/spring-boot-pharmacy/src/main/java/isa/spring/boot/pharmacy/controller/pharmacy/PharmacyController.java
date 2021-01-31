@@ -34,7 +34,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getAllPharmacies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<PharmacyDto>> getAllPharmacies() {
         List<PharmacyDto> pharmacyDto = new ArrayList<>();
         for(Pharmacy pharmacy :  pharmacyService.getAllPharmacies()) {

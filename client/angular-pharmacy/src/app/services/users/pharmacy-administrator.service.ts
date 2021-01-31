@@ -12,9 +12,9 @@ import { User } from "../../models/user.model";
     constructor(private http: HttpClient) { }
   
   
-    public registerPharmacyAdministrator(user : User): Observable<User> {
+    public registerPharmacyAdministrator(user : User, pharmacyId : number): Observable<User> {
         const body = { firstName: user.firstName, lastName: user.lastName, city: user.city, country: user.country,
-          street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber
+          street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber, pharmacyId : pharmacyId
         };  
     
         return this.http
