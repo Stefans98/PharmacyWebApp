@@ -23,6 +23,7 @@ export class TakingDrugsComponent implements OnInit {
   searchedMedicine: string = '';
   medicines: Medicine[] = [];
   pharmaciesWhichContainMedicine: Pharmacy[] = [];
+  medicinePrice: DoubleRange;
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -84,6 +85,8 @@ export class TakingDrugsComponent implements OnInit {
   thirdNextButtonClicked() : void {
     if (!this.thirdFormGroup.valid) {
       this.openSnackBar('Morate izabrati datum!', 'Zatvori');
+    } else {
+      this.getMedicinePrice(this.medicineId, this.pharmacyId);
     }
   }
 
@@ -130,6 +133,17 @@ export class TakingDrugsComponent implements OnInit {
         }
       }
     );
+  }
+
+  getMedicinePrice(medicineId: number, pharmacyId: number) {
+    this.medicineService.getMedicinePrice(medicineId.toString(), pharmacyId.toString()).subscribe(
+      data => {
+        this.medicinePrice = data;
+      },
+      error => {
+        this.openSnackBar('Cena trenutno nije dostupna', 'Zatvori');
+      }
+    )
   }
 
   openSnackBar(message: string, action: string) {

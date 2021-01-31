@@ -25,6 +25,9 @@ public class PharmacyService {
     @Autowired
     private MedicineService medicineService;
 
+    @Autowired
+    private MedicinePriceService medicinePriceService;
+
     public List<Pharmacy> getAllPharmacies(){
         return pharmacyRepository.findAll();
     }
@@ -61,5 +64,13 @@ public class PharmacyService {
         return null;
     }
 
-
+    public double getMedicinePriceFromPharmacy(Long medicineId, Long pharmacyId) {
+        Pharmacy pharmacy = findById(pharmacyId);
+        for (Medicine medicine : pharmacy.getMedicines()) {
+            if (medicine.getId() == medicineId) {
+                return medicinePriceService.getMedicinePriceByMedicineId(medicineId);
+            }
+        }
+        return 0.0;
+    }
 }

@@ -2,15 +2,16 @@ package isa.spring.boot.pharmacy.controller.medicines;
 
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
-import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
-import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.users.User;
+import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
+import isa.spring.boot.pharmacy.service.pharmacy.MedicinePriceService;
+import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @Autowired
+    private PharmacyService pharmacyService;
+
+    @Autowired
     private MedicineReservationService medicineReservationService;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,14 +49,25 @@ public class MedicineController {
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> findMedicinesBy(@PathVariable String name) {
         List<MedicineDto> medicineDto = new ArrayList<>();
-        for(Medicine medicine : medicineService.findMedicinesBy(name)) {
+        for (Medicine medicine : medicineService.findMedicinesBy(name)) {
             medicineDto.add(MedicineMapper.convertToDto(medicine));
         }
 
-        if(medicineDto.isEmpty()){
+        if (medicineDto.isEmpty()){
             return new ResponseEntity<>(medicineDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicinePrice/medicinePrice", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<Double> getMedicinePriceFromPharmacy(@RequestParam String medicineId, @RequestParam String pharmacyId){
+        double medicinePrice = pharmacyService.getMedicinePriceFromPharmacy(Long.parseLong(medicineId), Long.parseLong(pharmacyId));
+        if (medicinePrice == 0.0) {
+            return new ResponseEntity<>(medicinePrice, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicinePrice, HttpStatus.OK);
     }
 
     @PostMapping (value = "/reserveMedicine", produces = MediaType.APPLICATION_JSON_VALUE)

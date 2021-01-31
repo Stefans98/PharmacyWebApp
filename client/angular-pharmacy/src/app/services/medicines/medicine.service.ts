@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Medicine } from '../../models/medicine.model';
@@ -29,6 +29,16 @@ export class MedicineService {
       pharmacyId: medicineReservation.pharmacyId, patientId: medicineReservation.patientId };  
 
     return this.http
-    .post<MedicineReservation>(this.medicineUrl + 'reserveMedicine', body);
+      .post<MedicineReservation>(this.medicineUrl + 'reserveMedicine', body);
+  }
+
+  public getMedicinePrice(medicineId: string, pharmacyId: string): Observable<DoubleRange> {
+    
+    let params = new HttpParams()
+      .set('medicineId', medicineId)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.
+      get(this.medicineUrl + 'getMedicinePrice/medicinePrice', { params } );
   }
 }

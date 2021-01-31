@@ -67,12 +67,12 @@ insert into price_lists (id) values (2);
 insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (1000, 0, '2021-01-29', '2021-03-29', 1);
 insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (2500, 1, '2021-02-22', '2021-05-15', 2);
 
-insert into medicine_prices (price, start_time, end_time, pricelist_id) values (2340.24, '2021-03-02', '2021-06-12', 2);
-insert into medicine_prices (price, start_time, end_time, pricelist_id) values (520.45, '2021-07-12', '2021-08-19', 2);
-
 insert into medicine_specifications (contraindication, daily_dose) values ('mucnina', 2);
 
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'lek protiv bolova', 6, 'Hemofarm', 1);
+
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (2340.24, '2021-03-02', '2021-06-12', 2, 1);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (520.45, '2021-07-12', '2021-08-19', 2, 1);
 
 insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
