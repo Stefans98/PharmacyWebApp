@@ -29,6 +29,10 @@ public class PharmacyService {
         return pharmacyRepository.findAll();
     }
 
+    public Pharmacy findById(long id) {
+        return pharmacyRepository.findById(id);
+    }
+
     public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId){
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministratorId);
         return pharmacyAdministrator.getPharmacy();

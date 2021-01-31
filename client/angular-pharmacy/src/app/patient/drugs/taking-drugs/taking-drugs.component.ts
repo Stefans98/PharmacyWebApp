@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Medicine } from '../../../models/medicine.model';
+import { MedicineReservation } from '../../../models/medicineReservation.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
 import { MedicineService } from '../../../services/medicines/medicine.service';
 import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
+import { AuthenticationService } from '../../../services/users/authentication.service';
 
 @Component({
   selector: 'app-taking-drugs',
@@ -16,6 +18,8 @@ import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 export class TakingDrugsComponent implements OnInit {
   maxDate: Date;
   medicineId: number;
+  pharmacyId: number;
+  chosenDate: Date;
   searchedMedicine: string = '';
   medicines: Medicine[] = [];
   pharmaciesWhichContainMedicine: Pharmacy[] = [];
@@ -32,8 +36,8 @@ export class TakingDrugsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   
-  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, 
-    private medicineService: MedicineService, private pharmacyService: PharmacyService ) {}
+  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private authenticationService: AuthenticationService,
+    private medicineService: MedicineService, private pharmacyService: PharmacyService, public router: Router ) {}
 
   ngOnInit() {
     this.maxDate = new Date();
@@ -47,15 +51,20 @@ export class TakingDrugsComponent implements OnInit {
     this.thirdFormGroup = this._formBuilder.group({
         thirdCtrl: ['', Validators.required]
     });
+    this.fourthFormGroup = this._formBuilder.group({
+    });
   }
 
-  onChange(change: MatSelectionListChange) {
-      //console.log(change.option.value, change.option.selected);
-      
+  onChangePharmacy(pharmacyId)  {
+    this.pharmacyId = pharmacyId[0];
   }
 
   onChangeMedicine(medicine) {
     this.medicineId = medicine[0];
+  }
+
+  onDateChange(chosenDate) {
+    this.chosenDate = chosenDate;
   }
 
   firstNextButtonClicked() : void {
@@ -76,6 +85,18 @@ export class TakingDrugsComponent implements OnInit {
     if (!this.thirdFormGroup.valid) {
       this.openSnackBar('Morate izabrati datum!', 'Zatvori');
     }
+  }
+
+  reserveMedicineClick() : void {
+    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId())) 
+      .subscribe( data => {
+        this.router.navigate(['/auth/patient/drugs/reserved-drugs']);
+        this.openSnackBar('Lek je uspešno rezervisan!', 'Zatvori');
+      },
+      error => {
+        this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori');
+      }); 
+    
   }
   
   findMedicine() : void {
@@ -111,7 +132,6 @@ export class TakingDrugsComponent implements OnInit {
     );
   }
 
-  
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,

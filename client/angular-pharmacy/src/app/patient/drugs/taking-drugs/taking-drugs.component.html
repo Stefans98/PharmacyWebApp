@@ -1,7 +1,7 @@
 <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear"  
   style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 620px;">
 
-  <mat-step [stepControl]="firstFormGroup">
+  <mat-step [stepControl]="firstFormGroup"  *ngIf="firstFormGroup">
     <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Pretraga leka</ng-template>
         <div class="parent">
@@ -23,14 +23,14 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
+  <mat-step [stepControl]="secondFormGroup" *ngIf="secondFormGroup">
     <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Izaberite apoteku</ng-template>
         <div class="parent">
             <h4 style="padding-top: 20px;">Selektujete apoteku iz koje rezervišete lek:</h4>
-            <mat-selection-list (selectionChange)="onChange($event)" class="searched-medicine" [multiple]="false"  formControlName="secondCtrl" required>    
-                <mat-list-option  *ngFor="let pharmacy of pharmaciesWhichContainMedicine"  [value]="pharmacy" >
-                    {{pharmacy.name}}
+            <mat-selection-list (ngModelChange)="onChangePharmacy($event)" class="searched-medicine" [multiple]="false"  formControlName="secondCtrl" required>    
+                <mat-list-option  *ngFor="let pharmacy of pharmaciesWhichContainMedicine"  [value]="pharmacy.id" >
+                    {{pharmacy.name}}, {{pharmacy.city}}
                 </mat-list-option>
             </mat-selection-list>
         </div>
@@ -40,14 +40,14 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup">
+  <mat-step [stepControl]="thirdFormGroup" *ngIf="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Datum preuzimanja</ng-template>
         <div class="parent">
             <h4 style="padding-top: 20px;">Izaberite datum preuzimanja leka:</h4>
             <mat-form-field color="accent" appearance="fill">
                 <mat-label>Datum preuzimanja</mat-label>
-                <input matInput [matDatepicker]="picker"  [min]="maxDate"  formControlName="thirdCtrl" required>
+                <input matInput [matDatepicker]="picker"  [min]="maxDate"  formControlName="thirdCtrl" required (dateInput)="onDateChange($event.value)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker color="primary"></mat-datepicker>
               </mat-form-field>
@@ -58,7 +58,7 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="fourthFormGroup">
+  <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
     <form [formGroup]="fourthFormGroup">
         <ng-template matStepLabel>Kraj rezervacije</ng-template>
         <div class="parent">
@@ -67,7 +67,7 @@
         </div>
 
         <button mat-raised-button color="warn" matStepperPrevious class="button-position-fourth-form-back">Nazad</button>
-        <button mat-raised-button color="primary" matStepperNext class="button-position-fourth-form-next">Rezerviši</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-fourth-form-next" (click)="reserveMedicineClick()">Rezerviši</button>
     </form>
   </mat-step>
 

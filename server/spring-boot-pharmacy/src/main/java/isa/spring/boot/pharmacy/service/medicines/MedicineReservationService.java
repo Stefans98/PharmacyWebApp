@@ -1,26 +1,22 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
-import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Patient;
-import isa.spring.boot.pharmacy.repository.medicines.MedicineRepository;
+import isa.spring.boot.pharmacy.repository.medicines.MedicineReservationRepository;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
-public class MedicineService {
+public class MedicineReservationService {
 
     @Autowired
-    private MedicineRepository medicineRepository;
+    private MedicineReservationRepository medicineReservationRepository;
 
     @Autowired
     private UserService userService;
@@ -28,21 +24,13 @@ public class MedicineService {
     @Autowired
     private PharmacyService pharmacyService;
 
-    public List<Medicine> findAll() {
-        return medicineRepository.findAll();
-    }
+    @Autowired
+    private MedicineService medicineService;
 
-    public Medicine findById(long id) {
-        return medicineRepository.findById(id);
-    }
-
-    public List<Medicine> findMedicinesBy(String name) {
-        List<Medicine> medicines = new ArrayList<>();
-        for(Medicine medicine : findAll()) {
-            if (medicine.getName().toLowerCase().startsWith(name)) {
-                medicines.add(medicine);
-            }
-        }
-        return medicines;
+    public MedicineReservation reserveMedicine(MedicineReservation medicineReservation, Long medicineId, Long pharmacyId, Long patientId) {
+        medicineReservation.setMedicine(medicineService.findById(medicineId));
+        medicineReservation.setPharmacy(pharmacyService.findById(pharmacyId));
+        medicineReservation.setPatient((Patient)userService.findById(patientId));
+        return medicineReservationRepository.save(medicineReservation);
     }
 }
