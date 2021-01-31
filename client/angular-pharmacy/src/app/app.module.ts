@@ -58,6 +58,7 @@ import { PharmacyRegistrationComponent } from './system-administrator/pharmacy-r
 import { PharmacyAdministratorRegistrationComponent } from './system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
 import { SupplierRegistrationComponent } from './system-administrator/supplier-registration/supplier-registration.component';
 import { PharmaciesModalDialogComponent } from './dermatologist/dermatologist-profile/pharmacies-modal-dialog/pharmacies-modal-dialog.component';
+import { SysAdminPharmaciesModalDialogComponent } from './system-administrator/pharmacy-administrator-registration/pharmacies-modal-dialog/pharmacies-modal-dialog.component';
 import { PharmacistAbsenceRequestComponent } from './pharmacist/pharmacist-absence-request/pharmacist-absence-request.component';
 import { PharmacistPatientsComponent } from './pharmacist/pharmacist-patients/pharmacist-patients.component';
 import { PharmacistProfileComponent } from './pharmacist/pharmacist-profile/pharmacist-profile.component';
@@ -67,6 +68,9 @@ import { PharmacistVacationRequestComponent } from './pharmacist/pharmacist-vaca
 import { PharmacistWorkCalendarComponent } from './pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistMedicineIssueComponent } from './pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
 import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/pharmacy-modal-dialog/pharmacy-modal-dialog.component';
+import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
+import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -126,7 +130,10 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
     PharmacistVacationRequestComponent,
     PharmacistWorkCalendarComponent,
     PharmacistMedicineIssueComponent,
-    PharmacyModalDialogComponent
+    PharmacyModalDialogComponent,
+    LoyaltyProgramComponent,
+    SystemAdministratorRegistrationComponent,
+    SysAdminPharmaciesModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -138,7 +145,8 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
   providers: [
     {
