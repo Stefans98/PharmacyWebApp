@@ -50,6 +50,8 @@ import { PharmacistAbsenceRequestComponent } from '../pharmacist/pharmacist-abse
 import { PharmacistVacationRequestComponent } from '../pharmacist/pharmacist-vacation-request/pharmacist-vacation-request.component';
 import { PharmacistProfileComponent } from '../pharmacist/pharmacist-profile/pharmacist-profile.component';
 import { PharmacistMedicineIssueComponent } from '../pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
+import { MedicineOrderListsComponent } from '../supplier/medicine-order-lists/medicine-order-lists.component';
+import { MyOffersComponent } from '../supplier/my-offers/my-offers.component';
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
@@ -102,7 +104,9 @@ export const appRoutes: Routes = [{
         { path: 'system-administrator/system-administrator-registration', component: SystemAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/complaints', component:  SystemAdministratorComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
-        { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} }
+        { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} }
     ]
 }];
  
