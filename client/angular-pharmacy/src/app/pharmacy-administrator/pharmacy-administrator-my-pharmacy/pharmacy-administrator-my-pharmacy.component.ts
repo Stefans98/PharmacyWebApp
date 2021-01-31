@@ -10,8 +10,8 @@ import { AuthenticationService } from '../../services/users/authentication.servi
   styleUrls: ['./pharmacy-administrator-my-pharmacy.component.scss']
 })
 export class PharmacyAdministratorMyPharmacyComponent implements OnInit {
-  public medicineList: Medicine[] = [{code: '123', name: 'Brufen'},
-                                     {code: '321', name: 'Nimulid'}];
+  public medicineList: Medicine[] = [{id: 1, code: '123', name: 'Brufen'},
+                                     {id: 2, code: '321', name: 'Nimulid'}];
 
   public pharmacy: Pharmacy;
   public id: number;

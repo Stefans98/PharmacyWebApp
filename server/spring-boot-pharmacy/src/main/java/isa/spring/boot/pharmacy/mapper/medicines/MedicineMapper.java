@@ -7,6 +7,7 @@ public class MedicineMapper {
 
     public static MedicineDto convertToDto(Medicine medicine) {
         MedicineDto dto = new MedicineDto();
+        dto.setId(medicine.getId());
         dto.setName(medicine.getName());
         dto.setCode(medicine.getCode());
         return dto;
