@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Medicine } from '../../../models/medicine.model';
+import { Pharmacy } from '../../../models/pharmacy.model';
+import { MedicineService } from '../../../services/medicines/medicine.service';
+import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 
 @Component({
   selector: 'app-taking-drugs',
@@ -10,8 +14,13 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
   styleUrls: ['./taking-drugs.component.scss']
 })
 export class TakingDrugsComponent implements OnInit {
+  maxDate: Date;
+  medicineId: number;
+  searchedMedicine: string = '';
+  medicines: Medicine[] = [];
+  pharmaciesWhichContainMedicine: Pharmacy[] = [];
 
-  maxDate : Date;
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
   isLinear = true;
@@ -19,12 +28,12 @@ export class TakingDrugsComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
-  patients: string[] = ['Petar Petrovic', 'Jovan Jovic','Petar Petrovic', 'Jovan Jovic','Petar Petrovic', 'Jovan Jovic','Petar Petrovic', 'Jovan Jovic','Petar Petrovic', 'Jovan Jovic','Petar Petrovic', 'Jovan Jovic',];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   
-  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, ) {}
+  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, 
+    private medicineService: MedicineService, private pharmacyService: PharmacyService ) {}
 
   ngOnInit() {
     this.maxDate = new Date();
@@ -41,12 +50,19 @@ export class TakingDrugsComponent implements OnInit {
   }
 
   onChange(change: MatSelectionListChange) {
-      console.log(change.option.value, change.option.selected);
+      //console.log(change.option.value, change.option.selected);
+      
+  }
+
+  onChangeMedicine(medicine) {
+    this.medicineId = medicine[0];
   }
 
   firstNextButtonClicked() : void {
     if (!this.firstFormGroup.valid) {
       this.openSnackBar('Morate selektovati lek!', 'Zatvori');
+    } else {
+      this.getPharmaciesByMedicineId(this.medicineId);
     }
   }
 
@@ -61,6 +77,40 @@ export class TakingDrugsComponent implements OnInit {
       this.openSnackBar('Morate izabrati datum!', 'Zatvori');
     }
   }
+  
+  findMedicine() : void {
+    this.medicines = [];
+    this.searchedMedicine = this.searchInput.nativeElement.value
+    if (this.searchedMedicine === ''){
+      this.openSnackBar('Morate uneti parametar pretrage!', 'Zatvori');
+    } else {
+      this.medicineService.findMedicinesBy(this.searchedMedicine.toLowerCase()).subscribe(
+        data => {
+          this.medicines = data;
+        },
+        error => {
+          if (error.status == 404){
+            this.openSnackBar('Ne postoji lek za uneti parametar pretrage!', 'Zatvori');
+          }
+        }
+      );
+    }
+  }
+
+  getPharmaciesByMedicineId(id: number) : void {
+    this.pharmaciesWhichContainMedicine = [];
+    this.pharmacyService.getPharmaciesByMedicineId(id).subscribe(
+      data => {
+        this.pharmaciesWhichContainMedicine = data;
+      },
+      error => {
+        if (error.status == 404){
+          this.openSnackBar('Ne postoje apoteke koje sadrže selektovani lek!', 'Zatvori');
+        }
+      }
+    );
+  }
+
   
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {

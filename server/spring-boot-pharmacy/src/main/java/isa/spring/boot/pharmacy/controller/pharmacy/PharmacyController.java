@@ -38,6 +38,20 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
     }
 
+    @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesByMedicineId(@PathVariable Long medicineId){
+        List<PharmacyDto> pharmacyDto = new ArrayList<>();
+        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesByMedicineId(medicineId)) {
+            pharmacyDto.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+
+        if (pharmacyDto.isEmpty()) {
+            return new ResponseEntity<>(pharmacyDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
     @GetMapping(value="/getPharmacyByPharmacyAdmin/{pharmacyAdminId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
     public ResponseEntity<PharmacyDto> getPharmacyByPharmacyAdmin(@PathVariable Long pharmacyAdminId){

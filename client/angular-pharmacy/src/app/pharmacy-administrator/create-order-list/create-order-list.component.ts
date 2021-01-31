@@ -12,8 +12,8 @@ import { MedicineService } from '../../services/medicines/medicine.service';
 
 export class CreateOrderListComponent implements OnInit {
   medicines = new FormControl();
-  public medicineList: Medicine[] = [{code: '123', name: 'Brufen'},
-                                     {code: '321', name: 'Nimulid'}];
+  public medicineList: Medicine[] = [{id: 1, code: '123', name: 'Brufen'},
+                                     {id: 2, code: '321', name: 'Nimulid'}];
   public newMedicineList: Medicine[] = [];
   //public medicineList: Medicine[] = [];
 

@@ -1,10 +1,12 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
+import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
+import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +22,21 @@ public class PharmacyService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MedicineService medicineService;
+
     public List<Pharmacy> getAllPharmacies(){
         return pharmacyRepository.findAll();
     }
 
-    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministartorId){
-        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministartorId);
+    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId){
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministratorId);
         return pharmacyAdministrator.getPharmacy();
+    }
+
+    public List<Pharmacy> getPharmaciesByMedicineId(Long medicineId){
+        Medicine medicine = medicineService.findById(medicineId);
+        return medicine.getPharmacies();
     }
 
     public Pharmacy getPharmacyForPharmacist(Long pharmacistId) {

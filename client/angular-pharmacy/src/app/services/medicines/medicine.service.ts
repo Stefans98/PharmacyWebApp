@@ -16,4 +16,9 @@ export class MedicineService {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
+
+  public findMedicinesBy(name: string): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
+  } 
 }

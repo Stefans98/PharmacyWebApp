@@ -6,15 +6,15 @@
         <ng-template matStepLabel>Pretraga leka</ng-template>
         <div class="parent">
             <mat-form-field style="text-align:center;width: 300px;">
-                <input matInput placeholder="Pronađite lek">
+                <input matInput placeholder="Pronađite lek" #searchInput>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-stroked-button color="primary" style="margin-left:8px">Pronađi</button>
+            <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findMedicine()">Pronađi</button>
             
-            <h4 style="padding-top: 20px;">Selektujete jedan od pretraženih lekova:</h4>
-            <mat-selection-list (selectionChange)="onChange($event)" class="searched-medicine" [multiple]="false" formControlName="firstCtrl" required> 
-                <mat-list-option  *ngFor="let patient of patients"  [value]="patient" >
-                {{patient}}
+            <h4 style="padding-top: 20px;">Selektujete jedan od ponuđenih lekova:</h4>
+            <mat-selection-list (ngModelChange)="onChangeMedicine($event)" class="searched-medicine" [multiple]="false" formControlName="firstCtrl" required> 
+                <mat-list-option  *ngFor="let medicine of medicines"  [value]="medicine.id">
+                {{medicine.name}}
                 </mat-list-option>
             </mat-selection-list>
         </div>
@@ -29,8 +29,8 @@
         <div class="parent">
             <h4 style="padding-top: 20px;">Selektujete apoteku iz koje rezervišete lek:</h4>
             <mat-selection-list (selectionChange)="onChange($event)" class="searched-medicine" [multiple]="false"  formControlName="secondCtrl" required>    
-                <mat-list-option  *ngFor="let patient of patients"  [value]="patient" >
-                    {{patient}}
+                <mat-list-option  *ngFor="let pharmacy of pharmaciesWhichContainMedicine"  [value]="pharmacy" >
+                    {{pharmacy.name}}
                 </mat-list-option>
             </mat-selection-list>
         </div>
