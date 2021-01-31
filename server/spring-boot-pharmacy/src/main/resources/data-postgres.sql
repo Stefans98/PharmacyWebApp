@@ -126,3 +126,8 @@ insert into medicine_substitutions (medicine_specification_id, medicine_id) valu
 
 insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 1);
 
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 7, 1);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 9, 1);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (1, '2021-03-02', '2021-03-04', 7, 2);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (1, '2021-03-02', '2021-03-04', 9, 2);
+

@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
+import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class PharmacyService {
 
     public List<Pharmacy> getAllPharmacies(){
         return pharmacyRepository.findAll();
+    }
+
+    public Pharmacy findById(long id) {
+        return pharmacyRepository.findById(id);
     }
 
     public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministartorId){

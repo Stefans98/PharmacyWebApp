@@ -9,31 +9,6 @@ import { AppointmentService } from '../../services/schedule/appointment.service'
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { DermatologistService } from '../../services/users/dermatologist.service';
 
-export interface PeriodicElement {
-  name: string;
-  surname: string;
-  email: string;
-  phoneNumber: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Aca', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Jovin', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Milan', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-  {name: 'Petar', surname: 'Petrović', email: 'petar@gmail.com', phoneNumber: '+38160710082'},
-];
-
 @Component({
   selector: 'app-dermatologist-patients',
   templateUrl: './dermatologist-patients.component.html',
