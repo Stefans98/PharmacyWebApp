@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.dto.medicines;
 
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+
 import java.util.Date;
 
 public class MedicineReservationDto {
@@ -9,6 +11,8 @@ public class MedicineReservationDto {
     private Long medicineId;
     private Long pharmacyId;
     private Long patientId;
+    private MedicineDto medicine;
+    private PharmacyDto pharmacy;
 
     public MedicineReservationDto() {
     }
@@ -59,5 +63,21 @@ public class MedicineReservationDto {
 
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
+    }
+
+    public MedicineDto getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(MedicineDto medicine) {
+        this.medicine = medicine;
+    }
+
+    public PharmacyDto getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(PharmacyDto pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }

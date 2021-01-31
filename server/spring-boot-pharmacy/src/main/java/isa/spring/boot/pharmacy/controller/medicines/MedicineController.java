@@ -6,11 +6,8 @@ import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
-import isa.spring.boot.pharmacy.service.pharmacy.MedicinePriceService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -76,5 +73,19 @@ public class MedicineController {
         MedicineReservation medicineReservation = medicineReservationService.reserveMedicine(MedicineReservationMapper.convertToEntity(medicineReservationDto),
                 medicineReservationDto.getMedicineId(), medicineReservationDto.getPharmacyId(), medicineReservationDto.getPatientId());
         return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllReservedMedicinesByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineReservationDto>> getAllReservedMedicinesByPatientId(@PathVariable Long patientId) {
+        List<MedicineReservationDto> medicineReservationDto = new ArrayList<>();
+        for(MedicineReservation medicineReservation : medicineReservationService.getAllReservedMedicinesByPatientId(patientId)) {
+            medicineReservationDto.add(MedicineReservationMapper.convertToDto(medicineReservation));
+        }
+
+        if (medicineReservationDto.isEmpty()) {
+            return new ResponseEntity<>(medicineReservationDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicineReservationDto, HttpStatus.OK);
     }
 }

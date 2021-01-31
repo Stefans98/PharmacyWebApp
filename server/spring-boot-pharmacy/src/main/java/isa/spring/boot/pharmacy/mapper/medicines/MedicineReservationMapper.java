@@ -1,10 +1,12 @@
 package isa.spring.boot.pharmacy.mapper.medicines;
 
+import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
-import isa.spring.boot.pharmacy.model.medicines.Medicine;
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
-import isa.spring.boot.pharmacy.model.users.Patient;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class MedicineReservationMapper {
 
@@ -22,6 +24,10 @@ public class MedicineReservationMapper {
         medicineReservationDto.setMedicineId(medicineReservation.getMedicine().getId());
         medicineReservationDto.setPatientId(medicineReservation.getPatient().getId());
         medicineReservationDto.setPharmacyId(medicineReservation.getPharmacy().getId());
+        medicineReservationDto.setPharmacy(new PharmacyDto(medicineReservationDto.getId(),
+                medicineReservation.getPharmacy().getName()));
+        medicineReservationDto.setMedicine(new MedicineDto(medicineReservationDto.getId(),
+                medicineReservation.getMedicine().getName(), medicineReservation.getMedicine().getManufacturer()));
         return medicineReservationDto;
     }
 }

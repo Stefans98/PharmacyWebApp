@@ -70,7 +70,7 @@ export class TakingDrugsComponent implements OnInit {
 
   firstNextButtonClicked() : void {
     if (!this.firstFormGroup.valid) {
-      this.openSnackBar('Morate selektovati lek!', 'Zatvori');
+      this.openSnackBar('Morate pretražiti i zatim selektovati jedan od ponuđenih lekova!', 'Zatvori');
     } else {
       this.getPharmaciesByMedicineId(this.medicineId);
     }
@@ -91,7 +91,7 @@ export class TakingDrugsComponent implements OnInit {
   }
 
   reserveMedicineClick() : void {
-    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId())) 
+    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId(), null, null)) 
       .subscribe( data => {
         this.router.navigate(['/auth/patient/drugs/reserved-drugs']);
         this.openSnackBar('Lek je uspešno rezervisan!', 'Zatvori');
@@ -141,14 +141,14 @@ export class TakingDrugsComponent implements OnInit {
         this.medicinePrice = data;
       },
       error => {
-        this.openSnackBar('Cena trenutno nije dostupna', 'Zatvori');
+        this.openSnackBar('Cena trenutno nije dostupna!', 'Zatvori');
       }
     )
   }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 2500,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });

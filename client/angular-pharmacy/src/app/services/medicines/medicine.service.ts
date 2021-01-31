@@ -32,6 +32,11 @@ export class MedicineService {
       .post<MedicineReservation>(this.medicineUrl + 'reserveMedicine', body);
   }
 
+  public getAllReservedMedicinesByPatientId(patientId: number): Observable<MedicineReservation[]> {
+    return this.http
+      .get<MedicineReservation[]>(this.medicineUrl + 'getAllReservedMedicinesByPatientId/' + patientId);
+  }  
+
   public getMedicinePrice(medicineId: string, pharmacyId: string): Observable<DoubleRange> {
     
     let params = new HttpParams()
