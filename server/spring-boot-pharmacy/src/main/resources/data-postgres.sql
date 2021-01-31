@@ -71,8 +71,18 @@ insert into medicine_prices (price, start_time, end_time, pricelist_id) values (
 insert into medicine_prices (price, start_time, end_time, pricelist_id) values (520.45, '2021-07-12', '2021-08-19', 2);
 
 insert into medicine_specifications (contraindication, daily_dose) values ('mucnina', 2);
+insert into medicine_specifications (contraindication, daily_dose) values ('neprijatan osećaj ili bol u stomaku', 1);
+insert into medicine_specifications (contraindication, daily_dose) values ('alergijske reakcije u vidu svraba i ospe po koži, otoka lica, usana', 3);
+insert into medicine_specifications (contraindication, daily_dose) values ('bol u stomaku', 4);
+insert into medicine_specifications (contraindication, daily_dose) values ('naglo oticanje šaka, stopala i članaka nogu', 1);
+insert into medicine_specifications (contraindication, daily_dose) values ('sedacija(umirenje), umor, pospanost, loša kontrola pokreta, konfuzija', 1);
 
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'lek protiv bolova', 6, 'Hemofarm', 1);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Nimulid', 'L124', 'lek protiv bolova', 4, 'Medik', 2);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Amoksicilin', 'L125', 'primenjuje se u terapiji infekcija gornjih partija respiratornog trakta', 7, 'Hemofarm', 3);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Diklofenak', 'L126', 'ublažava bol, smanjuje otok i zapaljenje u zglobovima, mišićima i tetivama', 2, 'PHARMASWISS', 4);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'koristi za lečenje teškog oblika anksioznosti', 3, 'Hemofarm', 5);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'koriste se za kratkotrajno lečenje stanja psihičke napetosti, uznemirenosti, nervoze ili nesanice', 3, 'Hemofarm', 6);
 
 insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
