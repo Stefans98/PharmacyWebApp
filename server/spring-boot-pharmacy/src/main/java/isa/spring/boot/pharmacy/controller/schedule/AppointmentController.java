@@ -1,7 +1,7 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
-import isa.spring.boot.pharmacy.dto.schedule.ExaminationHistoryDto;
-import isa.spring.boot.pharmacy.mapper.schedule.ExaminationHistoryMapper;
+import isa.spring.boot.pharmacy.dto.schedule.ExaminationDto;
+import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,13 @@ public class AppointmentController {
 
     @GetMapping(value = "/getExaminationsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
-    public ResponseEntity<List<ExaminationHistoryDto>> getExaminationsHistoryForPatient(@PathVariable Long patientId) {
-        List<ExaminationHistoryDto> examinationsHistory = new ArrayList<ExaminationHistoryDto>();
+    public ResponseEntity<List<ExaminationDto>> getExaminationsHistoryForPatient(@PathVariable Long patientId) {
+        List<ExaminationDto> examinationsHistory = new ArrayList<ExaminationDto>();
         for(Appointment appointment : appointmentService.getExaminationsHistoryForPatient(patientId)) {
-            examinationsHistory.add(ExaminationHistoryMapper.convertToDto(appointment));
+            examinationsHistory.add(ExaminationMapper.convertToDto(appointment));
+        }
+        if(examinationsHistory.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(examinationsHistory, HttpStatus.OK);
     }
