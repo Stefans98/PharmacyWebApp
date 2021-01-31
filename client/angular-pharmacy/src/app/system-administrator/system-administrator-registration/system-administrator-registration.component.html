@@ -6,19 +6,77 @@
 
 			<div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
 					
-				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Registracija apoteke</h3> 
+				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Registracija administratora sistema</h3> 
 
 			</div>
 			<mat-divider></mat-divider>
 
 			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
 
-				<div fxFlex="0" fxLayout="column" fxLayoutAlign="center start" >
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
 					<br>
-					<mat-form-field class="example-form-field" style="width: 66.5%;">
-						<mat-label>Naziv apoteke</mat-label>
-						<input matInput type="text" [(ngModel)]="name" required>
-						<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+					<mat-form-field class="example-form-field">
+						<mat-label>Ime</mat-label>
+						<input matInput type="text" [(ngModel)]="firstName" required>
+						<button mat-button *ngIf="firstName" matSuffix mat-icon-button aria-label="Clear" (click)="firstName=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+						<br>
+					<mat-form-field class="example-form-field">
+						<mat-label>Prezime</mat-label>
+						<input matInput type="text" [(ngModel)]="lastName" required>
+						<button mat-button *ngIf="lastName" matSuffix mat-icon-button aria-label="Clear" (click)="lastName=''">
+						<mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+				</div>  
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					<mat-form-field class="example-form-field">
+						<mat-label>Email</mat-label>
+						<input matInput type="text" [(ngModel)]="email">
+					  </mat-form-field>
+					  
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+					<mat-form-field class="example-form-field">
+						<mat-label>Telefon</mat-label>
+						<input matInput type="tel" [(ngModel)]="phoneNumber" required>
+						<button mat-button *ngIf="phoneNumber" matSuffix mat-icon-button aria-label="Clear" (click)="phoneNumber=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+				<div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+
+					  <mat-form-field class="example-form-field">
+						<mat-label>Lozinka</mat-label>
+						<input matInput type="password" [(ngModel)]="password" required>
+						<button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+
+				</div>
+
+				<div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+					<mat-form-field class="example-form-field">
+						<mat-label>Potvrda lozinke</mat-label>
+						<input matInput type="password" [(ngModel)]="repeatPassword" required>
+						<button mat-button *ngIf="repeatPassword" matSuffix mat-icon-button aria-label="Clear" (click)="repeatPassword=''">
 						  <mat-icon>close</mat-icon>
 						</button>
 					  </mat-form-field>
@@ -65,15 +123,6 @@
                 </div>
             </div> 
             
-            <div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
-                <mat-form-field class="example-form-field" style="width: 66.5%;">
-                    <mat-label>Opis apoteke</mat-label>
-                    <textarea matInput [(ngModel)]="description" rows="5"></textarea>
-                    <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
-			</div> 
 			
 			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
@@ -86,3 +135,5 @@
 	</div>
 	
 </div>
+
+

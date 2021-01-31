@@ -37,8 +37,10 @@ import { CreateOrderListComponent } from '../pharmacy-administrator/create-order
 import { PharmacyRegistrationComponent } from '../system-administrator/pharmacy-registration/pharmacy-registration.component';
 import { DermatologistRegistrationComponent } from '../system-administrator/dermatologist-registration/dermatologist-registration.component';
 import { PharmacyAdministratorRegistrationComponent } from '../system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
+import { SystemAdministratorRegistrationComponent } from '../system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { SupplierRegistrationComponent } from '../system-administrator/supplier-registration/supplier-registration.component';
-
+import { LoyaltyProgramComponent } from '../system-administrator/loyalty-program/loyalty-program.component';
+import { SystemAdministratorComplaintsComponent } from '../system-administrator/complaints/complaints.component';
 import { RouteGuardService } from '../services/users/route-guard.service';
 import { PharmacistWorkCalendarComponent } from '../pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistPatientsComponent } from '../pharmacist/pharmacist-patients/pharmacist-patients.component';
@@ -97,7 +99,10 @@ export const appRoutes: Routes = [{
         { path: 'system-administrator/pharmacy-registration', component: PharmacyRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/dermatologist-registration', component: DermatologistRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/pharmacy-administrator-registration', component: PharmacyAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
-        { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} }
+        { path: 'system-administrator/system-administrator-registration', component: SystemAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/complaints', component:  SystemAdministratorComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} }
     ]
 }];
  

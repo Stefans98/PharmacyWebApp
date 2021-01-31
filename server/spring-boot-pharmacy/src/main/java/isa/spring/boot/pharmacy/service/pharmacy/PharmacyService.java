@@ -24,6 +24,10 @@ public class PharmacyService {
         return pharmacyRepository.findAll();
     }
 
+    public Pharmacy savePharmacy(Pharmacy pharmacy) {
+        return pharmacyRepository.save(pharmacy);
+    }
+
     public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministartorId){
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministartorId);
         return pharmacyAdministrator.getPharmacy();
@@ -47,5 +51,7 @@ public class PharmacyService {
         return null;
     }
 
-
+    public Pharmacy getPharmacyById(Long pharmacyId) {
+        return  pharmacyRepository.getOne(pharmacyId);
+    }
 }
