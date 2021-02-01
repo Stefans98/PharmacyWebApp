@@ -6,6 +6,8 @@ import isa.spring.boot.pharmacy.repository.medicines.MedicineOrderListRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MedicineOrderListService {
 
@@ -17,5 +19,9 @@ public class MedicineOrderListService {
 
     public MedicineOrderList createMedicineOrderList(MedicineOrderList medicineOrderList){
         return medicineOrderListRepository.save(medicineOrderList);
+    }
+
+    public List<MedicineOrderList> getAll() {
+        return medicineOrderListRepository.findAll();
     }
 }

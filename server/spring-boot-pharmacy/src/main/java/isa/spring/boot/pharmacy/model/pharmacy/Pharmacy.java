@@ -1,6 +1,7 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
+import isa.spring.boot.pharmacy.model.medicines.MedicineOrderList;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -59,6 +60,9 @@ public class Pharmacy {
 
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineReservation> medicineReservations;
+
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineOrderList> medicineOrderLists;
 
     public Pharmacy() {
     }
@@ -167,5 +171,13 @@ public class Pharmacy {
 
     public void setMedicineReservations(List<MedicineReservation> medicineReservations) {
         this.medicineReservations = medicineReservations;
+    }
+
+    public List<MedicineOrderList> getMedicineOrderLists() {
+        return medicineOrderLists;
+    }
+
+    public void setMedicineOrderLists(List<MedicineOrderList> medicineOrderLists) {
+        this.medicineOrderLists = medicineOrderLists;
     }
 }

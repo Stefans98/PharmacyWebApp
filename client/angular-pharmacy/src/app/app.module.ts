@@ -73,6 +73,7 @@ import { SystemAdministratorRegistrationComponent } from './system-administrator
 import { MatTableModule } from '@angular/material/table';
 import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
+import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 
 
 @NgModule({
@@ -137,7 +138,8 @@ import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
     SystemAdministratorRegistrationComponent,
     SysAdminPharmaciesModalDialogComponent,
     MedicineOrderListsComponent,
-    MyOffersComponent
+    MyOffersComponent,
+    SupplierProfileComponent
   ],
   imports: [
     BrowserModule,

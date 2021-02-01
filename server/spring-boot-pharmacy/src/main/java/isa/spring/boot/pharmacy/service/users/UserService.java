@@ -95,6 +95,21 @@ public class UserService implements UserDetailsService {
         return userRepository.save(dermatologist);
     }
 
+    public Supplier updateSupplier(User user) {
+        Supplier supplier = new Supplier(user);
+        if (supplier.getPassword() == null || supplier.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(supplier.getId()).getPassword();
+            supplier.setPassword(currentPassword, false);
+        } else {
+            supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
+        }
+        supplier.setId(user.getId());
+        supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
+        supplier.getAddress().setUser(supplier);
+        return userRepository.save(supplier);
+
+    }
+
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
@@ -174,4 +189,8 @@ public class UserService implements UserDetailsService {
         return patientsForDermatologist;
     }
 
+    public boolean checkIfAddressesMatch(Address first, Address second) {
+        return first.getStreet().equals(second.getStreet()) && first.getCity().equals(second.getCity())
+                    && first.getCountry().equals(second.getCountry());
+    }
 }
