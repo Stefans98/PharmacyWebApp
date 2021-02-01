@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Pharmacy } from '../../models/pharmacy.model';
+import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 
 @Component({
   selector: 'app-pharmacy-registration',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PharmacyRegistrationComponent implements OnInit {
 
-  constructor() { }
+  public id : number;
+  public name: string;
+  public city: string;
+  public street: string;
+  public country: string;
+  public description: string;
+
+  constructor(private pharmacyService : PharmacyService, private snackBar : MatSnackBar) { }
 
   ngOnInit(): void {
+  }
+
+  registrationClick() : void {
+    this.pharmacyService.registerPharmacy(new Pharmacy(0, this.name, this.city, this.country,
+      this.street, this.description, 0, null)).subscribe(user => {
+        this.snackBar.open('Apoteka je uspešno registrovana!', null, { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
+      })
   }
 
 }

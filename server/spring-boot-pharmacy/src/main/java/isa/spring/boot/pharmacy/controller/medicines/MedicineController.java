@@ -33,7 +33,7 @@ public class MedicineController {
     private MedicineReservationService medicineReservationService;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {

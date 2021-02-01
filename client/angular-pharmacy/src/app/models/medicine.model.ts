@@ -1,8 +1,8 @@
 export class Medicine {
     constructor(
+        public id: number,
         public name: string,
         public code: string,
-        public id: number,
         public manufacturer: string
     ) { }
 }

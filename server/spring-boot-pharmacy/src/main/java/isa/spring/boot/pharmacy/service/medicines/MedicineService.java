@@ -1,15 +1,10 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
-import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
-import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
-import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
-import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.MedicineRepository;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

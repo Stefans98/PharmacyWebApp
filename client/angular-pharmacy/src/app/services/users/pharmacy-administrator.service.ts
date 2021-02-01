@@ -6,18 +6,18 @@ import { User } from "../../models/user.model";
 @Injectable({
     providedIn: 'root'
   })
-  export class SupplierService {
-    private readonly supplierUrl = 'http://localhost:8081/api/suppliers/'
+  export class PharmacyAdministratorService {
+    private readonly pharmacyAdministratorUrl = 'http://localhost:8081/api/pharmacy-admins/'
   
     constructor(private http: HttpClient) { }
   
   
-    public registerSupplier(user : User): Observable<User> {
+    public registerPharmacyAdministrator(user : User, pharmacyId : number): Observable<User> {
         const body = { firstName: user.firstName, lastName: user.lastName, city: user.city, country: user.country,
-          street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber
+          street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber, pharmacyId : pharmacyId
         };  
     
         return this.http
-        .post<User>(this.supplierUrl + 'register', body);
+        .post<User>(this.pharmacyAdministratorUrl + 'register', body);
       }
   }

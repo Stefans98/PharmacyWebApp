@@ -36,9 +36,13 @@ public class PharmacyService {
         return pharmacyRepository.findById(id);
     }
 
-    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId){
-        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministratorId);
+    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId) {
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) userService.findById(pharmacyAdministratorId);
         return pharmacyAdministrator.getPharmacy();
+    }
+
+    public Pharmacy savePharmacy(Pharmacy pharmacy) {
+        return pharmacyRepository.save(pharmacy);
     }
 
     public List<Pharmacy> getPharmaciesByMedicineId(Long medicineId){
