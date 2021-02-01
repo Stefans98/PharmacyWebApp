@@ -36,7 +36,7 @@ public class DermatologistController {
     @Autowired
     PharmacyService pharmacyService;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
         if (userService.findByEmail(dermatologistDto.getEmail()) != null) {

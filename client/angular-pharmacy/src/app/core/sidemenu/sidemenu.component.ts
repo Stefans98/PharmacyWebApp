@@ -4,6 +4,7 @@ import { dermatologistMenus } from './menu-element-dermatologist';
 import { patientMenus } from './menu-element-patient';
 import { pharmacistMenus } from './menu-element-pharmacist';
 import { pharmacyAdministratorMenus } from './menu-element-pharmacy-administrator'; 
+import { supplierMenus } from './menu-element-supplier';
 import { systemAdministratorMenus } from './menu-element-system-administrator';
 
 @Component({
@@ -22,6 +23,7 @@ export class SidemenuComponent implements OnInit {
     public dermatologistMenus = dermatologistMenus;
     public pharmacyAdministratorMenus = pharmacyAdministratorMenus;
     public systemAdministratorMenus = systemAdministratorMenus;
+    public supplierMenus = supplierMenus;
 
     public userRole : String = '';
 

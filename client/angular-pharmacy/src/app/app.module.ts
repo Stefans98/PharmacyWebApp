@@ -71,6 +71,9 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
 import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
+import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
+import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
+import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 
 
 @NgModule({
@@ -133,7 +136,10 @@ import { MatTableModule } from '@angular/material/table';
     PharmacyModalDialogComponent,
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
-    SysAdminPharmaciesModalDialogComponent
+    SysAdminPharmaciesModalDialogComponent,
+    MedicineOrderListsComponent,
+    MyOffersComponent,
+    SupplierProfileComponent
   ],
   imports: [
     BrowserModule,

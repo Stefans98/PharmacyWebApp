@@ -9,7 +9,7 @@ import { MedicineOrderList } from "../../models/medicine-order-list.model";
 
 @Injectable()
 export class MedicineOrderListService {
-  private readonly authUrl = 'http://localhost:8081/api/medicineOrderLists/';
+  private readonly medicineOrderListUrl = 'http://localhost:8081/api/medicineOrderLists/';
 
   public medicineOrderList :MedicineOrderList;
   
@@ -17,6 +17,10 @@ export class MedicineOrderListService {
 
   public createMedicineOrderList(medicineOrderList: MedicineOrderList): Observable<MedicineOrderList> {
     const body = { finalOfferDate: medicineOrderList.finalOfferDate, orderItems: medicineOrderList.orderItems};  
-    return this.http.post<any>(this.authUrl + 'createMedicineOrderList', body);
+    return this.http.post<any>(this.medicineOrderListUrl + 'createMedicineOrderList', body);
+  }
+
+  public getAllMedicineOrderLists() : Observable<MedicineOrderList[]> {
+    return this.http.get<MedicineOrderList[]>(this.medicineOrderListUrl + 'all');
   }
 }
