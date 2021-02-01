@@ -1,11 +1,8 @@
 package isa.spring.boot.pharmacy.controller.pharmacy;
 
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
-import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
-import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
-import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +35,20 @@ public class PharmacyController {
     public ResponseEntity<List<PharmacyDto>> getAllPharmacies() {
         List<PharmacyDto> pharmacyDto = new ArrayList<>();
         for(Pharmacy pharmacy :  pharmacyService.getAllPharmacies()) {
+            pharmacyDto.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+
+        if (pharmacyDto.isEmpty()) {
+            return new ResponseEntity<>(pharmacyDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesByMedicineId(@PathVariable Long medicineId){
+        List<PharmacyDto> pharmacyDto = new ArrayList<>();
+        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesByMedicineId(medicineId)) {
             pharmacyDto.add(PharmacyMapper.convertToDto(pharmacy));
         }
 

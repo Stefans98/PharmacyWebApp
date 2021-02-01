@@ -28,8 +28,8 @@ export class PharmacistService {
         .put<Pharmacist>(this.pharmacistUrl + 'updateProfile/' + id, body);
   }
 
-  public getPharmacyForPharmacist(id: number): Observable<Pharmacy> {
+  public getPharmacyForPharmacist(pharmacistId: number): Observable<Pharmacy> {
     return this.http
-        .get<Pharmacy>(this.pharmacistUrl + 'pharmacyForPharmacist/' + id);
+        .get<Pharmacy>(this.pharmacistUrl + 'pharmacyForPharmacist/' + pharmacistId);
   } 
 }

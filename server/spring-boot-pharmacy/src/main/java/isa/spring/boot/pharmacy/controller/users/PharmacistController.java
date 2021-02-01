@@ -3,9 +3,6 @@ package isa.spring.boot.pharmacy.controller.users;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.*;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
-import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
-import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
-import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -17,11 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/pharmacists")

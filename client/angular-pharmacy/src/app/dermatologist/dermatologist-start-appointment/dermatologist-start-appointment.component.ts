@@ -96,6 +96,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       height: '220px',
       position: {left: '650px'}
     });
+
   }
 
 }
