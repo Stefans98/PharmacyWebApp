@@ -1,6 +1,5 @@
 package isa.spring.boot.pharmacy.service.users;
 
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -125,7 +124,7 @@ public class UserService implements UserDetailsService {
 
     public User savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
         pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
-        pharmacyAdministrator.setPharmacy(pharmacyService.getPharmacyById(pharmacyId));
+        pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
         pharmacyAdministrator.setAuthorities(authorities);
         return userRepository.save(pharmacyAdministrator);

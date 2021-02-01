@@ -67,9 +67,6 @@ insert into price_lists (id) values (2);
 insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (1000, 0, '2021-01-29', '2021-03-29', 1);
 insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (2500, 1, '2021-02-22', '2021-05-15', 2);
 
-insert into medicine_prices (price, start_time, end_time, pricelist_id) values (2340.24, '2021-03-02', '2021-06-12', 2);
-insert into medicine_prices (price, start_time, end_time, pricelist_id) values (520.45, '2021-07-12', '2021-08-19', 2);
-
 insert into medicine_specifications (contraindication, daily_dose) values ('mucnina', 2);
 insert into medicine_specifications (contraindication, daily_dose) values ('neprijatan osećaj ili bol u stomaku', 1);
 insert into medicine_specifications (contraindication, daily_dose) values ('alergijske reakcije u vidu svraba i ospe po koži, otoka lica, usana', 3);
@@ -83,6 +80,13 @@ insert into medicines (name, code, medicine_type, points, manufacturer, medicine
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Diklofenak', 'L126', 'ublažava bol, smanjuje otok i zapaljenje u zglobovima, mišićima i tetivama', 2, 'PHARMASWISS', 4);
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'koristi za lečenje teškog oblika anksioznosti', 3, 'Hemofarm', 5);
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'koriste se za kratkotrajno lečenje stanja psihičke napetosti, uznemirenosti, nervoze ili nesanice', 3, 'Hemofarm', 6);
+
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (2340.24, '2021-03-02', '2021-06-12', 2, 1);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (520.45, '2021-07-12', '2021-08-19', 2, 2);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (620.45, '2021-08-12', '2021-09-19', 1, 3);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (720.45, '2021-09-12', '2021-10-19', 1, 4);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (820.45, '2021-10-12', '2021-11-19', 2, 5);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (920.45, '2021-11-12', '2021-12-19', 2, 6);
 
 insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
@@ -135,4 +139,9 @@ insert into medicine_ingredients (medicine_specification_id, ingredient_id) valu
 insert into medicine_substitutions (medicine_specification_id, medicine_id) values (1, 1);
 
 insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 1);
+insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 2);
+insert into pharmacy_medicines (pharmacy_id, medicine_id) values (2, 3);
+insert into pharmacy_medicines (pharmacy_id, medicine_id) values (2, 4);
+insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 5);
+insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 6);
 
