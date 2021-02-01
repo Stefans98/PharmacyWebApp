@@ -24,4 +24,6 @@ public class MedicineOrderListService {
     public List<MedicineOrderList> getAll() {
         return medicineOrderListRepository.findAll();
     }
+
+    public MedicineOrderList findById(Long id) { return  medicineOrderListRepository.getOne(id); }
 }

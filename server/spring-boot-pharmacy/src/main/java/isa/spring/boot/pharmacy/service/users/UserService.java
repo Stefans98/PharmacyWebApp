@@ -94,17 +94,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(dermatologist);
     }
 
-    public Supplier updateSupplier(User user) {
-        Supplier supplier = new Supplier(user);
+    public Supplier updateSupplier(Supplier supplier) {
         if (supplier.getPassword() == null || supplier.getPassword().trim().isEmpty()) {
             String currentPassword = userRepository.getOne(supplier.getId()).getPassword();
             supplier.setPassword(currentPassword, false);
         } else {
             supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
         }
-        supplier.setId(user.getId());
         supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
-        supplier.getAddress().setUser(supplier);
         return userRepository.save(supplier);
 
     }
@@ -127,17 +124,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(dermatologist);
     }
 
-    public User saveSupplier(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
-
-        Supplier supplier = new Supplier(user);
-        supplier.getAddress().setUser(supplier);
+    public Supplier saveSupplier(Supplier supplier) {
+        supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("SUPPLIER");
         supplier.setAuthorities(authorities);
         return userRepository.save(supplier);
     }
 
-    public User savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
+    public PharmacyAdministrator savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
         pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
         pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
