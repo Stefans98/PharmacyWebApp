@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Dermatologist } from "../../models/dermatologist.model";
+import { Patient } from "../../models/patient.model";
 import { Pharmacy } from "../../models/pharmacy.model";
 import { User } from "../../models/user.model";
 
@@ -37,9 +38,9 @@ import { User } from "../../models/user.model";
             .put<Dermatologist>(this.dermatologistUrl + 'updateProfile/' + id, body);
       }
     
-      public getPharmaciesForDermatologist(id: number): Observable<Pharmacy[]> {
+      public getPharmaciesForDermatologist(dermatologistId: number): Observable<Pharmacy[]> {
         return this.http
-            .get<Pharmacy[]>(this.dermatologistUrl + 'pharmaciesForDermatologist/' + id);
+            .get<Pharmacy[]>(this.dermatologistUrl + 'pharmaciesForDermatologist/' + dermatologistId);
       }
       
       public getDermatologistsForPharmacy(pharmacyId: number): Observable<Dermatologist[]>{
@@ -47,5 +48,10 @@ import { User } from "../../models/user.model";
             .get<Dermatologist[]>(this.dermatologistUrl + 'dermatologistsForPharmacy/' + pharmacyId);
 
       }
+
+      public getPatientsForDermatologist(dermatologistId: number): Observable<Patient[]> {
+        return this.http
+            .get<Patient[]>(this.dermatologistUrl + 'patientsForDermatologist/' + dermatologistId);
+      } 
   }
   

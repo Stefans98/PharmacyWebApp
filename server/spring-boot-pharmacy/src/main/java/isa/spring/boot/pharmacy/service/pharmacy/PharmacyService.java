@@ -1,10 +1,13 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
+import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
+import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
+import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +23,33 @@ public class PharmacyService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MedicineService medicineService;
+
+    @Autowired
+    private MedicinePriceService medicinePriceService;
+
     public List<Pharmacy> getAllPharmacies(){
         return pharmacyRepository.findAll();
+    }
+
+    public Pharmacy findById(long id) {
+        return pharmacyRepository.findById(id);
+    }
+
+    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId) {
+        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) userService.findById(pharmacyAdministratorId);
+
+        return pharmacyAdministrator.getPharmacy();
     }
 
     public Pharmacy savePharmacy(Pharmacy pharmacy) {
         return pharmacyRepository.save(pharmacy);
     }
 
-    public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministartorId){
-        PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator)userService.findById(pharmacyAdministartorId);
-        return pharmacyAdministrator.getPharmacy();
+    public List<Pharmacy> getPharmaciesByMedicineId(Long medicineId){
+        Medicine medicine = medicineService.findById(medicineId);
+        return medicine.getPharmacies();
     }
 
     public Pharmacy getPharmacyForPharmacist(Long pharmacistId) {
@@ -51,7 +70,13 @@ public class PharmacyService {
         return null;
     }
 
-    public Pharmacy getPharmacyById(Long pharmacyId) {
-        return  pharmacyRepository.getOne(pharmacyId);
+    public double getMedicinePriceFromPharmacy(Long medicineId, Long pharmacyId) {
+        Pharmacy pharmacy = findById(pharmacyId);
+        for (Medicine medicine : pharmacy.getMedicines()) {
+            if (medicine.getId() == medicineId) {
+                return medicinePriceService.getMedicinePriceByMedicineId(medicineId);
+            }
+        }
+        return 0.0;
     }
 }

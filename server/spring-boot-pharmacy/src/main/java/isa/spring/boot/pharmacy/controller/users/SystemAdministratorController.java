@@ -28,7 +28,7 @@ public class SystemAdministratorController {
         return new ResponseEntity<>(UserMapper.convertToDto(sysAdmin), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerSupplier(@RequestBody UserDto systemAdministratorDto)
     {

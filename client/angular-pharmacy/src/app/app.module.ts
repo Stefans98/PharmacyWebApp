@@ -72,6 +72,9 @@ import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
 import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administrator/all-dermatologists/pharmacies-for-dermatologist-dialog/pharmacies-for-dermatologist-dialog.component';
+import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
+import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
+import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 
 
 @NgModule({
@@ -135,7 +138,10 @@ import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administra
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
     SysAdminPharmaciesModalDialogComponent,
-    PharmaciesForDermatologistDialogComponent
+    PharmaciesForDermatologistDialogComponent,
+    MedicineOrderListsComponent,
+    MyOffersComponent,
+    SupplierProfileComponent
   ],
   imports: [
     BrowserModule,
