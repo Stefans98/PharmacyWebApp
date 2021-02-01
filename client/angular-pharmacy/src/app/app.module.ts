@@ -71,6 +71,7 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
 import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
+import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administrator/all-dermatologists/pharmacies-for-dermatologist-dialog/pharmacies-for-dermatologist-dialog.component';
 
 
 @NgModule({
@@ -133,7 +134,8 @@ import { MatTableModule } from '@angular/material/table';
     PharmacyModalDialogComponent,
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
-    SysAdminPharmaciesModalDialogComponent
+    SysAdminPharmaciesModalDialogComponent,
+    PharmaciesForDermatologistDialogComponent
   ],
   imports: [
     BrowserModule,

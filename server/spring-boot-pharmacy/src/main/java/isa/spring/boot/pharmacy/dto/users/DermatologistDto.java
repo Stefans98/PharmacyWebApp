@@ -11,6 +11,7 @@ public class DermatologistDto {
     private String email;
     private String phoneNumber;
     private String password;
+    private double averageGrade;
 
     public DermatologistDto() {
     }
@@ -87,4 +88,11 @@ public class DermatologistDto {
         this.password = password;
     }
 
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
 }

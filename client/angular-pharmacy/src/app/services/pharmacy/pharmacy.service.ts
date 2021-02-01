@@ -32,5 +32,10 @@ export class PharmacyService{
     public getAllPharmacies(): Observable<Pharmacy[]> {
       return this.http
         .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
-    } 
+    }
+
+    public getPharmaciesForDermatologist(id: number): Observable<Pharmacy[]> {
+      return this.http
+        .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByDermatologist/' + id);
+    }  
 }

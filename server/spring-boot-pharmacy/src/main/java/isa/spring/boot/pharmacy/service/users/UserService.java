@@ -173,5 +173,17 @@ public class UserService implements UserDetailsService {
         }
         return patientsForDermatologist;
     }
+    
+    public List<Dermatologist> getDermatologistsForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    dermatologists.add(dermatologist);
+                }
+            }
+        }
+        return dermatologists;
+    }
 
 }
