@@ -21,8 +21,11 @@ public class MedicineReservation {
     @Column(name = "final_purchasing_date", nullable = false)
     private Date finalPurchasingDate;
 
-    @Column(name = "is_canceled", nullable = false)
-    private boolean isCanceled;
+    @Column(name = "medicine_reservation_state")
+    MedicineReservationState medicineReservationState;
+
+    @Column(name = "got_penalty", nullable = false)
+    private boolean gotPenalty;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
@@ -36,9 +39,10 @@ public class MedicineReservation {
     public MedicineReservation() {
     }
 
-    public MedicineReservation(Date finalPurchasingDate, boolean isCanceled, Medicine medicine, Pharmacy pharmacy, Patient patient) {
+    public MedicineReservation(Date finalPurchasingDate, MedicineReservationState medicineReservationState, boolean gotPenalty, Medicine medicine, Pharmacy pharmacy, Patient patient) {
         this.finalPurchasingDate = finalPurchasingDate;
-        this.isCanceled = isCanceled;
+        this.medicineReservationState = medicineReservationState;
+        this.gotPenalty = gotPenalty;
         this.medicine = medicine;
         this.pharmacy = pharmacy;
         this.patient = patient;
@@ -60,12 +64,20 @@ public class MedicineReservation {
         this.finalPurchasingDate = finalPurchasingDate;
     }
 
-    public boolean isCanceled() {
-        return isCanceled;
+    public MedicineReservationState getMedicineReservationState() {
+        return medicineReservationState;
     }
 
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
+    public void setMedicineReservationState(MedicineReservationState medicineReservationState) {
+        this.medicineReservationState = medicineReservationState;
+    }
+
+    public boolean isGotPenalty() {
+        return gotPenalty;
+    }
+
+    public void setGotPenalty(boolean gotPenalty) {
+        this.gotPenalty = gotPenalty;
     }
 
     public Medicine getMedicine() {

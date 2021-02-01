@@ -89,4 +89,18 @@ public class MedicineController {
         }
         return new ResponseEntity<>(medicineReservationDto, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/cancelMedicineReservation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<MedicineReservationDto> cancelMedicineReservation(@RequestBody MedicineReservationDto medicineReservationDto){
+        MedicineReservation medicineReservation = medicineReservationService.findById(medicineReservationDto.getId());
+        if (medicineReservation == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (!medicineReservationService.cancelMedicineReservation(medicineReservation)){
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0.0), HttpStatus.OK);
+    }
 }

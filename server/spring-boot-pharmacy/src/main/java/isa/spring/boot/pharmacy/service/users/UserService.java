@@ -71,6 +71,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
+    public void givePenaltyToPatient(long patientId) {
+        Patient patient = (Patient)findById(patientId);
+        patient.setPenalty(patient.getPenalty() + 1);
+        userRepository.save(patient);
+    }
+
     public Pharmacist updatePharmacist(Pharmacist pharmacist) {
         if (pharmacist.getPassword() == null || pharmacist.getPassword().trim().isEmpty()) {
             String currentPassword = userRepository.getOne(pharmacist.getId()).getPassword();
