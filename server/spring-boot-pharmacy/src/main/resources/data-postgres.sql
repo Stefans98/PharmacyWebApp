@@ -30,10 +30,10 @@ insert into authority (name) values ('SYSTEM_ADMIN');
 
 insert into appointment_histories (id) values (1);
 
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'patient1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 1, 10);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points) values ('PATIENT', 'patient4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 10);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 1, 10, 0);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10, 1);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10, 0);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 10, 4);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6, 2);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 7, 8.7);
@@ -137,7 +137,12 @@ insert into offers (offer_state, price, delivery_deadline, medicine_order_list_i
 
 insert into ingredients (name) values ('sastojak 1');
 
-insert into medicine_reservations (final_purchasing_date, is_canceled, medicine_id, patient_id, pharmacy_id) values ('2021-03-02', true, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-03-02', 1, false, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-04-12', 0, false, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-01-01', 0, false, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-02-01', 0, false, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-02-02', 0, false, 1, 1, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-03-03', 0, false, 1, 2, 1);
 
 insert into e_prescriptions(code, issuing_date, patient_id) values ('eprscrpt111', '2021-03-02', 1);
 

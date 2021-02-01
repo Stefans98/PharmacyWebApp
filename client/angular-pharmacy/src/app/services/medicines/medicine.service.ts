@@ -38,12 +38,16 @@ export class MedicineService {
   }  
 
   public getMedicinePrice(medicineId: string, pharmacyId: string): Observable<DoubleRange> {
-    
     let params = new HttpParams()
       .set('medicineId', medicineId)
       .set('pharmacyId', pharmacyId);
 
     return this.http.
       get(this.medicineUrl + 'getMedicinePrice/medicinePrice', { params } );
+  }
+
+  public cancelMedicineReservation(medicineReservationId: number): Observable<MedicineReservation> {
+    return this.http
+      .put<MedicineReservation>(this.medicineUrl + 'cancelMedicineReservation',  { id: medicineReservationId });
   }
 }
