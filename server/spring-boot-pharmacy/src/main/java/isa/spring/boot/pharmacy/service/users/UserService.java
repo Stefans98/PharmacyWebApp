@@ -1,6 +1,5 @@
 package isa.spring.boot.pharmacy.service.users;
 
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -121,6 +120,24 @@ public class UserService implements UserDetailsService {
         List<Authority> authorities = authorityService.findByName("SUPPLIER");
         supplier.setAuthorities(authorities);
         return userRepository.save(supplier);
+    }
+
+    public User savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
+        pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
+        pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
+        List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
+        pharmacyAdministrator.setAuthorities(authorities);
+        return userRepository.save(pharmacyAdministrator);
+    }
+
+    public User saveSystemAdministrator(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        SystemAdministrator systemAdministrator = new SystemAdministrator(user);
+        systemAdministrator.getAddress().setUser(systemAdministrator);
+        List<Authority> authorities = authorityService.findByName("SYSTEM_ADMIN");
+        systemAdministrator.setAuthorities(authorities);
+        return userRepository.save(systemAdministrator);
     }
 
     public List<Dermatologist> getAllDermatologists(){

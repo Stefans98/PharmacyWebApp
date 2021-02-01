@@ -16,7 +16,7 @@ public class OrderItem {
     private Long id;
 
     @Column(name = "quantity")
-    private String quantity;
+    private int quantity;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
@@ -28,7 +28,7 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public OrderItem(String quantity, Medicine medicine) {
+    public OrderItem(int quantity, Medicine medicine) {
         this.quantity = quantity;
         this.medicine = medicine;
     }
@@ -41,11 +41,11 @@ public class OrderItem {
         this.id = id;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

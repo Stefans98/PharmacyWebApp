@@ -1,1 +1,62 @@
-<p>reserved-drugs works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacy-list-container">
+			
+            <div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Rezervisani lekovi</h3> 
+            </div>
+                
+			<mat-divider></mat-divider>
+
+        <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" style="padding-top: 0;" >
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+            <div class="pharmacy-list">
+            <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
+            <td mat-cell *matCellDef="let element"> {{element.medicine.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="manufacturer">
+            <th mat-header-cell *matHeaderCellDef> Proizvođač leka</th>
+            <td mat-cell *matCellDef="let element"> {{element.medicine.manufacturer}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef> Cena </th>
+                <td mat-cell *matCellDef="let element"> {{element.medicinePrice}} RSD </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pharmacy">
+                <th mat-header-cell *matHeaderCellDef> Mesto kupovine (apoteka) </th>
+                <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}}, {{element.pharmacy.city}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="final_purchasing_date">
+            <th mat-header-cell *matHeaderCellDef> Datum najkasnijeg preuzimanja </th>
+            <td mat-cell *matCellDef="let element"> {{convertDate(element.finalPurchasingDate)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="canceling">
+                <th mat-header-cell *matHeaderCellDef> Otkazivanje </th>
+                <td mat-cell *matCellDef="let element"><button mat-raised-button color="warn">Otkaži</button> </td>
+            </ng-container>
+            
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">Ne postoji nijedan rezervisan lek</td>
+            </tr>
+            </div>             
+        </table>
+        <mat-divider></mat-divider>			
+        </div>
+
+		</div>  
+                   		
+    </div>
+
+</div>
