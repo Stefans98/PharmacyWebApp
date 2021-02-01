@@ -5,13 +5,10 @@ import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.Prescription;
 import isa.spring.boot.pharmacy.model.pharmacy.Subscription;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
-import isa.spring.boot.pharmacy.model.schedule.AppointmentHistory;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="patients")
@@ -23,10 +20,6 @@ public class Patient extends User {
 
     @Column(name = "user_category")
     private UserCategory userCategory;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "appointment_history_id", referencedColumnName = "id")
-    private AppointmentHistory appointmentHistory;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Allergy> allergies;
@@ -54,11 +47,10 @@ public class Patient extends User {
     }
 
     public Patient(String email, String password, String firstName, String lastName, String phoneNumber, Address address, int points,
-                   UserCategory userCategory, AppointmentHistory appointmentHistory, List<Allergy> allergies, List<Subscription> subscriptions) {
+                   UserCategory userCategory, List<Allergy> allergies, List<Subscription> subscriptions) {
         super(email, password, firstName, lastName, phoneNumber, address);
         this.points = points;
         this.userCategory = userCategory;
-        this.appointmentHistory = appointmentHistory;
         this.allergies = allergies;
         this.subscriptions = subscriptions;
     }
@@ -77,14 +69,6 @@ public class Patient extends User {
 
     public void setUserCategory(UserCategory userCategory) {
         this.userCategory = userCategory;
-    }
-
-    public AppointmentHistory getAppointmentHistory() {
-        return appointmentHistory;
-    }
-
-    public void setAppointmentHistory(AppointmentHistory appointmentHistory) {
-        this.appointmentHistory = appointmentHistory;
     }
 
     public List<Allergy> getAllergies() {

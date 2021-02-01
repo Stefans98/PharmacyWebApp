@@ -46,6 +46,7 @@
     "ng2-nvd3": "^2.0.0",
     "ng9-odometer": "^2.1.0",
     "ngx-highlightjs": "^4.1.2",
+    "ngx-material-timepicker": "^5.5.3",
     "ngx-quill": "^13.0.0",
     "ngx-scrollbar": "^7.4.1",
     "nvd3": "^1.8.6",
