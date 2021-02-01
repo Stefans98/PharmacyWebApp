@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -186,6 +187,18 @@ public class UserService implements UserDetailsService {
             }
         }
         return patientsForDermatologist;
+    }
+    
+    public List<Dermatologist> getDermatologistsForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    dermatologists.add(dermatologist);
+                }
+            }
+        }
+        return dermatologists;
     }
 
     public boolean checkIfAddressesMatch(Address first, Address second) {
