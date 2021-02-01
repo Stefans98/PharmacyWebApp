@@ -9,5 +9,5 @@ export class User {
         public email: string,
         public phoneNumber: string,
         public password: string
-        ) { }
+    ) { }
 }

@@ -60,6 +60,9 @@ public class Pharmacy {
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineReservation> medicineReservations;
 
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
+
     public Pharmacy() {
     }
 

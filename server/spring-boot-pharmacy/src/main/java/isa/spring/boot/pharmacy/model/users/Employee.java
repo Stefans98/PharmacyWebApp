@@ -13,6 +13,9 @@ public class Employee extends User {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WorkDay> workDays = new ArrayList<WorkDay>();
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
+
     public Employee() {
     }
 
