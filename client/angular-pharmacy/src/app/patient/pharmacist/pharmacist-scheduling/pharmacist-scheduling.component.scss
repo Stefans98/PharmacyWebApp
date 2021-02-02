@@ -43,20 +43,14 @@
     flex-direction: column;
 }
 
-.first-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-}
-
 .button-confirm-in-first-slide {
-    margin-top: 30px;
+    margin-top: 60px;
     padding-left: 50px;
     min-height: 50px;
 }
 
 .button-position-first-form {
+    margin-top: 25px;
     position: relative;
     float: right;
 }
@@ -74,25 +68,25 @@
 .button-position-second-form-next {
     position: relative;
     float: right;
-    margin-top: 110px;
+    margin-top: 0px;
 }
 
 .button-position-second-form-back {
     position: relative;
     float: left;
-    margin-top: 110px;
+    margin-top: 0px;
 }
 
 .button-position-third-form-next {
     position: relative;
     float: right;
-    margin-top: 260px;
+    margin-top: 0px;
 }
 
 .button-position-third-form-back {
     position: relative;
     float: left;
-    margin-top: 260px;
+    margin-top: 0px;
 }
 
 .button-position-fourth-form-next {
@@ -114,9 +108,9 @@
     margin-top: 2px;
 }
 .pharmacy-list-container {
-	background-color:#f5f5f5;
+	background-color: white; // #f5f5f5
     padding: 10px;
-    height: 345px;
+    height: 385px;
     overflow: auto;
 
 	.pharmacy-list {
@@ -194,4 +188,16 @@
     h3 {
         margin: auto;
     }
+}
+
+.mat-row:hover {
+    background:rgb(235, 234, 234);
+}
+
+.highlight{
+    background: lightgray;
+  }
+
+::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
 }

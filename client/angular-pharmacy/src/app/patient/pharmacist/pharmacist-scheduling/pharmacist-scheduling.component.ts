@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { MatSort } from '@angular/material/sort';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-pharmacist-scheduling',
@@ -21,6 +22,14 @@ import { MatSort } from '@angular/material/sort';
 })
 export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   maxDate: Date;
+  minTimeFinishing: string = '00:00';
+  disabledTimeFinishing: boolean = true;
+  time1: string = '00:00';
+  time2: string = '00:00';
+
+  startTime: string = '';
+  endTime: string = '';
+
   medicineId: number;
   pharmacyId: number;
   chosenDate: Date;
@@ -62,6 +71,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   medicines: MedicineReservation[] = [];
   displayedColumns: string[] = ['name', 'city', 'grade', 'price', 'choice'];
   dataSource = new MatTableDataSource(this.medicines);
+  displayedColumnsPharmacist: string[] = ['pharmacistName', 'pharmacistSurname', 'pharmacistGrade', 'scheduling'];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -80,21 +90,29 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
         }
       );
     }
-
+    
+  @ViewChild('stepper') stepper: MatStepper;
+    
+  
   ngOnInit() {
     this.maxDate = new Date();
 
     this.firstFormGroup = this._formBuilder.group({
-        firstCtrl: ['', Validators.required]
+        datePicker: ['', Validators.required],
+        timePicker1: ['', Validators.required],
+        timePicker2: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-        secondCtrl: ['', Validators.required]
     });
     this.thirdFormGroup = this._formBuilder.group({
         thirdCtrl: ['', Validators.required]
     });
-    this.fourthFormGroup = this._formBuilder.group({
-    });
+  }
+  
+  selectedRowIndex = -1;
+
+  highlight(row){
+      this.selectedRowIndex = row.id;
   }
 
   onChangePharmacy(pharmacyId)  {
@@ -109,20 +127,32 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
     const _ = moment();
     const date = moment(chosenDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()})
     this.chosenDate = date.toDate();
+    console.log(this.chosenDate)
+  }
+
+  startTimeChange(value) {
+    this.startTime = value;
+    this.minTimeFinishing = value;
+    this.disabledTimeFinishing = false;
+    console.log(this.startTime)
+  }
+
+  endTimeChange(value) {
+    this.endTime = value;
+    console.log(this.endTime)
   }
 
   firstNextButtonClicked() : void {
     if (!this.firstFormGroup.valid) {
-      this.openSnackBar('Morate pretražiti i zatim selektovati jedan od ponuđenih lekova!', 'Zatvori', 3000);
+      this.openSnackBar('Morate uneti potrebne podatke i izabrati jednu apoteku nakon toga!', 'Zatvori', 3700);
     } else {
       this.getPharmaciesByMedicineId(this.medicineId);
     }
   }
 
-  secondNextButtonClicked() : void {
-    if (!this.secondFormGroup.valid) {
-      this.openSnackBar('Morate selektovati apoteku!', 'Zatvori', 2500);
-    }
+  secondNextButtonClicked(pharmacy) : void {
+    console.log(pharmacy);
+    this.stepper.next();
   }
 
   thirdNextButtonClicked() : void {
@@ -143,25 +173,6 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori', 2500);
       });    
   }
-  
-  // findMedicine() : void {
-  //   this.medicines = [];
-  //   this.searchedMedicine = this.searchInput.nativeElement.value
-  //   if (this.searchedMedicine === ''){
-  //     this.openSnackBar('Morate uneti parametar pretrage!', 'Zatvori', 2500);
-  //   } else {
-  //     this.medicineService.findMedicinesBy(this.searchedMedicine.toLowerCase()).subscribe(
-  //       data => {
-  //         this.medicines = data;
-  //       },
-  //       error => {
-  //         if (error.status == 404){
-  //           this.openSnackBar('Ne postoji lek za uneti parametar pretrage!', 'Zatvori', 3000);
-  //         }
-  //       }
-  //     );
-  //   }
-  // }
 
   getPharmaciesByMedicineId(id: number) : void {
     this.pharmaciesWhichContainMedicine = [];
