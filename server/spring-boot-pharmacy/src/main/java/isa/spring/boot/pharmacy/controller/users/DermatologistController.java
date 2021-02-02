@@ -36,7 +36,7 @@ public class DermatologistController {
     @Autowired
     PharmacyService pharmacyService;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
         if (userService.findByEmail(dermatologistDto.getEmail()) != null) {
@@ -89,6 +89,25 @@ public class DermatologistController {
         }
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/dermatologistsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<DermatologistDto>> getDermatologistsForPharmacy(@PathVariable Long pharmacyId) {
+        List<DermatologistDto> dermatologistsForPharmacy = new ArrayList<>();
+        if(userService.getDermatologistsForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Dermatologist dermatologistForPharmacy : userService.getDermatologistsForPharmacy(pharmacyId)){
+            dermatologistsForPharmacy.add(DermatologistMapper.convertToDto(dermatologistForPharmacy));
+        }
+
+        if(dermatologistsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(dermatologistsForPharmacy, HttpStatus.OK);
     }
 
     @GetMapping(value = "/patientsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -71,6 +72,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
+    public void givePenaltyToPatient(long patientId) {
+        Patient patient = (Patient)findById(patientId);
+        patient.setPenalty(patient.getPenalty() + 1);
+        userRepository.save(patient);
+    }
+
     public Pharmacist updatePharmacist(Pharmacist pharmacist) {
         if (pharmacist.getPassword() == null || pharmacist.getPassword().trim().isEmpty()) {
             String currentPassword = userRepository.getOne(pharmacist.getId()).getPassword();
@@ -94,6 +101,18 @@ public class UserService implements UserDetailsService {
         return userRepository.save(dermatologist);
     }
 
+    public Supplier updateSupplier(Supplier supplier) {
+        if (supplier.getPassword() == null || supplier.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(supplier.getId()).getPassword();
+            supplier.setPassword(currentPassword, false);
+        } else {
+            supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
+        }
+        supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
+        return userRepository.save(supplier);
+
+    }
+
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
@@ -112,17 +131,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(dermatologist);
     }
 
-    public User saveSupplier(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
-
-        Supplier supplier = new Supplier(user);
-        supplier.getAddress().setUser(supplier);
+    public Supplier saveSupplier(Supplier supplier) {
+        supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("SUPPLIER");
         supplier.setAuthorities(authorities);
         return userRepository.save(supplier);
     }
 
-    public User savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
+    public PharmacyAdministrator savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
         pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
         pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
@@ -172,5 +188,31 @@ public class UserService implements UserDetailsService {
         }
         return patientsForDermatologist;
     }
+    
+    public List<Dermatologist> getDermatologistsForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    dermatologists.add(dermatologist);
+                }
+            }
+        }
+        return dermatologists;
+    }
 
+    public boolean checkIfAddressesMatch(Address first, Address second) {
+        return first.getStreet().equals(second.getStreet()) && first.getCity().equals(second.getCity())
+                    && first.getCountry().equals(second.getCountry());
+    }
+
+    public List<Pharmacist> getPharmacistsForPharmacy(Long pharmacyId){
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        for(Pharmacist pharmacist : getAllPharmacists()){
+            if(pharmacist.getPharmacy().getId() == pharmacyId) {
+                pharmacists.add(pharmacist);
+            }
+        }
+        return pharmacists;
+    }
 }

@@ -31,7 +31,7 @@ import { User } from "../../models/user.model";
     
       public updateDermatologist(id: number, dermatologist: Dermatologist): Observable<Dermatologist> {
         const body = { id: id, firstName: dermatologist.firstName, lastName: dermatologist.lastName, city: dermatologist.city, country: dermatologist.country,
-                     street: dermatologist.street, email: dermatologist.email, password: dermatologist.password, phoneNumber: dermatologist.phoneNumber
+                     street: dermatologist.street, email: dermatologist.email, password: dermatologist.password, phoneNumber: dermatologist.phoneNumber, averageGrade: dermatologist.averageGrade
         };
     
         return this.http
@@ -41,7 +41,13 @@ import { User } from "../../models/user.model";
       public getPharmaciesForDermatologist(dermatologistId: number): Observable<Pharmacy[]> {
         return this.http
             .get<Pharmacy[]>(this.dermatologistUrl + 'pharmaciesForDermatologist/' + dermatologistId);
-      } 
+      }
+      
+      public getDermatologistsForPharmacy(pharmacyId: number): Observable<Dermatologist[]>{
+        return this.http
+            .get<Dermatologist[]>(this.dermatologistUrl + 'dermatologistsForPharmacy/' + pharmacyId);
+
+      }
 
       public getPatientsForDermatologist(dermatologistId: number): Observable<Patient[]> {
         return this.http

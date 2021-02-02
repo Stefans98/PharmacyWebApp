@@ -18,6 +18,9 @@ public class Patient extends User {
     @Column(name = "points")
     private int points;
 
+    @Column(name = "penalty")
+    private int penalty;
+
     @Column(name = "user_category")
     private UserCategory userCategory;
 
@@ -46,13 +49,18 @@ public class Patient extends User {
     public Patient() {
     }
 
-    public Patient(String email, String password, String firstName, String lastName, String phoneNumber, Address address, int points,
-                   UserCategory userCategory, List<Allergy> allergies, List<Subscription> subscriptions) {
+    public Patient(String email, String password, String firstName, String lastName, String phoneNumber, Address address, int points, int penalty, UserCategory userCategory, List<Allergy> allergies, List<Subscription> subscriptions, List<Complaint> complaints, List<Prescription> prescriptions, List<MedicineReservation> medicineReservations, List<EPrescription> ePrescriptions, List<Appointment> appointments) {
         super(email, password, firstName, lastName, phoneNumber, address);
         this.points = points;
+        this.penalty = penalty;
         this.userCategory = userCategory;
         this.allergies = allergies;
         this.subscriptions = subscriptions;
+        this.complaints = complaints;
+        this.prescriptions = prescriptions;
+        this.medicineReservations = medicineReservations;
+        this.ePrescriptions = ePrescriptions;
+        this.appointments = appointments;
     }
 
     public int getPoints() {
@@ -125,5 +133,13 @@ public class Patient extends User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public int getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(int penalty) {
+        this.penalty = penalty;
     }
 }

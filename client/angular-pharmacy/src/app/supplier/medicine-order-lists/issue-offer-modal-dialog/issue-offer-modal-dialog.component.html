@@ -1,0 +1,24 @@
+<div fxLayout="column" class="components-container-gt-xs" fxFlexFill fxFill>
+    <div fxLayout="row" fxFlex="20" fxLayoutAlign="space-between center">
+        <h3 class="mat-headline">Kreiranje ponude:</h3>
+    </div>
+    <div fxLayout="row" fxFlex="30"> 
+        <mat-form-field fxFlex>
+            <mat-label>Cena</mat-label>
+            <input matInput type="number"  [(ngModel)]="price" required>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxFlex="30">
+            <mat-form-field fxFlex>
+                <mat-label>Datum isporuke</mat-label>
+                <input matInput [matDatepicker]="picker" [min]="minDate" [(ngModel)]="deliveryDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+    </div>
+    <div fxLayout="row" fxFlex="40">
+        <div fxLayout="column" fxLayoutAlign="center">
+            <button mat-raised-button color="primary" (click)="sendOfferClick()" [disabled]="!price || !deliveryDate">Pošalji</button>
+        </div>
+    </div>
+</div>

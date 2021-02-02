@@ -30,7 +30,7 @@ export class ReservedDrugsComponent implements OnInit {
       },
       error => {
         if (error.status == 404){
-          this.openSnackBar('Trenutno ne postoji nijedan rezervisani lek!', 'Zatvori');
+          this.openSnackBar('Trenutno ne postoji nijedan rezervisani lek!', 'Zatvori', 3200);
         }
       }
     );
@@ -38,9 +38,35 @@ export class ReservedDrugsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openSnackBar(message: string, action: string) {
+  cancelMedicineReservationClick(element): void {
+    this.medicineService.cancelMedicineReservation(element.id).subscribe(
+      data => {
+        this.openSnackBar('Rezervacija leka je uspešno otkazana!', 'Zatvori', 3000);
+        this.medicineService.getAllReservedMedicinesByPatientId(this.authenticationService.getLoggedUserId()).subscribe(
+          data => {
+            this.medicines = data;
+            this.dataSource.data = this.medicines;
+          },
+          error => {
+            if (error.status == 404){
+              this.dataSource.data = [];
+              this.openSnackBar('Rezervacija leka je uspešno otkazana i trenutno ne postoji nijedan rezervisani lek!', 'Zatvori', 4000);
+            }
+          }
+        );
+      },
+      error => {
+        if (error.status = 406){
+          this.openSnackBar('Rezeravacija nije otkazana na vreme! Otkazivanje nije dozvoljeno!', 'Zatvori', 4000);
+        } else {
+          this.openSnackBar('Rezervaciju trenutno nije moguće otkazati, molim Vas pokušajte ponovo!', 'Zatvori', 4000);
+        }
+      });
+  }
+
+  openSnackBar(message: string, action: string, duration: number) {
     this.snackBar.open(message, action, {
-      duration: 3000,
+      duration: duration,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });

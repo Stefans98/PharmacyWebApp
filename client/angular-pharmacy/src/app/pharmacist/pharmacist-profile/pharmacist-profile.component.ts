@@ -68,7 +68,7 @@ export class PharmacistProfileComponent implements OnInit {
   }
 
   updatePharmacist(): void {
-    this.pharmacistService.updatePharmacist(this.id, new Pharmacist(this.pharmacist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password))).subscribe(
+    this.pharmacistService.updatePharmacist(this.id, new Pharmacist(this.pharmacist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password), 0)).subscribe(
       data => {
         this.pharmacist = data;
         this.prepareDate(this.pharmacist);

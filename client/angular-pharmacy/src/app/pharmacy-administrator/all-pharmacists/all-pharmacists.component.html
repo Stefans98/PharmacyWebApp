@@ -1,88 +1,87 @@
-<div class="all-pharmacists">
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
 
-    <h1 class="mat-h1" style="margin-left: 35%;">Zaposleni farmaceuti</h1>
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
 
-    <table style="margin-top: -6%;">
-    <tr>
-        <td>
-        <mat-form-field appearance="legacy" class="search" style="width: 300px; margin-left: 75%; margin-top: 5%;">
-            <mat-label>Pretraži farmaceute</mat-label>
-            <input matInput placeholder="Upisati parametar pretrage">
+		<div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacist-container">
+			
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+        <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Dermatolozi</h3> 
+
+        <div fxflex="60" class="full" fxLayoutAlign="end center">
+          <mat-form-field class="full">
+            <input matInput (keyup)="applySearch($event)" placeholder="Po imenu, prezimenu, oceni" #input >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+                
+    <mat-divider></mat-divider>
+    
+<div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacist-container" style="padding-top: 0;" >
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+    <div class="pharmacist-list">
+      <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv </th>
+      <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.firstName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastname">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
+      <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="averageGrade">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena </th>
+      <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.averageGrade}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="pharmacies">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Apoteke </th>
+      <td mat-cell *matCellDef="let pharmacist">{{pharmacy.name}}</td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Ne postoje dermatolozi</td>
+      </tr>
+    </div>             
+  </table>
+
+  <mat-divider></mat-divider>			
+      </div>
+
+		</div>
+      
+		<div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacist-container-second">
+
+			<div fxFlex="17" fxLayout="row" >	
+        <h3 class="mat-title" fxFlex="22"> </h3> 		
+				<h3 class="mat-title" fxFlex style="padding-top: 13px;font-size: 22px; margin-left: -10px;">Filtracija rezultata pretrage</h3> 
+      </div>
+      <mat-divider></mat-divider>	  
+      
+      <div fxLayout="column" fxLayoutGap="30" class="pharmacist-container-second" >
+
+        <mat-form-field class="example-full-width" style="max-width: 200px; padding-top: 20px;padding-left: 100px;">
+          <mat-label>Izberite naziv apoteke</mat-label>
+          <mat-select>
+            <mat-option>Ništa od navedenog</mat-option>
+            <mat-option [value]="pharmacy">{{ pharmacy.name }}</mat-option>
+          </mat-select>
         </mat-form-field>
-        </td>
-        <td>
-        <button mat-fab color="primary" style="margin-top: 5%;">
-            <mat-icon>search</mat-icon>
-        </button>
-        </td>
-    </tr>
-    </table>
 
-    <div class="all-pharmacists-table mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+        <mat-form-field class="example-full-width" style="max-width: 200px; padding-left: 100px;">
+          <mat-label>Izberite opseg ocene</mat-label>
+          <mat-select [ngModel]="selectedGradeRange" (ngModelChange)="onChangeGradeRangeFilter($event)">
+            <mat-option>Ništa od navedenog</mat-option>
+            <mat-option [value]="gradeRange" *ngFor="let gradeRange of gradeRanges">{{gradeRange}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-        <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Ime </th>
-        <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.name}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="lastname">
-        <th mat-header-cell *matHeaderCellDef> Prezime </th>
-        <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.lastname}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> EMail </th>
-        <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.email}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef> Adresa </th>
-        <td mat-cell *matCellDef="let pharmacist"> {{pharmacist.address}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="remove">
-        <th mat-header-cell *matHeaderCellDef style="max-width: 30px;"> Ukloni </th>
-        <td mat-cell *matCellDef="let pharmacist" style="max-width: 30px;"> <button mat-raised-button color="warn" style="margin-left: 10%;">Ukloni</button> </td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    </div>
-
-    <div class="all-pharmacists-filter-div">
-        <mat-card class="all-pharmacists-filter-card">
-            <mat-card-header>
-                <mat-card-title>Filtriraj</mat-card-title>
-            </mat-card-header>
-            <div>
-                <section class="filter-pharmacist-grade">
-                    Ocena:
-                    <ul>
-                    <li><mat-checkbox class="example-margin">0-1</mat-checkbox></li>
-                    <li><mat-checkbox class="example-margin">1-2</mat-checkbox></li>
-                    <li><mat-checkbox class="example-margin">2-3</mat-checkbox></li>
-                    <li><mat-checkbox class="example-margin">3-4</mat-checkbox></li>
-                    <li><mat-checkbox class="example-margin">4-5</mat-checkbox></li>
-                    </ul>
-                </section>
-
-                Apoteka
-                <mat-form-field appearance="fill" style="width: 260px; margin-top: 15px;">
-                    <mat-select>
-                        <mat-option value="apoteka 1">apoteka 1</mat-option>
-                        <mat-option value="apoteka 2">apoteka 2</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <mat-card-actions>
-                <button mat-raised-button color="primary" style="float: right;">PRIMENI</button>
-            </mat-card-actions>
-        </mat-card>
+      </div>
+                   		
     </div>
 
 </div>
-  
-  
-  

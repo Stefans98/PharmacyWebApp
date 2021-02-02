@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="api/medicineOrderLists", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,5 +32,16 @@ public class MedicineOrderListController {
         MedicineOrderList medicineOrderList = MedicineOrderListMapper.convertToEntity(medicineOrderListDto, orderItemService.findOrderItemsByMedicineOrderItemList(medicineOrderListDto));
         medicineOrderListService.createMedicineOrderList(medicineOrderList);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value="/allActive",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPPLIER')")
+    public ResponseEntity<List<MedicineOrderListDto>> getAllActiveMedicineOrderLists(){
+        List<MedicineOrderList> medicineOrderLists = medicineOrderListService.getAllActive();
+        List<MedicineOrderListDto> medicineOrderListDtos = new ArrayList<>();
+        for (MedicineOrderList medicineOrderList : medicineOrderLists) {
+            medicineOrderListDtos.add(MedicineOrderListMapper.convertToDto(medicineOrderList));
+        }
+        return new ResponseEntity(medicineOrderListDtos, HttpStatus.OK);
     }
 }

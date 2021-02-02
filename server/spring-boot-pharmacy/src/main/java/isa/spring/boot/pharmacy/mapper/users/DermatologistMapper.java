@@ -34,6 +34,7 @@ public class DermatologistMapper {
         dermatologistDto.setCity(dermatologist.getAddress().getCity());
         dermatologistDto.setCountry(dermatologist.getAddress().getCountry());
         dermatologistDto.setStreet(dermatologist.getAddress().getStreet());
+        dermatologistDto.setAverageGrade(dermatologist.getAverageGrade());
         dermatologistDto.setPassword(null);
 
         return dermatologistDto;
