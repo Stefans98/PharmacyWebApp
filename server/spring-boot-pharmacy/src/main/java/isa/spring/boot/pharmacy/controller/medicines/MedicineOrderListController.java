@@ -34,10 +34,10 @@ public class MedicineOrderListController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(value="/all",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/allActive",  produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPPLIER')")
-    public ResponseEntity<List<MedicineOrderListDto>> getAllMedicineOrderLists(){
-        List<MedicineOrderList> medicineOrderLists = medicineOrderListService.getAll();
+    public ResponseEntity<List<MedicineOrderListDto>> getAllActiveMedicineOrderLists(){
+        List<MedicineOrderList> medicineOrderLists = medicineOrderListService.getAllActive();
         List<MedicineOrderListDto> medicineOrderListDtos = new ArrayList<>();
         for (MedicineOrderList medicineOrderList : medicineOrderLists) {
             medicineOrderListDtos.add(MedicineOrderListMapper.convertToDto(medicineOrderList));

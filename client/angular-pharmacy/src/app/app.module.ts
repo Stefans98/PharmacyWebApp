@@ -75,6 +75,7 @@ import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 
 
 @NgModule({
@@ -141,7 +142,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     MedicineOrderListsComponent,
     MyOffersComponent,
     SupplierProfileComponent,
-    IssueOfferModalDialogComponent
+    IssueOfferModalDialogComponent,
+    EditOfferModalDialogComponent
   ],
   imports: [
     BrowserModule,

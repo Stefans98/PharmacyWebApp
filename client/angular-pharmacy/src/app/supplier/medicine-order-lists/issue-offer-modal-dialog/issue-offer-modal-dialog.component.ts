@@ -25,7 +25,7 @@ export class IssueOfferModalDialogComponent implements OnInit {
 
   sendOfferClick(): void {
     const supplierId = this.authService.getLoggedUserId();
-    this.offerService.createOffer(new Offer(0, this.price, this.deliveryDate, null, this.medicineOrderListId, supplierId))
+    this.offerService.createOffer(new Offer(0, this.price, this.deliveryDate, 0, null, this.medicineOrderListId, supplierId))
               .subscribe(data => {
                   this.dialogRef.close({successfull : true});
               });

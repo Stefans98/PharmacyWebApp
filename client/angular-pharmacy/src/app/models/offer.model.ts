@@ -5,6 +5,7 @@ export class Offer {
         public id: number,
         public price: number,
         public deliveryDeadline: Date,
+        public offerState: number,
         public medicineOrderList: MedicineOrderList,
         public medicineOrderListId: number,
         public supplierId: number

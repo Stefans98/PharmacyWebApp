@@ -69,7 +69,7 @@ export class MedicineOrderListsComponent implements OnInit {
     let year = d.getFullYear();
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
-    return  (day > 9 ? '' : '0') + day + '-' + (month > 9 ? '' : '0') + month + '-' +  year;
+    return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' +  year;
   }
 
 }

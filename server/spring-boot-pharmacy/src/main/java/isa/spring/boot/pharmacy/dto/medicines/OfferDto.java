@@ -14,7 +14,7 @@ public class OfferDto {
     private Long supplierId;
     private Long medicineOrderListId;
     private SupplierDto supplierDto;
-    private MedicineOrderListDto medicineOrderListDto;
+    private MedicineOrderListDto medicineOrderList;
 
     public OfferDto() {
     }
@@ -28,7 +28,7 @@ public class OfferDto {
         this.supplierId = supplierId;
         this.medicineOrderListId = medicineOrderListId;
         this.supplierDto = supplierDto;
-        this.medicineOrderListDto = medicineOrderListDto;
+        this.medicineOrderList = medicineOrderListDto;
     }
 
     public Long getId() {
@@ -79,12 +79,12 @@ public class OfferDto {
         this.supplierDto = supplierDto;
     }
 
-    public MedicineOrderListDto getMedicineOrderListDto() {
-        return medicineOrderListDto;
+    public MedicineOrderListDto getMedicineOrderList() {
+        return medicineOrderList;
     }
 
-    public void setMedicineOrderListDto(MedicineOrderListDto medicineOrderListDto) {
-        this.medicineOrderListDto = medicineOrderListDto;
+    public void setMedicineOrderList(MedicineOrderListDto medicineOrderList) {
+        this.medicineOrderList = medicineOrderList;
     }
 
     public Date getDeliveryDeadline() {

@@ -1,10 +1,8 @@
 package isa.spring.boot.pharmacy.mapper.medicines;
 
 import isa.spring.boot.pharmacy.dto.medicines.OfferDto;
-import isa.spring.boot.pharmacy.mapper.users.SupplierMapper;
 import isa.spring.boot.pharmacy.model.medicines.Offer;
 import isa.spring.boot.pharmacy.model.medicines.OfferState;
-import isa.spring.boot.pharmacy.model.users.Address;
 
 public class OfferMapper {
 
@@ -16,7 +14,7 @@ public class OfferMapper {
         dto.setOfferState(offer.getOfferState());
         dto.setDeliveryDeadline(offer.getDeliveryDeadline());
         dto.setMedicineOrderListId(offer.getMedicineOrderList().getId());
-        dto.setMedicineOrderListDto(MedicineOrderListMapper.convertToDto(offer.getMedicineOrderList()));
+        dto.setMedicineOrderList(MedicineOrderListMapper.convertToDto(offer.getMedicineOrderList()));
 
         return dto;
     }

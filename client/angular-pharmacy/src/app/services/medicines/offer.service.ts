@@ -19,4 +19,17 @@ export class OfferService {
     return this.http
       .post<Offer>(this.offerUrl + 'add', body);
   }
+
+  public editOffer(offer: Offer): Observable<Offer> {
+    const body = { id: offer.id, price: offer.price, deliveryDeadline: offer.deliveryDeadline, supplierId: offer.supplierId,
+      medicineOrderListId: offer.medicineOrderListId };  
+
+    return this.http
+      .put<Offer>(this.offerUrl + 'edit/' + offer.id, body);
+  }
+
+  public getOffersForSupplier(supplierId: number): Observable<Offer[]> {
+    return this.http
+      .get<Offer[]>(this.offerUrl + 'getOffersForSupplier/' + supplierId); 
+  }
 }
