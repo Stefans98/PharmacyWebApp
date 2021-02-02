@@ -40,4 +40,9 @@ public class MedicineService {
         }
         return medicines;
     }
+
+    public List<Medicine> getMedicineSubstitutions(Long medicineId) {
+        Medicine medicine = findById(medicineId);
+        return medicine.getMedicineSpecification().getMedicineSubstitutions();
+    }
 }

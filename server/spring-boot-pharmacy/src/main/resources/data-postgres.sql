@@ -83,9 +83,6 @@ insert into user_authority (user_id, authority_id) values (22, 2);
 insert into user_authority (user_id, authority_id) values (23, 2);
 insert into user_authority (user_id, authority_id) values (24, 2);
 
-insert into allergies (name, patient_id) values ('Prasina', 1);
-insert into allergies (name, patient_id) values ('Ambrozija', 1);
-
 insert into complaints (text, patient_id) values ('Zalba na urednost apoteke', 1);
 insert into complaints (text, patient_id) values ('Zalba na ljubaznost dermatologa', 1);
 
@@ -109,6 +106,9 @@ insert into medicines (name, code, medicine_type, points, manufacturer, medicine
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'koristi za lečenje teškog oblika anksioznosti', 3, 'Hemofarm', 5);
 insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'koriste se za kratkotrajno lečenje stanja psihičke napetosti, uznemirenosti, nervoze ili nesanice', 3, 'Hemofarm', 6);
 
+insert into allergies (name, patient_id, medicine_id) values ('Brufen', 1, 1);
+insert into allergies (name, patient_id, medicine_id) values ('Nimulid', 1, 2);
+
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (2340.24, '2021-03-02', '2021-06-12', 2, 1);
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (520.45, '2021-07-12', '2021-08-19', 2, 2);
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (620.45, '2021-08-12', '2021-09-19', 1, 3);
@@ -120,14 +120,14 @@ insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 5, 1);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 5, 1);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 6, 2);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 6, 2);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 1);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 1);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 2);
-insert into work_days (date, employee_id, pharmacy_id) values ('2021-03-02', 7, 2);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 5, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 5, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 6, 2);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 6, 2);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 2);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 2);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 0, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 5, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 5, 1);
@@ -177,12 +177,18 @@ insert into medicine_ingredients (medicine_specification_id, ingredient_id) valu
 
 insert into medicine_substitutions (medicine_specification_id, medicine_id) values (1, 1);
 
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 1);
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 2);
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (2, 3);
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (2, 4);
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 5);
-insert into pharmacy_medicines (pharmacy_id, medicine_id) values (1, 6);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 1, 10);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 2, 20);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 3, 12);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 4, 0);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 5, 5);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 6, 15);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 1, 10);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 2, 20);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 3, 12);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 4, 0);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 5, 5);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 6, 15);
 
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 7, 1);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 9, 1);
