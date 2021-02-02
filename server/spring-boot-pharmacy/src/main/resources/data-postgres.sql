@@ -17,6 +17,11 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Bulev
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive Andrica 1');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 109');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 12');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Mise Dimitrijevica 35');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Bulevar Oslobodjenja 64');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive Andrica 27');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 44');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 9');
 
 insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
 insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 9.3, 2);
@@ -34,8 +39,8 @@ insert into users (user_type, email, password, first_name, last_name, phone_numb
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10, 1);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10, 0);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 10, 4);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6, 2);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1, 8.7);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6, 2, 9.8);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 7, 8.7);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 8, 9.2);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'supplier1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 9);
@@ -49,6 +54,11 @@ insert into users (user_type, email, password, first_name, last_name, phone_numb
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mitar', 'Jovic', '0605955485', 17, 7.8);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ivan', 'Pavlovic', '0605955485', 18, 8.4);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milan', 'Todorovic', '0605955485', 19, 9.1);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Luka', 'Marinkovic', '0605955485', 20, 1, 5.6);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ivana', 'Mirkovic', '0605955485', 21, 1, 8.9);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksandar', 'Jovanovic', '0605955485', 22, 1, 9.3);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Maric', '0605955485', 23, 1, 6.2);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milica', 'Milic', '0605955485', 24, 2, 7.8);
 
 insert into user_authority (user_id, authority_id) values (1, 1);
 insert into user_authority (user_id, authority_id) values (2, 1);
@@ -69,6 +79,11 @@ insert into user_authority (user_id, authority_id) values (16, 3);
 insert into user_authority (user_id, authority_id) values (17, 3);
 insert into user_authority (user_id, authority_id) values (18, 3);
 insert into user_authority (user_id, authority_id) values (19, 3);
+insert into user_authority (user_id, authority_id) values (20, 2);
+insert into user_authority (user_id, authority_id) values (21, 2);
+insert into user_authority (user_id, authority_id) values (22, 2);
+insert into user_authority (user_id, authority_id) values (23, 2);
+insert into user_authority (user_id, authority_id) values (24, 2);
 
 insert into allergies (name, patient_id) values ('Prasina', 1);
 insert into allergies (name, patient_id) values ('Ambrozija', 1);

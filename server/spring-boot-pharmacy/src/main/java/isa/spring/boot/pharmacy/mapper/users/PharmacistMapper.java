@@ -36,6 +36,7 @@ public class PharmacistMapper {
         pharmacistDto.setCity(pharmacist.getAddress().getCity());
         pharmacistDto.setCountry(pharmacist.getAddress().getCountry());
         pharmacistDto.setStreet(pharmacist.getAddress().getStreet());
+        pharmacistDto.setAverageGrade(pharmacist.getAverageGrade());
         pharmacistDto.setPassword(null);
 
         return pharmacistDto;
