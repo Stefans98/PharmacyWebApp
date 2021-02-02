@@ -21,7 +21,7 @@ export class PharmacistService {
 
   public updatePharmacist(id: number, pharmacist: Pharmacist): Observable<Pharmacist> {
     const body = { id: id, firstName: pharmacist.firstName, lastName: pharmacist.lastName, city: pharmacist.city, country: pharmacist.country,
-                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber
+                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber, averageGrade: pharmacist.averageGrade
     };
 
     return this.http
@@ -32,4 +32,10 @@ export class PharmacistService {
     return this.http
         .get<Pharmacy>(this.pharmacistUrl + 'pharmacyForPharmacist/' + pharmacistId);
   } 
+
+  public getPharmacistsForPharmacy(pharmacyId: number): Observable<Pharmacist[]>{
+    return this.http
+        .get<Pharmacist[]>(this.pharmacistUrl + 'getPharmacistsForPharmacy/' + pharmacyId);
+
+  }
 }

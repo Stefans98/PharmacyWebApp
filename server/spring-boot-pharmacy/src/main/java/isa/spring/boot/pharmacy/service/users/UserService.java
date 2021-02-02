@@ -211,4 +211,14 @@ public class UserService implements UserDetailsService {
         return first.getStreet().equals(second.getStreet()) && first.getCity().equals(second.getCity())
                     && first.getCountry().equals(second.getCountry());
     }
+
+    public List<Pharmacist> getPharmacistsForPharmacy(Long pharmacyId){
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        for(Pharmacist pharmacist : getAllPharmacists()){
+            if(pharmacist.getPharmacy().getId() == pharmacyId) {
+                pharmacists.add(pharmacist);
+            }
+        }
+        return pharmacists;
+    }
 }

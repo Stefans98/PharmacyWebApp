@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.controller.users;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.*;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
+import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
 import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/pharmacists")
@@ -60,5 +64,24 @@ public class PharmacistController {
 
         Pharmacy pharmacyForPharmacist = pharmacyService.getPharmacyForPharmacist(pharmacistId);
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacyForPharmacist), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPharmacistsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<PharmacistDto>> getPharmacistsForPharmacy(@PathVariable Long pharmacyId) {
+        List<PharmacistDto> pharmacistsForPharmacy = new ArrayList<>();
+        if(userService.getPharmacistsForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Pharmacist pharmacistForPharmacy : userService.getPharmacistsForPharmacy(pharmacyId)){
+            pharmacistsForPharmacy.add(PharmacistMapper.convertToDto(pharmacistForPharmacy));
+        }
+
+        if(pharmacistsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(pharmacistsForPharmacy, HttpStatus.OK);
     }
 }

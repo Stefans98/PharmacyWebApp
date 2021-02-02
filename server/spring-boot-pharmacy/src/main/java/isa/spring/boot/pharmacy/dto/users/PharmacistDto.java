@@ -10,6 +10,7 @@ public class PharmacistDto {
     private String email;
     private String phoneNumber;
     private String password;
+    private double averageGrade;
 
     public PharmacistDto() {
     }
@@ -86,4 +87,11 @@ public class PharmacistDto {
         this.password = password;
     }
 
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
 }
