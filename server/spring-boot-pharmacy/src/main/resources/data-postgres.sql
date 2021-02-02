@@ -33,8 +33,6 @@ insert into authority (name) values ('SUPPLIER');
 insert into authority (name) values ('PHARMACY_ADMIN');
 insert into authority (name) values ('SYSTEM_ADMIN');
 
-insert into appointment_histories (id) values (1);
-
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 1, 10, 0);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10, 1);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10, 0);
@@ -142,7 +140,7 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 
-insert into appointment_reports (description ,appointment_id, appointment_history_id) values ('Na pregledu je sve bilo u redu', 1, 1);
+insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
 insert into medicine_order_lists (final_offer_date, pharmacy_id) values ('2021-03-02', 1);
 

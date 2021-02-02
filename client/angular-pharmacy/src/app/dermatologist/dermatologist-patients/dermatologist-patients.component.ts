@@ -44,7 +44,6 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
   }
 
   getExaminationsHistory(patientId : number) : void {
-    console.log(patientId)
     this.appointmentService.getExaminationsHistoryForPatient(patientId).subscribe(
       data => {
         this.examinationsHistory = data;

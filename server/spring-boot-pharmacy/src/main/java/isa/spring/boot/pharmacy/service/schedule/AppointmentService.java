@@ -1,7 +1,9 @@
 package isa.spring.boot.pharmacy.service.schedule;
 
 import isa.spring.boot.pharmacy.model.schedule.*;
+import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.schedule.AppointmentRepository;
+import isa.spring.boot.pharmacy.repository.schedule.WorkDayRepository;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,13 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
 
     @Autowired
+    private AppointmentReportService appointmentReportService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private WorkDayService workDayService;
 
     public List<Appointment> getDermatologistExaminations() {
         List<Appointment> dermatologistExaminations = new ArrayList<Appointment>();
@@ -48,6 +56,59 @@ public class AppointmentService {
             }
         }
         return dermatologistExaminationsForPatient;
+    }
+
+    public List<Appointment> getAvailableExaminationTermsForDermatologist(Long dermatologistId, Long pharmacyId) {
+        List<Appointment> availableExaminationTermsForDermatologist = new ArrayList<Appointment>();
+        for(Appointment appointment : getDermatologistExaminations()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
+                    appointment.getWorkDay().getPharmacy().getId() == pharmacyId &&
+                        appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+                availableExaminationTermsForDermatologist.add(appointment);
+            }
+        }
+        return  availableExaminationTermsForDermatologist;
+    }
+
+    public List<Appointment> getAllOccupiedAppointmentsForPatient(Long patientId) {
+        List<Appointment> occupiedAppointmentsForPatient = new ArrayList<Appointment>();
+        for(Appointment appointment : appointmentRepository.findAll()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
+                occupiedAppointmentsForPatient.add(appointment);
+            }
+        }
+        return occupiedAppointmentsForPatient;
+    }
+
+    public List<Appointment> getAllOccupiedAppointmentsForDermatologist(Long dermatologistId) {
+        List<Appointment> occupiedAppointmentsForDermatologist = new ArrayList<Appointment>();
+        for(Appointment appointment : appointmentRepository.findAll()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
+                occupiedAppointmentsForDermatologist.add(appointment);
+            }
+        }
+        return occupiedAppointmentsForDermatologist;
+    }
+
+    public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
+        for(Appointment patientOccupiedAppointment : getAllOccupiedAppointmentsForPatient(appointment.getPatient().getId())) {
+            if(appointment.getStartTime().after(patientOccupiedAppointment.getStartTime()) && appointment.getStartTime().before(patientOccupiedAppointment.getEndTime()) ||
+                    appointment.getEndTime().before(patientOccupiedAppointment.getEndTime()) && appointment.getEndTime().before(patientOccupiedAppointment.getStartTime()) ||
+                                appointment.getStartTime().before(patientOccupiedAppointment.getStartTime()) && appointment.getEndTime().after(patientOccupiedAppointment.getEndTime())) {
+                return null;
+            }
+        }
+
+        appointment.setPatient((Patient)userService.findById(patientId));
+        appointment.setWorkDay(workDayService.findById(workDayId));
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        AppointmentReport appointmentReport = new AppointmentReport();
+        appointmentReport.setAppointment(savedAppointment);
+        appointmentReport.setDescription(appointment.getAppointmentReport().getDescription());
+        appointmentReportService.save(appointmentReport);
+        return savedAppointment;
     }
 
 }

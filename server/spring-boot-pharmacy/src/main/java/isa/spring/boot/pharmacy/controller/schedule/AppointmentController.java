@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
+import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.dto.schedule.ExaminationDto;
 import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
@@ -9,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +34,27 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(examinationsHistory, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAvailableExaminationTermsForDermatologist/{dermatologistId}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<List<AppointmentDto>> getAvailableExaminationTermsForDermatologist(@PathVariable Long dermatologistId, @PathVariable Long pharmacyId) {
+        List<AppointmentDto> availableExaminationTermsForDermatologist = new ArrayList<AppointmentDto>();
+        for(Appointment appointment : appointmentService.getAvailableExaminationTermsForDermatologist(dermatologistId, pharmacyId)) {
+            availableExaminationTermsForDermatologist.add(AppointmentMapper.convertToDto(appointment));
+        }
+        return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/scheduleExamination", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<AppointmentDto> scheduleExamination(@RequestBody AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentService.scheduleAppointment(AppointmentMapper.convertToEntity(appointmentDto),
+                appointmentDto.getPatient().getId(), appointmentDto.getWorkDay().getId());
+        if(appointment == null) {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(AppointmentMapper.convertToDto(appointment), HttpStatus.OK);
     }
 }

@@ -20,10 +20,6 @@ public class AppointmentReport {
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
 
-    // ***
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private AppointmentHistory appointmentHistory;
-
     public AppointmentReport() {
     }
 
@@ -56,11 +52,4 @@ public class AppointmentReport {
         this.appointment = appointment;
     }
 
-    public AppointmentHistory getAppointmentHistory() {
-        return appointmentHistory;
-    }
-
-    public void setAppointmentHistory(AppointmentHistory appointmentHistory) {
-        this.appointmentHistory = appointmentHistory;
-    }
 }
