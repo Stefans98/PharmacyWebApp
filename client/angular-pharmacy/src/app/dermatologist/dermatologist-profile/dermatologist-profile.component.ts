@@ -70,7 +70,7 @@ export class DermatologistProfileComponent implements OnInit {
   }
 
   updateDermatologist(): void {
-    this.dermatologistService.updateDermatologist(this.id, new Dermatologist(this.dermatologist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password))).subscribe(
+    this.dermatologistService.updateDermatologist(this.id, new Dermatologist(this.dermatologist.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, encodeURIComponent(this.password), 0)).subscribe(
       data => {
         this.dermatologist = data;
         this.prepareDate(this.dermatologist);

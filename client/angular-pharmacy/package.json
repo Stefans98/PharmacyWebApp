@@ -43,6 +43,7 @@
     "highlight.js": "^10.4.0",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.7.1",
+    "moment": "^2.29.1",
     "ng2-nvd3": "^2.0.0",
     "ng9-odometer": "^2.1.0",
     "ngx-highlightjs": "^4.1.2",

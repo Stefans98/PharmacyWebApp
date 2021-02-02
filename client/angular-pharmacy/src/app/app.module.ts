@@ -70,6 +70,7 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
 import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
+import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administrator/all-dermatologists/pharmacies-for-dermatologist-dialog/pharmacies-for-dermatologist-dialog.component';
 import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
@@ -139,6 +140,7 @@ import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-m
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
     SysAdminPharmaciesModalDialogComponent,
+    PharmaciesForDermatologistDialogComponent,
     MedicineOrderListsComponent,
     MyOffersComponent,
     SupplierProfileComponent,

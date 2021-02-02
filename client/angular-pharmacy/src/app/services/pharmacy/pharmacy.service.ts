@@ -29,13 +29,17 @@ export class PharmacyService{
       .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
   } 
 
+    public getAllPharmacies(): Observable<Pharmacy[]> {
+      return this.http
+        .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
+    }
+
+    public getPharmaciesForDermatologist(id: number): Observable<Pharmacy[]> {
+      return this.http
+        .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByDermatologist/' + id);
+    }  
   public getPharmaciesByMedicineId(id: number): Observable<Pharmacy[]> {
     return this.http
       .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByMedicineId/' + id);
-  } 
-
-  public getAllPharmacies(): Observable<Pharmacy[]> {
-    return this.http
-      .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
   } 
 }

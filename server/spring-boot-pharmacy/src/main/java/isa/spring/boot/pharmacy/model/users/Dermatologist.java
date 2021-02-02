@@ -11,6 +11,9 @@ import java.util.List;
 @DiscriminatorValue("DERMATOLOGIST")
 public class Dermatologist extends Employee {
 
+    @Column(name = "average_grade")
+    private double averageGrade;
+
     // ***
     @ManyToMany(mappedBy = "dermatologists")
     private List<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
@@ -18,13 +21,22 @@ public class Dermatologist extends Employee {
     public Dermatologist() {
     }
 
-    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber, Address address, double averageGrade) {
         super(email, password, firstName, lastName, phoneNumber, address);
+        this.averageGrade = averageGrade;
     }
 
     public Dermatologist(User user) {
         super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
                 user.getAddress());
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 
     public List<Pharmacy> getPharmacies() {
