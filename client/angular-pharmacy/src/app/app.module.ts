@@ -71,7 +71,8 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
 import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
-
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { PatientModalDialogComponent } from './dermatologist/dermatologist-new-appointment/patient-modal-dialog/patient-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import { MatTableModule } from '@angular/material/table';
     PharmacyModalDialogComponent,
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
-    SysAdminPharmaciesModalDialogComponent
+    SysAdminPharmaciesModalDialogComponent,
+    PatientModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -146,7 +148,10 @@ import { MatTableModule } from '@angular/material/table';
     ReactiveFormsModule,
     MatCardModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [
     {

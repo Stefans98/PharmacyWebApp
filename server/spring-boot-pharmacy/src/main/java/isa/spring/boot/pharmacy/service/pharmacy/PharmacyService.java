@@ -5,6 +5,7 @@ import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
+import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.users.UserService;
@@ -38,6 +39,7 @@ public class PharmacyService {
 
     public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId) {
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) userService.findById(pharmacyAdministratorId);
+
         return pharmacyAdministrator.getPharmacy();
     }
 

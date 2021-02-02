@@ -46,7 +46,7 @@ public class AppointmentService {
         return pharmacistCounselings;
     }
 
-    // Vraca istoriju pregleda kod dermatologa za pacijenta (Samo pregledi)
+    // Vraca istoriju pregleda kod dermatologa za pacijenta
     public List<Appointment> getExaminationsHistoryForPatient(Long patientId) {
         List<Appointment> dermatologistExaminationsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : getDermatologistExaminations()) {

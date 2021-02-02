@@ -110,7 +110,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Neziv leka </th>
+          <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
           <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
         </ng-container>
       
@@ -159,7 +159,7 @@
       <ng-template matStepLabel>Zakažite nov pregled</ng-template>
 
       <mat-tab-group mat-align-tabs="start" style="width: 420px;margin-left: 380px;">
-        <mat-tab label="Unapred zakazani termini">
+        <mat-tab label="Unapred definisani termini">
           <h4 style="padding-top: 10px;margin-left: 60px;">Selektujete jedan od ponuđenih termina:</h4>
             <mat-selection-list  class="examination-terms" [multiple]="false"required> 
                 <mat-list-option>
@@ -170,15 +170,21 @@
 
         <mat-tab label="Definisanje novog termina">
           <h4 style="padding-top: 10px;margin-left: 120px;">Izaberite datum pregleda:</h4>
-            <mat-form-field appearance="fill" style="margin-left: 80px">
+            <mat-form-field appearance="fill" style="margin-left: 85px">
                 <mat-label>Datum pregleda</mat-label>
                 <input matInput [matDatepicker]="picker" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker color="primary"></mat-datepicker>
             </mat-form-field>
 
-            <h4 style="padding-top: 10px;margin-left: 120px;">Izaberite vreme pregleda:</h4>
-            
+            <h4 style="margin-left: 95px;">Izaberite početno i krajnje vreme:</h4>
+            <div style="margin-left: 122px;float: left;">
+              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
+            </div>
+            <div style="margin-left: 230px;">
+              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
+            </div>
+   
         </mat-tab>
       </mat-tab-group>
       

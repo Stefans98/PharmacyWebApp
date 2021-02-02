@@ -1,14 +1,9 @@
 package isa.spring.boot.pharmacy.mapper.schedule;
 
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
-import isa.spring.boot.pharmacy.dto.schedule.ExaminationHistoryDto;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
-import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentType;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class AppointmentMapper {
 
