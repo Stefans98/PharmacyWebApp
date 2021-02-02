@@ -1,1 +1,142 @@
-<p>pharmacist-scheduling works!</p>
+<mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear"  
+  style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 620px;">
+  <mat-step [stepControl]="firstFormGroup"  *ngIf="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Datum i vreme savetovanja</ng-template>
+        
+        <div class="first-slide">
+            <h4 style="padding-top: 10px;">Datum savetovanja:</h4>
+            <mat-form-field color="accent" appearance="fill" style="padding-top: 20px; padding-left: 20px;">
+                <mat-label>Izaberite datum</mat-label>
+                <input matInput [matDatepicker]="picker"  [min]="maxDate"  required (dateInput)="onDateChange($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker color="primary"></mat-datepicker>
+            </mat-form-field>
+
+            <h4 style="padding-top: 10px; padding-left: 50px;">Vreme početka savetovanja:</h4>
+            <mat-form-field color="accent" appearance="fill" style="padding-top: 20px; padding-left: 20px;">
+                <mat-label >Izaberite vreme</mat-label>
+                <input matInput [ngxTimepicker]="pickerA" [value]="time" [format]="24" required readonly>
+                <ngx-material-timepicker #pickerA  [theme]="myTimePickerTheme"></ngx-material-timepicker>
+            </mat-form-field>
+
+            <div class="button-confirm-in-first-slide">
+                <button mat-raised-button color="primary" (click)="findMedicine()">Potvrdi</button>
+            </div>
+        </div>
+        
+        <div>
+
+
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+            <div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+        
+                <div fxFlex="125" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacy-list-container">
+                    
+                    <div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                        <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Apoteke sa slobodnim farmaceutima</h3> 
+                    </div>
+                        
+                    <mat-divider></mat-divider>
+        
+                <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" style="padding-top: 0;" >
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+                    <div class="pharmacy-list">
+                    <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Naziv apoteke </th>
+                    <td mat-cell *matCellDef="let element"> {{element.medicine.name}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef> Mesto apoteke</th>
+                    <td mat-cell *matCellDef="let element"> {{element.medicine.manufacturer}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="grade">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena apoteke </th>
+                        <td mat-cell *matCellDef="let element"> {{element.medicinePrice}} RSD </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header > Cena savetovanja </th>
+                        <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}}, {{element.pharmacy.city}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="choice">
+                        <th mat-header-cell *matHeaderCellDef> Izbor apoteke </th>
+                        <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="cancelMedicineReservationClick(element)">Izaberi</button> </td>
+                    </ng-container>
+                    
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">Ne postoji nijedna apoteka sa slobodnim farmaceutima</td>
+                    </tr>
+                    </div>             
+                </table>
+                <mat-divider></mat-divider>			
+                </div>
+        
+                </div>  
+                                   
+            </div>
+        
+        </div>
+        </div>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-first-form" (click)="firstNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" *ngIf="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Izaberite apoteku</ng-template>
+        <div class="parent">
+            <h4 style="padding-top: 20px;">Selektujete apoteku iz koje rezervišete lek:</h4>
+            <mat-selection-list (ngModelChange)="onChangePharmacy($event)" class="searched-medicine" [multiple]="false"  formControlName="secondCtrl" required>    
+                <mat-list-option  *ngFor="let pharmacy of pharmaciesWhichContainMedicine"  [value]="pharmacy.id" >
+                    {{pharmacy.name}}, {{pharmacy.city}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-second-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-second-form-next" (click)="secondNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" *ngIf="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Datum preuzimanja</ng-template>
+        <div class="parent">
+            <h4 style="padding-top: 20px;">Izaberite datum preuzimanja leka:</h4>
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Datum preuzimanja</mat-label>
+                <input matInput [matDatepicker]="picker"  [min]="maxDate"  formControlName="thirdCtrl" required (dateInput)="onDateChange($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker color="primary"></mat-datepicker>
+              </mat-form-field>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-third-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-third-form-next" (click)="thirdNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
+    <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Kraj rezervacije</ng-template>
+        <div class="parent">
+            <h3 style="padding-top: 130px;">Stigli ste do kraja postupka rezervacije leka!</h3>
+            <h3 style="padding-top: 5px;">Cena izabranog leka je:  {{this.medicinePrice}} RSD</h3>
+            <h3 style="padding-top: 5px;">Za rezervaciju kliknite na dugme rezerviši!</h3>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-fourth-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-fourth-form-next" (click)="reserveMedicineClick()">Rezerviši</button>
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>

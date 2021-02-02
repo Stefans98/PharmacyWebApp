@@ -78,6 +78,7 @@ import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker'
 
 @NgModule({
   declarations: [
@@ -161,8 +162,9 @@ import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-m
     HttpClientModule,
     MatTableModule,
     NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
     NgxMatTimepickerModule,
-    NgxMatNativeDateModule
+    NgxMaterialTimepickerModule
   ],
   providers: [
     {

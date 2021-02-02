@@ -95,7 +95,6 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatInputModule,
     MatToolbarModule,
-    MatInputModule,
     MatListModule,
     MatChipsModule,
     MatIconModule,
