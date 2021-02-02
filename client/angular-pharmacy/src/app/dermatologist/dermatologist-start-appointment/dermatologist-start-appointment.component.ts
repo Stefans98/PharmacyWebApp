@@ -42,7 +42,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     medicines = new FormControl();
     public medicineList: string[] = ['Brufen', 'Paracetamol'];
 
-    displayedColumns: string[] = ['select', 'position', 'name', 'specification', 'substitute'];
+    displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
     selection = new SelectionModel<PeriodicElement>(true, []);
 
