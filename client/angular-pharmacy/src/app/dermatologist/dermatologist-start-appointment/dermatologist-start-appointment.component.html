@@ -1,5 +1,5 @@
 <mat-horizontal-stepper labelPosition="bottom" #stepper
-  style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 620px;">
+  style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 650px;">
 
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
@@ -158,10 +158,35 @@
     <form [formGroup]="fourthFormGroup">
       <ng-template matStepLabel>Zakažite nov pregled</ng-template>
 
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-      </mat-form-field>
+      <mat-tab-group mat-align-tabs="start" style="width: 420px;margin-left: 380px;">
+        <mat-tab label="Unapred definisani termini">
+          <h4 style="padding-top: 10px;margin-left: 60px;">Selektujete jedan od ponuđenih termina:</h4>
+            <mat-selection-list  class="examination-terms" [multiple]="false"required> 
+                <mat-list-option>
+                20.02.2021. 10:00 - 10:30
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-tab>
+
+        <mat-tab label="Definisanje novog termina">
+          <h4 style="padding-top: 10px;margin-left: 120px;">Izaberite datum pregleda:</h4>
+            <mat-form-field appearance="fill" style="margin-left: 85px">
+                <mat-label>Datum pregleda</mat-label>
+                <input matInput [matDatepicker]="picker" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker color="primary"></mat-datepicker>
+            </mat-form-field>
+
+            <h4 style="margin-left: 95px;">Izaberite početno i krajnje vreme:</h4>
+            <div style="margin-left: 122px;float: left;">
+              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
+            </div>
+            <div style="margin-left: 230px;">
+              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
+            </div>
+   
+        </mat-tab>
+      </mat-tab-group>
       
       <div>
         <button mat-raised-button color="warn" matStepperPrevious style="float: left;margin-top: 40px;">Nazad</button>
@@ -177,7 +202,7 @@
     <h1 class="mat-h1" style="margin-left: 442px;">Potvrdite kraj pregleda</h1><br><br>
 
     <div>
-      <button mat-raised-button color="primary" matStepperNext style="margin-left: 522px;">Potvrdi</button>
+      <button mat-flat-button color="primary" matStepperNext style="margin-left: 522px;">Potvrdi</button>
     </div>
   </mat-step>
 

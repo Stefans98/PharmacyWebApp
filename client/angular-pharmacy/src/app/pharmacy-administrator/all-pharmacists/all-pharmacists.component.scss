@@ -1,48 +1,61 @@
-.all-pharmacists{
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 1%;
+.full {
+    width: 70%;
+    margin-top: 2px;
+}
+.pharmacist-container {
+	background-color: white;
+    padding: 10px;
+    height: 630px;
+    overflow: auto;
+
+	.pharmacist-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	
 }
 
-.all-pharmacists-table{
-    height: 550px;
-    width: 800px;
-    float: right;
-    overflow:auto;
+.pharmacist-container-second {
+	background-color: white;
+    padding: 10px;
+    height: 337.5px;
+    overflow: auto;
+
+	.pharmacist-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
 }
 
-.all-phrmacists-title{
-    margin-left: 40%;
-    margin-top: 2%;
-}
-table {
+table{
     width: 100%;
-}
-
-table th{
-    text-align: center; 
-}
-
-table td{
-    text-align: center; 
-}
-
-.all-pharmacists-filter-div{
-    height: 550px;
-    width: 300px;
-    float: left;
-}
-
-.all-pharmacists-filter-card{
-    height: 380px;
-}
-
-.filter-pharmacist-grade{
-    margin-top: 10%;
-}
-
-ul {
-    list-style-type: none;
-    margin-top: 2%;
-    margin-left: -10%;
 }

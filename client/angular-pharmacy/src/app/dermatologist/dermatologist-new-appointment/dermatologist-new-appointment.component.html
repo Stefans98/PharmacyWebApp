@@ -1,1 +1,113 @@
-<p>dermatologist-new-appointment works!</p>
+<div class="main">
+    <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="Unapred definisani termini">
+            <div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 contact-list-container">
+			
+                <div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                    <h2 class="mat-headline" fxFlex="80" style="margin-top:20px">Zakažite jedan od unapred definisanih termina</h2> 
+    
+                    <!-- <div fxflex="60" class="full" fxLayoutAlign="end center">
+                        <mat-form-field style="margin-top: 10px;">
+                            <input matInput placeholder="Pretraga">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </div> -->
+                </div>
+                    
+                <mat-divider></mat-divider>
+    
+                <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="contact-list-container">
+                        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                            <div class="contact-list">
+                                <ng-container matColumnDef="dermatologist">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Dermatolog </th>
+                                    <td mat-cell *matCellDef="let element"> Milan Mitrovic </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="pharmacy">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv apoteke </th>
+                                <td mat-cell *matCellDef="let element"> Galen Pharm </td>
+                                </ng-container>
+                            
+                                <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Datume termina </th>
+                                <td mat-cell *matCellDef="let element"> 02.02.2021. </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="time">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vreme termina </th>
+                                <td mat-cell *matCellDef="let element"> 10:00 - 10:30 </td>
+                                </ng-container>
+                                                  
+                                <ng-container matColumnDef="button">
+                                <th mat-header-cell *matHeaderCellDef></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div>
+                                        <button mat-raised-button style="float: right" color="primary" (click)="openDialog()">Zakaži</button>
+                                    </div>
+                                </td>
+                                </ng-container>
+                            
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </div>             
+                        </table>
+                    <mat-divider></mat-divider>			
+                </div>
+    
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Definisanje novog termina">
+            <h3 class="mat-title" fxFlex style="margin-top: 50px;float: left;"> Izaberite datum termina: </h3> 
+            <mat-form-field color="accent" appearance="fill" style="margin-top: 35px;margin-left: 30px;">
+                <mat-label>Datum preuzimanja</mat-label>
+                <input matInput [matDatepicker]="picker" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker color="primary"></mat-datepicker>
+            </mat-form-field><br>
+
+            <h3 class="mat-title" fxFlex style="margin-top: 60px;float: left;"> Izaberite početno vreme termina: </h3> 
+            <div style="margin-left: 320px; margin-top: 20px;">
+                <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5"></ngx-mat-timepicker> 
+            </div>
+
+            <h3 class="mat-title" fxFlex style="margin-top: 58px;float: left;"> Izaberite krajnje vreme termina: </h3> 
+            <div style="margin-left: 320px; margin-top: 18px;">
+                <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5"></ngx-mat-timepicker> 
+            </div>
+
+            <h2 class="mat-h2" style="margin-top: 60px;float: left;">Izaberite apoteku:</h2>
+                <mat-form-field appearance="fill" style="margin-top: 45px; margin-left: 30px; width: 230px;"> 
+                    <mat-label>Izaberite apoteku</mat-label>
+                    <mat-select required>
+                        <mat-option>
+                        AAAAA
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div style="float: right;margin-top: -350px;margin-right: 100px;">
+                    <ng-template>Pretraga leka</ng-template>
+                    <mat-form-field >
+                        <input matInput placeholder="Pronađite pacijenta" #searchInput>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <button mat-stroked-button color="primary" style="margin-left:8px; margin-top: 10px;">Pronađi</button>
+                    
+                    <h2 class="mat-title" >Izaberite pacijenta za kog zakazujete pregled:</h2>
+                    <mat-selection-list class="searched-medicine" [multiple]="false"> 
+                        <mat-list-option>
+                        AAA
+                        </mat-list-option>
+                        <mat-list-option >
+                        BBBB
+                        </mat-list-option>
+                    </mat-selection-list>
+                    <button mat-raised-button color="primary" style="margin-left: 160px;margin-top: 10px;">Zakaži</button>
+                </div>
+
+        </mat-tab>
+    </mat-tab-group>
+    
+</div>

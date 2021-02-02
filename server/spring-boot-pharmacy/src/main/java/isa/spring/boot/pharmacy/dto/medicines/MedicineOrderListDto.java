@@ -8,6 +8,7 @@ import java.util.List;
 
 public class MedicineOrderListDto {
 
+    private Long id;
     private Date finalOfferDate;
     private List<OrderItemDto> orderItems;
     private PharmacyDto pharmacy;
@@ -34,4 +35,12 @@ public class MedicineOrderListDto {
     public PharmacyDto getPharmacy() { return pharmacy; }
 
     public void setPharmacy(PharmacyDto pharmacy) { this.pharmacy = pharmacy; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

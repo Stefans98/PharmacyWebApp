@@ -29,7 +29,6 @@ import { DermatologistNewAppointmentComponent } from './dermatologist/dermatolog
 import { DermatologistVacationRequestComponent } from './dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
 import { DermatologistAbsenceRequestComponent } from './dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
 import { MaterialModule } from './material-module';
-
 import { FormsModule } from '@angular/forms'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -71,11 +70,14 @@ import { PharmacyModalDialogComponent } from './pharmacist/pharmacist-profile/ph
 import { LoyaltyProgramComponent } from './system-administrator/loyalty-program/loyalty-program.component';
 import { SystemAdministratorRegistrationComponent } from './system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { MatTableModule } from '@angular/material/table';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { PatientModalDialogComponent } from './dermatologist/dermatologist-new-appointment/patient-modal-dialog/patient-modal-dialog.component';
 import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administrator/all-dermatologists/pharmacies-for-dermatologist-dialog/pharmacies-for-dermatologist-dialog.component';
 import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
-
+import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
+import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -138,10 +140,13 @@ import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-p
     LoyaltyProgramComponent,
     SystemAdministratorRegistrationComponent,
     SysAdminPharmaciesModalDialogComponent,
+    PatientModalDialogComponent,
     PharmaciesForDermatologistDialogComponent,
     MedicineOrderListsComponent,
     MyOffersComponent,
-    SupplierProfileComponent
+    SupplierProfileComponent,
+    IssueOfferModalDialogComponent,
+    EditOfferModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -154,7 +159,10 @@ import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-p
     ReactiveFormsModule,
     MatCardModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [
     {
