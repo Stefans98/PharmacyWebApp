@@ -1,6 +1,7 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
+import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
@@ -12,6 +13,7 @@ import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,7 +51,13 @@ public class PharmacyService {
 
     public List<Pharmacy> getPharmaciesByMedicineId(Long medicineId){
         Medicine medicine = medicineService.findById(medicineId);
-        return medicine.getPharmacies();
+        List<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
+        for(PharmacyMedicine pharmacyMedicine : medicine.getPharmacyMedicines()) {
+            if(pharmacyMedicine.getMedicine().getId() == medicineId) {
+                pharmacies.add(pharmacyMedicine.getPharmacy());
+            }
+        }
+        return pharmacies;
     }
 
     public Pharmacy getPharmacyForPharmacist(Long pharmacistId) {
@@ -72,8 +80,8 @@ public class PharmacyService {
 
     public double getMedicinePriceFromPharmacy(Long medicineId, Long pharmacyId) {
         Pharmacy pharmacy = findById(pharmacyId);
-        for (Medicine medicine : pharmacy.getMedicines()) {
-            if (medicine.getId() == medicineId) {
+        for(PharmacyMedicine pharmacyMedicine : pharmacy.getPharmacyMedicines()) {
+            if(pharmacyMedicine.getMedicine().getId() == medicineId) {
                 return medicinePriceService.getMedicinePriceByMedicineId(medicineId);
             }
         }

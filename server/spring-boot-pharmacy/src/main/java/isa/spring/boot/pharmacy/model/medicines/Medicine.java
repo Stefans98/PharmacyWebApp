@@ -3,6 +3,8 @@ package isa.spring.boot.pharmacy.model.medicines;
 import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.pharmacy.Promotion;
+import isa.spring.boot.pharmacy.model.users.Allergy;
+import isa.spring.boot.pharmacy.model.users.User;
 
 import javax.persistence.*;
 
@@ -43,9 +45,6 @@ public class Medicine {
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicinePrice> medicinePrices;
 
-    @ManyToMany(mappedBy = "medicines")
-    private List<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
-
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;
 
@@ -60,6 +59,12 @@ public class Medicine {
 
     @ManyToMany(mappedBy = "medicineSubstitutions")
     private List<MedicineSpecification> medicineSpecifications = new ArrayList<MedicineSpecification>();
+
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyMedicine> pharmacyMedicines;
+
+    @OneToOne(mappedBy = "medicine")
+    private Allergy allergy;
 
     public Medicine() {
     }
@@ -137,14 +142,6 @@ public class Medicine {
         this.medicinePrices = medicinePrices;
     }
 
-    public List<Pharmacy> getPharmacies() {
-        return pharmacies;
-    }
-
-    public void setPharmacies(List<Pharmacy> pharmacies) {
-        this.pharmacies = pharmacies;
-    }
-
     public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
@@ -183,5 +180,21 @@ public class Medicine {
 
     public void setMedicineSpecifications(List<MedicineSpecification> medicineSpecifications) {
         this.medicineSpecifications = medicineSpecifications;
+    }
+
+    public Allergy getAllergy() {
+        return allergy;
+    }
+
+    public void setAllergy(Allergy allergy) {
+        this.allergy = allergy;
+    }
+
+    public List<PharmacyMedicine> getPharmacyMedicines() {
+        return pharmacyMedicines;
+    }
+
+    public void setPharmacyMedicines(List<PharmacyMedicine> pharmacyMedicines) {
+        this.pharmacyMedicines = pharmacyMedicines;
     }
 }
