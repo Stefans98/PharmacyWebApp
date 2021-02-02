@@ -29,7 +29,6 @@ import { DermatologistNewAppointmentComponent } from './dermatologist/dermatolog
 import { DermatologistVacationRequestComponent } from './dermatologist/dermatologist-vacation-request/dermatologist-vacation-request.component';
 import { DermatologistAbsenceRequestComponent } from './dermatologist/dermatologist-absence-request/dermatologist-absence-request.component';
 import { MaterialModule } from './material-module';
-
 import { FormsModule } from '@angular/forms'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -75,6 +74,9 @@ import { PharmaciesForDermatologistDialogComponent } from './pharmacy-administra
 import { MedicineOrderListsComponent } from './supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
+import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 
 
 @NgModule({
@@ -141,7 +143,9 @@ import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-p
     PharmaciesForDermatologistDialogComponent,
     MedicineOrderListsComponent,
     MyOffersComponent,
-    SupplierProfileComponent
+    SupplierProfileComponent,
+    IssueOfferModalDialogComponent,
+    EditOfferModalDialogComponent
   ],
   imports: [
     BrowserModule,

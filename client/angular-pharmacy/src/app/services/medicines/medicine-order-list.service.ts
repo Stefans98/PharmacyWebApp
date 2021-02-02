@@ -21,6 +21,6 @@ export class MedicineOrderListService {
   }
 
   public getAllMedicineOrderLists() : Observable<MedicineOrderList[]> {
-    return this.http.get<MedicineOrderList[]>(this.medicineOrderListUrl + 'all');
+    return this.http.get<MedicineOrderList[]>(this.medicineOrderListUrl + 'allActive');
   }
 }

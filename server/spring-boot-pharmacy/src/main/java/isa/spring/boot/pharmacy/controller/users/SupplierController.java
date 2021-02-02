@@ -1,7 +1,10 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.SupplierDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.SupplierMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
+import isa.spring.boot.pharmacy.model.users.Supplier;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +23,26 @@ public class SupplierController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
-    public ResponseEntity<UserDto> registerSupplier(@RequestBody UserDto supplierDto)
+    public ResponseEntity<UserDto> registerSupplier(@RequestBody SupplierDto supplierDto)
     {
         if (userService.findByEmail(supplierDto.getEmail()) != null)
         {
             throw new RuntimeException();
         }
-        User supplier = userService.saveSupplier(UserMapper.convertToEntity(supplierDto, false));
+        Supplier supplier = userService.saveSupplier(SupplierMapper.convertToEntity(supplierDto, false));
 
         return new ResponseEntity<>(UserMapper.convertToDto(supplier), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPPLIER')")
-    public ResponseEntity<UserDto> updateSupplier(@RequestBody UserDto supplierDto)
+    public ResponseEntity<UserDto> updateSupplier(@RequestBody SupplierDto supplierDto)
     {
         if (userService.findById(supplierDto.getId()) == null)
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        User supplier = userService.updateSupplier(UserMapper.convertToEntity(supplierDto, true));
+        User supplier = userService.updateSupplier(SupplierMapper.convertToEntity(supplierDto, true));
 
         return new ResponseEntity<>(UserMapper.convertToDto(supplier), HttpStatus.OK);
     }

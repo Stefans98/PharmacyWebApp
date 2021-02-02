@@ -1,1 +1,102 @@
-<p>my-offers works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 orders-list-container">
+			
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Moje ponude:</h3> 
+            </div>
+                
+			<mat-divider></mat-divider>
+
+      <div fxFlex="100" fxLayout="column" fxLayoutAlign="space-between stretch" class="orders-list-container" >
+        <table mat-table [dataSource]="offersDataSouce" matSort class="mat-elevation-z8" >
+          <div class="orders-list">
+            <ng-container matColumnDef="pharmacyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv apoteke </th>
+            <td mat-cell *matCellDef="let element"> {{element.medicineOrderList.pharmacy.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena </th>
+                <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="deliveryDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Datum isporuke </th>
+                <td mat-cell *matCellDef="let element"> {{convertDate(element.deliveryDeadline)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Stanje ponude: </th>
+                <td mat-cell *matCellDef="let element"> {{parseOfferState(element.offerState)}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="finalOfferDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rok za ponude </th>
+            <td mat-cell *matCellDef="let element"> {{convertDate(element.medicineOrderList.finalOfferDate)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pharmacyAddress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
+            <td mat-cell *matCellDef="let element"> {{element.medicineOrderList.pharmacy.address}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="orderItems">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Spisak lekova </th>
+                <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="showOrderItemsClick(element)">Prikaži </button> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="editOffer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Izmeni ponudu </th>
+                <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="editOfferClick(element)">Izmeni</button> </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">Nema ponuda za prikazivanje</td>
+            </tr>
+          </div>             
+        </table>
+      </div>
+    </div>
+    <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 order-item-list-container">
+        <div fxFlex="10" fxLayout="row" >	
+            <h3 class="mat-title" fxFlex="22"> </h3> 		
+            <h3 class="mat-title" fxFlex>Spisak lekova u ponudi:</h3> 
+        </div>
+        <mat-divider></mat-divider>
+        <div fxFlex="90" *ngIf="selectedOffer != undefined" fxLayout="column" fxLayoutAlign="space-between stretch" class="orders-list-container">
+            
+            <table mat-table [dataSource]="medicineOrderItemsDataSource" matSort class="mat-elevation-z8" >
+                <div class="orders-list">
+                    <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod </th>
+                    <td mat-cell *matCellDef="let element"> {{element.medicine.code}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv leka</th>
+                    <td mat-cell *matCellDef="let element"> {{element.medicine.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Količina </th>
+                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsMedicineOrderItem; sticky:true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsMedicineOrderItem;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">Nema lekova za prikazivanje</td>
+                    </tr>
+                </div>             
+             </table>
+        </div>
+    </div>	
+</div>
+

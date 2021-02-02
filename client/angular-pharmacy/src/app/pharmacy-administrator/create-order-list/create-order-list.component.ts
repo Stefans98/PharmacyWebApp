@@ -85,7 +85,7 @@ export class CreateOrderListComponent implements OnInit {
       console.log(this.offerDeadline);
       console.log('***********');
     }
-    this.medicineOrderListForSending = new MedicineOrderList(this.orderItemListForSending, this.offerDeadline);
+    this.medicineOrderListForSending = new MedicineOrderList(0, this.orderItemListForSending, this.offerDeadline);
     this.medicineOrderListService.createMedicineOrderList(this.medicineOrderListForSending).subscribe();
   }
 

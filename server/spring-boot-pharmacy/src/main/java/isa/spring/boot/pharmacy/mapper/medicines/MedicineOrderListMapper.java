@@ -30,6 +30,7 @@ public class MedicineOrderListMapper {
 
     public static MedicineOrderListDto convertToDto(MedicineOrderList medicineOrderList) {
         MedicineOrderListDto dto = new MedicineOrderListDto();
+        dto.setId(medicineOrderList.getId());
         dto.setFinalOfferDate(medicineOrderList.getFinalOfferDate());
         dto.setPharmacy(PharmacyMapper.convertToDto(medicineOrderList.getPharmacy()));
         List<OrderItemDto> orderItemDtos = new ArrayList<OrderItemDto>();
