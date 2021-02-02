@@ -7,8 +7,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import static javax.persistence.InheritanceType.SINGLE_TABLE;
-
 @Entity
 @Table(name="work_days")
 public class WorkDay {
@@ -18,8 +16,11 @@ public class WorkDay {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
-    @Column(name="date", nullable=false)
-    private Date date;
+    @Column(name="start_time", nullable=false)
+    private Date startTime;
+
+    @Column(name="end_time", nullable=false)
+    private Date entTime;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
@@ -33,8 +34,9 @@ public class WorkDay {
     public WorkDay() {
     }
 
-    public WorkDay(Date date, Pharmacy pharmacy, Employee employee, List<Appointment> appointments) {
-        this.date = date;
+    public WorkDay(Date startTime, Date entTime, Pharmacy pharmacy, Employee employee, List<Appointment> appointments) {
+        this.startTime = startTime;
+        this.entTime = entTime;
         this.pharmacy = pharmacy;
         this.employee = employee;
         this.appointments = appointments;
@@ -48,12 +50,20 @@ public class WorkDay {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEntTime() {
+        return entTime;
+    }
+
+    public void setEntTime(Date entTime) {
+        this.entTime = entTime;
     }
 
     public Pharmacy getPharmacy() {

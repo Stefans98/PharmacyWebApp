@@ -3,7 +3,7 @@
 
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Započnite pregled</ng-template>
+      <ng-template matStepLabel>Početak pregleda</ng-template>
       <!-- <div class="example-action-buttons">
           <button mat-button (click)="accordion.openAll()">Expand All</button>
           <button mat-button (click)="accordion.closeAll()">Collapse All</button>
@@ -60,12 +60,12 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" optional>
+  <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Unesite informacije o pregledu</ng-template>
+      <ng-template matStepLabel>Unos informacija o pregledu</ng-template>
 
       <mat-form-field class="example-full-width">
-        <mat-label>Unesite informacije o pregledu</mat-label>
+        <mat-label>Unos informacija o pregledu</mat-label>
         <textarea matInput placeholder=""></textarea>
       </mat-form-field>
 
@@ -77,9 +77,9 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup" optional>
+  <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
-      <ng-template matStepLabel>Prepišite lekove</ng-template>
+      <ng-template matStepLabel>Prepisivanje lekova</ng-template>
       
       <div class="table-container">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" class="medicinesTable">
@@ -101,27 +101,38 @@
             </mat-checkbox>
           </td>
         </ng-container>
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> Rbr. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-        </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
           <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
         </ng-container>
+
+        <!-- Manufacturer Column -->
+        <ng-container matColumnDef="manufacturer">
+          <th mat-header-cell *matHeaderCellDef> Proizvođač </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Vrsta leka </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+        </ng-container>
       
         <!-- Specification Column -->
         <ng-container matColumnDef="specification">
           <th mat-header-cell *matHeaderCellDef> Specifikacija leka </th>
-          <td mat-cell *matCellDef="let element"><button mat-stroked-button color="warn" (click)="openDialog()" class="modal-dialog">Prikaži</button> </td>
+          <td mat-cell *matCellDef="let element"><button mat-stroked-button color="primary" (click)="openDialog()" class="modal-dialog">Prikaži</button> </td>
         </ng-container>
 
-        <!-- Specification Column -->
-        <ng-container matColumnDef="substitute">
+        <!-- Prescribe Column -->
+        <ng-container matColumnDef="prescribe">
+          <th mat-header-cell *matHeaderCellDef> Prepišite lek </th>
+          <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="openDialog()" class="modal-dialog">Prepiši lek</button> </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="substitute">
           <th mat-header-cell *matHeaderCellDef> Zamenski lekovi </th>
           <td mat-cell *matCellDef="let element">
             <mat-form-field style="max-width:140px;">
@@ -137,7 +148,7 @@
               </mat-select>
               </mat-form-field> 
           </td>
-        </ng-container>
+        </ng-container> -->
    
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -154,9 +165,9 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="fourthFormGroup" optional>
+  <mat-step [stepControl]="fourthFormGroup">
     <form [formGroup]="fourthFormGroup">
-      <ng-template matStepLabel>Zakažite nov pregled</ng-template>
+      <ng-template matStepLabel>Zakazivanje novog pregleda</ng-template>
 
       <mat-tab-group mat-align-tabs="start" style="width: 420px;margin-left: 380px;">
         <mat-tab label="Unapred definisani termini">
