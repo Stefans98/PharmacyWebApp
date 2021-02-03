@@ -27,6 +27,9 @@ public class MedicineReservation {
     @Column(name = "got_penalty", nullable = false)
     private boolean gotPenalty;
 
+    @Column(name = "unique_reservation_code", nullable = false)
+    private String uniqueReservationCode;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Medicine medicine;
 
@@ -39,13 +42,14 @@ public class MedicineReservation {
     public MedicineReservation() {
     }
 
-    public MedicineReservation(Date finalPurchasingDate, MedicineReservationState medicineReservationState, boolean gotPenalty, Medicine medicine, Pharmacy pharmacy, Patient patient) {
+    public MedicineReservation(Date finalPurchasingDate, MedicineReservationState medicineReservationState, boolean gotPenalty, Medicine medicine, Pharmacy pharmacy, Patient patient, String uniqueReservationCode) {
         this.finalPurchasingDate = finalPurchasingDate;
         this.medicineReservationState = medicineReservationState;
         this.gotPenalty = gotPenalty;
         this.medicine = medicine;
         this.pharmacy = pharmacy;
         this.patient = patient;
+        this.uniqueReservationCode = uniqueReservationCode;
     }
 
     public Long getId() {
@@ -102,5 +106,13 @@ public class MedicineReservation {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public String getUniqueReservationCode() {
+        return uniqueReservationCode;
+    }
+
+    public void setUniqueReservationCode(String uniqueReservationCode) {
+        this.uniqueReservationCode = uniqueReservationCode;
     }
 }

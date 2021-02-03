@@ -1,14 +1,16 @@
 package isa.spring.boot.pharmacy.service.schedule;
 
 import isa.spring.boot.pharmacy.model.schedule.*;
-import isa.spring.boot.pharmacy.model.users.Patient;
+import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.schedule.AppointmentRepository;
 import isa.spring.boot.pharmacy.repository.schedule.WorkDayRepository;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,7 +48,6 @@ public class AppointmentService {
         return pharmacistCounselings;
     }
 
-    // Vraca istoriju pregleda kod dermatologa za pacijenta
     public List<Appointment> getExaminationsHistoryForPatient(Long patientId) {
         List<Appointment> dermatologistExaminationsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : getDermatologistExaminations()) {
@@ -81,9 +82,20 @@ public class AppointmentService {
         return occupiedAppointmentsForPatient;
     }
 
+    public List<Appointment> getAllOccupiedAppointmentsForPharmacist(Long pharmacistId) {
+        List<Appointment> occupiedAppointmentsForPharmacist = new ArrayList<Appointment>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getWorkDay().getEmployee().getId() == pharmacistId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
+                occupiedAppointmentsForPharmacist.add(appointment);
+            }
+        }
+        return occupiedAppointmentsForPharmacist;
+    }
+
     public List<Appointment> getAllOccupiedAppointmentsForDermatologist(Long dermatologistId) {
         List<Appointment> occupiedAppointmentsForDermatologist = new ArrayList<Appointment>();
-        for(Appointment appointment : appointmentRepository.findAll()) {
+        for(Appointment appointment : getDermatologistExaminations()) {
             if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
                     appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
                 occupiedAppointmentsForDermatologist.add(appointment);
@@ -93,22 +105,68 @@ public class AppointmentService {
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
-        for(Appointment patientOccupiedAppointment : getAllOccupiedAppointmentsForPatient(appointment.getPatient().getId())) {
-            if(appointment.getStartTime().after(patientOccupiedAppointment.getStartTime()) && appointment.getStartTime().before(patientOccupiedAppointment.getEndTime()) ||
-                    appointment.getEndTime().before(patientOccupiedAppointment.getEndTime()) && appointment.getEndTime().before(patientOccupiedAppointment.getStartTime()) ||
-                                appointment.getStartTime().before(patientOccupiedAppointment.getStartTime()) && appointment.getEndTime().after(patientOccupiedAppointment.getEndTime())) {
+        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
+            return null;
+        }
+
+        User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
+        if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
+                !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
+            }
+        } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
+                !isEmployeeWorkDayValid(appointment, user.getId())) {
                 return null;
             }
         }
-
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
         Appointment savedAppointment = appointmentRepository.save(appointment);
-        AppointmentReport appointmentReport = new AppointmentReport();
-        appointmentReport.setAppointment(savedAppointment);
-        appointmentReport.setDescription(appointment.getAppointmentReport().getDescription());
-        appointmentReportService.save(appointmentReport);
         return savedAppointment;
+    }
+
+    public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> occupiedAppointments) {
+        Date startNew = newAppointment.getStartTime();
+        Date endNew = newAppointment.getEndTime();
+        Date startOccupied, endOccupied;
+        for(Appointment occupiedAppointment : occupiedAppointments) {
+            startOccupied = occupiedAppointment.getStartTime();
+            endOccupied = occupiedAppointment.getEndTime();
+            if((startNew.compareTo(startOccupied) <= 0 && ((endNew.compareTo(startOccupied) >= 0 && endNew.compareTo(endOccupied) <= 0) || (endNew.compareTo(startOccupied) >= 0 && endNew.compareTo(endOccupied) >= 0))) ||
+                    (startNew.compareTo(startOccupied) >= 0 && startNew.compareTo(endOccupied) <= 0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEmployeeWorkDayValid(Appointment newAppointment, Long employeeId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Employee employee = (Employee) userService.findById(employeeId);
+        for(WorkDay workDay : employee.getWorkDays()) {
+            if(sdf.format(newAppointment.getStartTime()).equals(sdf.format(workDay.getStartTime()))) {
+                if(newAppointment.getStartTime().compareTo(workDay.getStartTime()) >= 0 &&
+                    newAppointment.getEndTime().compareTo(workDay.getEntTime()) <= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<Appointment> findOccupiedAppointmentsByPatientEmail(String patientEmail, Long employeeId) {
+        List<Appointment> occupiedExaminations = new ArrayList<Appointment>();
+        Patient patient = (Patient) userService.findByEmail(patientEmail);
+        for(Appointment appointment : getAllOccupiedAppointmentsForPatient(patient.getId())) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            if(appointment.getWorkDay().getEmployee().getId() == employeeId &&
+                sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
+                occupiedExaminations.add(appointment);
+            }
+        }
+        return occupiedExaminations;
     }
 
 }
