@@ -1,0 +1,61 @@
+.create-order-list{
+    height: 700px;
+    width: 500px;
+    float: left;
+    margin-top: 2%;
+    margin-left: 5%;
+}
+
+.create-order-list-card{
+    height: 610px;
+    width: 500px;
+    margin-left: -10%;
+    float: left;
+}
+
+.create-order-list-table{
+    height: 500px;
+    overflow:auto;
+}
+
+.all-medicines{
+    height: 700px;
+    width: 520px;
+    float: right;
+    overflow:auto;
+    margin-top: 2%;
+    margin-right: 10%;
+}
+
+.all-medicines-card{
+    height: 610px;
+    width: 480px;
+}
+
+.create-order-list-table{
+    height: 450px;
+}
+
+
+.all-medicines-table{
+    height: 570px;
+}
+
+table{
+    width: 100%;
+}
+
+table tr th{
+    text-align: center; 
+}
+
+table td{
+    text-align: center; 
+}
+table tr{
+    height: 50px;
+}
+
+.end-date-class{
+    margin-top: 10px;
+}

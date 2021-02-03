@@ -1,6 +1,7 @@
 package isa.spring.boot.pharmacy.model.medicines;
 
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
 
 import javax.persistence.*;
 
@@ -27,6 +28,9 @@ public class MedicineOrderList {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Pharmacy pharmacy;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private PharmacyAdministrator pharmacyAdministrator;
+
     // ***
     @OneToMany(mappedBy = "medicineOrderList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Offer> offers;
@@ -34,10 +38,11 @@ public class MedicineOrderList {
     public MedicineOrderList() {
     }
 
-    public MedicineOrderList(Date finalOfferDate, List<OrderItem> orderItems, Pharmacy pharmacy) {
+    public MedicineOrderList(Date finalOfferDate, List<OrderItem> orderItems, Pharmacy pharmacy, PharmacyAdministrator pharmacyAdministrator) {
         this.finalOfferDate = finalOfferDate;
         this.orderItems = orderItems;
         this.pharmacy = pharmacy;
+        this.pharmacyAdministrator = pharmacyAdministrator;
     }
 
     public Long getId() {
@@ -74,5 +79,13 @@ public class MedicineOrderList {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public PharmacyAdministrator getPharmacyAdministrator() {
+        return pharmacyAdministrator;
+    }
+
+    public void setPharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator) {
+        this.pharmacyAdministrator = pharmacyAdministrator;
     }
 }
