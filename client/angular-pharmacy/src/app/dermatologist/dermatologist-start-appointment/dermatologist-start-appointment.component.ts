@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatAccordion} from '@angular/material/expansion';
 import { MatSelectionListChange } from '@angular/material/list';
@@ -7,6 +7,10 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MedicineSpecificationModalDialogComponent } from './medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
 import { Patient } from '../../models/patient.model';
+import { Appointment } from '../../models/appointment.model';
+import { AppointmentService } from '../../services/schedule/appointment.service';
+import { AuthenticationService } from '../../services/users/authentication.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 export interface PeriodicElement {
   name: string;
@@ -49,6 +53,7 @@ const ELEMENT_DATAA: Proba[] = [
 })
 
 export class DermatologistStartAppointmentComponent implements OnInit {
+    @ViewChild('searchInput') searchInput: ElementRef;
     @ViewChild(MatAccordion) accordion: MatAccordion;
     isLinear = false;
     firstFormGroup: FormGroup;
@@ -60,6 +65,9 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public medicineList: string[] = ['Brufen', 'Paracetamol'];
     public patientFlag: Boolean = false;
     public patientTerms : Proba[] = [];
+    public patientAppointments : Appointment[] = [];
+    public selectedAppointment : Appointment;
+    
 
     displayedAppointmentColumns: string[] = ['name', 'surname', 'email', 'pharmacy', 'date', 'time'];
     dataSourceAppointments = new MatTableDataSource(ELEMENT_DATAA);
@@ -67,7 +75,11 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
     selection = new SelectionModel<PeriodicElement>(true, []);
 
-    constructor(private _formBuilder: FormBuilder, public dialog: MatDialog) {}
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+    constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService,
+       private _formBuilder: FormBuilder, public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
     ngOnInit() {
         this.firstFormGroup = this._formBuilder.group({
@@ -77,10 +89,10 @@ export class DermatologistStartAppointmentComponent implements OnInit {
             secondCtrl: ['', Validators.required]
         });
         this.thirdFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required]
+            thirdCtrl: ['', Validators.required]
         });
         this.fourthFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required]
+            fourthCtrl: ['', Validators.required]
         });
     }
 
@@ -110,8 +122,79 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  findPatient(): void {
-    this.patientFlag = true;
+  onChangeAppointment(appointment) {
+    this.selectedAppointment = appointment[0];
+  }
+
+  firstNextButtonClicked() : void {
+    if (!this.firstFormGroup.valid) {
+      this.openSnackBar('Morate selektovati pregled da bi ga započeli!', 'Zatvori', 3000);
+    } 
+  }
+
+  findPatientAppointments(): void {
+    this.patientAppointments = [];
+    if(this.searchInput.nativeElement.value == '') {
+      this.openSnackBar('Morate popuniti polje za pretragu!', 'Zatvori', 3000);
+      this.patientFlag = false;
+      return;
+    }
+    this.appointmentService.getOccupiedAppointmentsByPatientEmail(this.searchInput.nativeElement.value, this.authenticationService.getLoggedUserId().toString()).subscribe(
+      data => {
+        this.patientAppointments = data;
+        this.patientFlag = true;
+      },
+      error => {
+        if (error.status == 400){
+          this.patientFlag = false;
+          this.openSnackBar('Ne postoji pacijenta sa e-mail adresom koju ste uneli!', 'Zatvori', 3000);
+        }
+        if (error.status == 404){
+          this.patientFlag = false;
+          this.openSnackBar('Ne postoje pregledi za pacijenta kog ste pronašli!', 'Zatvori', 3000);
+        }
+      }
+    )
+  }
+
+  patientNotHeldOnAppointment() : void {
+    if(this.selectedAppointment == null) {
+      this.openSnackBar('Morate selektovati pregled pacijenta!', 'Zatvori', 3000);
+      return;
+    }
+    this.appointmentService.patientNotHeldOnAppointment(this.selectedAppointment).subscribe(
+      data => {
+        this.patientFlag = false;
+        this.selectedAppointment = null;
+        this.patientAppointments = [];
+        this.searchInput.nativeElement.value = '';
+        this.openSnackBar('Uspešno ste završili pregled!', 'Zatvori', 3000);
+      },
+      error => {
+        if (error.status = 404){
+          this.openSnackBar('Neuspešan završetak pregleda!', 'Zatvori', 3000);
+        } 
+      });
+  }
+
+  displayAppointmentRow(appointment : Appointment): string {
+    return appointment.workDay.pharmacy.name + ', ' + this.convertDate(appointment.startTime) + ' ' + this.convertTime(appointment.startTime) + ' - ' + this.convertTime(appointment.endTime) + ', '
+      + appointment.patient.firstName + ' ' + appointment.patient.lastName + ', ' + appointment.patient.email;
+  }
+
+  convertDate(date : Date): string {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1;
+    let day = d.getDate(); 
+    return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+  }
+
+  convertTime(dateTime : Date): string {
+    let d = new Date(dateTime);
+    let hours = d.getHours();
+    let minutes = d.getMinutes();
+    return (hours > 9 ? '' : '0') + hours + ":" + (minutes > 9 ? '' : '0') + minutes;
   }
 
   openDialog(): void {
@@ -121,7 +204,14 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       height: '220px',
       position: {left: '650px'}
     });
+  }
 
+  openSnackBar(message: string, action: string, duration: number) {
+    this.snackBar.open(message, action, {
+      duration: duration,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
 }

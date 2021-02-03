@@ -1,29 +1,20 @@
 <mat-horizontal-stepper labelPosition="bottom" #stepper
   style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 650px;">
 
-  <mat-step [stepControl]="firstFormGroup">
+  <mat-step [stepControl]="firstFormGroup" *ngIf="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Početak pregleda</ng-template>
       <mat-form-field style="margin-top: 5px;margin-left: 420px; width: 300px;">
-        <input matInput placeholder="Pronađite pacijenta (E-mail adresa)">
+        <input matInput placeholder="Pronađite pacijenta (E-mail adresa)" #searchInput>
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
-      <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findPatient()">Pronađi</button>
+      <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findPatientAppointments()">Pronađi</button>
  
       <h4 *ngIf="patientFlag" style="margin-top: 5px;margin-left: 460px;">Selektujete jedan od pacijentovih termina:</h4>
-      <mat-selection-list *ngIf="patientFlag" class="patient-appointments" [multiple]="false" required style="height: 100px"> 
-          <mat-list-option>
-          Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+      <mat-selection-list *ngIf="patientFlag" (ngModelChange)="onChangeAppointment($event)" formControlName="firstCtrl" required class="patient-appointments" [multiple]="false" style="height: 100px"> 
+          <mat-list-option [value]="appointment" *ngFor="let appointment of patientAppointments">
+          {{ displayAppointmentRow(appointment) }}
           </mat-list-option>
-          <mat-list-option>
-            Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-            </mat-list-option>
-            <mat-list-option>
-              Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-              </mat-list-option>
-              <mat-list-option>
-                Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-                </mat-list-option>
       </mat-selection-list><br>
 
        <!-- <div class="example-action-buttons">
@@ -43,7 +34,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <button mat-raised-button color="primary" matStepperNext style="float: left;margin-top: 10px;">Započni</button>
+            <button mat-raised-button color="primary" matStepperNext (click)="firstNextButtonClicked()" style="float: left;margin-top: 10px;">Započni</button>
           </div>
 
         </mat-expansion-panel>
@@ -60,7 +51,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <button mat-raised-button color="warn" style="float: left;margin-top: 10px;">Završi</button>
+            <button mat-raised-button color="warn" (click)="patientNotHeldOnAppointment()" style="float: left;margin-top: 10px;">Završi</button>
           </div>
 
         </mat-expansion-panel>

@@ -8,6 +8,7 @@ import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -158,15 +159,29 @@ public class AppointmentService {
 
     public List<Appointment> findOccupiedAppointmentsByPatientEmail(String patientEmail, Long employeeId) {
         List<Appointment> occupiedExaminations = new ArrayList<Appointment>();
-        Patient patient = (Patient) userService.findByEmail(patientEmail);
-        for(Appointment appointment : getAllOccupiedAppointmentsForPatient(patient.getId())) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            if(appointment.getWorkDay().getEmployee().getId() == employeeId &&
-                sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
-                occupiedExaminations.add(appointment);
+        User user = userService.findByEmail(patientEmail);
+        if(user != null) {
+            if(user.getDiscriminatorValue().equals("PATIENT")) {
+                Patient patient = (Patient) user;
+                for(Appointment appointment : getAllOccupiedAppointmentsForPatient(patient.getId())) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(appointment.getWorkDay().getEmployee().getId() == employeeId &&
+                            sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
+                        occupiedExaminations.add(appointment);
+                    }
+                }
+                return occupiedExaminations;
             }
         }
-        return occupiedExaminations;
+        return null;
+    }
+
+    public Appointment patientNotHeldOnAppointment(Appointment appointment, Long patientId, Long workDayId) {
+        userService.givePenaltyToPatient(patientId);
+        appointment.setAppointmentState(AppointmentState.NOT_HELD);
+        appointment.setPatient((Patient) userService.findById(patientId));
+        appointment.setWorkDay(workDayService.findById(workDayId));
+        return appointmentRepository.save(appointment);
     }
 
 }
