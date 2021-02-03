@@ -100,7 +100,11 @@ export class TakingDrugsComponent implements OnInit {
         this.openSnackBar('Lek je uspešno rezervisan! Rezervaciju možete otkazati ukoliko do datuma preuzimanja ima više od 24h!', 'Zatvori', 4500);
       },
       error => {
-        this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori', 2500);
+        if (error.status == 404){
+          this.openSnackBar('Na stanju izabrane apoteke trenutno nema željenog leka.', 'Zatvori', 3300);
+        } else {
+          this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori', 2500);
+        }
       });    
   }
   

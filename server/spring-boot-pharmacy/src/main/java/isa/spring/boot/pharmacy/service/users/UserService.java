@@ -215,4 +215,14 @@ public class UserService implements UserDetailsService {
         }
         return pharmacists;
     }
+
+    public boolean isPatientAllergicToMedicine(long patientId, Long medicineId) {
+        Patient patient = (Patient)userRepository.findById(patientId);
+        for(Allergy allergy : patient.getAllergies()) {
+            if(allergy.getMedicine().getId() == medicineId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

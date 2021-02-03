@@ -8,6 +8,7 @@ import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
+import isa.spring.boot.pharmacy.service.medicines.PharmacyMedicineService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +32,9 @@ public class MedicineController {
 
     @Autowired
     private MedicineReservationService medicineReservationService;
+
+    @Autowired
+    private PharmacyMedicineService pharmacyMedicineService;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
@@ -72,6 +76,9 @@ public class MedicineController {
     public ResponseEntity<Void> reserveMedicine(@RequestBody MedicineReservationDto medicineReservationDto) {
         MedicineReservation medicineReservation = medicineReservationService.reserveMedicine(MedicineReservationMapper.convertToEntity(medicineReservationDto),
                 medicineReservationDto.getMedicineId(), medicineReservationDto.getPharmacyId(), medicineReservationDto.getPatientId());
+        if (medicineReservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -102,5 +109,29 @@ public class MedicineController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0.0), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicineSubstitutions/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    public ResponseEntity<List<MedicineDto>> getMedicineSubstitutions(@PathVariable Long medicineId){
+        List<MedicineDto> medicineSubstitutionsDto = new ArrayList<MedicineDto>();
+        for(Medicine medicine : medicineService.getMedicineSubstitutions(medicineId)) {
+            medicineSubstitutionsDto.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if (medicineSubstitutionsDto.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicineSubstitutionsDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/isMedicineAvailable/{medicineId}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    public ResponseEntity<Void> isMedicineAvailable(@PathVariable Long medicineId, @PathVariable Long pharmacyId){
+        if(pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
