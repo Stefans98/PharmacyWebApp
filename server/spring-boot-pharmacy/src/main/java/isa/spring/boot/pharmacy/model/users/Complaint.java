@@ -2,10 +2,13 @@ package isa.spring.boot.pharmacy.model.users;
 
 import javax.persistence.*;
 
+import static javax.persistence.DiscriminatorType.STRING;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Table(name="complaints")
+@Inheritance(strategy=SINGLE_TABLE)
+@DiscriminatorColumn(name="complaint_type", discriminatorType=STRING)
 public class Complaint {
 
     @Id
@@ -49,5 +52,10 @@ public class Complaint {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    @Transient
+    public String getDiscriminatorValue() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
     }
 }

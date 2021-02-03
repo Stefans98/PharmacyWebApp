@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.model.users;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="pharmacists")
@@ -15,6 +16,9 @@ public class Pharmacist extends Employee {
     // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
+
+    @OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacistComplaint> complaints;
 
     public Pharmacist() {
     }
@@ -38,5 +42,13 @@ public class Pharmacist extends Employee {
 
     public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
+    }
+
+    public List<PharmacistComplaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(List<PharmacistComplaint> complaints) {
+        this.complaints = complaints;
     }
 }

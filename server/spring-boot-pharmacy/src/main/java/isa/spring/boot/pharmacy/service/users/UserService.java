@@ -215,4 +215,31 @@ public class UserService implements UserDetailsService {
         }
         return pharmacists;
     }
+
+    public List<Dermatologist> getDermatologistsThatExaminedPatient(Long patientId) {
+        List<Appointment> patientExaminations = appointmentService.getExaminationsHistoryForPatient(patientId);
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for (Appointment examination : patientExaminations) {
+            for (Dermatologist dermatologist : getAllDermatologists()) {
+                if (dermatologist.getId() == examination.getWorkDay().getEmployee().getId()) {
+                    dermatologists.add(dermatologist);
+                }
+            }
+        }
+        return dermatologists;
+    }
+
+    public List<Pharmacist> getPharmacistThatCounselledPatient(Long patientId) {
+        List<Appointment> patientCounselings = appointmentService.getCounselingHistoryForPatient(patientId);
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        for (Appointment counselling : patientCounselings) {
+            for (Pharmacist pharmacist : getAllPharmacists()) {
+                if (pharmacist.getId() == counselling.getWorkDay().getEmployee().getId()) {
+                    pharmacists.add(pharmacist);
+                }
+            }
+        }
+        return pharmacists;
+    }
+
 }
