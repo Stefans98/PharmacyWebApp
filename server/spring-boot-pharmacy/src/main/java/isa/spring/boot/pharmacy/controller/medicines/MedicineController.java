@@ -76,6 +76,9 @@ public class MedicineController {
     public ResponseEntity<Void> reserveMedicine(@RequestBody MedicineReservationDto medicineReservationDto) {
         MedicineReservation medicineReservation = medicineReservationService.reserveMedicine(MedicineReservationMapper.convertToEntity(medicineReservationDto),
                 medicineReservationDto.getMedicineId(), medicineReservationDto.getPharmacyId(), medicineReservationDto.getPatientId());
+        if (medicineReservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -150,12 +150,12 @@ insert into offers (offer_state, price, delivery_deadline, medicine_order_list_i
 
 insert into ingredients (name) values ('sastojak 1');
 
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-03-02', 1, false, 1, 1, 1);
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-04-12', 0, false, 1, 1, 1);
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-01-01', 0, false, 1, 1, 1);
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-02-01', 0, false, 1, 1, 1);
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-02-02', 0, false, 1, 1, 1);
-insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id) values ('2021-03-03', 0, false, 1, 2, 1);
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-03-02', 1, false, 1, 1, 1, '16123219741');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-04-12', 0, false, 1, 1, 1,'16123218541');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-01-01', 0, false, 1, 1, 1,'16123214391');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-01', 0, false, 1, 1, 1,'16123213631');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-02', 0, false, 1, 1, 1,'16123211631');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-03-03', 0, false, 1, 2, 1,'16123213641');
 
 insert into e_prescriptions(code, issuing_date, patient_id) values ('eprscrpt111', '2021-03-02', 1);
 
