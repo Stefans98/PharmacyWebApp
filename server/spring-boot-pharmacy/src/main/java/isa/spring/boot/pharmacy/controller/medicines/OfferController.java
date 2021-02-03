@@ -53,4 +53,40 @@ public class OfferController {
         }
         return new ResponseEntity<>(OfferMapper.convertToDto(offer), HttpStatus.OK);
     }
+
+    @GetMapping(value="getOffersForMedicineOrderList/{medicineOrderListId}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<OfferDto>> getOffersForMedicineOrderList(@PathVariable Long medicineOrderListId){
+        List<OfferDto> offersForMedicineOrderList = new ArrayList<>();
+        if(offerService.findOffersForMedicineOrderList(medicineOrderListId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Offer offerForMedicineOrderList : offerService.findOffersForMedicineOrderList(medicineOrderListId)){
+            offersForMedicineOrderList.add(OfferMapper.convertToDto(offerForMedicineOrderList));
+        }
+
+        if(offersForMedicineOrderList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(offersForMedicineOrderList, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/acceptOffer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<Offer>> acceptOffer(@PathVariable Long id, @RequestBody OfferDto offerDto) {
+        Offer offer = offerService.findById(offerDto.getId());
+        if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(offer.getMedicineOrderList().getPharmacyAdministrator().getId() != id){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        offer = offerService.acceptOffer(offerDto.getId());
+        if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(offerService.findAll(), HttpStatus.OK);
+    }
 }

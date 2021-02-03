@@ -142,11 +142,41 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
-insert into medicine_order_lists (final_offer_date, pharmacy_id) values ('2021-03-02', 1);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-02-02', 1, 11);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 12);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 2, 12);
 
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (12, 1, 1);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (6, 2, 1);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (3, 5, 1);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (9, 6, 1);
 
-insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 25460, '2021-09-02', 1, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (2, 1, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (62, 2, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (30, 3, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (6, 4, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (18, 5, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (26, 6, 2);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (20, 1, 3);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (10, 4, 3);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (30, 6, 3);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (2, 1, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (12, 2, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (7, 6, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (35, 3, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (18, 5, 4);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (46, 1, 5);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (62, 3, 5);
+
+
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 25460, '2021-09-02', 1, 9);
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 30460, '2021-09-02', 2, 9);
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 2060, '2021-09-02', 3, 10);
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 105460, '2021-09-02', 4, 10);
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 1460, '2021-09-02', 1, 9);
+insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 44000, '2021-09-02', 2, 10);
 
 insert into ingredients (name) values ('sastojak 1');
 

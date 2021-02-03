@@ -1,0 +1,34 @@
+.create-order-list{
+    height: 450px;
+    width: 550px;
+    margin-top: 2%;
+    margin-left: 25%;
+}
+
+.create-order-list-card{
+    height: 410px;
+}
+
+.create-order-list-table{
+    height: 300px;
+    overflow:auto;
+}
+
+table{
+    width: 100%;
+}
+
+table tr th{
+    text-align: center; 
+}
+
+table td{
+    text-align: center; 
+}
+table tr{
+    height: 50px;
+}
+
+.end-date-class{
+    margin-top: 10px;
+}

@@ -7,6 +7,7 @@ import { Medicine } from '../../models/medicine.model';
 import { OrderItem } from '../../models/order-item.model';
 import { MedicineOrderListService } from '../../services/medicines/medicine-order-list.service';
 import { MedicineService } from '../../services/medicines/medicine.service';
+import { AuthenticationService } from '../../services/users/authentication.service';
 
 export interface MedicineItem {
     id: number;
@@ -41,7 +42,8 @@ export class CreateOrderListComponent implements OnInit {
 
   public maxDate : Date;
 
-  constructor(private snackBar: MatSnackBar, private medicineService: MedicineService, private medicineOrderListService: MedicineOrderListService) {
+  constructor(private snackBar: MatSnackBar, private medicineService: MedicineService, private medicineOrderListService: MedicineOrderListService, 
+              private authService: AuthenticationService) {
     this.medicineService.getAll().subscribe(
       data => {
         this.medicineList = data;
@@ -76,16 +78,17 @@ export class CreateOrderListComponent implements OnInit {
   sendOrderList(){
     for(var mItem of this.medicineOrderList){
       var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '');
-      var orderItem = new OrderItem(medicine, mItem.quantity);
+      var orderItem = new OrderItem(null, medicine, mItem.quantity);
       this.orderItemListForSending.push(orderItem);
       console.log(mItem.id);
       console.log(mItem.code);
       console.log(mItem.name);
       console.log(mItem.quantity);
       console.log(this.offerDeadline);
+      console.log(this.authService.getLoggedUserId());
       console.log('***********');
     }
-    this.medicineOrderListForSending = new MedicineOrderList(0, this.orderItemListForSending, this.offerDeadline);
+    this.medicineOrderListForSending = new MedicineOrderList(0, this.orderItemListForSending, this.offerDeadline, this.authService.getLoggedUserId());
     this.medicineOrderListService.createMedicineOrderList(this.medicineOrderListForSending).subscribe();
   }
 
