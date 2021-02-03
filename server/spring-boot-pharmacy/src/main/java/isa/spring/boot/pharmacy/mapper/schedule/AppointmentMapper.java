@@ -1,6 +1,8 @@
 package isa.spring.boot.pharmacy.mapper.schedule;
 
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.dto.schedule.WorkDayDto;
+import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentType;
@@ -15,6 +17,8 @@ public class AppointmentMapper {
         dto.setStartTime(appointment.getStartTime());
         dto.setEndTime(appointment.getEndTime());
         dto.setPrice(appointment.getPrice());
+        dto.setPatient(PatientMapper.convertToDto(appointment.getPatient()));
+        dto.setWorkDay(WorkDayMapper.convertToDto(appointment.getWorkDay()));
 
         return dto;
     }

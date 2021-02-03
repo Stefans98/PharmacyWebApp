@@ -4,10 +4,32 @@
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Početak pregleda</ng-template>
-      <!-- <div class="example-action-buttons">
+      <mat-form-field style="margin-top: 5px;margin-left: 420px; width: 300px;">
+        <input matInput placeholder="Pronađite pacijenta (E-mail adresa)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findPatient()">Pronađi</button>
+ 
+      <h4 *ngIf="patientFlag" style="margin-top: 5px;margin-left: 460px;">Selektujete jedan od pacijentovih termina:</h4>
+      <mat-selection-list *ngIf="patientFlag" class="patient-appointments" [multiple]="false" required style="height: 100px"> 
+          <mat-list-option>
+          Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+          </mat-list-option>
+          <mat-list-option>
+            Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+            </mat-list-option>
+            <mat-list-option>
+              Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+              </mat-list-option>
+              <mat-list-option>
+                Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+                </mat-list-option>
+      </mat-selection-list><br>
+
+       <!-- <div class="example-action-buttons">
           <button mat-button (click)="accordion.openAll()">Expand All</button>
           <button mat-button (click)="accordion.closeAll()">Collapse All</button>
-        </div> -->
+        </div>   -->
       <mat-accordion class="example-headers-align" multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -21,8 +43,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <button mat-raised-button color="primary" matStepperNext
-              style="float: left;margin-top: 10px;">Započni</button>
+            <button mat-raised-button color="primary" matStepperNext style="float: left;margin-top: 10px;">Započni</button>
           </div>
 
         </mat-expansion-panel>
@@ -44,19 +65,6 @@
 
         </mat-expansion-panel>
       </mat-accordion>
-
-      <mat-form-field style="margin-top: 5px;">
-        <input matInput placeholder="Pronađite pacijenta">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-      <button mat-stroked-button color="primary" style="margin-left:8px">Pronađi</button>
-
-      <mat-selection-list (selectionChange)="onChange($event)">
-        <mat-list-option *ngFor="let patient of patients" [selected]="patient.selected" [value]="patient">
-          {{patient}}
-        </mat-list-option>
-      </mat-selection-list>
-
     </form>
   </mat-step>
 

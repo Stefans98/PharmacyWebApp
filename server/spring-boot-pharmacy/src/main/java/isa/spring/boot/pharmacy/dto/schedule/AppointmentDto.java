@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.dto.schedule;
 
+import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.Patient;
@@ -12,9 +13,9 @@ public class AppointmentDto {
     private int appointmentState;
     private Date startTime;
     private Date endTime;
-    private Patient patient;
-    private WorkDay workDay;
-    private AppointmentReport appointmentReport;
+    private PatientDto patient;
+    private WorkDayDto workDay;
+    private AppointmentReportDto appointmentReport;
     private double price;
 
     public AppointmentDto() {
@@ -60,27 +61,27 @@ public class AppointmentDto {
         this.endTime = endTime;
     }
 
-    public Patient getPatient() {
+    public PatientDto getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(PatientDto patient) {
         this.patient = patient;
     }
 
-    public WorkDay getWorkDay() {
+    public WorkDayDto getWorkDay() {
         return workDay;
     }
 
-    public void setWorkDay(WorkDay workDay) {
+    public void setWorkDay(WorkDayDto workDay) {
         this.workDay = workDay;
     }
 
-    public AppointmentReport getAppointmentReport() {
+    public AppointmentReportDto getAppointmentReport() {
         return appointmentReport;
     }
 
-    public void setAppointmentReport(AppointmentReport appointmentReport) {
+    public void setAppointmentReport(AppointmentReportDto appointmentReport) {
         this.appointmentReport = appointmentReport;
     }
 
