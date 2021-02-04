@@ -83,8 +83,12 @@ insert into user_authority (user_id, authority_id) values (22, 2);
 insert into user_authority (user_id, authority_id) values (23, 2);
 insert into user_authority (user_id, authority_id) values (24, 2);
 
-insert into complaints (text, patient_id) values ('Zalba na urednost apoteke', 1);
-insert into complaints (text, patient_id) values ('Zalba na ljubaznost dermatologa', 1);
+insert into allergies (name, patient_id) values ('Prasina', 1);
+insert into allergies (name, patient_id) values ('Ambrozija', 1);
+
+insert into complaints (text, answered, complaint_type, patient_id, pharmacy_id) values ('Zalba na urednost apoteke', false, 'PHARMACY_COMPLAINT', 1, 1);
+insert into complaints (text, answered, complaint_type, patient_id, dermatologist_id) values ('Zalba na ljubaznost dermatologa', false, 'DERMATOLOGIST_COMPLAINT', 1, 7);
+
 
 insert into price_lists (id) values (1);
 insert into price_lists (id) values (2);
