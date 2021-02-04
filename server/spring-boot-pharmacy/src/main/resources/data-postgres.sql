@@ -99,12 +99,12 @@ insert into medicine_specifications (contraindication, daily_dose) values ('bol 
 insert into medicine_specifications (contraindication, daily_dose) values ('naglo oticanje šaka, stopala i članaka nogu', 1);
 insert into medicine_specifications (contraindication, daily_dose) values ('sedacija(umirenje), umor, pospanost, loša kontrola pokreta, konfuzija', 1);
 
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'lek protiv bolova', 6, 'Hemofarm', 1);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Nimulid', 'L124', 'lek protiv bolova', 4, 'Medik', 2);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Amoksicilin', 'L125', 'primenjuje se u terapiji infekcija gornjih partija respiratornog trakta', 7, 'Hemofarm', 3);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Diklofenak', 'L126', 'ublažava bol, smanjuje otok i zapaljenje u zglobovima, mišićima i tetivama', 2, 'PHARMASWISS', 4);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'koristi za lečenje teškog oblika anksioznosti', 3, 'Hemofarm', 5);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'koriste se za kratkotrajno lečenje stanja psihičke napetosti, uznemirenosti, nervoze ili nesanice', 3, 'Hemofarm', 6);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'Antibiotik', 6, 'Hemofarm', 1);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Nimulid', 'L124', 'Vitamini', 4, 'Medik', 2);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Amoksicilin', 'L125', 'Vitamini', 7, 'Hemofarm', 3);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Diklofenak', 'L126', 'Antibiotik', 2, 'Pharmaswis', 4);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'Vitamini', 3, 'Hemofarm', 5);
+insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'Antibiotik', 3, 'Hemofarm', 6);
 
 insert into allergies (name, patient_id, medicine_id) values ('Brufen', 1, 1);
 insert into allergies (name, patient_id, medicine_id) values ('Nimulid', 1, 2);
@@ -135,7 +135,7 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 2);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 0, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 3);
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-02-03 09:30:00', '2021-03-02 10:00:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-02-04 09:30:00', '2021-02-04 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 2, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);

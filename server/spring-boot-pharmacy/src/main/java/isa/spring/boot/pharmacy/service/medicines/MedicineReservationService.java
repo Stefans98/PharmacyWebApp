@@ -50,7 +50,7 @@ public class MedicineReservationService {
     }
 
     public MedicineReservation reserveMedicine(MedicineReservation medicineReservation, Long medicineId, Long pharmacyId, Long patientId) {
-        if (!pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId)) {
+        if (pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId) == null) {
             return null;
         }
         pharmacyMedicineService.decrementMedicineQuantity(medicineId, pharmacyId);

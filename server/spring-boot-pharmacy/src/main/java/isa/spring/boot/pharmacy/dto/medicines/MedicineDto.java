@@ -5,6 +5,7 @@ public class MedicineDto {
     private String name;
     private String code;
     private String manufacturer;
+    private String medicineType;
 
     public MedicineDto() {}
 
@@ -45,5 +46,13 @@ public class MedicineDto {
 
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    public String getMedicineType() {
+        return medicineType;
+    }
+
+    public void setMedicineType(String medicineType) {
+        this.medicineType = medicineType;
     }
 }

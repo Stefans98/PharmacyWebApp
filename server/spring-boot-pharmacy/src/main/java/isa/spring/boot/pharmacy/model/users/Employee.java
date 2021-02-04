@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.model.users;
 
+import isa.spring.boot.pharmacy.model.medicines.MedicineInquiry;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 
 import javax.persistence.*;
@@ -16,6 +17,9 @@ public class Employee extends User {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineInquiry> medicineInquiries;
+
     public Employee() {
     }
 
@@ -29,5 +33,21 @@ public class Employee extends User {
 
     public void setWorkDays(List<WorkDay> workDays) {
         this.workDays = workDays;
+    }
+
+    public List<VacationRequest> getVacationRequests() {
+        return vacationRequests;
+    }
+
+    public void setVacationRequests(List<VacationRequest> vacationRequests) {
+        this.vacationRequests = vacationRequests;
+    }
+
+    public List<MedicineInquiry> getMedicineInquiries() {
+        return medicineInquiries;
+    }
+
+    public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
+        this.medicineInquiries = medicineInquiries;
     }
 }

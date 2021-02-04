@@ -78,6 +78,7 @@ import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
+import { SubscriptionMedicinesModalDialogComponent } from './dermatologist/dermatologist-start-appointment/subscription-medicines-modal-dialog/subscription-medicines-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-m
     MyOffersComponent,
     SupplierProfileComponent,
     IssueOfferModalDialogComponent,
-    EditOfferModalDialogComponent
+    EditOfferModalDialogComponent,
+    SubscriptionMedicinesModalDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -50,4 +50,22 @@ export class MedicineService {
     return this.http
       .put<MedicineReservation>(this.medicineUrl + 'cancelMedicineReservation',  { id: medicineReservationId });
   }
+
+  public getAllMedicinesForPharmacy(pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findAllMedicinesForPharmacy/' + pharmacyId);
+  }  
+
+  public isMedicineAvailable(medicineId : string, pharmacyId: string) : Observable<Medicine> {
+    let params = new HttpParams()
+      .set('medicineId', medicineId)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<Medicine>(this.medicineUrl + 'isMedicineAvailable', { params });
+  }
+
+  public getMedicineSubstitutions(medicineId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicineSubstitutions/' + medicineId);
+  }
 }

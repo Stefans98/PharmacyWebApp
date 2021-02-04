@@ -1,0 +1,13 @@
+<h4 style="margin-top: -5px;margin-left: 50px;">Pacijent je alerkičan na izabrani lek!</h4>
+<h4 style="margin-top: -5px;margin-left: 52px;">Prepišite neki od zamenskih lekova</h4>
+
+<mat-selection-list [(ngModel)]="medicineForPrescription" class="substitution-medicines" [multiple]="false" required > 
+    <mat-list-option [value]="medicine" *ngFor="let medicine of medicineSubtitutions">
+    {{ showRow(medicine) }}
+    </mat-list-option>
+</mat-selection-list>
+
+<div mat-dialog-actions style="margin-left: 80px;">
+    <button mat-stroked-button (click)="substituteMedicineClick()">Potvrdi</button>
+    <button mat-stroked-button (click)="closeDialogClick()">Odustani</button>
+  </div>
