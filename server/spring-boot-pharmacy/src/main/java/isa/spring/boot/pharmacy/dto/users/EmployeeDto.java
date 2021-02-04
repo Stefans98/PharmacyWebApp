@@ -11,6 +11,7 @@ public class EmployeeDto {
     private String email;
     private String phoneNumber;
     private String password;
+    private double averageGrade;
 
     public EmployeeDto() {
     }
@@ -85,5 +86,13 @@ public class EmployeeDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 }
