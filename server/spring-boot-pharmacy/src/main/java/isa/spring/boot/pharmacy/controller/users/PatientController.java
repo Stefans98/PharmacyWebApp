@@ -1,12 +1,14 @@
 package isa.spring.boot.pharmacy.controller.users;
 
-import isa.spring.boot.pharmacy.dto.users.DermatologistPatientDto;
+import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
-import isa.spring.boot.pharmacy.dto.users.UserDto;
-import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
+import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
 import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
-import isa.spring.boot.pharmacy.model.users.Employee;
+import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
+import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Patient;
+import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,13 +55,25 @@ public class PatientController {
         return new ResponseEntity<>(PatientMapper.convertToDto(updatedPatient), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/patientsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
-    public ResponseEntity<Set<DermatologistPatientDto>> getPatientsForDermatologist(@PathVariable Long dermatologistId) {
-        Set<DermatologistPatientDto> patientsForDermatologist = new HashSet<DermatologistPatientDto>();
-        for(Patient patient : userService.getPatientsForDermatologist(dermatologistId)) {
-            patientsForDermatologist.add(DermatologistPatientMapper.convertToDto(patient));
+    @GetMapping(value = "/dermatologistsForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<DermatologistDto>> getDermatologistsThatExaminedPatient(@PathVariable Long patientId) {
+        List<Dermatologist> dermatologists = userService.getDermatologistsThatExaminedPatient(patientId);
+        List<DermatologistDto> dermatologistDtos = new ArrayList<>();
+        for (Dermatologist dermatologist : dermatologists) {
+            dermatologistDtos.add(DermatologistMapper.convertToDto(dermatologist));
         }
-        return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
+        return new ResponseEntity<List<DermatologistDto>>(dermatologistDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/pharmacistsForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacistDto>> getPharmacistThatCounselledPatient(@PathVariable Long patientId) {
+        List<Pharmacist> pharmacists = userService.getPharmacistThatCounselledPatient(patientId);
+        List<PharmacistDto> pharmacistDtos = new ArrayList<>();
+        for (Pharmacist pharmacist : pharmacists) {
+            pharmacistDtos.add(PharmacistMapper.convertToDto(pharmacist));
+        }
+        return new ResponseEntity<List<PharmacistDto>>(pharmacistDtos, HttpStatus.OK);
     }
 }

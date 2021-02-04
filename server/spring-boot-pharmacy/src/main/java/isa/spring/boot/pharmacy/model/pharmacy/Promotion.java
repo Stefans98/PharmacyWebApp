@@ -1,7 +1,5 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
-import isa.spring.boot.pharmacy.model.schedule.AppointmentHistory;
-
 import javax.persistence.*;
 
 import java.util.Date;

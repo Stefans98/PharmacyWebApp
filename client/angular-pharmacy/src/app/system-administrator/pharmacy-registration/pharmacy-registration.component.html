@@ -1,0 +1,88 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+
+			<div fxFlex="10" fxLayout="row">
+					
+				<h3 class="mat-headline" fxLayoutAlign="space-between stretch">Registracija apoteke</h3> 
+
+			</div>
+			<mat-divider></mat-divider>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+				<div fxFlex="0" fxLayout="column" fxLayoutAlign="center start" >
+					<br>
+					<mat-form-field class="example-form-field" style="width: 66.5%;">
+						<mat-label>Naziv apoteke</mat-label>
+						<input matInput type="text" [(ngModel)]="name" required>
+						<button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+						  <mat-icon>close</mat-icon>
+						</button>
+					  </mat-form-field>
+				</div>
+				
+			</div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Ulica</mat-label>
+                        <input matInput type="text" [(ngModel)]="street" required>
+                        <button mat-button *ngIf="street" matSuffix mat-icon-button aria-label="Clear" (click)="street=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Grad</mat-label>
+                        <input matInput type="text" [(ngModel)]="city" required>
+                        <button mat-button *ngIf="city" matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>   
+                </div>
+                
+            </div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Država</mat-label>
+                        <input matInput type="text" [(ngModel)]="country" required>
+                        <button mat-button *ngIf="country" matSuffix mat-icon-button aria-label="Clear" (click)="country=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+    
+                </div>
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+                </div>
+            </div> 
+            
+            <div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+                <mat-form-field class="example-form-field" style="width: 66.5%;">
+                    <mat-label>Opis apoteke</mat-label>
+                    <textarea matInput [(ngModel)]="description" rows="5"></textarea>
+                    <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+			</div> 
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="primary" (click)="registrationClick()">Potvrdi</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</div>

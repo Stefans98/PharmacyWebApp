@@ -34,7 +34,13 @@ import { AllDermatologistsComponent } from '../pharmacy-administrator/all-dermat
 import { AddDermatologistComponent } from '../pharmacy-administrator/add-dermatologist/add-dermatologist.component';
 import { AllOrderListsComponent } from '../pharmacy-administrator/all-order-lists/all-order-lists.component';
 import { CreateOrderListComponent } from '../pharmacy-administrator/create-order-list/create-order-list.component';
-
+import { PharmacyRegistrationComponent } from '../system-administrator/pharmacy-registration/pharmacy-registration.component';
+import { DermatologistRegistrationComponent } from '../system-administrator/dermatologist-registration/dermatologist-registration.component';
+import { PharmacyAdministratorRegistrationComponent } from '../system-administrator/pharmacy-administrator-registration/pharmacy-administrator-registration.component';
+import { SystemAdministratorRegistrationComponent } from '../system-administrator/system-administrator-registration/system-administrator-registration.component';
+import { SupplierRegistrationComponent } from '../system-administrator/supplier-registration/supplier-registration.component';
+import { LoyaltyProgramComponent } from '../system-administrator/loyalty-program/loyalty-program.component';
+import { AnswerComplaintsComponent } from '../system-administrator/answer-complaints/answer-complaints.component';
 import { RouteGuardService } from '../services/users/route-guard.service';
 import { PharmacistWorkCalendarComponent } from '../pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistPatientsComponent } from '../pharmacist/pharmacist-patients/pharmacist-patients.component';
@@ -44,6 +50,11 @@ import { PharmacistAbsenceRequestComponent } from '../pharmacist/pharmacist-abse
 import { PharmacistVacationRequestComponent } from '../pharmacist/pharmacist-vacation-request/pharmacist-vacation-request.component';
 import { PharmacistProfileComponent } from '../pharmacist/pharmacist-profile/pharmacist-profile.component';
 import { PharmacistMedicineIssueComponent } from '../pharmacist/pharmacist-medicine-issue/pharmacist-medicine-issue.component';
+import { MedicineOrderListsComponent } from '../supplier/medicine-order-lists/medicine-order-lists.component';
+import { MyOffersComponent } from '../supplier/my-offers/my-offers.component';
+import { SupplierProfileComponent } from '../supplier/supplier-profile/supplier-profile.component';
+import { PharmacyProfileComponent } from '../pharmacy-profile/pharmacy-profile.component';
+
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
@@ -89,7 +100,18 @@ export const appRoutes: Routes = [{
         { path: 'pharmacy-administrator/all-dermatologists', component: AllDermatologistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/add-dermatologist', component: AddDermatologistComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/all-order-lists', component: AllOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
-        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
+        { path: 'pharmacy-administrator/create-order-list', component: CreateOrderListComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'system-administrator/pharmacy-registration', component: PharmacyRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/dermatologist-registration', component: DermatologistRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/pharmacy-administrator-registration', component: PharmacyAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/system-administrator-registration', component: SystemAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/complaints', component:  AnswerComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'pharmacy-administrator/pharmacy-profile', component:  PharmacyProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  

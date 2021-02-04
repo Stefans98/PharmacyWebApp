@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.model.users;
 
+import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.OfferState;
 
 import javax.persistence.*;
@@ -18,6 +19,10 @@ public class Allergy {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "medicine_id", referencedColumnName = "id")
+    private Medicine medicine;
+
     // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
@@ -25,8 +30,10 @@ public class Allergy {
     public Allergy() {
     }
 
-    public Allergy(String name) {
+    public Allergy(String name, Medicine medicine, Patient patient) {
         this.name = name;
+        this.medicine = medicine;
+        this.patient = patient;
     }
 
     public Long getId() {
@@ -51,5 +58,13 @@ public class Allergy {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 }

@@ -9,8 +9,15 @@ public class PharmacyDto {
     private String street;
     private String description;
     private double averageGrade;
+    private String address;
 
     public PharmacyDto() {
+    }
+
+    public PharmacyDto(Long id, String name, String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
     }
 
     public Long getId() {
@@ -67,5 +74,13 @@ public class PharmacyDto {
 
     public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

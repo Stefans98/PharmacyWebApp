@@ -27,6 +27,9 @@ export class RouteGuardService implements CanActivate
         else if (localStorage.getItem('userRole') == 'DERMATOLOGIST') {
             this.router.navigate(['/auth/dermatologist/work-calendar']);
         }
+        else if (localStorage.getItem('userRole') == 'SYSTEM_ADMIN') {
+          this.router.navigate(['/auth/system-administrator/pharmacy-registration']);
+      }
         else {
             this.router.navigate(['login']);
         }

@@ -1,0 +1,51 @@
+<div fxLayout="column" class="components-container-gt-xs" fxFlexFill fxFill>
+    <div fxLayout="row" fxFlex="10" fxLayoutAlign="space-between center">
+        <h3 class="mat-headline">Odgovor na žalbu:</h3>
+    </div>
+    <div fxLayout="column" fxFlex="40"> 
+        <div class="mat-h3" fxFlex="10">Tekst žalbe:</div>
+        <div class="mat-h3" style="border: 1px solid;padding: 2%; overflow-wrap: break-word; overflow-y: auto;" fxFlex>{{complaintText}}</div>
+    </div>
+    <div fxLayout="row" fxFlex="40">
+            <mat-form-field fxFlex>
+                <mat-label>Odgovor</mat-label>
+                <textarea matInput [(ngModel)]="answerText" rows="6" required></textarea>
+                <button mat-button *ngIf="answerText" matSuffix mat-icon-button aria-label="Clear" (click)="answerText=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+    </div>
+    <div fxLayout="row" fxFlex fxLayoutAlign="end end">
+        <div fxLayout="column" fxLayoutAlign="center">
+            <button mat-raised-button color="primary" (click)="sendComplaintAnswerClick()" [disabled]="!answerText">Pošalji</button>
+        </div>
+    </div>
+</div>
+
+<!--<div fxFlex="40"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data" style="margin-top: 20px;">
+
+                <mat-form-field class="example-form-field" style="width: 100%;">
+                    <mat-label>Tekst žalbe</mat-label>
+                    <textarea matInput [(ngModel)]="complaintText" rows="10" required></textarea>
+                    <button mat-button *ngIf="complaintText" matSuffix mat-icon-button aria-label="Clear" (click)="complaintText=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+				
+			</div>
+
+			<div fxFlex="40"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+                <mat-form-field class="example-form-field" style="width: 100%;">
+                    <mat-label>Odgovor</mat-label>
+                    <textarea matInput [(ngModel)]="answerText" rows="10" required></textarea>
+                    <button mat-button *ngIf="answerText" matSuffix mat-icon-button aria-label="Clear" (click)="answerText=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div> 
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="primary" (click)="sendComplaintAnswerClick()" [disabled]="!answerText">Pošalji</button>
+				</div>
+			</div>-->

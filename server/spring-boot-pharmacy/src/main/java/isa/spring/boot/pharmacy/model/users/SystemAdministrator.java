@@ -12,7 +12,12 @@ public class SystemAdministrator extends User  {
     public SystemAdministrator() {
     }
 
-    public SystemAdministrator(String email, String password, String firstName, String lastName, String phoneNumber) {
-        super(email, password, firstName, lastName, phoneNumber);
+    public SystemAdministrator(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+        super(email, password, firstName, lastName, phoneNumber, address);
+    }
+
+    public SystemAdministrator(User user) {
+        super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
+                user.getAddress());
     }
 }
