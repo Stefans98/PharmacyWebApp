@@ -3,12 +3,13 @@ package isa.spring.boot.pharmacy.service.schedule;
 import isa.spring.boot.pharmacy.model.schedule.*;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.schedule.AppointmentRepository;
-import isa.spring.boot.pharmacy.repository.schedule.WorkDayRepository;
 import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.text.DateFormat;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,13 +72,25 @@ public class AppointmentService {
 
     public List<Appointment> getCounselingsHistoryForPatient(Long patientId) {
         List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
-        for(Appointment appointment : getPharmacistCounselings()) {
-            if(appointment.getPatient().getId() == patientId &&
+        for (Appointment appointment : getPharmacistCounselings()) {
+            if (appointment.getPatient().getId() == patientId &&
                     appointment.getAppointmentState() == AppointmentState.FINISHED) {
                 pharmacistCounselingsForPatient.add(appointment);
             }
         }
         return pharmacistCounselingsForPatient;
+    }
+
+    public List<Appointment> getScheduledExaminationForPatient(long patientId) {
+        List<Appointment> dermatologistExaminationsForPatient = new ArrayList<>();
+        for(Appointment appointment : getDermatologistExaminations()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED
+                        && appointment.getStartTime().compareTo(new Date()) >= 0) {
+                dermatologistExaminationsForPatient.add(appointment);
+            }
+        }
+        return dermatologistExaminationsForPatient;
     }
 
     public List<Appointment> getCounselingHistoryForPatient(Long patientId) {
@@ -107,7 +120,8 @@ public class AppointmentService {
         List<Appointment> availableExaminationTermsForPharmacy = new ArrayList<>();
         for (Appointment appointment : getDermatologistExaminations()) {
             if (appointment.getWorkDay().getPharmacy().getId() == pharmacyId &&
-                    appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+                    appointment.getAppointmentState() == AppointmentState.AVAILABLE &&
+                        appointment.getStartTime().compareTo(new Date()) >= 0) {
                 availableExaminationTermsForPharmacy.add(appointment);
             }
         }
@@ -145,6 +159,19 @@ public class AppointmentService {
             }
         }
         return occupiedAppointmentsForDermatologist;
+    }
+
+    public boolean cancelExamination(Appointment appointment) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 1);
+
+        if(calendar.getTime().before(appointment.getStartTime())) {
+            appointment.setAppointmentState(AppointmentState.AVAILABLE);
+            appointmentRepository.save(appointment);
+            return true;
+        }
+        return false;
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
@@ -242,9 +269,9 @@ public class AppointmentService {
 
     public void sendEmailForExamination(Appointment appointment) {
         emailService.sendEmailAsync(appointment.getPatient(), "Zakazivanje pregleda",
-    "Poštovani\\-a, <br><br> Uspešno ste zakazali pregled! <br><br> <b>Osnovne informacije o pregledu:</b>" +
+            "Poštovani/-a, <br><br> Uspešno ste zakazali pregled! <br><br> <b>Osnovne informacije o pregledu:</b>" +
            "<br>- Datum pregleda: " + convertToDateStr(appointment.getStartTime()) +
-            "<br>- Vreme pregleda: " + convertToTimeStr(appointment.getStartTime()) + "-" + convertToTimeStr(appointment.getEndTime()) +
+            "<br>- Vreme pregleda: " + convertToTimeStr(appointment.getStartTime()) + " - " + convertToTimeStr(appointment.getEndTime()) +
             "<br>- Cena pregleda: " + appointment.getPrice() + " RSD"+
             "<br>- Dermatolog: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
@@ -252,24 +279,8 @@ public class AppointmentService {
     }
 
     public static String convertToTimeStr(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int hours = calendar.get(Calendar.HOUR);
-        int minutes = calendar.get(Calendar.MINUTE);
-
-        StringBuilder sb = new StringBuilder();
-        if (hours < 10) {
-            sb.append(0).append(hours);
-        } else {
-            sb.append(hours);
-        }
-        sb.append(":");
-        if (minutes < 10) {
-            sb.append(0).append(minutes);
-        } else {
-            sb.append(minutes);
-        }
-        return sb.toString();
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        return timeFormat.format(date);
     }
 
     public static String convertToDateStr(Date date) {

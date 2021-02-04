@@ -22,6 +22,11 @@ export class AppointmentService {
   public getCounselingsHistoryForPatient(patientId: number): Observable<DermatologistExamination[]> {
     return this.http
         .get<DermatologistExamination[]>(this.appointmentsUrl + 'getCounselingsHistoryForPatient/' + patientId);
+  }
+  
+  public getScheduledExaminationForPatient(patientId: number): Observable<DermatologistExamination[]> {
+    return this.http
+        .get<DermatologistExamination[]>(this.appointmentsUrl + 'getScheduledExaminationForPatient/' + patientId);
   } 
 
   public getOccupiedAppointmentsByPatientEmail(patientEmail: string, employeeId: string): Observable<Appointment[]> {
@@ -46,6 +51,11 @@ export class AppointmentService {
   public scheduleExamination(appointment: Appointment): Observable<Appointment> {
     return this.http
       .post<Appointment>(this.appointmentsUrl + 'scheduleExamination', appointment);
+  }
+
+  public cancelExamination(appointmentId: number): Observable<DermatologistExamination> {
+    return this.http
+      .put<DermatologistExamination>(this.appointmentsUrl + 'cancelExamination',  { id: appointmentId });
   }
 
 }
