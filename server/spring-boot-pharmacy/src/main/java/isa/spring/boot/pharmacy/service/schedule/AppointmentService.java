@@ -69,6 +69,17 @@ public class AppointmentService {
         return dermatologistExaminationsForPatient;
     }
 
+    public List<Appointment> getCounselingHistoryForPatient(Long patientId) {
+        List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.FINISHED) {
+                pharmacistCounselingsForPatient.add(appointment);
+            }
+        }
+        return pharmacistCounselingsForPatient;
+    }
+
     public List<Appointment> getAvailableExaminationTermsForDermatologist(Long dermatologistId, Long pharmacyId) {
         List<Appointment> availableExaminationTermsForDermatologist = new ArrayList<Appointment>();
         for(Appointment appointment : getDermatologistExaminations()) {
@@ -153,6 +164,13 @@ public class AppointmentService {
             }
         } catch( Exception ignored ){}
         return appointmentRepository.save(appointment);
+    }
+
+    public List<Appointment> getAllCompletedAppointmentsForPatient(Long patientId) {
+        List<Appointment> counselings = getCounselingHistoryForPatient(patientId);
+        List<Appointment> examinations = getExaminationsHistoryForPatient(patientId);
+        counselings.addAll(examinations);
+        return counselings;
     }
 
     public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> occupiedAppointments) {

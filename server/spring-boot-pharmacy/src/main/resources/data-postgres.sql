@@ -83,8 +83,8 @@ insert into user_authority (user_id, authority_id) values (22, 2);
 insert into user_authority (user_id, authority_id) values (23, 2);
 insert into user_authority (user_id, authority_id) values (24, 2);
 
-insert into complaints (text, patient_id) values ('Zalba na urednost apoteke', 1);
-insert into complaints (text, patient_id) values ('Zalba na ljubaznost dermatologa', 1);
+insert into complaints (text, answered, complaint_type, patient_id, pharmacy_id) values ('Zalba na urednost apoteke', false, 'PHARMACY_COMPLAINT', 1, 1);
+insert into complaints (text, answered, complaint_type, patient_id, dermatologist_id) values ('Zalba na ljubaznost dermatologa', false, 'DERMATOLOGIST_COMPLAINT', 1, 7);
 
 insert into price_lists (id) values (1);
 insert into price_lists (id) values (2);
@@ -174,7 +174,6 @@ insert into order_items (quantity, medicine_id, medicine_order_list_id) values (
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (18, 5, 4);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (46, 1, 5);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (62, 3, 5);
-
 
 insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 25460, '2021-09-02', 1, 9);
 insert into offers (offer_state, price, delivery_deadline, medicine_order_list_id, supplier_id) values (2, 30460, '2021-09-02', 2, 9);
