@@ -87,4 +87,17 @@ public class PharmacyService {
         }
         return 0.0;
     }
+
+    public List<Pharmacy> findAll(){
+        return pharmacyRepository.findAll();
+    }
+
+    public Pharmacy getPharmacyById(Long id){
+        for(Pharmacy pharmacy : findAll()){
+            if(pharmacy.getId() == id){
+                return pharmacy;
+            }
+        }
+        return null;
+    }
 }

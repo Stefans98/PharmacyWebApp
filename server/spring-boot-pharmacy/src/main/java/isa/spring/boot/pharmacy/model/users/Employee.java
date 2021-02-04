@@ -10,6 +10,9 @@ import java.util.List;
 @Entity
 public class Employee extends User {
 
+    @Column(name = "average_grade")
+    private double averageGrade;
+
     // ***
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WorkDay> workDays = new ArrayList<WorkDay>();
@@ -23,8 +26,21 @@ public class Employee extends User {
     public Employee() {
     }
 
+    public Employee(String email, String password, String firstName, String lastName, String phoneNumber, Address address, double averageGrade) {
+        super(email, password, firstName, lastName, phoneNumber, address);
+        this.averageGrade = averageGrade;
+    }
+
     public Employee(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
         super(email, password, firstName, lastName, phoneNumber, address);
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 
     public List<WorkDay> getWorkDays() {

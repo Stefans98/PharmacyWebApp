@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.model.schedule.*;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.schedule.AppointmentRepository;
 import isa.spring.boot.pharmacy.repository.schedule.WorkDayRepository;
+import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +30,13 @@ public class AppointmentService {
 
     @Autowired
     private WorkDayService workDayService;
+
+    @Autowired
+    private EmailService emailService;
+
+    public Appointment findById(long id) {
+        return appointmentRepository.findById(id);
+    }
 
     public List<Appointment> getDermatologistExaminations() {
         List<Appointment> dermatologistExaminations = new ArrayList<Appointment>();
@@ -69,7 +78,18 @@ public class AppointmentService {
                 availableExaminationTermsForDermatologist.add(appointment);
             }
         }
-        return  availableExaminationTermsForDermatologist;
+        return availableExaminationTermsForDermatologist;
+    }
+
+    public List<Appointment> getAvailableExaminationTermsForPharmacy(long pharmacyId) {
+        List<Appointment> availableExaminationTermsForPharmacy = new ArrayList<>();
+        for (Appointment appointment : getDermatologistExaminations()) {
+            if (appointment.getWorkDay().getPharmacy().getId() == pharmacyId &&
+                    appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+                availableExaminationTermsForPharmacy.add(appointment);
+            }
+        }
+        return availableExaminationTermsForPharmacy;
     }
 
     public List<Appointment> getAllOccupiedAppointmentsForPatient(Long patientId) {
@@ -106,26 +126,33 @@ public class AppointmentService {
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
-        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
-            return null;
+        if(findById(appointment.getId()) == null) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
+                return null;
+            }
+            User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
+            if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+                if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
+                        !isEmployeeWorkDayValid(appointment, user.getId())) {
+                    return null;
+                }
+            } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
+                if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
+                        !isEmployeeWorkDayValid(appointment, user.getId())) {
+                    return null;
+                }
+            }
         }
 
-        User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
-        if(user.getDiscriminatorValue().equals("PHARMACIST")) {
-            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
-                !isEmployeeWorkDayValid(appointment, user.getId())) {
-                return null;
-            }
-        } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
-            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
-                !isEmployeeWorkDayValid(appointment, user.getId())) {
-                return null;
-            }
-        }
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
-        Appointment savedAppointment = appointmentRepository.save(appointment);
-        return savedAppointment;
+        appointment.setAppointmentState(AppointmentState.OCCUPIED);
+        try {
+            if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
+                sendEmailForExamination(appointment);
+            }
+        } catch( Exception ignored ){}
+        return appointmentRepository.save(appointment);
     }
 
     public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> occupiedAppointments) {
@@ -184,4 +211,40 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    public void sendEmailForExamination(Appointment appointment) {
+        emailService.sendEmailAsync(appointment.getPatient(), "Zakazivanje pregleda",
+    "Poštovani\\-a, <br><br> Uspešno ste zakazali pregled! <br><br> <b>Osnovne informacije o pregledu:</b>" +
+           "<br>- Datum pregleda: " + convertToDateStr(appointment.getStartTime()) +
+            "<br>- Vreme pregleda: " + convertToTimeStr(appointment.getStartTime()) + "-" + convertToTimeStr(appointment.getEndTime()) +
+            "<br>- Cena pregleda: " + appointment.getPrice() + " RSD"+
+            "<br>- Dermatolog: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
+            "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
+            "<br><br>S poštovanjem, <br>Vaša ISA");
+    }
+
+    public static String convertToTimeStr(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int hours = calendar.get(Calendar.HOUR);
+        int minutes = calendar.get(Calendar.MINUTE);
+
+        StringBuilder sb = new StringBuilder();
+        if (hours < 10) {
+            sb.append(0).append(hours);
+        } else {
+            sb.append(hours);
+        }
+        sb.append(":");
+        if (minutes < 10) {
+            sb.append(0).append(minutes);
+        } else {
+            sb.append(minutes);
+        }
+        return sb.toString();
+    }
+
+    public static String convertToDateStr(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+        return sdf.format(date);
+    }
 }

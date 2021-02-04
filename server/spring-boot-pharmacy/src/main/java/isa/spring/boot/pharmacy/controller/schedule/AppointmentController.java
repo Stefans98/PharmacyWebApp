@@ -55,6 +55,20 @@ public class AppointmentController {
         return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getAvailableExaminationTermsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<AppointmentDto>> getAvailableExaminationTermsForPharmacy(@PathVariable Long pharmacyId) {
+        List<AppointmentDto> availableExaminationTermsForPharmacy = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getAvailableExaminationTermsForPharmacy(pharmacyId)) {
+            availableExaminationTermsForPharmacy.add(AppointmentMapper.convertToDto(appointment));
+        }
+
+        if (availableExaminationTermsForPharmacy.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(availableExaminationTermsForPharmacy, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/scheduleExamination", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST','PATIENT')")
     public ResponseEntity<AppointmentDto> scheduleExamination(@RequestBody AppointmentDto appointmentDto) {
@@ -63,7 +77,6 @@ public class AppointmentController {
         if(appointment == null) {
             return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(AppointmentMapper.convertToDto(appointment), HttpStatus.OK);
     }
 

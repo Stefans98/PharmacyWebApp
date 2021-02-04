@@ -23,10 +23,20 @@ public class OrderItemService {
         List<OrderItem> orderItems = new ArrayList<>();
         for(OrderItemDto orderItemDto : medicineOrderListDto.getOrderItems()){
             OrderItem orderItem = new OrderItem();
+            orderItem.setId(orderItemDto.getId());
             orderItem.setMedicine(medicineService.findById(orderItemDto.getMedicine().getId()));
             orderItem.setQuantity(orderItemDto.getQuantity());
             orderItems.add(orderItem);
         }
         return orderItems;
+    }
+
+    public OrderItem findById(Long id){
+        for(OrderItem orderItem : orderItemRepository.findAll()){
+            if(orderItem.getId() == id){
+                return orderItem;
+            }
+        }
+        return null;
     }
 }

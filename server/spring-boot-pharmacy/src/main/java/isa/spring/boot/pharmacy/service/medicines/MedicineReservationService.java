@@ -8,6 +8,7 @@ import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -63,8 +64,9 @@ public class MedicineReservationService {
 
         try {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
-                    "Uspešno ste rezervisali lek. Šifra za preuzimanje je: " + uniqueCode);
-        } catch( Exception ignored){}
+                    "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
+                            "<br><br>S poštovanjem, <br>Vaša apoteka ISA");
+        } catch( Exception ignored ){}
 
         return medicineReservationRepository.save(medicineReservation);
     }
@@ -72,7 +74,7 @@ public class MedicineReservationService {
     public List<MedicineReservation> getAllReservedMedicinesByPatientId(long patientId) {
         List<MedicineReservation> medicineReservations = new ArrayList<>();
         for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
-            if (isMedicineReservationInThePastInCurrentMonth(medicineReservation) && isPatientDeservesPenalty(medicineReservation)) {
+            if (isMedicineReservationInThePastOrCurrentDateInCurrentMonth(medicineReservation) && isPatientDeservesPenalty(medicineReservation)) {
                 givePenaltyToPatient(medicineReservation);
             }
             if (medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
@@ -82,11 +84,13 @@ public class MedicineReservationService {
         return medicineReservations;
     }
 
-    public boolean isMedicineReservationInThePastInCurrentMonth(MedicineReservation medicineReservation) {
+    public boolean isMedicineReservationInThePastOrCurrentDateInCurrentMonth(MedicineReservation medicineReservation) {
         if (medicineReservation.getFinalPurchasingDate().before(new Date()) ) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             if (!sdf.format(medicineReservation.getFinalPurchasingDate()).equals(sdf.format(new Date()))) {
                 return medicineReservation.getFinalPurchasingDate().compareTo(getFirstDateInCurrentMonth()) >= 0;
+            } else {
+                return true;
             }
         }
         return false;

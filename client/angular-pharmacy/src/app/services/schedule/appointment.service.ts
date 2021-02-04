@@ -33,4 +33,14 @@ export class AppointmentService {
       .put<Appointment>(this.appointmentsUrl + 'patientNotHeldOnAppointment', appointment);
   }
 
+  public getAvailableExaminationTermsForPharmacy(pharmacyId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getAvailableExaminationTermsForPharmacy/' + pharmacyId);
+  }
+
+  public scheduleExamination(appointment: Appointment): Observable<Appointment> {
+    return this.http
+      .post<Appointment>(this.appointmentsUrl + 'scheduleExamination', appointment);
+  }
+
 }

@@ -156,9 +156,11 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         });
       },
       error => {
-        if (error.status = 404){
-          // DODATI DA SACUVA U BAYU
+        if (error.status = 404){         
           this.openSnackBar('Izabrani lek trenutno nije na stanju u apoteci! Uspešno ste obavestili administratora apoteke!', 'Zatvori', 4000);
+          this.medicineService.saveMedicineInquiry(this.selectedAppointment.workDay.pharmacy.id,
+             this.authenticationService.getLoggedUserId(), medicineId) 
+             .subscribe( data => { });
         } 
       });
   }

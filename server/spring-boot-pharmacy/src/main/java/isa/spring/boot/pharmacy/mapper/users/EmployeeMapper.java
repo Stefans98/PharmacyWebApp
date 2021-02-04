@@ -16,7 +16,7 @@ public class EmployeeMapper {
         employeeDto.setCity(employee.getAddress().getCity());
         employeeDto.setCountry(employee.getAddress().getCountry());
         employeeDto.setStreet(employee.getAddress().getStreet());
-        employeeDto.setPassword(null);
+        employeeDto.setAverageGrade(employee.getAverageGrade());
 
         return employeeDto;
     }

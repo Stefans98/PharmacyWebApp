@@ -68,4 +68,11 @@ export class MedicineService {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'getMedicineSubstitutions/' + medicineId);
   }
+
+  public saveMedicineInquiry(pharmacyId: number, employeeId: number, medicineId: number): Observable<void> {
+    const body = { pharmacy: { id : pharmacyId}, employee: { id : employeeId }, medicine : { id : medicineId } };  
+
+    return this.http
+      .post<void>(this.medicineUrl + 'saveMedicineInquiry', body);
+  }
 }
