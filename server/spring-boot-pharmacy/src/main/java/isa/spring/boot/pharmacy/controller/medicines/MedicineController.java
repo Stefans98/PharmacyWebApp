@@ -1,11 +1,14 @@
 package isa.spring.boot.pharmacy.controller.medicines;
 
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
+import isa.spring.boot.pharmacy.dto.medicines.MedicineInquiryDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
+import isa.spring.boot.pharmacy.model.medicines.MedicineInquiry;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.service.medicines.MedicineInquiryService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.medicines.PharmacyMedicineService;
@@ -35,6 +38,9 @@ public class MedicineController {
 
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
+
+    @Autowired
+    private MedicineInquiryService medicineInquiryService;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
@@ -112,7 +118,7 @@ public class MedicineController {
     }
 
     @GetMapping(value="/getMedicineSubstitutions/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
     public ResponseEntity<List<MedicineDto>> getMedicineSubstitutions(@PathVariable Long medicineId){
         List<MedicineDto> medicineSubstitutionsDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.getMedicineSubstitutions(medicineId)) {
@@ -125,13 +131,39 @@ public class MedicineController {
         return new ResponseEntity<>(medicineSubstitutionsDto, HttpStatus.OK);
     }
 
-    @GetMapping(value="/isMedicineAvailable/{medicineId}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST', 'PHARMACIST')")
-    public ResponseEntity<Void> isMedicineAvailable(@PathVariable Long medicineId, @PathVariable Long pharmacyId){
-        if(pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
+    @GetMapping(value="/isMedicineAvailable", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    public ResponseEntity<MedicineDto> isMedicineAvailable(@RequestParam String medicineId, @RequestParam String pharmacyId){
+        Medicine medicine = pharmacyMedicineService.isMedicineAvailable(Long.parseLong(medicineId), Long.parseLong(pharmacyId));
+        if(medicine == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(MedicineMapper.convertToDto(medicine), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/findAllMedicinesForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    public ResponseEntity<List<MedicineDto>> findAllMedicinesForPharmacy(@PathVariable Long pharmacyId){
+        List<MedicineDto> medicinesForPharmacy = new ArrayList<MedicineDto>();
+        for(Medicine medicine : medicineService.findAllMedicinesForPharmacy(pharmacyId)) {
+            medicinesForPharmacy.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if(medicinesForPharmacy.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(medicinesForPharmacy, HttpStatus.OK);
+    }
+
+    @PostMapping (value = "/saveMedicineInquiry", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    public ResponseEntity<Void> saveMedicineInquiry(@RequestBody MedicineInquiryDto medicineReservationDto) {
+        MedicineInquiry medicineInquiry = medicineInquiryService.saveMedicineInquiry(medicineReservationDto.getPharmacy().getId(),
+                medicineReservationDto.getEmployee().getId(), medicineReservationDto.getMedicine().getId());
+        if (medicineInquiry == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

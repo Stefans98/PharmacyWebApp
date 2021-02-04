@@ -8,7 +8,9 @@ import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.text.DateFormat;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,6 +80,17 @@ public class AppointmentService {
             }
         }
         return dermatologistExaminationsForPatient;
+    }
+
+    public List<Appointment> getCounselingHistoryForPatient(Long patientId) {
+        List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.FINISHED) {
+                pharmacistCounselingsForPatient.add(appointment);
+            }
+        }
+        return pharmacistCounselingsForPatient;
     }
 
     public List<Appointment> getAvailableExaminationTermsForDermatologist(Long dermatologistId, Long pharmacyId) {
@@ -180,6 +193,13 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    public List<Appointment> getAllCompletedAppointmentsForPatient(Long patientId) {
+        List<Appointment> counselings = getCounselingHistoryForPatient(patientId);
+        List<Appointment> examinations = getExaminationsHistoryForPatient(patientId);
+        counselings.addAll(examinations);
+        return counselings;
+    }
+
     public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> occupiedAppointments) {
         Date startNew = newAppointment.getStartTime();
         Date endNew = newAppointment.getEndTime();
@@ -211,20 +231,34 @@ public class AppointmentService {
 
     public List<Appointment> findOccupiedAppointmentsByPatientEmail(String patientEmail, Long employeeId) {
         List<Appointment> occupiedExaminations = new ArrayList<Appointment>();
-        Patient patient = (Patient) userService.findByEmail(patientEmail);
-        for(Appointment appointment : getAllOccupiedAppointmentsForPatient(patient.getId())) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            if(appointment.getWorkDay().getEmployee().getId() == employeeId &&
-                sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
-                occupiedExaminations.add(appointment);
+        User user = userService.findByEmail(patientEmail);
+        if(user != null) {
+            if(user.getDiscriminatorValue().equals("PATIENT")) {
+                Patient patient = (Patient) user;
+                for(Appointment appointment : getAllOccupiedAppointmentsForPatient(patient.getId())) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(appointment.getWorkDay().getEmployee().getId() == employeeId &&
+                            sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
+                        occupiedExaminations.add(appointment);
+                    }
+                }
+                return occupiedExaminations;
             }
         }
-        return occupiedExaminations;
+        return null;
+    }
+
+    public Appointment patientNotHeldOnAppointment(Appointment appointment, Long patientId, Long workDayId) {
+        userService.givePenaltyToPatient(patientId);
+        appointment.setAppointmentState(AppointmentState.NOT_HELD);
+        appointment.setPatient((Patient) userService.findById(patientId));
+        appointment.setWorkDay(workDayService.findById(workDayId));
+        return appointmentRepository.save(appointment);
     }
 
     public void sendEmailForExamination(Appointment appointment) {
         emailService.sendEmailAsync(appointment.getPatient(), "Zakazivanje pregleda",
-    "Poštovani/-a, <br><br> Uspešno ste zakazali pregled! <br><br> <b>Osnovne informacije o pregledu:</b>" +
+            "Poštovani/-a, <br><br> Uspešno ste zakazali pregled! <br><br> <b>Osnovne informacije o pregledu:</b>" +
            "<br>- Datum pregleda: " + convertToDateStr(appointment.getStartTime()) +
             "<br>- Vreme pregleda: " + convertToTimeStr(appointment.getStartTime()) + " - " + convertToTimeStr(appointment.getEndTime()) +
             "<br>- Cena pregleda: " + appointment.getPrice() + " RSD"+

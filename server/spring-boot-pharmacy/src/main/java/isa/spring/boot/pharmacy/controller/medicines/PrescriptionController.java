@@ -23,7 +23,7 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
 
     @PostMapping(value = "/savePrescription", produces = MediaType.APPLICATION_JSON_VALUE , consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
     public ResponseEntity<Void> savePrescription(@RequestBody PrescriptionDto prescriptionDto) {
         Prescription prescription = prescriptionService.savePrescription(PrescriptionMapper.convertToEntity(prescriptionDto),
                 prescriptionDto.getMedicine().getId(), prescriptionDto.getPatient().getId(), prescriptionDto.getPharmacyId());
