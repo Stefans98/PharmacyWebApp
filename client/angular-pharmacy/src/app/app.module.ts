@@ -89,6 +89,7 @@ import { PharmacyProfileHomeComponent } from './pharmacy-profile/pharmacy-profil
 import { DermatologistsForPharmacyComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy.component';
 import { PharmacistsForPharmacyComponent } from './pharmacy-profile/pharmacists-for-pharmacy/pharmacists-for-pharmacy.component';
 import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy-dialog/dermatologists-for-pharmacy-dialog.component';
+import { DefinePromotionComponent } from './pharmacy-administrator/define-promotion/define-promotion.component';
 
 @NgModule({
   declarations: [
@@ -168,7 +169,8 @@ import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/der
     PharmacyProfileHomeComponent,
     DermatologistsForPharmacyComponent,
     PharmacistsForPharmacyComponent,
-    DermatologistsForPharmacyDialogComponent
+    DermatologistsForPharmacyDialogComponent,
+    DefinePromotionComponent
   ],
   imports: [
     BrowserModule,

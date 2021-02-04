@@ -117,6 +117,7 @@ insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (920.45, '2021-11-12', '2021-12-19', 2, 6);
 
 insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
+insert into subscriptions (patient_id, pharmacy_id) values (2, 1);
 
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
