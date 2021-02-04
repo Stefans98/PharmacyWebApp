@@ -80,6 +80,11 @@ import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 import { UpdateOrderListDialogComponent } from './pharmacy-administrator/all-order-lists/update-order-list-dialog/update-order-list-dialog.component';
 import { OrderListOffersDialogComponent } from './pharmacy-administrator/all-order-lists/order-list-offers-dialog/order-list-offers-dialog.component';
+import { PharmacyProfileComponent } from './pharmacy-profile/pharmacy-profile.component';
+import { PharmacyProfileHomeComponent } from './pharmacy-profile/pharmacy-profile-home/pharmacy-profile-home.component';
+import { DermatologistsForPharmacyComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy.component';
+import { PharmacistsForPharmacyComponent } from './pharmacy-profile/pharmacists-for-pharmacy/pharmacists-for-pharmacy.component';
+import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy-dialog/dermatologists-for-pharmacy-dialog.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +155,12 @@ import { OrderListOffersDialogComponent } from './pharmacy-administrator/all-ord
     IssueOfferModalDialogComponent,
     EditOfferModalDialogComponent,
     UpdateOrderListDialogComponent,
-    OrderListOffersDialogComponent
+    OrderListOffersDialogComponent,
+    PharmacyProfileComponent,
+    PharmacyProfileHomeComponent,
+    DermatologistsForPharmacyComponent,
+    PharmacistsForPharmacyComponent,
+    DermatologistsForPharmacyDialogComponent
   ],
   imports: [
     BrowserModule,

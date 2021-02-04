@@ -83,4 +83,14 @@ public class PharmacyController {
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
+
+    @GetMapping(value="/getPharmacyById/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<PharmacyDto> getPharmacyById(@PathVariable Long pharmacyId){
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        if(pharmacy == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
 }
