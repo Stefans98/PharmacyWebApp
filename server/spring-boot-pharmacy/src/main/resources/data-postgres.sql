@@ -23,7 +23,7 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive A
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 44');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 9');
 
-insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
+insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic apoteka', 'Najbolja apoteka u gradu', 9.3, 1);
 insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 9.3, 2);
 
 insert into authority (name) values ('PATIENT');
