@@ -18,6 +18,12 @@ export const pharmacyAdministratorMenus = [
         'open': false
     },
     {
+        'name': 'Definiši promociju',
+        'icon': 'people',
+        'link': 'pharmacy-administrator/define-promotion',
+        'open': false
+    },
+    {
         'name': 'Lekovi',
         'icon': 'medical_services',
         'link': false,
