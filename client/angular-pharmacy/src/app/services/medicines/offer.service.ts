@@ -32,4 +32,17 @@ export class OfferService {
     return this.http
       .get<Offer[]>(this.offerUrl + 'getOffersForSupplier/' + supplierId); 
   }
+
+  public getOffersForMedicineOrderList(medicineOrderListId: number): Observable<Offer[]> {
+    return this.http
+      .get<Offer[]>(this.offerUrl + 'getOffersForMedicineOrderList/' + medicineOrderListId); 
+  }
+
+  public acceptOffer(offer: Offer, pharmacyAdministratorId: number): Observable<Offer[]> {
+    const body = { id: offer.id, price: offer.price, deliveryDeadline: offer.deliveryDeadline, supplierId: offer.supplierId,
+      medicineOrderListId: offer.medicineOrderListId };  
+
+    return this.http
+      .put<Offer[]>(this.offerUrl + 'acceptOffer/' + pharmacyAdministratorId, body);
+  }
 }
