@@ -70,6 +70,17 @@ public class AppointmentService {
         return dermatologistExaminationsForPatient;
     }
 
+    public List<Appointment> getCounselingsHistoryForPatient(Long patientId) {
+        List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
+        for (Appointment appointment : getPharmacistCounselings()) {
+            if (appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.FINISHED) {
+                pharmacistCounselingsForPatient.add(appointment);
+            }
+        }
+        return pharmacistCounselingsForPatient;
+    }
+
     public List<Appointment> getScheduledExaminationForPatient(long patientId) {
         List<Appointment> dermatologistExaminationsForPatient = new ArrayList<>();
         for(Appointment appointment : getDermatologistExaminations()) {

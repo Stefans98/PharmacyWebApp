@@ -30,7 +30,7 @@ public class VacationService {
         Pharmacy pharmacy = pharmacyService.findById(pharmacyId);
         vacationRequest.setEmployee(employee);
         vacationRequest.setPharmacy(pharmacy);
-        return  vacationRepository.save(vacationRequest);
+        return vacationRepository.save(vacationRequest);
     }
 
 }

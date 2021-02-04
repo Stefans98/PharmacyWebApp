@@ -30,6 +30,9 @@ public class VacationController {
     public ResponseEntity<VacationDto> saveVacationRequest(@RequestBody VacationDto vacationDto)
     {
         VacationRequest vacationRequest = vacationService.saveVacation(VacationMapper.convertToEntity(vacationDto), vacationDto.getEmployeeId(), vacationDto.getPharmacyId());
+        if(vacationRequest == null) {
+            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(VacationMapper.convertToDto(vacationRequest), HttpStatus.CREATED);
     }
 }
