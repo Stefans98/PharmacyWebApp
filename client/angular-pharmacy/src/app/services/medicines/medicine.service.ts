@@ -75,4 +75,18 @@ export class MedicineService {
     return this.http
       .post<void>(this.medicineUrl + 'saveMedicineInquiry', body);
   }
+
+  public findMedicineReservationByUniqueCode(uniqueCode : string, pharmacyId: string) : Observable<MedicineReservation> {
+    let params = new HttpParams()
+      .set('uniqueCode', uniqueCode)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<MedicineReservation>(this.medicineUrl + 'findMedicineReservationByUniqueCode', { params });
+  }
+
+  public issueMedicineReservation(medicineReservationId: number): Observable<MedicineReservation> {
+    return this.http
+      .put<MedicineReservation>(this.medicineUrl + 'issueMedicineReservation/' + medicineReservationId, null);
+  }
+
 }
