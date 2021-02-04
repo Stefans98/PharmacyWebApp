@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MedicineReservation } from '../../../models/medicineReservation.model';
-import { MedicineService } from '../../../services/medicines/medicine.service';
+import { Appointment } from '../../../models/appointment.model';
+import { AppointmentService } from '../../../services/schedule/appointment.service';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 
 @Component({
@@ -16,18 +16,18 @@ export class DermatologistSchedulingComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
 
-  medicines: MedicineReservation[] = [];
+  appointments: Appointment[] = [];
   displayedColumns: string[] = ['date', 'time', 'price', 'dermatologist', 'grade', 'scheduling'];
-  dataSource = new MatTableDataSource(this.medicines);
+  dataSource = new MatTableDataSource(this.appointments);
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private snackBar: MatSnackBar, private medicineService: MedicineService, private authenticationService: AuthenticationService) {
-    this.medicineService.getAllReservedMedicinesByPatientId(this.authenticationService.getLoggedUserId()).subscribe(
+  constructor(private snackBar: MatSnackBar, private appointmentService: AppointmentService, private authenticationService: AuthenticationService) {
+    this.appointmentService.getAvailableExaminationTermsForPharmacy(1).subscribe(
       data => {
-        this.medicines = data;
-        this.dataSource.data = this.medicines;
+        this.appointments = data;
+        this.dataSource.data = this.appointments;
       },
       error => {
         if (error.status == 404){
@@ -43,19 +43,20 @@ export class DermatologistSchedulingComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  scheduleAppointmentClick(element): void {
-    this.medicineService.cancelMedicineReservation(element.id).subscribe(
+  scheduleAppointmentClick(appointment): void {
+    appointment.patient.id = this.authenticationService.getLoggedUserId();
+    this.appointmentService.scheduleExamination(appointment).subscribe(
       data => {
-        this.openSnackBar('Termin je uspešno zakazan!', 'Zatvori', 3000);
-        this.medicineService.getAllReservedMedicinesByPatientId(this.authenticationService.getLoggedUserId()).subscribe(
+        this.openSnackBar('Na Vašem email-u možete pogledati potvrdu o zakazivanju pregleda! Pregled možete otkazati ukoliko do datuma pregleda ima više od 24h!', 'Zatvori', 5600);
+        this.appointmentService.getAvailableExaminationTermsForPharmacy(1).subscribe(
           data => {
-            this.medicines = data;
-            this.dataSource.data = this.medicines;
+            this.appointments = data;
+            this.dataSource.data = this.appointments;
           },
           error => {
             if (error.status == 404){
               this.dataSource.data = [];
-              this.openSnackBar('Termin je uspešno zakazan i više ne postoje slobodni termini!', 'Zatvori', 4000);
+              //this.openSnackBar('Trenutno nema slobodnih termina', 'Zatvori', 3000);
             }
           }
         );
@@ -79,5 +80,12 @@ export class DermatologistSchedulingComponent implements OnInit, AfterViewInit {
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
     return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+  }
+
+  convertTime(dateTime : Date): string {
+    let d = new Date(dateTime);
+    let hours = d.getHours();
+    let minutes = d.getMinutes();
+    return (hours > 9 ? '' : '0') + hours + ":" + (minutes > 9 ? '' : '0') + minutes;
   }
 }

@@ -15,27 +15,27 @@
             <div class="pharmacy-list">
             <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef> Datum pregleda </th>
-            <td mat-cell *matCellDef="let element"> {{element.medicine.name}} </td>
+            <td mat-cell *matCellDef="let element"> {{convertDate(element.startTime)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef> Vreme pregleda</th>
-            <td mat-cell *matCellDef="let element"> {{element.medicine.manufacturer}} </td>
+            <td mat-cell *matCellDef="let element"> {{convertTime(element.startTime)}} - {{convertTime(element.endTime)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena pregleda </th>
-                <td mat-cell *matCellDef="let element"> {{element.medicinePrice}} RSD </td>
+                <td mat-cell *matCellDef="let element"> {{element.price}} RSD </td>
             </ng-container>
 
             <ng-container matColumnDef="dermatologist">
                 <th mat-header-cell *matHeaderCellDef> Dermatolog </th>
-                <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}}, {{element.pharmacy.city}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.workDay.employee.firstName}} {{element.workDay.employee.lastName}} </td>
             </ng-container>
 
             <ng-container matColumnDef="grade">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena dermatologa </th>
-            <td mat-cell *matCellDef="let element"> {{convertDate(element.finalPurchasingDate)}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.workDay.employee.averageGrade}} </td>
             </ng-container>
 
             <ng-container matColumnDef="scheduling">
@@ -48,7 +48,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">Ne postoji nijedan slobodan termin</td>
+                <td class="mat-cell" colspan="4">Trenutno nema slobodnih termina</td>
             </tr>
             </div>             
         </table>
