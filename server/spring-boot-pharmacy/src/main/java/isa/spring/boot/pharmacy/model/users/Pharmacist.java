@@ -10,9 +10,6 @@ import java.util.List;
 @DiscriminatorValue("PHARMACIST")
 public class Pharmacist extends Employee {
 
-    @Column(name = "average_grade")
-    private double averageGrade;
-
     // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
@@ -23,9 +20,8 @@ public class Pharmacist extends Employee {
     public Pharmacist() {
     }
 
-    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address, double averageGrade) {
+    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
         super(email, password, firstName, lastName, phoneNumber, address);
-        this.averageGrade = averageGrade;
     }
 
     public Pharmacy getPharmacy() {
@@ -36,14 +32,6 @@ public class Pharmacist extends Employee {
         this.pharmacy = pharmacy;
     }
 
-    public double getAverageGrade() {
-        return averageGrade;
-    }
-
-    public void setAverageGrade(double averageGrade) {
-        this.averageGrade = averageGrade;
-    }
-
     public List<PharmacistComplaint> getComplaints() {
         return complaints;
     }
@@ -51,4 +39,5 @@ public class Pharmacist extends Employee {
     public void setComplaints(List<PharmacistComplaint> complaints) {
         this.complaints = complaints;
     }
+
 }

@@ -1,6 +1,7 @@
 package isa.spring.boot.pharmacy.model.users;
 
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,9 +11,6 @@ import java.util.List;
 @Table(name="dermatologists")
 @DiscriminatorValue("DERMATOLOGIST")
 public class Dermatologist extends Employee {
-
-    @Column(name = "average_grade")
-    private double averageGrade;
 
     // ***
     @ManyToMany(mappedBy = "dermatologists")
@@ -24,22 +22,13 @@ public class Dermatologist extends Employee {
     public Dermatologist() {
     }
 
-    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber, Address address, double averageGrade) {
+    public Dermatologist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
         super(email, password, firstName, lastName, phoneNumber, address);
-        this.averageGrade = averageGrade;
     }
 
     public Dermatologist(User user) {
         super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
                 user.getAddress());
-    }
-
-    public double getAverageGrade() {
-        return averageGrade;
-    }
-
-    public void setAverageGrade(double averageGrade) {
-        this.averageGrade = averageGrade;
     }
 
     public List<Pharmacy> getPharmacies() {

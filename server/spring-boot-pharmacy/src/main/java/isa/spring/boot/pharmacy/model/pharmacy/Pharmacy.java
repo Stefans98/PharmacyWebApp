@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.model.pharmacy;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineOrderList;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.*;
 
@@ -44,10 +45,6 @@ public class Pharmacy {
     @JoinTable(name = "employee_dermatologists", joinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"))
     private List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
 
-    @ManyToMany
-    @JoinTable(name = "pharmacy_medicines", joinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "medicine_id", referencedColumnName = "id"))
-    private List<Medicine> medicines = new ArrayList<Medicine>();
-
     // ***
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyAdministrator> pharmacyAdministrators = new ArrayList<PharmacyAdministrator>();
@@ -70,17 +67,19 @@ public class Pharmacy {
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyComplaint> complaints;
 
+     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyMedicine> pharmacyMedicines;
+
     public Pharmacy() {
     }
 
-    public Pharmacy(String name, String description, double averageGrade, Address address, List<Pharmacist> pharmacists, List<Dermatologist> dermatologists, List<Medicine> medicines) {
+    public Pharmacy(String name, String description, double averageGrade, Address address, List<Pharmacist> pharmacists, List<Dermatologist> dermatologists) {
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
         this.address = address;
         this.pharmacists = pharmacists;
         this.dermatologists = dermatologists;
-        this.medicines = medicines;
     }
 
     public Long getId() {
@@ -139,14 +138,6 @@ public class Pharmacy {
         this.dermatologists = dermatologists;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }
-
     public List<PharmacyAdministrator> getPharmacyAdministrators() {
         return pharmacyAdministrators;
     }
@@ -187,11 +178,28 @@ public class Pharmacy {
         this.medicineOrderLists = medicineOrderLists;
     }
 
+
     public List<PharmacyComplaint> getComplaints() {
         return complaints;
     }
 
     public void setComplaints(List<PharmacyComplaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public List<VacationRequest> getVacationRequests() {
+        return vacationRequests;
+    }
+
+    public void setVacationRequests(List<VacationRequest> vacationRequests) {
+        this.vacationRequests = vacationRequests;
+    }
+
+    public List<PharmacyMedicine> getPharmacyMedicines() {
+        return pharmacyMedicines;
+    }
+
+    public void setPharmacyMedicines(List<PharmacyMedicine> pharmacyMedicines) {
+        this.pharmacyMedicines = pharmacyMedicines;
     }
 }

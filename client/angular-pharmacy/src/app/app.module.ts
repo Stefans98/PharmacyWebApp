@@ -81,6 +81,14 @@ import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-m
 import { ChooseComplaintEntityModalDialogComponent } from './patient/complaints/choose-complaint-entity-modal-dialog/choose-complaint-entity-modal-dialog.component';
 import { AnswerComplaintsComponent } from './system-administrator/answer-complaints/answer-complaints.component';
 import { AnswerComplaintModalDialogComponent } from './system-administrator/answer-complaints/answer-complaint-modal-dialog/answer-complaint-modal-dialog.component';
+import { UpdateOrderListDialogComponent } from './pharmacy-administrator/all-order-lists/update-order-list-dialog/update-order-list-dialog.component';
+import { OrderListOffersDialogComponent } from './pharmacy-administrator/all-order-lists/order-list-offers-dialog/order-list-offers-dialog.component';
+import { PharmacyProfileComponent } from './pharmacy-profile/pharmacy-profile.component';
+import { PharmacyProfileHomeComponent } from './pharmacy-profile/pharmacy-profile-home/pharmacy-profile-home.component';
+import { DermatologistsForPharmacyComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy.component';
+import { PharmacistsForPharmacyComponent } from './pharmacy-profile/pharmacists-for-pharmacy/pharmacists-for-pharmacy.component';
+import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy-dialog/dermatologists-for-pharmacy-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -152,7 +160,14 @@ import { AnswerComplaintModalDialogComponent } from './system-administrator/answ
     EditOfferModalDialogComponent,
     ChooseComplaintEntityModalDialogComponent,
     AnswerComplaintsComponent,
-    AnswerComplaintModalDialogComponent
+    AnswerComplaintModalDialogComponent,
+    UpdateOrderListDialogComponent,
+    OrderListOffersDialogComponent,
+    PharmacyProfileComponent,
+    PharmacyProfileHomeComponent,
+    DermatologistsForPharmacyComponent,
+    PharmacistsForPharmacyComponent,
+    DermatologistsForPharmacyDialogComponent
   ],
   imports: [
     BrowserModule,

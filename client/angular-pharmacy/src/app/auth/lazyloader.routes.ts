@@ -53,6 +53,7 @@ import { PharmacistMedicineIssueComponent } from '../pharmacist/pharmacist-medic
 import { MedicineOrderListsComponent } from '../supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from '../supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from '../supplier/supplier-profile/supplier-profile.component';
+import { PharmacyProfileComponent } from '../pharmacy-profile/pharmacy-profile.component';
 
 
 export const appRoutes: Routes = [{
@@ -109,7 +110,8 @@ export const appRoutes: Routes = [{
         { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
-        { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} }
+        { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'pharmacy-administrator/pharmacy-profile', component:  PharmacyProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  
