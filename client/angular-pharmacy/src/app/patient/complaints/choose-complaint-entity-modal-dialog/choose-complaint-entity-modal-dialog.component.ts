@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Dermatologist } from '../../../models/dermatologist.model';
 import { Pharmacist } from '../../../models/pharmacist.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
+import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 import { PatientService } from '../../../services/users/patient.service';
 
@@ -26,18 +27,25 @@ export class ChooseComplaintEntityModalDialogComponent implements OnInit {
   dermatologistDisplayedColumns: string[] = ['name', 'email'];
 
   constructor(public dialogRef : MatDialogRef<ChooseComplaintEntityModalDialogComponent>, 
-    @Inject(MAT_DIALOG_DATA) private data, private patientService: PatientService, private authService: AuthenticationService) { 
+    @Inject(MAT_DIALOG_DATA) private data, private patientService: PatientService, private authService: AuthenticationService,
+    private pharmacyService: PharmacyService) { 
+
     if (data.complaintEntityType == 'PHARMACY_COMPLAINT') {
       this.complaintType = 1;
+      this.pharmacyService.getPharmaciesForPatientAppointmentsAndReservations(this.authService.getLoggedUserId())
+          .subscribe(data => {
+            this.pharmacies = data;
+            this.pharmacyDataSource.data = this.pharmacies;
+          })
     } else if (data.complaintEntityType == 'PHARMACIST_COMPLAINT') {
       this.complaintType = 2;
-      patientService.getPharmacistsThatCounseledPatient(authService.getLoggedUserId()).subscribe(data => {
+      this.patientService.getPharmacistsThatCounseledPatient(this.authService.getLoggedUserId()).subscribe(data => {
         this.pharmacists = data;
         this.pharmacistDataSource.data = this.pharmacists;
       })
     } else if (data.complaintEntityType == 'DERMATOLOGIST_COMPLAINT') {
       this.complaintType = 3;
-      patientService.getDermatologistsThatExaminedPatient(authService.getLoggedUserId()).subscribe(data => {
+      this.patientService.getDermatologistsThatExaminedPatient(this.authService.getLoggedUserId()).subscribe(data => {
         this.dermatologists = data;
         this.dermatologistDataSource.data = this.dermatologists;
       })
@@ -46,6 +54,10 @@ export class ChooseComplaintEntityModalDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  choosePharmacy(row) : void {
+    this.dialogRef.close({pharmacy : row});
   }
 
   chooseDermatologist(row) : void {

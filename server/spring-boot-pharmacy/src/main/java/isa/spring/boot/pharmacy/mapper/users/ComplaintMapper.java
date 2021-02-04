@@ -27,7 +27,9 @@ public class ComplaintMapper {
         }
         dto.setId(complaint.getId());
         dto.setText(complaint.getText());
+        dto.setAnswered(complaint.isAnswered());
         dto.setComplaintType(complaint.getDiscriminatorValue());
+        dto.setPatient(PatientMapper.convertToDto(complaint.getPatient()));
 
         return dto;
     }
@@ -42,6 +44,7 @@ public class ComplaintMapper {
             complaint = new DermatologistComplaint();
         }
 
+        complaint.setAnswered(false);
         complaint.setText(dto.getText());
 
         return complaint;

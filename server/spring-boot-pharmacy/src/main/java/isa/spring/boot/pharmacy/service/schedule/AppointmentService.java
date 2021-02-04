@@ -122,4 +122,10 @@ public class AppointmentService {
         return savedAppointment;
     }
 
+    public List<Appointment> getAllCompletedAppointmentsForPatient(Long patientId) {
+        List<Appointment> counselings = getCounselingHistoryForPatient(patientId);
+        List<Appointment> examinations = getExaminationsHistoryForPatient(patientId);
+        counselings.addAll(examinations);
+        return counselings;
+    }
 }

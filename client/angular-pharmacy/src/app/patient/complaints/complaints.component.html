@@ -15,7 +15,7 @@
 
           <mat-form-field class="example-form-field" style="width: 66.5%;">
               <mat-label>Tekst žalbe</mat-label>
-              <textarea matInput [(ngModel)]="complaintText" rows="10" required></textarea>
+              <textarea matInput [(ngModel)]="complaintText" rows="7" required></textarea>
               <button mat-button *ngIf="complaintText" matSuffix mat-icon-button aria-label="Clear" (click)="complaintText=''">
                   <mat-icon>close</mat-icon>
               </button>
@@ -23,7 +23,7 @@
 				
 			</div>
 
-			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+			<div fxFlex="30"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
         <mat-form-field class="example-form-field" style="width: 66.5%;">
           <mat-label>Tip žalbe</mat-label>
           <select matNativeControl required [(ngModel)]="complaintType" (change)="changeComplaintEntityType()">
@@ -48,13 +48,11 @@
         <div fxFlex="55" fxLayout="column" fxLayoutAlign="center start" >
           <button mat-raised-button color="basic" (click)="choseComplaintEntityClick()">{{selectEntityButtonText()}}</button>
         </div>
-      </div> 
-            
-            
+      </div>   
 			
 			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
-					<button mat-raised-button color="primary" (click)="sendComplaintClick()">Pošalji</button>
+					<button mat-raised-button color="primary" (click)="sendComplaintClick()" [disabled]="!complaintText || !entityName">Pošalji</button>
 				</div>
 			</div>
 

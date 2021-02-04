@@ -45,22 +45,34 @@ export class ComplaintsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (this.complaintType == 1) {
-        this.chosenPharmacy = data.pharmacy;
-        this.entityName = this.chosenPharmacy.name;
+        if (data) {
+          this.chosenPharmacy = data.pharmacy;
+          this.entityName = this.chosenPharmacy.name;
+        }
       } else if (this.complaintType == 2) {
-        this.chosenPharmacist = data.pharmacist;
-        this.entityName = this.chosenPharmacist.firstName + ' ' + this.chosenPharmacist.lastName;
+        if (data) {
+          this.chosenPharmacist = data.pharmacist;
+          this.entityName = this.chosenPharmacist.firstName + ' ' + this.chosenPharmacist.lastName;
+        }
       }  else if (this.complaintType == 3) {
-        console.log(data.dermatologist);
-        this.chosenDermatologist = data.dermatologist;
-        this.entityName = this.chosenDermatologist.firstName + ' ' + this.chosenDermatologist.lastName;
-        console.log(this.entityName);
+        if (data) {
+          this.chosenDermatologist = data.dermatologist;
+          this.entityName = this.chosenDermatologist.firstName + ' ' + this.chosenDermatologist.lastName;
+        }
       }
     })
   }
 
   sendComplaintClick(): void {
-    if (this.complaintType == 2) {
+    if (this.complaintType == 1) {
+      this.complaintService.sendPharmacyComplaint(new Complaint(0, this.complaintEntityType, this.complaintText,
+        this.authService.getLoggedUserId(), null, this.chosenPharmacy.id, null, 0, null, 0, null)).subscribe(data => {
+         this.snackBar.open('Vaša žalba je poslata!', null, { 
+           duration : 3000, 
+           verticalPosition: 'top'
+          });
+        });
+    } else if (this.complaintType == 2) {
       this.complaintService.sendPharmacistComplaint(new Complaint(0, this.complaintEntityType, this.complaintText,
         this.authService.getLoggedUserId(), null, 0, null, this.chosenPharmacist.id, null, 0, null)).subscribe(data => {
          this.snackBar.open('Vaša žalba je poslata!', null, { 

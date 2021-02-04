@@ -42,4 +42,9 @@ export class PharmacyService{
     return this.http
       .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByMedicineId/' + id);
   } 
+
+  public getPharmaciesForPatientAppointmentsAndReservations(patientId: number): Observable<Pharmacy[]> {
+    return this.http
+    .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesForPatientAppointmentsAndReservations/' + patientId);
+  }
 }

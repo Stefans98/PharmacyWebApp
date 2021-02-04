@@ -9,9 +9,10 @@ public class ComplaintDto {
 
     private Long id;
     private String text;
+    private boolean answered;
     private String complaintType;
     private Long patientId;
-    private PatientDto patientDto;
+    private PatientDto patient;
     private Long dermatologistId;
     private DermatologistDto dermatologist;
     private Long pharmacyId;
@@ -20,6 +21,11 @@ public class ComplaintDto {
     private PharmacistDto pharmacist;
 
     public ComplaintDto() {
+    }
+
+    public ComplaintDto(Long id, String text) {
+        this.id = id;
+        this.text = text;
     }
 
     public Long getId() {
@@ -38,6 +44,14 @@ public class ComplaintDto {
         this.text = text;
     }
 
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
+
     public String getComplaintType() {
         return complaintType;
     }
@@ -54,12 +68,12 @@ public class ComplaintDto {
         this.patientId = patientId;
     }
 
-    public PatientDto getPatientDto() {
-        return patientDto;
+    public PatientDto getPatient() {
+        return patient;
     }
 
-    public void setPatientDto(PatientDto patientDto) {
-        this.patientDto = patientDto;
+    public void setPatient(PatientDto patient) {
+        this.patient = patient;
     }
 
     public Long getDermatologistId() {

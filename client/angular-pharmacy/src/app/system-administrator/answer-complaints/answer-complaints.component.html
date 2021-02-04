@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs ">
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill style="padding-bottom: 5%;">
+        <div fxLayout="row" fxLayoutAlign="center none">
+            <h3 fxLayout class="mat-headline">
+                Žalbe korisnika:
+            </h3> 
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div *ngFor="let element of complaints; index as i;" fxLayout="column" fxLayoutAlign="center" class="mat-elevation-z2 patient-profile" >
+            <div fxLayout="row" fxLayoutAlign="none" style="height: 5%;">
+                <div fxLayout="column" fxFlex="10" class="mat-h3"> Tema žalbe: </div>
+                <div fxLayout="column" fxFlex *ngIf="element.complaintType == 'PHARMACY_COMPLAINT'" class="mat-h3"> 
+                    {{parseComplaintType(element.complaintType)}} {{element.pharmacy.name}}
+                </div>
+                <div fxLayout="column" fxFlex *ngIf="element.complaintType == 'PHARMACIST_COMPLAINT'" class="mat-h3">
+                    {{parseComplaintType(element.complaintType)}} {{element.pharmacist.firstName}} {{element.pharmacist.lastName}}
+                </div>
+                <div fxLayout="column" fxFlex *ngIf="element.complaintType == 'DERMATOLOGIST_COMPLAINT'" class="mat-h3">
+                    {{parseComplaintType(element.complaintType)}} {{element.dermatologist.firstName}} {{element.dermatologist.lastName}}
+                </div>
+            </div>
+            <div fxLayout="row" style="height: 5%;">
+                <div fxLayout="column" fxFlex="10" class="mat-h3">Žalbu šalje:</div>
+                <div fxLayout="column"  class="mat-h3">{{element.patient.firstName}} {{element.patient.lastName}}</div>
+            </div>
+            <div fxLayout="row" fxFlex="50">
+                <div fxLayout="column" fxFlex="10" class="mat-h3">Tekst:</div>
+                <div fxLayout="column" fxFlex="80" class="mat-h3" style="border: 1px solid;padding: 1%;overflow-y: auto;overflow-wrap: break-word;">
+                    {{element.text}}
+                </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center" style="height: 5%;">
+                <button mat-raised-button color="primary" (click)="answerComplaintClick(element)">Odgovori</button>
+            </div>
+        </div>
+    </div>
+    
+</div>

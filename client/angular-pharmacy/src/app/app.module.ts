@@ -79,6 +79,8 @@ import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-p
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 import { ChooseComplaintEntityModalDialogComponent } from './patient/complaints/choose-complaint-entity-modal-dialog/choose-complaint-entity-modal-dialog.component';
+import { AnswerComplaintsComponent } from './system-administrator/answer-complaints/answer-complaints.component';
+import { AnswerComplaintModalDialogComponent } from './system-administrator/answer-complaints/answer-complaint-modal-dialog/answer-complaint-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -148,7 +150,9 @@ import { ChooseComplaintEntityModalDialogComponent } from './patient/complaints/
     SupplierProfileComponent,
     IssueOfferModalDialogComponent,
     EditOfferModalDialogComponent,
-    ChooseComplaintEntityModalDialogComponent
+    ChooseComplaintEntityModalDialogComponent,
+    AnswerComplaintsComponent,
+    AnswerComplaintModalDialogComponent
   ],
   imports: [
     BrowserModule,
