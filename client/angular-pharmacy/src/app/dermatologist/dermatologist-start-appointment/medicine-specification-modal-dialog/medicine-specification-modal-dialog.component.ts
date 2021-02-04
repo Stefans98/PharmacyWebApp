@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Medicine } from '../../../models/medicine.model';
 
 @Component({
   selector: 'app-medicine-specification-modal-dialog',
@@ -8,15 +9,17 @@ import { FormControl } from '@angular/forms';
 })
 export class MedicineSpecificationModalDialogComponent implements OnInit {
 
-  benefits = new FormControl();
-  public benefitList: string[];
-
-  constructor() { 
-    this.benefitList = ['Pogodnost 1', 'Pogodnost 2', 'Pogodnost 3', 'Pogodnost 4', 'Pogodnost 5'];
+  constructor(public dialogRef: MatDialogRef<MedicineSpecificationModalDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public medicineData: { medicine : Medicine },
+     @Inject(MAT_DIALOG_DATA) public inputData: { therapyDay : number }) { 
   }
 
   ngOnInit(): void {
     
+  }
+
+  closeDialogClick(): void {
+    this.dialogRef.close();
   }
 
 }

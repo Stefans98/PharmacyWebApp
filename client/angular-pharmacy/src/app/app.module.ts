@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LazyLoadModule } from './lazy-load/lazy-load.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +78,17 @@ import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-p
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker'
+import { SubscriptionMedicinesModalDialogComponent } from './dermatologist/dermatologist-start-appointment/subscription-medicines-modal-dialog/subscription-medicines-modal-dialog.component';
+import { ChooseComplaintEntityModalDialogComponent } from './patient/complaints/choose-complaint-entity-modal-dialog/choose-complaint-entity-modal-dialog.component';
+import { AnswerComplaintsComponent } from './system-administrator/answer-complaints/answer-complaints.component';
+import { AnswerComplaintModalDialogComponent } from './system-administrator/answer-complaints/answer-complaint-modal-dialog/answer-complaint-modal-dialog.component';
+import { UpdateOrderListDialogComponent } from './pharmacy-administrator/all-order-lists/update-order-list-dialog/update-order-list-dialog.component';
+import { OrderListOffersDialogComponent } from './pharmacy-administrator/all-order-lists/order-list-offers-dialog/order-list-offers-dialog.component';
+import { PharmacyProfileComponent } from './pharmacy-profile/pharmacy-profile.component';
+import { PharmacyProfileHomeComponent } from './pharmacy-profile/pharmacy-profile-home/pharmacy-profile-home.component';
+import { DermatologistsForPharmacyComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy.component';
+import { PharmacistsForPharmacyComponent } from './pharmacy-profile/pharmacists-for-pharmacy/pharmacists-for-pharmacy.component';
+import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy-dialog/dermatologists-for-pharmacy-dialog.component';
 
 @NgModule({
   declarations: [
@@ -147,7 +157,18 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker'
     MyOffersComponent,
     SupplierProfileComponent,
     IssueOfferModalDialogComponent,
-    EditOfferModalDialogComponent
+    EditOfferModalDialogComponent,
+    SubscriptionMedicinesModalDialogComponent,
+    ChooseComplaintEntityModalDialogComponent,
+    AnswerComplaintsComponent,
+    AnswerComplaintModalDialogComponent,
+    UpdateOrderListDialogComponent,
+    OrderListOffersDialogComponent,
+    PharmacyProfileComponent,
+    PharmacyProfileHomeComponent,
+    DermatologistsForPharmacyComponent,
+    PharmacistsForPharmacyComponent,
+    DermatologistsForPharmacyDialogComponent
   ],
   imports: [
     BrowserModule,

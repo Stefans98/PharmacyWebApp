@@ -40,7 +40,7 @@ import { PharmacyAdministratorRegistrationComponent } from '../system-administra
 import { SystemAdministratorRegistrationComponent } from '../system-administrator/system-administrator-registration/system-administrator-registration.component';
 import { SupplierRegistrationComponent } from '../system-administrator/supplier-registration/supplier-registration.component';
 import { LoyaltyProgramComponent } from '../system-administrator/loyalty-program/loyalty-program.component';
-import { SystemAdministratorComplaintsComponent } from '../system-administrator/complaints/complaints.component';
+import { AnswerComplaintsComponent } from '../system-administrator/answer-complaints/answer-complaints.component';
 import { RouteGuardService } from '../services/users/route-guard.service';
 import { PharmacistWorkCalendarComponent } from '../pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistPatientsComponent } from '../pharmacist/pharmacist-patients/pharmacist-patients.component';
@@ -53,6 +53,7 @@ import { PharmacistMedicineIssueComponent } from '../pharmacist/pharmacist-medic
 import { MedicineOrderListsComponent } from '../supplier/medicine-order-lists/medicine-order-lists.component';
 import { MyOffersComponent } from '../supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from '../supplier/supplier-profile/supplier-profile.component';
+import { PharmacyProfileComponent } from '../pharmacy-profile/pharmacy-profile.component';
 
 
 export const appRoutes: Routes = [{
@@ -105,11 +106,12 @@ export const appRoutes: Routes = [{
         { path: 'system-administrator/pharmacy-administrator-registration', component: PharmacyAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/system-administrator-registration', component: SystemAdministratorRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
-        { path: 'system-administrator/complaints', component:  SystemAdministratorComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/complaints', component:  AnswerComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
-        { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} }
+        { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
+        { path: 'pharmacy-administrator/pharmacy-profile', component:  PharmacyProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  

@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Appointment } from '../../models/appointment.model';
 import { DermatologistExamination } from '../../models/dermatologist-examination.model';
 
 @Injectable({
@@ -17,5 +18,39 @@ export class AppointmentService {
     return this.http
         .get<DermatologistExamination[]>(this.appointmentsUrl + 'getExaminationsHistoryForPatient/' + patientId);
   } 
+
+  public getScheduledExaminationForPatient(patientId: number): Observable<DermatologistExamination[]> {
+    return this.http
+        .get<DermatologistExamination[]>(this.appointmentsUrl + 'getScheduledExaminationForPatient/' + patientId);
+  } 
+
+  public getOccupiedAppointmentsByPatientEmail(patientEmail: string, employeeId: string): Observable<Appointment[]> {
+    let params = new HttpParams()
+      .set('patientEmail', patientEmail)
+      .set('employeeId', employeeId);
+
+    return this.http.
+      get<Appointment[]>(this.appointmentsUrl + 'findOccupiedAppointmentsByPatientEmail', { params } );
+  }
+
+  public patientNotHeldOnAppointment(appointment: Appointment): Observable<Appointment> {
+    return this.http
+      .put<Appointment>(this.appointmentsUrl + 'patientNotHeldOnAppointment', appointment);
+  }
+
+  public getAvailableExaminationTermsForPharmacy(pharmacyId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getAvailableExaminationTermsForPharmacy/' + pharmacyId);
+  }
+
+  public scheduleExamination(appointment: Appointment): Observable<Appointment> {
+    return this.http
+      .post<Appointment>(this.appointmentsUrl + 'scheduleExamination', appointment);
+  }
+
+  public cancelExamination(appointmentId: number): Observable<DermatologistExamination> {
+    return this.http
+      .put<DermatologistExamination>(this.appointmentsUrl + 'cancelExamination',  { id: appointmentId });
+  }
 
 }

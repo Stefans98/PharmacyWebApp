@@ -12,6 +12,7 @@ public class MedicineOrderListDto {
     private Date finalOfferDate;
     private List<OrderItemDto> orderItems;
     private PharmacyDto pharmacy;
+    private long pharmacyAdministratorId;
 
     public MedicineOrderListDto() {
     }
@@ -42,5 +43,13 @@ public class MedicineOrderListDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getPharmacyAdministratorId() {
+        return pharmacyAdministratorId;
+    }
+
+    public void setPharmacyAdministratorId(long pharmacyAdministratorId) {
+        this.pharmacyAdministratorId = pharmacyAdministratorId;
     }
 }

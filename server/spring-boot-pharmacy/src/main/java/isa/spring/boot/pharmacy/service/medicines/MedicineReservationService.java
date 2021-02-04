@@ -4,9 +4,11 @@ import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.MedicineReservationRepository;
+import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +32,12 @@ public class MedicineReservationService {
     @Autowired
     private MedicineService medicineService;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PharmacyMedicineService pharmacyMedicineService;
+
     public List<MedicineReservation> findAll() {
         return medicineReservationRepository.findAll();
     }
@@ -43,16 +51,30 @@ public class MedicineReservationService {
     }
 
     public MedicineReservation reserveMedicine(MedicineReservation medicineReservation, Long medicineId, Long pharmacyId, Long patientId) {
+        if (pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId) == null) {
+            return null;
+        }
+        pharmacyMedicineService.decrementMedicineQuantity(medicineId, pharmacyId);
         medicineReservation.setMedicine(medicineService.findById(medicineId));
         medicineReservation.setPharmacy(pharmacyService.findById(pharmacyId));
         medicineReservation.setPatient((Patient)userService.findById(patientId));
+
+        String uniqueCode = ((new Date().getTime() / 1000L) % Integer.MAX_VALUE) + medicineReservation.getPatient().getId().toString();
+        medicineReservation.setUniqueReservationCode(uniqueCode);
+
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
+                    "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
+                            "<br><br>S poštovanjem, <br>Vaša apoteka ISA");
+        } catch( Exception ignored ){}
+
         return medicineReservationRepository.save(medicineReservation);
     }
 
     public List<MedicineReservation> getAllReservedMedicinesByPatientId(long patientId) {
         List<MedicineReservation> medicineReservations = new ArrayList<>();
         for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
-            if (isMedicineReservationInThePastInCurrentMonth(medicineReservation) && isPatientDeservesPenalty(medicineReservation)) {
+            if (isMedicineReservationInThePastOrCurrentDateInCurrentMonth(medicineReservation) && isPatientDeservesPenalty(medicineReservation)) {
                 givePenaltyToPatient(medicineReservation);
             }
             if (medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
@@ -62,11 +84,13 @@ public class MedicineReservationService {
         return medicineReservations;
     }
 
-    public boolean isMedicineReservationInThePastInCurrentMonth(MedicineReservation medicineReservation) {
+    public boolean isMedicineReservationInThePastOrCurrentDateInCurrentMonth(MedicineReservation medicineReservation) {
         if (medicineReservation.getFinalPurchasingDate().before(new Date()) ) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             if (!sdf.format(medicineReservation.getFinalPurchasingDate()).equals(sdf.format(new Date()))) {
                 return medicineReservation.getFinalPurchasingDate().compareTo(getFirstDateInCurrentMonth()) >= 0;
+            } else {
+                return true;
             }
         }
         return false;

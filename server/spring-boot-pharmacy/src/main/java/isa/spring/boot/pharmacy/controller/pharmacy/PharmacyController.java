@@ -83,4 +83,26 @@ public class PharmacyController {
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
+
+
+    @GetMapping(value="/getPharmaciesForPatientAppointmentsAndReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesForPatientAppointmentsAndReservations(@PathVariable Long patientId) {
+        List<PharmacyDto> pharmacyDtos = new ArrayList<>();
+        List<Pharmacy> pharmacies = pharmacyService.getPharmaciesForPatientAppointmentsAndReservations(patientId);
+        for (Pharmacy pharmacy : pharmacies) {
+            pharmacyDtos.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+        return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getPharmacyById/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<PharmacyDto> getPharmacyById(@PathVariable Long pharmacyId){
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        if(pharmacy == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
 }

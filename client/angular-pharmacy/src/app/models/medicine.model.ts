@@ -3,6 +3,7 @@ export class Medicine {
         public id: number,
         public name: string,
         public code: string,
-        public manufacturer: string
+        public manufacturer: string,
+        public medicineType: string
     ) { }
 }

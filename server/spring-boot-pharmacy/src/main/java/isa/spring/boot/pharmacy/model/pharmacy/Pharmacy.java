@@ -1,9 +1,6 @@
 package isa.spring.boot.pharmacy.model.pharmacy;
 
-import isa.spring.boot.pharmacy.model.medicines.Medicine;
-import isa.spring.boot.pharmacy.model.medicines.MedicineOrderList;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
+import isa.spring.boot.pharmacy.model.medicines.*;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.*;
 
@@ -65,7 +62,13 @@ public class Pharmacy {
     private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
 
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyComplaint> complaints;
+
+     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyMedicine> pharmacyMedicines;
+
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineInquiry> medicineInquiries;
 
     public Pharmacy() {
     }
@@ -175,6 +178,15 @@ public class Pharmacy {
         this.medicineOrderLists = medicineOrderLists;
     }
 
+
+    public List<PharmacyComplaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(List<PharmacyComplaint> complaints) {
+        this.complaints = complaints;
+    }
+
     public List<VacationRequest> getVacationRequests() {
         return vacationRequests;
     }
@@ -189,5 +201,13 @@ public class Pharmacy {
 
     public void setPharmacyMedicines(List<PharmacyMedicine> pharmacyMedicines) {
         this.pharmacyMedicines = pharmacyMedicines;
+    }
+
+    public List<MedicineInquiry> getMedicineInquiries() {
+        return medicineInquiries;
+    }
+
+    public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
+        this.medicineInquiries = medicineInquiries;
     }
 }

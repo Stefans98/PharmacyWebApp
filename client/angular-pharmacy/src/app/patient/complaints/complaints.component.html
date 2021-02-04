@@ -1,1 +1,63 @@
-<p>complaints works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Popunjavanje žalbe</h3> 
+
+			</div>
+			<mat-divider></mat-divider>
+
+			<div fxFlex="70"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data" style="margin-top: 20px;">
+
+          <mat-form-field class="example-form-field" style="width: 66.5%;">
+              <mat-label>Tekst žalbe</mat-label>
+              <textarea matInput [(ngModel)]="complaintText" rows="7" required></textarea>
+              <button mat-button *ngIf="complaintText" matSuffix mat-icon-button aria-label="Clear" (click)="complaintText=''">
+                  <mat-icon>close</mat-icon>
+              </button>
+          </mat-form-field>
+				
+			</div>
+
+			<div fxFlex="30"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+        <mat-form-field class="example-form-field" style="width: 66.5%;">
+          <mat-label>Tip žalbe</mat-label>
+          <select matNativeControl required [(ngModel)]="complaintType" (change)="changeComplaintEntityType()">
+            <option value="1">Žalba na apoteku</option>
+            <option value="2">Žalba na farmaceuta</option>
+            <option value="3">Žalba na dermatologa</option>
+          </select>
+          
+        </mat-form-field>
+      </div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+        <div fxFlex="10" fxLayout="column" fxLayoutAlign="center start" >
+          <mat-form-field class="example-form-field">
+              <mat-label>{{parseComplaintEntityType()}}</mat-label>
+              <input matInput type="text"  [(ngModel)]="entityName" required disabled>
+              <button mat-button *ngIf="entityName"  matSuffix mat-icon-button aria-label="Clear" (click)="entityName=''">
+                  <mat-icon>close</mat-icon>
+              </button>
+          </mat-form-field>
+        </div>
+        <div fxFlex="55" fxLayout="column" fxLayoutAlign="center start" >
+          <button mat-raised-button color="basic" (click)="choseComplaintEntityClick()">{{selectEntityButtonText()}}</button>
+        </div>
+      </div>   
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="primary" (click)="sendComplaintClick()" [disabled]="!complaintText || !entityName">Pošalji</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</div>
