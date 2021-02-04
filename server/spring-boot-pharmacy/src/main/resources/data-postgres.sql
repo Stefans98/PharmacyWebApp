@@ -144,6 +144,10 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 2, '2021-04-02 10:10:00', '2021-04-02 10:30:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-04-02 10:35:00', '2021-04-02 10:45:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 4, '2021-04-02 10:55:00', '2021-04-02 11:10:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-04-02 10:35:00', '2021-04-02 10:45:00', 2, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-04-02 10:55:00', '2021-04-02 11:10:00', 2, 2);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-04-02 10:35:00', '2021-04-02 10:45:00', 2, 3);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-04-02 10:55:00', '2021-04-02 11:10:00', 2, 4);
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 

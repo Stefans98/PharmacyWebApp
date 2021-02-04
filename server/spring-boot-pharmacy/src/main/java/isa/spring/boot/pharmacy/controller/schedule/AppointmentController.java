@@ -45,6 +45,19 @@ public class AppointmentController {
         return new ResponseEntity<>(examinationsHistory, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getCounselingsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<List<ExaminationDto>> getCounselingsHistoryForPatient(@PathVariable Long patientId) {
+        List<ExaminationDto> counselingsHistory = new ArrayList<ExaminationDto>();
+        for(Appointment appointment : appointmentService.getCounselingsHistoryForPatient(patientId)) {
+            counselingsHistory.add(ExaminationMapper.convertToDto(appointment));
+        }
+        if(counselingsHistory.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(counselingsHistory, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getAvailableExaminationTermsForDermatologist/{dermatologistId}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
     public ResponseEntity<List<AppointmentDto>> getAvailableExaminationTermsForDermatologist(@PathVariable Long dermatologistId, @PathVariable Long pharmacyId) {

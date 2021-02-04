@@ -19,6 +19,11 @@ export class AppointmentService {
         .get<DermatologistExamination[]>(this.appointmentsUrl + 'getExaminationsHistoryForPatient/' + patientId);
   } 
 
+  public getCounselingsHistoryForPatient(patientId: number): Observable<DermatologistExamination[]> {
+    return this.http
+        .get<DermatologistExamination[]>(this.appointmentsUrl + 'getCounselingsHistoryForPatient/' + patientId);
+  } 
+
   public getOccupiedAppointmentsByPatientEmail(patientEmail: string, employeeId: string): Observable<Appointment[]> {
     let params = new HttpParams()
       .set('patientEmail', patientEmail)
