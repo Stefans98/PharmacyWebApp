@@ -14,6 +14,23 @@ public class AppointmentMapper {
         AppointmentDto dto = new AppointmentDto();
 
         dto.setId(appointment.getId());
+        if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
+            dto.setAppointmentType(0);
+        } else if (appointment.getAppointmentType() == AppointmentType.COUNSELING) {
+            dto.setAppointmentType(1);
+        }
+        if(appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+            dto.setAppointmentState(0);
+        } else if(appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
+            dto.setAppointmentState(1);
+        } else if(appointment.getAppointmentState() == AppointmentState.CANCELED) {
+            dto.setAppointmentState(2);
+        } else if(appointment.getAppointmentState() == AppointmentState.FINISHED) {
+            dto.setAppointmentState(3);
+        } else if(appointment.getAppointmentState() == AppointmentState.NOT_HELD) {
+            dto.setAppointmentState(4);
+        }
+
         dto.setStartTime(appointment.getStartTime());
         dto.setEndTime(appointment.getEndTime());
         dto.setPrice(appointment.getPrice());

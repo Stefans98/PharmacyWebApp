@@ -1,9 +1,12 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
+import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.dto.schedule.ExaminationDto;
 import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
+import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentReportService;
@@ -14,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.tree.VoidDescriptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +96,9 @@ public class AppointmentController {
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST')")
     public ResponseEntity<List<AppointmentDto>> findOccupiedAppointmentsByPatientEmail(@RequestParam String patientEmail,@RequestParam String employeeId) {
         List<AppointmentDto> occupiedAppointmentsByPatientEmail = new ArrayList<AppointmentDto>();
+        if(appointmentService.findOccupiedAppointmentsByPatientEmail(patientEmail, Long.parseLong(employeeId)) == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         for(Appointment appointment : appointmentService.findOccupiedAppointmentsByPatientEmail(patientEmail, Long.parseLong(employeeId))) {
             occupiedAppointmentsByPatientEmail.add(AppointmentMapper.convertToDto(appointment));
         }
@@ -99,5 +106,16 @@ public class AppointmentController {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(occupiedAppointmentsByPatientEmail, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/patientNotHeldOnAppointment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('PHARMACIST','DERMATOLOGIST')")
+    public ResponseEntity<Void> patientNotHeldOnAppointment(@RequestBody AppointmentDto appointmentDto){
+        Appointment appointment = appointmentService.patientNotHeldOnAppointment(AppointmentMapper.convertToEntity(appointmentDto),
+                appointmentDto.getPatient().getId(), appointmentDto.getWorkDay().getId());
+        if(appointment == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
