@@ -32,7 +32,7 @@
                                                     {{value}}
                                                 </td>
                                                 <td class="mat-h4" style="text-align:center">
-                                                    {{regularUserDiscount}}%
+                                                    0%
                                                 </td>
                                             </tr>
                                         </table>
@@ -133,31 +133,31 @@
                 </div>
                 <div fxLayout="column" fxFlex="50">
                     <div fxLayout="column" fxFlex style="margin: 2% 5% 3% 0%;" class="mat-elevation-z8">
-                        <div fxLayout="row" fxFlex="10" class="mat-h2" fxLayoutAlign="center center">Skala kategorija:</div>
-                        <div fxLayout="row" fxFlex="20" class="custom-slider" fxLayoutAlign="center start">
+                        <div fxLayout="row" fxFlex="15" class="mat-h2" fxLayoutAlign="center center">Skala kategorija:</div>
+                        <div fxLayout="row" fxFlex="25" class="custom-slider" fxLayoutAlign="center start">
                             <div fxLayout="column" fxFlex="70">
                                 <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ngx-slider>
                             </div>
                             
                         </div>
                         <mat-divider></mat-divider>
-                        <div fxLayout="row" fxFlex="10" class="mat-h2" fxLayoutAlign="center center">Popusti:</div>
+                        <div fxLayout="row" fxFlex="15" class="mat-h2" fxLayoutAlign="center center">Popusti:</div>
                         <div fxLayout="row" fxFlex="20" fxLayoutAlign="center start">
-                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">Regular:</div>
+                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">
+                                Silver:
+                            </div>
                             <div fxLayout="column" fxFlex="50">
-                                <ngx-slider [(value)]="regularUserDiscount" [options]="options"></ngx-slider>
+                                <ngx-slider [(value)]="silverUserDiscount" [options]="silverUserDiscountSliderOptions"
+                                (valueChange)="silverUserDiscountSliderValueChange()">
+                             </ngx-slider>
                             </div>
                         </div>
                         <div fxLayout="row" fxFlex="20" fxLayoutAlign="center start">
-                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">Silver:</div>
-                            <div fxLayout="column" fxFlex="50">
-                                <ngx-slider [(value)]="silverUserDiscount" [options]="options"></ngx-slider>
+                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">
+                                Gold:
                             </div>
-                        </div>
-                        <div fxLayout="row" fxFlex="20" fxLayoutAlign="center start">
-                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">Gold:</div>
                             <div fxLayout="column" fxFlex="50">
-                                <ngx-slider [(value)]="goldUserDiscount" [options]="options"></ngx-slider>
+                                <ngx-slider [(value)]="goldUserDiscount" [options]="goldUserDiscountSliderOptions"></ngx-slider>
                             </div>
                         </div>
                         
@@ -167,7 +167,9 @@
             </div>
             <div fxLayout="row" fxFlex fxLayoutAlign="center center">
                 <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
-					<button mat-raised-button color="primary" style="width: 150px;">Potvrdi</button>
+					<button mat-raised-button color="primary" style="width: 150px;" (click)="defineLoyaltyProgramClick()" [disabled]="!counselingPoints || !examinationPoints">
+                        Potvrdi
+                    </button>
 				</div>
             </div>
                 
