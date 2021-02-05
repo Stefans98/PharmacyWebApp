@@ -1,0 +1,46 @@
+.full {
+	width: 100%;
+}
+
+.loyalty-program {
+	padding: 10px;
+	background: white;
+	margin-top: 5px;
+	margin-left: 10%;
+	min-width: 1000px;
+	min-height: 620px;
+	.avatar {
+		width: 110px;
+		height: 110px;
+		margin-left: 40px;
+		border-radius: 50%;
+	}
+	h3 {
+		margin: auto;
+	}
+	.center-data {
+		margin-left: 50px;
+	}
+	.center-address {
+		margin-left: 70px;
+	}
+}
+
+::ng-deep {
+    .custom-slider .ngx-slider .ngx-slider-left-out-selection .ngx-slider-bar {
+      background: #e9e7e6  !important;
+    }
+
+
+    .custom-slider .ngx-slider .ngx-slider-right-out-selection .ngx-slider-bar {
+        background: rgb(238, 219, 108) !important;
+      }
+
+    .custom-slider .ngx-slider .ngx-slider-selection {
+      background: #999999 ;
+    }
+}
+
+
+
+

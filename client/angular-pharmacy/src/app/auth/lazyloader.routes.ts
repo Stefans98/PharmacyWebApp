@@ -54,7 +54,9 @@ import { MedicineOrderListsComponent } from '../supplier/medicine-order-lists/me
 import { MyOffersComponent } from '../supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from '../supplier/supplier-profile/supplier-profile.component';
 import { PharmacyProfileComponent } from '../pharmacy-profile/pharmacy-profile.component';
-
+import { DefinePromotionComponent } from '../pharmacy-administrator/define-promotion/define-promotion.component';
+import { VacationRequestComponent } from '../pharmacy-administrator/all-dermatologists/vacation-request/vacation-request.component';
+import { VacationRequestPharmacistsComponent } from '../pharmacy-administrator/all-pharmacists/vacation-request-pharmacists/vacation-request-pharmacists.component';
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
@@ -111,7 +113,10 @@ export const appRoutes: Routes = [{
         { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
-        { path: 'pharmacy-administrator/pharmacy-profile', component:  PharmacyProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
+        { path: 'pharmacy-administrator/pharmacy-profile', component:  PharmacyProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/define-promotion', component:  DefinePromotionComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/request-vacation-dermatologists', component:  VacationRequestComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/request-vacation-pharmacists', component:  VacationRequestPharmacistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  

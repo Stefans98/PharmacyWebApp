@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Patient } from '../../models/patient.model';
 import { Pharmacist } from '../../models/pharmacist.model';
 import { Pharmacy } from '../../models/pharmacy.model';
 
@@ -48,4 +49,9 @@ export class PharmacistService {
     return this.http.
       get<Pharmacist[]>(this.pharmacistUrl + 'getAvailablePharmacistsForPharmacy', { params } );
   }
+
+  public getPatientsForPharmacist(pharmacistId: number): Observable<Patient[]> {
+    return this.http
+        .get<Patient[]>(this.pharmacistUrl + 'patientsForPharmacist/' + pharmacistId);
+  } 
 }

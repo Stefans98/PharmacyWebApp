@@ -126,6 +126,43 @@ public class MedicineReservationService {
             medicineReservationRepository.save(medicineReservation);
             return true;
         }
-        return  false;
+        return false;
+    }
+
+    public List<MedicineReservation> getALlMedicineReservationsForPharmacy(Long pharmacyId) {
+        List<MedicineReservation> medicineReservationsForPharmacy = new ArrayList<MedicineReservation>();
+        for(MedicineReservation medicineReservation : medicineReservationRepository.findAll()) {
+            if(medicineReservation.getPharmacy().getId() == pharmacyId) {
+                medicineReservationsForPharmacy.add(medicineReservation);
+            }
+        }
+        return  medicineReservationsForPharmacy;
+    }
+
+    public MedicineReservation findMedicineReservationByUniqueCode(String uniqueCode, Long pharmacyId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 1);
+
+        for(MedicineReservation medicineReservation : getALlMedicineReservationsForPharmacy(pharmacyId)) {
+            if(medicineReservation.getUniqueReservationCode().equals(uniqueCode) &&
+                calendar.getTime().before(medicineReservation.getFinalPurchasingDate()) &&
+                    medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
+                return medicineReservation;
+            }
+        }
+        return null;
+    }
+
+    public MedicineReservation issueMedicineReservation(Long medicineReservationId) {
+        MedicineReservation medicineReservation = findById(medicineReservationId);
+        medicineReservation.setMedicineReservationState(MedicineReservationState.COMPLETED);
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
+                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
+                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
+                            "<br><br>S poštovanjem, <br>Vaša ISA");
+        } catch( Exception ignored ){}
+        return  medicineReservationRepository.save(medicineReservation);
     }
 }

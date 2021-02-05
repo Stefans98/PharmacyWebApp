@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.*;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
+import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.*;
@@ -17,7 +18,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/pharmacists")
@@ -30,7 +33,7 @@ public class PharmacistController {
     private PharmacyService pharmacyService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST', 'PHARMACY_ADMIN')")
     public ResponseEntity<PharmacistDto> getPharmacistById(@PathVariable Long id) {
         Pharmacist pharmacist = (Pharmacist)userService.findById(id);
         if (pharmacist == null){
@@ -103,5 +106,18 @@ public class PharmacistController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(availablePharmacistsForPharmacy, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/patientsForPharmacist/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<Set<PatientDto>> getPatientsForPharmacist(@PathVariable Long pharmacistId) {
+        Set<PatientDto> patientsForPharmacist = new HashSet<PatientDto>();
+        for(Patient patient : userService.getPatientsForPharmacist(pharmacistId)) {
+            patientsForPharmacist.add(PatientMapper.convertToDto(patient));
+        }
+        if(patientsForPharmacist.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(patientsForPharmacist, HttpStatus.OK);
     }
 }

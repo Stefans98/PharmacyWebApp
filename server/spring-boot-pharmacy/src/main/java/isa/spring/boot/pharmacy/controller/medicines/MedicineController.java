@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,5 +166,26 @@ public class MedicineController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value="/findMedicineReservationByUniqueCode", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<MedicineReservationDto> findMedicineReservationByUniqueCode(@RequestParam String uniqueCode, @RequestParam String pharmacyId){
+        MedicineReservation medicineReservation = medicineReservationService.findMedicineReservationByUniqueCode(uniqueCode, Long.parseLong(pharmacyId));
+        if(medicineReservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0), HttpStatus.OK);
+    }
+
+    @PutMapping(value="/issueMedicineReservation/{medicineReservationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<MedicineReservationDto> issueMedicineReservation(@PathVariable Long medicineReservationId){
+        MedicineReservation medicineReservation = medicineReservationService.issueMedicineReservation(medicineReservationId);
+        if(medicineReservation == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0), HttpStatus.OK);
     }
 }
