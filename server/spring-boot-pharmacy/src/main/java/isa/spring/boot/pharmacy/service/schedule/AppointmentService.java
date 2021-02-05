@@ -117,6 +117,20 @@ public class AppointmentService {
         return availableExaminationTermsForPharmacy;
     }
 
+    public List<Appointment> getOccupiedCounselingTermsForPharmacyByDate(long pharmacyId, Date reservationDate) {
+        List<Appointment> occupiedCounselingTermsForPharmacy = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        for (Appointment appointment : getPharmacistCounselings()) {
+            if (appointment.getWorkDay().getPharmacy().getId() == pharmacyId
+                    && appointment.getAppointmentState() == AppointmentState.OCCUPIED
+                        && appointment.getStartTime().compareTo(new Date()) >= 0
+                            && sdf.format(appointment.getStartTime()).equals(sdf.format(reservationDate))) {
+                occupiedCounselingTermsForPharmacy.add(appointment);
+            }
+        }
+        return occupiedCounselingTermsForPharmacy;
+    }
+
     public List<Appointment> getAllOccupiedAppointmentsForPatient(Long patientId) {
         List<Appointment> occupiedAppointmentsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : appointmentRepository.findAll()) {

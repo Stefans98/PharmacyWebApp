@@ -9,7 +9,6 @@ import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
-import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
@@ -17,9 +16,13 @@ import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Date;
 
 @Service
 public class PharmacyService {
@@ -58,6 +61,24 @@ public class PharmacyService {
 
     public Pharmacy savePharmacy(Pharmacy pharmacy) {
         return pharmacyRepository.save(pharmacy);
+    }
+
+    public List<Pharmacy> getPharmaciesWithAvailablePharmacistsByDateTime(String reservationDate, String startTime, String endTime) {
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for (Pharmacy pharmacy : findAll()) {
+            Appointment newAppointment = new Appointment();
+            newAppointment.setStartTime(convertDateStrToDate(startTime, "yyyy-MM-dd HH:mm"));
+            newAppointment.setEndTime(convertDateStrToDate(endTime, "yyyy-MM-dd HH:mm"));
+            if (appointmentService.isAppointmentFreeToSchedule(newAppointment,
+                    appointmentService.getOccupiedCounselingTermsForPharmacyByDate(pharmacy.getId(), convertDateStrToDate(reservationDate, "yyyy-MM-dd HH:mm")))) {
+                for (Pharmacist pharmacist : userService.getPharmacistsForPharmacy(pharmacy.getId())) {
+                    if (appointmentService.isEmployeeWorkDayValid(newAppointment, pharmacist.getId())){
+                        pharmacies.add(pharmacy);
+                    }
+                }
+            }
+        }
+        return pharmacies;
     }
 
     public List<Pharmacy> getPharmaciesByMedicineId(Long medicineId){
@@ -147,5 +168,21 @@ public class PharmacyService {
             }
         }
         return null;
+    }
+
+    public Date convertDateStrToDate(String dateStr, String format) {
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        Date date = new Date();
+        try {
+            date = df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static String convertDateToStr(Date date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
     }
 }

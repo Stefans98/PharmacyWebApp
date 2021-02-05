@@ -9,6 +9,7 @@ import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -159,7 +162,7 @@ public class UserService implements UserDetailsService {
     public List<Dermatologist> getAllDermatologists(){
         List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {
-            if(user instanceof Dermatologist) {
+            if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
                 Dermatologist dermatologist = (Dermatologist)user;
                 dermatologists.add(dermatologist);
             }
@@ -170,8 +173,18 @@ public class UserService implements UserDetailsService {
     public List<Pharmacist> getAllPharmacists(){
         List<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
         for(User user : userRepository.findAll()) {
-            if(user instanceof Pharmacist) {
-                Pharmacist pharmacist = (Pharmacist)user;
+            if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+                Pharmacist pharmacist = (Pharmacist) Hibernate.unproxy(user) ;
+                pharmacists.add(pharmacist);
+            }
+        }
+        return pharmacists;
+    }
+
+    public List<Pharmacist> getAvailablePharmacistsInPharmacyByDatTime(long pharmacyId, Appointment newAppointment) {
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        for (Pharmacist pharmacist : getPharmacistsForPharmacy(pharmacyId)) {
+            if (appointmentService.isEmployeeWorkDayValid(newAppointment, pharmacist.getId())){
                 pharmacists.add(pharmacist);
             }
         }
@@ -206,11 +219,28 @@ public class UserService implements UserDetailsService {
                     && first.getCountry().equals(second.getCountry());
     }
 
-    public List<Pharmacist> getPharmacistsForPharmacy(Long pharmacyId){
+    public List<Pharmacist> getPharmacistsForPharmacy(long pharmacyId){
         List<Pharmacist> pharmacists = new ArrayList<>();
         for(Pharmacist pharmacist : getAllPharmacists()){
             if(pharmacist.getPharmacy().getId() == pharmacyId) {
                 pharmacists.add(pharmacist);
+            }
+        }
+        return pharmacists;
+    }
+
+    public List<Pharmacist> getAvailablePharmacistsForPharmacy(long pharmacyId, String reservationDate, String startTime, String endTime){
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        Appointment newAppointment = new Appointment();
+        newAppointment.setStartTime(convertDateStrToDate(startTime, "yyyy-MM-dd HH:mm"));
+        newAppointment.setEndTime(convertDateStrToDate(endTime, "yyyy-MM-dd HH:mm"));
+
+        if (appointmentService.isAppointmentFreeToSchedule(newAppointment,
+                appointmentService.getOccupiedCounselingTermsForPharmacyByDate(pharmacyId, convertDateStrToDate(reservationDate, "yyyy-MM-dd HH:mm")))) {
+            for (Pharmacist pharmacist : getPharmacistsForPharmacy(pharmacyId)) {
+                if (appointmentService.isEmployeeWorkDayValid(newAppointment, pharmacist.getId())){
+                    pharmacists.add(pharmacist);
+                }
             }
         }
         return pharmacists;
@@ -250,5 +280,16 @@ public class UserService implements UserDetailsService {
             }
         }
         return false;
+    }
+
+    public Date convertDateStrToDate(String dateStr, String format) {
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        Date date = new Date();
+        try {
+            date = df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

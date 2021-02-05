@@ -1,8 +1,11 @@
 package isa.spring.boot.pharmacy.controller.pharmacy;
 
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
+import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +45,21 @@ public class PharmacyController {
             return new ResponseEntity<>(pharmacyDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPharmaciesWithAvailablePharmacistsByDateTime", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String date, @RequestParam String startTime, @RequestParam String endTime) {
+        List<PharmacyDto> pharmaciesDto = new ArrayList<>();
+        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(date, startTime, endTime)) {
+            pharmaciesDto.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+
+        if(pharmaciesDto.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmaciesDto, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
