@@ -24,10 +24,10 @@ public class PrescriptionService {
     private PharmacyMedicineService pharmacyMedicineService;
 
     public Prescription savePrescription(Prescription prescription, Long medicineId, Long patientId, Long pharmacyId) {
-        if(userService.isPatientAllergicToMedicine(prescription.getPatient().getId(), prescription.getMedicine().getId())) {
+        if(userService.isPatientAllergicToMedicine(patientId, medicineId)) {
             return null;
         }
-        pharmacyMedicineService.decrementMedicineQuantity(prescription.getMedicine().getId(), pharmacyId);
+        pharmacyMedicineService.decrementMedicineQuantity(medicineId, pharmacyId);
         prescription.setMedicine(medicineService.findById(medicineId));
         prescription.setPatient((Patient)userService.findById(patientId));
         return prescriptionRepository.save(prescription);

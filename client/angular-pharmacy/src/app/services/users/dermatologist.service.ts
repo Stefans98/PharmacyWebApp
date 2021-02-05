@@ -46,7 +46,6 @@ import { User } from "../../models/user.model";
       public getDermatologistsForPharmacy(pharmacyId: number): Observable<Dermatologist[]>{
         return this.http
             .get<Dermatologist[]>(this.dermatologistUrl + 'dermatologistsForPharmacy/' + pharmacyId);
-
       }
 
       public getPatientsForDermatologist(dermatologistId: number): Observable<Patient[]> {

@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.model.users;
 
+import isa.spring.boot.pharmacy.model.medicines.MedicineInquiry;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class Employee extends User {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineInquiry> medicineInquiries;
+
     public Employee() {
     }
 
@@ -31,16 +35,20 @@ public class Employee extends User {
         super(email, password, firstName, lastName, phoneNumber, address);
     }
 
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
+
     public List<WorkDay> getWorkDays() {
         return workDays;
     }
 
     public void setWorkDays(List<WorkDay> workDays) {
         this.workDays = workDays;
-    }
-
-    public double getAverageGrade() {
-        return averageGrade;
     }
 
     public List<VacationRequest> getVacationRequests() {
@@ -51,7 +59,11 @@ public class Employee extends User {
         this.vacationRequests = vacationRequests;
     }
 
-    public void setAverageGrade(double averageGrade) {
-        this.averageGrade = averageGrade;
+    public List<MedicineInquiry> getMedicineInquiries() {
+        return medicineInquiries;
+    }
+
+    public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
+        this.medicineInquiries = medicineInquiries;
     }
 }

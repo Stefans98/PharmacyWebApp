@@ -1,0 +1,86 @@
+<div class="vacation-table-div mat-elevation-z8">
+    <table mat-table [dataSource]="vacationRequests">
+  
+      <ng-container matColumnDef="dermatologist">
+        <th mat-header-cell *matHeaderCellDef> Dermatolog </th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="primary" (click)="openDialog(request.employeeId)">Prikaži dermatologa</button> </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef> Početak </th>
+        <td mat-cell *matCellDef="let request"> {{ convertDate(request.startTime) }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef> Kraj </th>
+        <td mat-cell *matCellDef="let request"> {{ convertDate(request.endTime) }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="vacationType">
+        <th mat-header-cell *matHeaderCellDef> Tip zahteva </th>
+        <td mat-cell *matCellDef="let request"> {{ convertVacationType(request.vacationType) }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accept">
+        <th mat-header-cell *matHeaderCellDef> Prihvati zahtev</th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="primary" (click)="acceptRequest(request)">Prihvati</button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="reject">
+        <th mat-header-cell *matHeaderCellDef> Odbij zahtev </th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="warn" (click)="rejectRequest(request)">Odbij</button> </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="processed">
+        <th mat-header-cell *matHeaderCellDef> Obradjen </th>
+        <td mat-cell *matCellDef="let request"> {{ convertProcessed(request.processed) }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <div class="vacation-table-div mat-elevation-z8">
+    <table mat-table [dataSource]="vacationRequestsForPharmacists">
+  
+      <ng-container matColumnDef="dermatologist">
+        <th mat-header-cell *matHeaderCellDef> Farmaceut </th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="primary" (click)="openDialogPharmacists(request.employeeId)">Prikaži farmaceuta</button> </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef> Početak </th>
+        <td mat-cell *matCellDef="let request"> {{ convertDate(request.startTime) }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef> Kraj </th>
+        <td mat-cell *matCellDef="let request"> {{ convertDate(request.endTime) }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="vacationType">
+        <th mat-header-cell *matHeaderCellDef> Tip zahteva </th>
+        <td mat-cell *matCellDef="let request"> {{ convertVacationType(request.vacationType) }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accept">
+        <th mat-header-cell *matHeaderCellDef> Prihvati zahtev</th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="primary" (click)="acceptRequestForPharmacist(request)">Prihvati</button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="reject">
+        <th mat-header-cell *matHeaderCellDef> Odbij zahtev </th>
+        <td mat-cell *matCellDef="let request"> <button mat-stroked-button color="warn" (click)="rejectRequestForPharmacist(request)">Odbij</button> </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="processed">
+        <th mat-header-cell *matHeaderCellDef> Obradjen </th>
+        <td mat-cell *matCellDef="let request"> {{ convertProcessed(request.processed) }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+

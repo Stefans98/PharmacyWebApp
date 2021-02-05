@@ -13,6 +13,16 @@ public class VacationMapper {
         VacationDto dto = new VacationDto();
 
         dto.setId(vacationRequest.getId());
+        dto.setEmployeeId(vacationRequest.getEmployee().getId());
+        dto.setPharmacyId(vacationRequest.getPharmacy().getId());
+        dto.setStartTime(vacationRequest.getStartTime());
+        dto.setEndTime(vacationRequest.getEndTime());
+        dto.setProcessed(vacationRequest.getProcessed());
+        if(vacationRequest.getVacationType() == VacationType.VACATION){
+            dto.setVacationType(0);
+        }else if(vacationRequest.getVacationType() == VacationType.ABSENCE){
+            dto.setVacationType(1);
+        }
 
         return dto;
     }
@@ -20,6 +30,8 @@ public class VacationMapper {
     public static VacationRequest convertToEntity(VacationDto dto) {
         VacationRequest vacationRequest = new VacationRequest();
 
+        vacationRequest.setId(dto.getId());
+        vacationRequest.setProcessed(dto.getProcessed());
         if(dto.getVacationType() == 0) {
             vacationRequest.setVacationType(VacationType.VACATION);
         } else if(dto.getVacationType() == 1){

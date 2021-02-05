@@ -18,6 +18,12 @@ export const pharmacyAdministratorMenus = [
         'open': false
     },
     {
+        'name': 'Definiši promociju',
+        'icon': 'people',
+        'link': 'pharmacy-administrator/define-promotion',
+        'open': false
+    },
+    {
         'name': 'Lekovi',
         'icon': 'medical_services',
         'link': false,
@@ -60,6 +66,12 @@ export const pharmacyAdministratorMenus = [
                 'icon': 'local_hospital',
                 'link': 'pharmacy-administrator/add-pharmacist',
                 'open': false,
+            },
+            {
+                'name': 'Godišnji odmor',
+                'icon': 'local_hospital',
+                'link': 'pharmacy-administrator/request-vacation-pharmacists',
+                'open': false,
             }
         ]
     },
@@ -79,6 +91,12 @@ export const pharmacyAdministratorMenus = [
                 'name': 'Dodaj dermatologa',
                 'icon': 'local_hospital',
                 'link': 'pharmacy-administrator/add-dermatologist',
+                'open': false,
+            },
+            {
+                'name': 'Godišnji odmor',
+                'icon': 'local_hospital',
+                'link': 'pharmacy-administrator/request-vacation-dermatologists',
                 'open': false,
             }
         ]

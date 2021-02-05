@@ -1,0 +1,26 @@
+<div class="define-promotion-div">
+        <h1 class="mat-h1" style="margin-left: 15%; margin-top: -2%;">Definiši promociju</h1>
+
+        <mat-form-field color="accent" appearance="fill">
+          <mat-label>Datum početka važenja promocije</mat-label>
+          <input matInput [matDatepicker]="picker1" [min]="today" [(ngModel)]="startDate">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field color="accent" appearance="fill" style="margin-left: 1%;">
+          <mat-label>Datum kraja važenja promocije</mat-label>
+          <input matInput [matDatepicker]="picker2" [min]="startDate" [(ngModel)]="endDate">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>              
+      
+        <mat-form-field class="example-full-width" style="width: 500px;">
+          <mat-label>Tekst promocije</mat-label>
+          <textarea matInput [(ngModel)]="text" style="max-height: 300px; height: 300px; width: 500px; border: rgb(67, 67, 124); border-style: solid; border-width: 1px"></textarea>
+        </mat-form-field>
+
+        <div>
+        <button mat-raised-button color="primary" style="height: 40px; width: 140px; margin-left: 38%; margin-bottom: 30%;" (click)="definePromotion()">Definiši</button>     
+        </div>
+</div>

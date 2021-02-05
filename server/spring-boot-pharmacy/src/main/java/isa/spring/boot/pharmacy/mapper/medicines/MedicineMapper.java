@@ -10,7 +10,8 @@ public class MedicineMapper {
         dto.setId(medicine.getId());
         dto.setName(medicine.getName());
         dto.setCode(medicine.getCode());
-        dto.setId(medicine.getId());
+        dto.setManufacturer(medicine.getManufacturer());
+        dto.setMedicineType(medicine.getMedicineType());
         return dto;
     }
 

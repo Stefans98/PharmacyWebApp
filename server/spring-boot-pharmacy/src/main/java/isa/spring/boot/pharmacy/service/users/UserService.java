@@ -188,6 +188,18 @@ public class UserService implements UserDetailsService {
         }
         return patientsForDermatologist;
     }
+
+    public Set<Patient> getPatientsForPharmacist(Long pharmacistId){
+        Set<Patient> patientsForPharmacist = new HashSet<Patient>();
+        for(Appointment appointment : appointmentService.getPharmacistCounselings()) {
+            if(appointment.getWorkDay().getEmployee().getId() == pharmacistId && (
+                    appointment.getAppointmentState() == AppointmentState.FINISHED ||
+                        appointment.getAppointmentState() == AppointmentState.OCCUPIED)) {
+                patientsForPharmacist.add(appointment.getPatient());
+            }
+        }
+        return patientsForPharmacist;
+    }
     
     public List<Dermatologist> getDermatologistsForPharmacy(Long pharmacyId){
         List<Dermatologist> dermatologists = new ArrayList<>();
@@ -242,7 +254,7 @@ public class UserService implements UserDetailsService {
         return pharmacists;
     }
 
-    public boolean isPatientAllergicToMedicine(long patientId, Long medicineId) {
+    public boolean isPatientAllergicToMedicine(long patientId, long medicineId) {
         Patient patient = (Patient)userRepository.findById(patientId);
         for(Allergy allergy : patient.getAllergies()) {
             if(allergy.getMedicine().getId() == medicineId) {

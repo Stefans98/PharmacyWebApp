@@ -2,14 +2,24 @@ package isa.spring.boot.pharmacy.dto.schedule;
 
 public class ExaminationDto {
 
+    private Long id;
     private String patientFullName;
     private String dermatologistFullName;
     private String dateOfExamination;
     private String timePeriodOfExamination;
     private String pharmacyName;
     private double price;
+    private double averageGrade;
 
     public ExaminationDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getPatientFullName() {
@@ -58,5 +68,13 @@ public class ExaminationDto {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 }
