@@ -21,7 +21,7 @@ public class PharmacyController {
     @Autowired
     PharmacyService pharmacyService;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<PharmacyDto> registerPharmacy(@RequestBody PharmacyDto pharmacyDto)
     {

@@ -248,3 +248,4 @@ insert into vacation_requests (vacation_type, start_time, end_time, employee_id,
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (1, '2021-03-02', '2021-03-04', 7, 2, false);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (1, '2021-03-02', '2021-03-04', 9, 2, false);
 
+insert into loyalty_program (min_points, max_points, silver_points, gold_points, silver_discount, gold_discount, examination_points, counseling_points) values (0, 100, 30, 60, 5, 10, 3, 2)
