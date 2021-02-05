@@ -48,7 +48,7 @@ public class DermatologistController {
     }
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACY_ADMIN')")
     public ResponseEntity<DermatologistDto> getDermatologistById(@PathVariable Long id) {
         Dermatologist dermatologist = (Dermatologist)userService.findById(id);
         if (dermatologist == null){

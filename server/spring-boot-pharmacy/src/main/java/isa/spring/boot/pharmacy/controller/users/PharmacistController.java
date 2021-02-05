@@ -33,7 +33,7 @@ public class PharmacistController {
     private PharmacyService pharmacyService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST', 'PHARMACY_ADMIN')")
     public ResponseEntity<PharmacistDto> getPharmacistById(@PathVariable Long id) {
         Pharmacist pharmacist = (Pharmacist)userService.findById(id);
         if (pharmacist == null){
