@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.text.DateFormat;
-import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -178,23 +177,24 @@ public class AppointmentService {
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
-        if(findById(appointment.getId()) == null) {
-            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
+        //if(findById(appointment.getId()) == null) {
+
+        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
+            return null;
+        }
+        User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
+        if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
                 return null;
             }
-            User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
-            if(user.getDiscriminatorValue().equals("PHARMACIST")) {
-                if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
-                        !isEmployeeWorkDayValid(appointment, user.getId())) {
-                    return null;
-                }
-            } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
-                if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
-                        !isEmployeeWorkDayValid(appointment, user.getId())) {
-                    return null;
-                }
+        } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
             }
         }
+
 
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
@@ -202,6 +202,8 @@ public class AppointmentService {
         try {
             if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
                 sendEmailForExamination(appointment);
+            } else if(appointment.getAppointmentType() == AppointmentType.COUNSELING) {
+                sendEmailForCounseling(appointment);
             }
         } catch( Exception ignored ){}
         return appointmentRepository.save(appointment);
@@ -277,6 +279,17 @@ public class AppointmentService {
             "<br>- Vreme pregleda: " + convertToTimeStr(appointment.getStartTime()) + " - " + convertToTimeStr(appointment.getEndTime()) +
             "<br>- Cena pregleda: " + appointment.getPrice() + " RSD"+
             "<br>- Dermatolog: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
+            "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
+            "<br><br>S poštovanjem, <br>Vaša ISA");
+    }
+
+    public void sendEmailForCounseling(Appointment appointment) {
+        emailService.sendEmailAsync(appointment.getPatient(), "Zakazivanje savetovanja",
+            "Poštovani/-a, <br><br> Uspešno ste zakazali savetovanje! <br><br> <b>Osnovne informacije o savetovanju:</b>" +
+            "<br>- Datum savetovanja: " + convertToDateStr(appointment.getStartTime()) +
+            "<br>- Vreme savetovanja: " + convertToTimeStr(appointment.getStartTime()) + " - " + convertToTimeStr(appointment.getEndTime()) +
+            "<br>- Cena savetovanja: " + appointment.getPrice() + " RSD"+
+            "<br>- Farmaceut: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
             "<br><br>S poštovanjem, <br>Vaša ISA");
     }

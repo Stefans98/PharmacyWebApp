@@ -13,6 +13,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatStepper } from '@angular/material/stepper';
 import { PharmacistService } from '../../../services/users/pharmacist.service';
 import { Pharmacist } from '../../../models/pharmacist.model';
+import { Appointment } from '../../../models/appointment.model';
+import { Patient } from '../../../models/patient.model';
+import { AppointmentService } from '../../../services/schedule/appointment.service';
+import { WorkDay } from '../../../models/work-day.model';
+import { WorkDayService } from '../../../services/schedule/work-day.service';
 
 @Component({
   selector: 'app-pharmacist-scheduling',
@@ -29,6 +34,10 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   chosenDate: string = '';
   startTime: string = '';
   endTime: string = '';
+  appointment: Appointment;
+  chosenPharmacy: Pharmacy;
+  workDay: WorkDay;
+  price: number = 0.0;
 
   availablePharmacies: Pharmacy[] = [];
   dataSourcePharmacies = new MatTableDataSource(this.availablePharmacies);
@@ -71,8 +80,8 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {}
   
-  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private authenticationService: AuthenticationService,
-    private pharmacistService: PharmacistService, private pharmacyService: PharmacyService, public router: Router ) {
+  constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private authenticationService: AuthenticationService, private workDayService: WorkDayService,
+    private pharmacistService: PharmacistService, private pharmacyService: PharmacyService, public router: Router, private appointmentService: AppointmentService) {
       this.dataSourcePharmacies.sort = this.sort;
       this.dataSourcePharmacists.sort = this.sort;
   }
@@ -96,8 +105,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   }
 
   onDateChange(chosenDate) {
-    const _ = moment();
-    this.chosenDate = moment(chosenDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD HH:mm')
+    this.chosenDate = moment(chosenDate).format('YYYY-MM-DD')
   }
 
   onStartTimeChange(value) {
@@ -120,20 +128,17 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
 
   secondNextButtonClicked(pharmacy) : void {
     this.getAvailablePharmacistsForPharmacy(this.chosenDate, this.startTime, this.endTime, pharmacy.id);
+    this.chosenPharmacy = pharmacy;
+    this.price = pharmacy.price;
     this.stepper.next();
   }
 
-  scheduleClicked() : void {
-
-  }
-
   getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate: string, startTime: string, endTime: string) : void {
-    const _ = moment();
-    const date = moment(reservationDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD');
-    const forrmatedStartTime = date + ' ' + startTime;
-    const forrmatedEndTime = date + ' ' + endTime;
+    const forrmatedReservationDate = reservationDate + ' ' + '00:00';
+    const forrmatedStartTime = reservationDate + ' ' + startTime;
+    const forrmatedEndTime = reservationDate + ' ' + endTime;
 
-    this.pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, forrmatedStartTime, forrmatedEndTime).subscribe(
+    this.pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(forrmatedReservationDate, forrmatedStartTime, forrmatedEndTime).subscribe(
       data => {
         this.availablePharmacies = data;
         this.dataSourcePharmacies.data = this.availablePharmacies;
@@ -148,12 +153,11 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   }
 
   getAvailablePharmacistsForPharmacy(reservationDate: string, startTime: string, endTime: string, pharmacyId: string) : void {
-    const _ = moment();
-    const date = moment(reservationDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD');
-    const forrmatedStartTime = date + ' ' + startTime;
-    const forrmatedEndTime = date + ' ' + endTime;
+    const forrmatedReservationDate = reservationDate + ' ' + '00:00';
+    const forrmatedStartTime = reservationDate + ' ' + startTime;
+    const forrmatedEndTime = reservationDate + ' ' + endTime;
 
-    this.pharmacistService.getAvailablePharmacistsForPharmacy(reservationDate, forrmatedStartTime, forrmatedEndTime, pharmacyId).subscribe(
+    this.pharmacistService.getAvailablePharmacistsForPharmacy(forrmatedReservationDate, forrmatedStartTime, forrmatedEndTime, pharmacyId).subscribe(
       data => {
         this.availablePharmacists = data;
         this.dataSourcePharmacists.data = this.availablePharmacists;
@@ -165,6 +169,31 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
         }
       }
     );
+  }
+
+  scheduleClicked(pharmacist) : void {
+    const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
+    const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
+
+    this.workDayService.getWorkDayInPharmacyByDateAndEmployeeId(this.chosenDate, pharmacist.id, this.chosenPharmacy.id.toString()).subscribe(
+      data => {
+        this.workDay = data;
+        var patientId = this.authenticationService.getLoggedUserId();
+        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(patientId, '', '', '', '', '', '', '', 0, 1, ''), this.workDay, null, this.price); 
+        this.appointmentService.scheduleExamination(this.appointment).subscribe(
+          data => {
+            this.router.navigate(['/auth/patient/pharmacist/pharmacist-scheduled-counseling']);
+            this.openSnackBar('Na Vašem email-u možete pogledati potvrdu o zakazivanju pregleda! Pregled možete otkazati ukoliko do datuma pregleda ima više od 24h!', 'Zatvori', 5600);
+          },
+          error => {
+            this.openSnackBar('Zakazivanje termina trenutno nije moguće, molim Vas pokušajte ponovo!', 'Zatvori', 4000);
+          });
+      },
+      error => {
+        if (error.status == 404) {
+          this.openSnackBar('Farmaceut ne radi u apoteci!', 'Zatvori', 4300);
+        }
+      });
   }
 
   openSnackBar(message: string, action: string, duration: number) {

@@ -7,6 +7,7 @@ export class Pharmacy {
         public street: string,
         public description: string,
         public averageGrade: number,
-        public address: string
+        public address: string,
+        public price: number
     ) { }
 }

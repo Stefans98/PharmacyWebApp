@@ -7,6 +7,7 @@ import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
+import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,10 @@ import java.util.List;
 public class PharmacyController {
 
     @Autowired
-    PharmacyService pharmacyService;
+    private PharmacyService pharmacyService;
+
+    @Autowired
+    private PricelistService pricelistService;
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
@@ -50,10 +55,11 @@ public class PharmacyController {
     @GetMapping(value = "/getPharmaciesWithAvailablePharmacistsByDateTime", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime) {
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime) throws ParseException {
         List<PharmacyDto> pharmaciesDto = new ArrayList<>();
         for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, startTime, endTime)) {
-            pharmaciesDto.add(PharmacyMapper.convertToDto(pharmacy));
+
+            pharmaciesDto.add(PharmacyMapper.convertToDtoWithPrice(pharmacy, pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, pharmacy.getId())));
         }
 
         if(pharmaciesDto.isEmpty()) {

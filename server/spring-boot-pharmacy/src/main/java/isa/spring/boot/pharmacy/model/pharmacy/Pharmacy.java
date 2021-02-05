@@ -70,6 +70,9 @@ public class Pharmacy {
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineInquiry> medicineInquiries;
 
+    @OneToOne(mappedBy = "pharmacy")
+    private Pricelist pricelist;
+
     public Pharmacy() {
     }
 
@@ -209,5 +212,13 @@ public class Pharmacy {
 
     public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
         this.medicineInquiries = medicineInquiries;
+    }
+
+    public Pricelist getPricelist() {
+        return pricelist;
+    }
+
+    public void setPricelist(Pricelist pricelist) {
+        this.pricelist = pricelist;
     }
 }

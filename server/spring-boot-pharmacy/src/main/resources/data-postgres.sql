@@ -86,11 +86,13 @@ insert into user_authority (user_id, authority_id) values (24, 2);
 insert into complaints (text, answered, complaint_type, patient_id, pharmacy_id) values ('Zalba na urednost apoteke', false, 'PHARMACY_COMPLAINT', 1, 1);
 insert into complaints (text, answered, complaint_type, patient_id, dermatologist_id) values ('Zalba na ljubaznost dermatologa', false, 'DERMATOLOGIST_COMPLAINT', 1, 7);
 
-insert into price_lists (id) values (1);
-insert into price_lists (id) values (2);
+insert into price_lists (id, pharmacy_id) values (1, 1);
+insert into price_lists (id, pharmacy_id) values (2, 2);
 
-insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (1000, 0, '2021-01-29', '2021-03-29', 1);
-insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (2500, 1, '2021-02-22', '2021-05-15', 2);
+insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (500, 0, '2021-01-29', '2021-03-29', 1);
+insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (600, 1, '2021-01-29', '2021-03-29', 1);
+insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (450, 0, '2021-02-22', '2021-05-15', 2);
+insert into appointment_prices (price, appointment_type, start_time, end_time, pricelist_id) values (550, 1, '2021-02-22', '2021-05-15', 2);
 
 insert into medicine_specifications (contraindication, daily_dose) values ('mucnina', 2);
 insert into medicine_specifications (contraindication, daily_dose) values ('neprijatan osećaj ili bol u stomaku', 1);
@@ -120,9 +122,9 @@ insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
 
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 5, 1); -- ovo nesto ne radi
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 5, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 6, 2);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 2);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1);
