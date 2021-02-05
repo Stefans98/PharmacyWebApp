@@ -24,6 +24,11 @@ public class Pharmacist extends Employee {
         super(email, password, firstName, lastName, phoneNumber, address);
     }
 
+    public Pharmacist(User user) {
+        super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
+                user.getAddress());
+    }
+
     public Pharmacy getPharmacy() {
         return pharmacy;
     }

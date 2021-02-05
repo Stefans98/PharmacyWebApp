@@ -65,7 +65,7 @@ public class MedicineReservationService {
         try {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
                     "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
-                            "<br><br>S poštovanjem, <br>Vaša apoteka ISA");
+                            "<br><br>S poštovanjem, <br>Vaša ISA");
         } catch( Exception ignored ){}
 
         return medicineReservationRepository.save(medicineReservation);
