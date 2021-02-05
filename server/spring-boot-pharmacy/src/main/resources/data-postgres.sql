@@ -137,7 +137,7 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 3, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 4, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 2);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 0, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 6, 3);
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-02-04 09:30:00', '2021-02-04 10:00:00', 1, 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-02-05 09:30:00', '2021-02-05 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 2, '2021-03-02 09:30:00', '2021-03-02 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-04-02 09:30:00', '2021-04-02 10:00:00', 1, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 4, '2021-04-02 09:30:00', '2021-04-02 10:00:00', 1, 1);

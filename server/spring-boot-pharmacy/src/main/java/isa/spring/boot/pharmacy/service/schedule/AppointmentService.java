@@ -39,6 +39,8 @@ public class AppointmentService {
         return appointmentRepository.findById(id);
     }
 
+    public Appointment save(Appointment appointment) { return  appointmentRepository.save(appointment); }
+
     public List<Appointment> getDermatologistExaminations() {
         List<Appointment> dermatologistExaminations = new ArrayList<Appointment>();
         for(Appointment appointment : appointmentRepository.findAll()) {
