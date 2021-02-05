@@ -229,8 +229,22 @@ insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 4
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 5, 5);
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 6, 15);
 
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 7, 1);
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (0, '2021-03-02', '2021-03-04', 9, 1);
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (1, '2021-03-02', '2021-03-04', 7, 2);
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id) values (1, '2021-03-02', '2021-03-04', 9, 2);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 7, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 7, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 7, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 15, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 15, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 16, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 17, 1, false);
+
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 20, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 21, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 21, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 22, 1, false);
+
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (1, '2021-03-02', '2021-03-04', 7, 2, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (1, '2021-03-02', '2021-03-04', 9, 2, false);
 

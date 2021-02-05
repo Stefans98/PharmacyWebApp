@@ -90,6 +90,11 @@ import { DermatologistsForPharmacyComponent } from './pharmacy-profile/dermatolo
 import { PharmacistsForPharmacyComponent } from './pharmacy-profile/pharmacists-for-pharmacy/pharmacists-for-pharmacy.component';
 import { DermatologistsForPharmacyDialogComponent } from './pharmacy-profile/dermatologists-for-pharmacy/dermatologists-for-pharmacy-dialog/dermatologists-for-pharmacy-dialog.component';
 import { DefinePromotionComponent } from './pharmacy-administrator/define-promotion/define-promotion.component';
+import { VacationRequestComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/vacation-request.component';
+import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/all-pharmacists/vacation-request-pharmacists/vacation-request-pharmacists.component';
+import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
+import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
+import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
 
 @NgModule({
   declarations: [
@@ -170,7 +175,12 @@ import { DefinePromotionComponent } from './pharmacy-administrator/define-promot
     DermatologistsForPharmacyComponent,
     PharmacistsForPharmacyComponent,
     DermatologistsForPharmacyDialogComponent,
-    DefinePromotionComponent
+    DefinePromotionComponent,
+    VacationRequestComponent,
+    VacationRequestPharmacistsComponent,
+    EmployeeForRequestDialogComponent,
+    RejectRequestDialogComponent,
+    PharmacistForRequestComponent
   ],
   imports: [
     BrowserModule,
