@@ -24,7 +24,7 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josif
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 9');
 
 insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
-insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 9.3, 2);
+insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 8.7, 2);
 
 insert into authority (name) values ('PATIENT');
 insert into authority (name) values ('PHARMACIST');
@@ -38,7 +38,7 @@ insert into users (user_type, email, password, first_name, last_name, phone_numb
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10, 0);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 10, 4);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1, 8.7);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 6, 2, 9.8);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milan', 'Milic', '0605955485', 6, 2, 9.8);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 7, 8.7);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 8, 9.2);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'supplier1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 9);

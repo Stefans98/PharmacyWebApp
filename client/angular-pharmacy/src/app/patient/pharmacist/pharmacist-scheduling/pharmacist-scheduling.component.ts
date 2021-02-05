@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Medicine } from '../../../models/medicine.model';
-import { MedicineReservation } from '../../../models/medicineReservation.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
-import { MedicineService } from '../../../services/medicines/medicine.service';
 import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 import * as moment from 'moment';
@@ -14,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { MatSort } from '@angular/material/sort';
 import { MatStepper } from '@angular/material/stepper';
+import { PharmacistService } from '../../../services/users/pharmacist.service';
+import { Pharmacist } from '../../../models/pharmacist.model';
 
 @Component({
   selector: 'app-pharmacist-scheduling',
@@ -27,25 +26,33 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   time1: string = '00:00';
   time2: string = '00:00';
 
+  chosenDate: string = '';
   startTime: string = '';
   endTime: string = '';
 
-  medicineId: number;
-  pharmacyId: number;
-  chosenDate: Date;
-  searchedMedicine: string = '';
-  //medicines: Medicine[] = [];
-  pharmaciesWhichContainMedicine: Pharmacy[] = [];
-  medicinePrice: DoubleRange;
+  availablePharmacies: Pharmacy[] = [];
+  dataSourcePharmacies = new MatTableDataSource(this.availablePharmacies);
+
+  availablePharmacists: Pharmacist[] = [];
+  dataSourcePharmacists = new MatTableDataSource(this.availablePharmacists);
+
+  displayedColumns: string[] = ['name', 'city', 'grade', 'price', 'choice'];
+  displayedColumnsPharmacist: string[] = ['pharmacistName', 'pharmacistSurname', 'pharmacistGrade', 'scheduling'];
+
+  selectedRowIndex = -1;
 
   @ViewChild('searchInput') searchInput: ElementRef;
-
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('stepper') stepper: MatStepper;
   @ViewChild(MatAccordion) accordion: MatAccordion;
+
   isLinear = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  fourthFormGroup: FormGroup;
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   myTimePickerTheme: NgxMaterialTimepickerTheme = {
     container: {
@@ -62,38 +69,14 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
     }
   };
 
-  @ViewChild(MatSort) sort: MatSort;
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-  
-  medicines: MedicineReservation[] = [];
-  displayedColumns: string[] = ['name', 'city', 'grade', 'price', 'choice'];
-  dataSource = new MatTableDataSource(this.medicines);
-  displayedColumnsPharmacist: string[] = ['pharmacistName', 'pharmacistSurname', 'pharmacistGrade', 'scheduling'];
-
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  ngAfterViewInit() {}
   
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private authenticationService: AuthenticationService,
-    private medicineService: MedicineService, private pharmacyService: PharmacyService, public router: Router ) {
-      this.medicineService.getAllReservedMedicinesByPatientId(this.authenticationService.getLoggedUserId()).subscribe(
-        data => {
-          this.medicines = data;
-          this.dataSource.data = this.medicines;
-        },
-        error => {
-          if (error.status == 404){
-            this.openSnackBar('Trenutno ne postoji nijedan rezervisani lek!', 'Zatvori', 3200);
-          }
-        }
-      );
-    }
+    private pharmacistService: PharmacistService, private pharmacyService: PharmacyService, public router: Router ) {
+      this.dataSourcePharmacies.sort = this.sort;
+      this.dataSourcePharmacists.sort = this.sort;
+  }
     
-  @ViewChild('stepper') stepper: MatStepper;
-    
-  
   ngOnInit() {
     this.maxDate = new Date();
 
@@ -105,98 +88,83 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
     this.secondFormGroup = this._formBuilder.group({
     });
     this.thirdFormGroup = this._formBuilder.group({
-        thirdCtrl: ['', Validators.required]
     });
   }
-  
-  selectedRowIndex = -1;
 
   highlight(row){
       this.selectedRowIndex = row.id;
   }
 
-  onChangePharmacy(pharmacyId)  {
-    this.pharmacyId = pharmacyId[0];
-  }
-
-  onChangeMedicine(medicine) {
-    this.medicineId = medicine[0];
-  }
-
   onDateChange(chosenDate) {
     const _ = moment();
-    const date = moment(chosenDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()})
-    this.chosenDate = date.toDate();
-    console.log(this.chosenDate)
+    this.chosenDate = moment(chosenDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD HH:mm')
   }
 
-  startTimeChange(value) {
+  onStartTimeChange(value) {
     this.startTime = value;
     this.minTimeFinishing = value;
     this.disabledTimeFinishing = false;
-    console.log(this.startTime)
   }
 
-  endTimeChange(value) {
+  onEndTimeChange(value) {
     this.endTime = value;
-    console.log(this.endTime)
   }
 
   firstNextButtonClicked() : void {
     if (!this.firstFormGroup.valid) {
       this.openSnackBar('Morate uneti potrebne podatke i izabrati jednu apoteku nakon toga!', 'Zatvori', 3700);
     } else {
-      this.getPharmaciesByMedicineId(this.medicineId);
+      this.getPharmaciesWithAvailablePharmacistsByDateTime(this.chosenDate, this.startTime, this.endTime);
     }
   }
 
   secondNextButtonClicked(pharmacy) : void {
-    console.log(pharmacy);
+    this.getAvailablePharmacistsForPharmacy(this.chosenDate, this.startTime, this.endTime, pharmacy.id);
     this.stepper.next();
   }
 
-  thirdNextButtonClicked() : void {
-    if (!this.thirdFormGroup.valid) {
-      this.openSnackBar('Morate izabrati datum!', 'Zatvori', 2500);
-    } else {
-      this.getMedicinePrice(this.medicineId, this.pharmacyId);
-    }
+  scheduleClicked() : void {
+
   }
 
-  reserveMedicineClick() : void {
-    this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId(), null, null, 0.0)) 
-      .subscribe( data => {
-        this.router.navigate(['/auth/patient/drugs/reserved-drugs']);
-        this.openSnackBar('Lek je uspešno rezervisan! Rezervaciju možete otkazati ukoliko do datuma preuzimanja ima više od 24h!', 'Zatvori', 4500);
-      },
-      error => {
-        this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori', 2500);
-      });    
-  }
+  getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate: string, startTime: string, endTime: string) : void {
+    const _ = moment();
+    const date = moment(reservationDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD');
+    const forrmatedStartTime = date + ' ' + startTime;
+    const forrmatedEndTime = date + ' ' + endTime;
 
-  getPharmaciesByMedicineId(id: number) : void {
-    this.pharmaciesWhichContainMedicine = [];
-    this.pharmacyService.getPharmaciesByMedicineId(id).subscribe(
+    this.pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, forrmatedStartTime, forrmatedEndTime).subscribe(
       data => {
-        this.pharmaciesWhichContainMedicine = data;
+        this.availablePharmacies = data;
+        this.dataSourcePharmacies.data = this.availablePharmacies;
       },
       error => {
         if (error.status == 404){
-          this.openSnackBar('Ne postoje apoteke koje sadrže selektovani lek!', 'Zatvori', 3000);
+          this.dataSourcePharmacies.data = [];
+          this.openSnackBar('Ne postoje slobodne apoteke za izabrani datum i vreme savetovanja!', 'Zatvori', 4000);
         }
       }
     );
   }
 
-  getMedicinePrice(medicineId: number, pharmacyId: number) {
-    this.medicineService.getMedicinePrice(medicineId.toString(), pharmacyId.toString()).subscribe(
+  getAvailablePharmacistsForPharmacy(reservationDate: string, startTime: string, endTime: string, pharmacyId: string) : void {
+    const _ = moment();
+    const date = moment(reservationDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()}).format('YYYY-MM-DD');
+    const forrmatedStartTime = date + ' ' + startTime;
+    const forrmatedEndTime = date + ' ' + endTime;
+
+    this.pharmacistService.getAvailablePharmacistsForPharmacy(reservationDate, forrmatedStartTime, forrmatedEndTime, pharmacyId).subscribe(
       data => {
-        this.medicinePrice = data;
+        this.availablePharmacists = data;
+        this.dataSourcePharmacists.data = this.availablePharmacists;
       },
       error => {
-        this.openSnackBar('Cena trenutno nije dostupna!', 'Zatvori', 2500);
+        if (error.status == 404){
+          this.dataSourcePharmacists.data = [];
+          this.openSnackBar('Ne postoje slobodni farmaceuti za izabrani datum, vreme i apoteku!', 'Zatvori', 4300);
+        }
       }
-    )
+    );
   }
 
   openSnackBar(message: string, action: string, duration: number) {

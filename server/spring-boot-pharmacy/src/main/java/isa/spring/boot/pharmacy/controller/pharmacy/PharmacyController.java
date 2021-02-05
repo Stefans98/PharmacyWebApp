@@ -50,9 +50,9 @@ public class PharmacyController {
     @GetMapping(value = "/getPharmaciesWithAvailablePharmacistsByDateTime", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String date, @RequestParam String startTime, @RequestParam String endTime) {
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime) {
         List<PharmacyDto> pharmaciesDto = new ArrayList<>();
-        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(date, startTime, endTime)) {
+        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, startTime, endTime)) {
             pharmaciesDto.add(PharmacyMapper.convertToDto(pharmacy));
         }
 

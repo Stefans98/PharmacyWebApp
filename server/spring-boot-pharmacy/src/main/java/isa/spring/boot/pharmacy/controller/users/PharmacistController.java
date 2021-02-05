@@ -91,7 +91,6 @@ public class PharmacistController {
     public ResponseEntity<List<PharmacistDto>> getAvailablePharmacistsForPharmacy(@RequestParam String reservationDate, @RequestParam String startTime,
                                                                                   @RequestParam String endTime, @RequestParam String pharmacyId) {
         List<PharmacistDto> availablePharmacistsForPharmacy = new ArrayList<>();
-
         if(userService.getAvailablePharmacistsForPharmacy(Long.parseLong(pharmacyId), reservationDate, startTime, endTime) == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -103,7 +102,6 @@ public class PharmacistController {
         if(availablePharmacistsForPharmacy.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(availablePharmacistsForPharmacy, HttpStatus.OK);
     }
 }
