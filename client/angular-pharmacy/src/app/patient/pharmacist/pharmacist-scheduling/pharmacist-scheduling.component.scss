@@ -1,0 +1,203 @@
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.example-action-buttons {
+    padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+}
+
+.example-full-width {
+    margin: 10px 0px 0px 370px;
+    min-width: 400px;
+}
+
+.medicinesTable {
+  width: 100%;
+}
+
+.table-container {
+  margin: 0px 0px 0px 330px;
+  max-width: 42%;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button-confirm-in-first-slide {
+    margin-top: 60px;
+    padding-left: 50px;
+    min-height: 50px;
+}
+
+.button-position-first-form {
+    margin-top: 25px;
+    position: relative;
+    float: right;
+}
+
+.searched-medicine {
+    max-width: 300px;
+    overflow-y: auto;
+    text-align:center;
+    margin-top: 10px;
+    width: 300px;
+    height: 230px;
+    padding: 0 30px 0 30px;
+}
+
+.button-position-second-form-next {
+    position: relative;
+    float: right;
+    margin-top: 0px;
+}
+
+.button-position-second-form-back {
+    position: relative;
+    float: left;
+    margin-top: 0px;
+}
+
+.button-position-third-form-next {
+    position: relative;
+    float: right;
+    margin-top: 0px;
+}
+
+.button-position-third-form-back {
+    position: relative;
+    float: left;
+    margin-top: 0px;
+}
+
+.button-position-fourth-form-next {
+    position: relative;
+    float: right;
+    margin-top: 120px;
+}
+
+.button-position-fourth-form-back {
+    position: relative;
+    float: left;
+    margin-top: 120px;
+}
+
+// table
+
+.full {
+    width: 70%;
+    margin-top: 2px;
+}
+.pharmacy-list-container {
+	background-color: white; // #f5f5f5
+    padding: 10px;
+    height: 385px;
+    overflow: auto;
+
+	.pharmacy-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	.pharmacy-list-header {
+		background-color: #eee;
+		padding: 10px;
+		div {
+			margin: auto;
+		}
+		
+	}
+}
+
+.pharmacy-list-container-second {
+    background-color: white;
+    padding: 10px;
+    height: 337.5px;
+    overflow: auto;
+
+    .pharmacy-list {
+        height: 400px;
+        overflow: auto;
+        div {
+            margin: 0;
+        }
+        h3 {
+            margin: 0;
+        }
+        p {
+            margin: 0;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    }
+
+    .pharmacy-list-header {
+        background-color: #eee;
+        padding: 10px;
+        div {
+            margin: auto;
+        }
+        
+    }
+}
+
+.pharmacy-add {
+    padding: 10px;
+    background: white;
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+    }
+    h3 {
+        margin: auto;
+    }
+}
+
+.mat-row:hover {
+    background:rgb(235, 234, 234);
+}
+
+.highlight{
+    background: lightgray;
+  }
+
+::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
+}

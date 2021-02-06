@@ -16,6 +16,9 @@ public class Subscription {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @Column(name = "canceled")
+    private boolean canceled;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
 
@@ -40,6 +43,14 @@ public class Subscription {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 
     public Pharmacy getPharmacy() {

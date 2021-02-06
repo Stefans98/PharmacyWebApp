@@ -8,6 +8,7 @@ public class VacationDto {
     private int vacationType;
     private Date startTime;
     private Date endTime;
+    private boolean processed;
     private Long employeeId;
     private Long pharmacyId;
 
@@ -44,6 +45,14 @@ public class VacationDto {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 
     public Long getEmployeeId() {

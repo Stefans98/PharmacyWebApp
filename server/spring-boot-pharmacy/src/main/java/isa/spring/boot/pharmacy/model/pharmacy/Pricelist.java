@@ -14,6 +14,10 @@ public class Pricelist {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "id")
+    private Pharmacy pharmacy;
+
     @OneToMany(mappedBy = "pricelist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicinePrice> medicinePrices;
 
@@ -50,5 +54,13 @@ public class Pricelist {
 
     public void setAppointmentPrices(List<AppointmentPrice> appointmentPrices) {
         this.appointmentPrices = appointmentPrices;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }

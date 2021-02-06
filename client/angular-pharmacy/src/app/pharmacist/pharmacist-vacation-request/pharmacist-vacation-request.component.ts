@@ -15,7 +15,7 @@ import { VacationService } from '../../services/users/vacation.service';
 })
 export class PharmacistVacationRequestComponent implements OnInit {
   campaignOne: FormGroup;
-  public pharmacistPharmacy : Pharmacy = new Pharmacy(0, '', '', '', '', '', 0, '');
+  public pharmacistPharmacy : Pharmacy = new Pharmacy(0, '', '', '', '', '', 0, '', 0.0);
   public startTime : Date = new Date();
   public endTime : Date = new Date();
   public minDate : Date = new Date();
@@ -45,7 +45,7 @@ export class PharmacistVacationRequestComponent implements OnInit {
 
   sendVacationRequest(): void {
     this.vacationService.sendVacationRequest(
-      new Vacation(0, 0, this.startTime, this.endTime, this.authenticationService.getLoggedUserId(), this.pharmacistPharmacy.id)).subscribe(
+      new Vacation(0, 0, this.startTime, this.endTime, false, this.authenticationService.getLoggedUserId(), this.pharmacistPharmacy.id)).subscribe(
       data => {
         this.vacation = data;
         this.refreshData();

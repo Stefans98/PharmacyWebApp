@@ -10,6 +10,7 @@ public class PharmacyDto {
     private String description;
     private double averageGrade;
     private String address;
+    private double price;
 
     public PharmacyDto() {
     }
@@ -82,5 +83,13 @@ public class PharmacyDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
