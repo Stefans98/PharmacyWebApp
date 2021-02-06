@@ -63,16 +63,29 @@ public class AppointmentController {
     }
     
     @GetMapping(value = "/getScheduledExaminationForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getScheduledExaminationForPatient(@PathVariable Long patientId) {
-        List<ExaminationDto> examinationsHistory = new ArrayList<>();
+        List<ExaminationDto> examinations = new ArrayList<>();
         for(Appointment appointment : appointmentService.getScheduledExaminationForPatient(patientId)) {
-            examinationsHistory.add(ExaminationMapper.convertToDto(appointment));
+            examinations.add(ExaminationMapper.convertToDto(appointment));
         }
-        if(examinationsHistory.isEmpty()) {
+        if(examinations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(examinationsHistory, HttpStatus.OK);
+        return new ResponseEntity<>(examinations, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getScheduledCounselingForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<ExaminationDto>> getScheduledCounselingForPatient(@PathVariable Long patientId) {
+        List<ExaminationDto> counselings = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getScheduledCounselingForPatient(patientId)) {
+            counselings.add(ExaminationMapper.convertToDto(appointment));
+        }
+        if(counselings.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(counselings, HttpStatus.OK);
     }
 
     @GetMapping(value = "/getAvailableExaminationTermsForDermatologist/{dermatologistId}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)

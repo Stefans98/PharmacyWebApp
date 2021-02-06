@@ -190,7 +190,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
             this.openSnackBar('Na Vašem email-u možete pogledati potvrdu o zakazivanju pregleda! Pregled možete otkazati ukoliko do datuma pregleda ima više od 24h!', 'Zatvori', 5600);
           },
           error => {
-            this.openSnackBar('Nemate pravo zakazivanja termina, jer već imate zakazan termin za izabran datum i vreme!', 'Zatvori', 4700);
+            this.openSnackBar('Nemate pravo zakazivanja termina kod farmaceuta zato što ste imali ili trenutno imate zakazan termin koji se preklapa sa izabranim datumom i vremenom!', 'Zatvori', 5700);
           });
       },
       error => {

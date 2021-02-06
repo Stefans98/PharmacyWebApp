@@ -94,6 +94,18 @@ public class AppointmentService {
         return dermatologistExaminationsForPatient;
     }
 
+    public List<Appointment> getScheduledCounselingForPatient(long patientId) {
+        List<Appointment> pharmacistCounselingsForPatient = new ArrayList<>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED
+                    && appointment.getStartTime().compareTo(new Date()) >= 0) {
+                pharmacistCounselingsForPatient.add(appointment);
+            }
+        }
+        return pharmacistCounselingsForPatient;
+    }
+
     public List<Appointment> getCounselingHistoryForPatient(Long patientId) {
         List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : getPharmacistCounselings()) {
@@ -132,8 +144,9 @@ public class AppointmentService {
         List<Appointment> availableExaminationTermsForPharmacy = new ArrayList<>();
         for (Appointment appointment : getDermatologistExaminations()) {
             if (appointment.getWorkDay().getPharmacy().getId() == pharmacyId &&
-                    appointment.getAppointmentState() == AppointmentState.AVAILABLE &&
-                        appointment.getStartTime().compareTo(new Date()) >= 0) {
+                    (appointment.getAppointmentState() == AppointmentState.AVAILABLE ||
+                        appointment.getAppointmentState() == AppointmentState.CANCELED) &&
+                            appointment.getStartTime().compareTo(new Date()) >= 0) {
                 availableExaminationTermsForPharmacy.add(appointment);
             }
         }
@@ -165,6 +178,18 @@ public class AppointmentService {
         return occupiedAppointmentsForPatient;
     }
 
+    public List<Appointment> getAllCanceledAppointmentsForPatientByEmployee(long patientId, long workDayId) {
+        List<Appointment> canceledAppointmentsForPatientByEmployee = new ArrayList<>();
+        for(Appointment appointment : appointmentRepository.findAll()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getWorkDay().getId() == workDayId &&
+                        appointment.getAppointmentState() == AppointmentState.CANCELED) {
+                canceledAppointmentsForPatientByEmployee.add(appointment);
+            }
+        }
+        return canceledAppointmentsForPatientByEmployee;
+    }
+
     public List<Appointment> getAllOccupiedAppointmentsForPharmacist(Long pharmacistId) {
         List<Appointment> occupiedAppointmentsForPharmacist = new ArrayList<Appointment>();
         for(Appointment appointment : getPharmacistCounselings()) {
@@ -193,7 +218,7 @@ public class AppointmentService {
         calendar.add(Calendar.DATE, 1);
 
         if(calendar.getTime().before(appointment.getStartTime())) {
-            appointment.setAppointmentState(AppointmentState.AVAILABLE);
+            appointment.setAppointmentState(AppointmentState.CANCELED);
             appointmentRepository.save(appointment);
             return true;
         }
@@ -201,9 +226,8 @@ public class AppointmentService {
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
-        //if(findById(appointment.getId()) == null) {
-
-        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))) {
+        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))
+                || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))) {
             return null;
         }
         User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
@@ -218,7 +242,6 @@ public class AppointmentService {
                 return null;
             }
         }
-
 
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
@@ -240,15 +263,15 @@ public class AppointmentService {
         return counselings;
     }
 
-    public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> occupiedAppointments) {
+    public boolean isAppointmentFreeToSchedule(Appointment newAppointment, List<Appointment> appointments) {
         Date startNew = newAppointment.getStartTime();
         Date endNew = newAppointment.getEndTime();
-        Date startOccupied, endOccupied;
-        for(Appointment occupiedAppointment : occupiedAppointments) {
-            startOccupied = occupiedAppointment.getStartTime();
-            endOccupied = occupiedAppointment.getEndTime();
-            if((startNew.compareTo(startOccupied) <= 0 && ((endNew.compareTo(startOccupied) >= 0 && endNew.compareTo(endOccupied) <= 0) || (endNew.compareTo(startOccupied) >= 0 && endNew.compareTo(endOccupied) >= 0))) ||
-                    (startNew.compareTo(startOccupied) >= 0 && startNew.compareTo(endOccupied) <= 0)) {
+        Date startOld, endOld;
+        for(Appointment appointment : appointments) {
+            startOld = appointment.getStartTime();
+            endOld = appointment.getEndTime();
+            if((startNew.compareTo(startOld) <= 0 && ((endNew.compareTo(startOld) >= 0 && endNew.compareTo(endOld) <= 0) || (endNew.compareTo(startOld) >= 0 && endNew.compareTo(endOld) >= 0))) ||
+                    (startNew.compareTo(startOld) >= 0 && startNew.compareTo(endOld) <= 0)) {
                 return false;
             }
         }
