@@ -125,10 +125,10 @@ insert into subscriptions (patient_id, pharmacy_id) values (2, 1);
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 5, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 6, 2);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-02-05 04:45:00', '2021-02-05 04:45:00', 3, 1);
