@@ -26,7 +26,7 @@ public class OfferController {
     public ResponseEntity<OfferDto> createNewOffer(@RequestBody OfferDto offerDto) {
         Offer offer = offerService.createNewOffer(OfferMapper.convertToEntity(offerDto, false),
                 offerDto.getSupplierId(), offerDto.getMedicineOrderListId());
-        return new ResponseEntity<>(OfferMapper.convertToDto(offer), HttpStatus.OK);
+        return new ResponseEntity<>(OfferMapper.convertToDto(offer), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/getOffersForSupplier/{supplierId}", produces = MediaType.APPLICATION_JSON_VALUE)
