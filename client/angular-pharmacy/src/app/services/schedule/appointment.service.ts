@@ -68,4 +68,15 @@ export class AppointmentService {
       .get<Appointment[]>(this.appointmentsUrl + 'getAllAvailableExaminationTermsForDermatologist/' + dermatologistId);
   }
 
+  public getAppointmentPrice(reservationDate: string, startTime: string, endTime: string, pharmacyId : string): Observable<number> {
+    let params = new HttpParams()
+      .set('reservationDate', reservationDate)
+      .set('startTime', startTime)
+      .set('endTime', endTime)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.
+      get<number>(this.appointmentsUrl + 'getAppointmentPrice', { params } );
+  }
+
 }

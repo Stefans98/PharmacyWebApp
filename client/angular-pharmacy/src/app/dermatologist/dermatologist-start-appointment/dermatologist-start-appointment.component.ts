@@ -15,6 +15,7 @@ import { Medicine } from '../../models/medicine.model';
 import { PrescriptionService } from '../../services/medicines/prescription.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 export interface ModalDialogData {
   madicine: Medicine;
@@ -37,6 +38,16 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     fourthFormGroup: FormGroup;
     fiftFormGroup: FormGroup;
     selected = new FormControl(0);
+
+    maxDate: Date = new Date();
+    minTimeFinishing: string = '00:00';
+    disabledTimeFinishing: boolean = true;
+    time1: string = '00:00';
+    time2: string = '00:00';
+
+    chosenDate: string = '';
+    startTime: string = '';
+    endTime: string = '';
     
     public patientFlag: Boolean = false;
     public patientAppointments : Appointment[] = [];
@@ -47,15 +58,30 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public medicineForPrescription : Medicine;
     public availableAppointments : Appointment[] = [];
     public selectedNewAppointment : Appointment;
-    public chosenAppointmentDate : Date;
-    public startTime : Date;
-    public endTime : Date;
+    public newAppointmentTerm : Appointment;
+    public appointmentReportInformations : string;
+    public appointmentPrice : number = 0.0;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+    myTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          bodyBackgroundColor: '#ffffff',
+          buttonColor: '#5c6bc0'
+      },
+      dial: {
+          dialBackgroundColor: '#5c6bc0',
+      },
+      clockFace: {
+          clockFaceBackgroundColor: '#e8eaf6',
+          clockHandColor: '#5c6bc0',
+          clockFaceTimeInactiveColor: '#000000'
+      }
+    };
 
     constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService, private medicineService : MedicineService,
        private _formBuilder: FormBuilder, public dialog: MatDialog, private snackBar: MatSnackBar, private prescriptionService : PrescriptionService, public router: Router) {}
@@ -68,15 +94,34 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         });
         this.thirdFormGroup = this._formBuilder.group({
         });
-        this.fourthFormGroup = this._formBuilder.group({
+        this.fourthFormGroup = this._formBuilder.group({   
+          fourthCtrl: [],
+          timePicker1: [],
+          timePicker2: []     
         });
-        this.fiftFormGroup = this._formBuilder.group({
+        this.fiftFormGroup = this._formBuilder.group({   
+               
       });
     }
 
-    onChange(change: MatSelectionListChange) {
-        console.log(change.option.value, change.option.selected);
-    }
+  onDateChange(chosenDate) {
+    this.chosenDate = moment(chosenDate).format('YYYY-MM-DD')
+  }
+
+  onStartTimeChange(value) {
+    this.startTime = value;
+    this.endTime = this.startTime;
+    this.minTimeFinishing = value;
+    this.disabledTimeFinishing = false;
+  }
+
+  onEndTimeChange(value) {
+    this.endTime = value;
+  }
+
+  onChange(change: MatSelectionListChange) {
+      console.log(change.option.value, change.option.selected);
+  }
 
   onChangeAppointment(appointment) {
     this.selectedAppointment = appointment[0];
@@ -86,30 +131,14 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     this.selectedNewAppointment = availableAppointment[0];
   }
 
-  onDateChange(chosenDate) {
-    const _ = moment();
-    const date = moment(chosenDate).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()})
-    this.chosenAppointmentDate = date.toDate();
-  }
-
-  startTimeChange(value) {
-    this.startTime = value;
-    console.log(this.startTime)
-  }
-
-  endTimeChange(value) {
-    this.endTime = value;
-    console.log(this.endTime)
-  }
-
   firstNextButtonClicked() : void {
-    // DODAJ ZABRANE PRELASKA
     if (!this.firstFormGroup.valid) {
       this.openSnackBar('Morate selektovati pregled da bi ga započeli!', 'Zatvori', 3000);
     }      
   }
 
-  secondNextButtonClicked() : void {  
+  secondNextButtonClicked(textAreaValue) : void {  
+    this.appointmentReportInformations = textAreaValue; 
     this.medicineService.getAllMedicinesForPharmacy(this.selectedAppointment.workDay.pharmacy.id).subscribe(
       data => {
         this.medicinesForPharmacy = data;
@@ -136,20 +165,26 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         }
       }
     );
+    this.fourthFormGroup.get('timePicker1').clearValidators();
+    this.fourthFormGroup.get('timePicker1').updateValueAndValidity();
+    this.fourthFormGroup.get('timePicker2').clearValidators();
+    this.fourthFormGroup.get('timePicker2').updateValueAndValidity();
+    this.fourthFormGroup.get('fourthCtrl').clearValidators();
+    this.fourthFormGroup.get('fourthCtrl').updateValueAndValidity();
   }
 
   fourthNextButtonClicked() : void {  
   }
 
   scheduleNewAppointment() : void {
-    if(this.selected.value == 0) {
+    if(this.selected.value == 0) { // Exsisting appointment term
       if(this.selectedNewAppointment == null) {
         this.openSnackBar('Morate selektovati termin da bi ga zakazali!', 'Zatvori', 3000);
         return;
       }
       this.appointmentService.scheduleExamination(this.selectedNewAppointment).subscribe(
         data => {
-          this.openSnackBar('Uspešno ste zakazali nov termin za pacijenta!', 'Zatvori', 3000);
+          this.openSnackBar('Uspešno ste zakazali nov termin za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
           this.selectedNewAppointment = null;
           this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(), this.selectedAppointment.workDay.pharmacy.id).subscribe(
            data => {
@@ -159,8 +194,29 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         error => {
           this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
         });
-    } else if (this.selected.value == 1) {
-      // Zakazivanje novog termina sa izborom datuma
+    } else if (this.selected.value == 1) {  // New appointment term
+      if(this.chosenDate == '' || this.startTime == '' || this.endTime == '') {
+        this.openSnackBar('Morate izabrati datum i početno i krajnje vreme termina!', 'Zatvori', 3000);
+        return;
+      }
+      const forrmatedReservationDate = this.chosenDate + ' ' + '00:00';
+      const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
+      const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
+      this.appointmentService.getAppointmentPrice(forrmatedReservationDate, forrmatedStartTime, forrmatedEndTime, this.selectedAppointment.workDay.pharmacy.id.toString()).subscribe(
+        data => {
+          this.appointmentPrice = data;
+      });
+      this.newAppointmentTerm = new Appointment(0, 0, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), this.selectedAppointment.patient, this.selectedAppointment.workDay, null, this.appointmentPrice); 
+      this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
+        data => {
+          this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+          this.chosenDate = null;
+          this.startTime = null;
+          this.endTime = null;
+        },
+        error => {
+          this.openSnackBar('Izabrani termin trenutno ne možete da zakažete!', 'Zatvori', 3000);
+      });
     }
     
   }

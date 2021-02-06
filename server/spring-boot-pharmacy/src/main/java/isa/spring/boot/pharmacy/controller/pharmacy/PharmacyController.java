@@ -108,7 +108,6 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
 
-
     @GetMapping(value="/getPharmaciesForPatientAppointmentsAndReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<PharmacyDto>> getPharmaciesForPatientAppointmentsAndReservations(@PathVariable Long patientId) {
@@ -129,4 +128,5 @@ public class PharmacyController {
         }
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
     }
+
 }

@@ -37,7 +37,7 @@ export class PatientModalDialogComponent implements OnInit {
      } else {
         this.appointmentService.scheduleExamination(this.selectedAvailableAppointmentData.selectedAvailableAppointment).subscribe(
           data => {
-            this.openSnackBar('Uspešno ste zakazali nov termin za pacijenta!', 'Zatvori', 3000);          
+            this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
           },
           error => {
             this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
