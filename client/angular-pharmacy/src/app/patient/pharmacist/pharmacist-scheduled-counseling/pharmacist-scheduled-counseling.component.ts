@@ -43,7 +43,7 @@ export class PharmacistScheduledCounselingComponent implements OnInit {
     this.appointmentService.cancelExamination(element.id).subscribe(
       data => {
         this.openSnackBar('Savetovanje je uspešno otkazano!', 'Zatvori', 3000);
-        this.appointmentService.getScheduledExaminationForPatient(this.authenticationService.getLoggedUserId()).subscribe(
+        this.appointmentService.getScheduledCounselingForPatient(this.authenticationService.getLoggedUserId()).subscribe(
           data => {
             this.appointments = data;
             this.dataSource.data = this.appointments;
@@ -51,7 +51,7 @@ export class PharmacistScheduledCounselingComponent implements OnInit {
           error => {
             if (error.status == 404){
               this.dataSource.data = [];
-              this.openSnackBar('Savetovanje je uspešno otkazano i trenutno ne postoji nijedno zakazano savetovanje kod farmaceuta!', 'Zatvori', 5000);
+              this.openSnackBar('Trenutno ne postoji nijedno zakazano savetovanje kod farmaceuta!', 'Zatvori', 3800);
             }
           }
         );

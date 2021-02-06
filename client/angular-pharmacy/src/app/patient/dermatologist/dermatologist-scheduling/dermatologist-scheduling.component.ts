@@ -62,7 +62,7 @@ export class DermatologistSchedulingComponent implements OnInit, AfterViewInit {
         );
       },
       error => {
-        this.openSnackBar('Zakazivanje termina trenutno nije moguće, molim Vas pokušajte ponovo!', 'Zatvori', 4000);
+        this.openSnackBar('Nemate pravo zakazivanja termina kod dermatologa zato što ste imali ili trenutno imate zakazan termin koji se preklapa sa izabranim datumom i vremenom!', 'Zatvori', 6500);
       });
   }
 
