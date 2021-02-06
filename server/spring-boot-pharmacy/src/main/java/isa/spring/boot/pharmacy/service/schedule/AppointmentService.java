@@ -38,6 +38,8 @@ public class AppointmentService {
         return appointmentRepository.findById(id);
     }
 
+    public Appointment save(Appointment appointment) { return  appointmentRepository.save(appointment); }
+
     public List<Appointment> getDermatologistExaminations() {
         List<Appointment> dermatologistExaminations = new ArrayList<Appointment>();
         for(Appointment appointment : appointmentRepository.findAll()) {
@@ -121,6 +123,17 @@ public class AppointmentService {
             if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
                     appointment.getWorkDay().getPharmacy().getId() == pharmacyId &&
                         appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+                availableExaminationTermsForDermatologist.add(appointment);
+            }
+        }
+        return availableExaminationTermsForDermatologist;
+    }
+
+    public List<Appointment> getAllAvailableExaminationTermsForDermatologist(Long dermatologistId) {
+        List<Appointment> availableExaminationTermsForDermatologist = new ArrayList<Appointment>();
+        for(Appointment appointment : getDermatologistExaminations()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
+                    appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
                 availableExaminationTermsForDermatologist.add(appointment);
             }
         }

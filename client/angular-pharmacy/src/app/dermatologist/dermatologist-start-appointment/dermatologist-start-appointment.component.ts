@@ -2,11 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatAccordion} from '@angular/material/expansion';
 import { MatSelectionListChange } from '@angular/material/list';
-import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MedicineSpecificationModalDialogComponent } from './medicine-specification-modal-dialog/medicine-specification-modal-dialog.component';
-import { Patient } from '../../models/patient.model';
 import { Appointment } from '../../models/appointment.model';
 import { AppointmentService } from '../../services/schedule/appointment.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
@@ -15,6 +13,9 @@ import { MedicineService } from '../../services/medicines/medicine.service';
 import { SubscriptionMedicinesModalDialogComponent } from './subscription-medicines-modal-dialog/subscription-medicines-modal-dialog.component';
 import { Medicine } from '../../models/medicine.model';
 import { PrescriptionService } from '../../services/medicines/prescription.service';
+import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 export interface ModalDialogData {
   madicine: Medicine;
@@ -30,11 +31,23 @@ export interface ModalDialogData {
 export class DermatologistStartAppointmentComponent implements OnInit {
     @ViewChild('searchInput') searchInput: ElementRef;
     @ViewChild(MatAccordion) accordion: MatAccordion;
-    isLinear = false;
+    isLinear = true;
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
     thirdFormGroup: FormGroup;
     fourthFormGroup: FormGroup;
+    fiftFormGroup: FormGroup;
+    selected = new FormControl(0);
+
+    maxDate: Date = new Date();
+    minTimeFinishing: string = '00:00';
+    disabledTimeFinishing: boolean = true;
+    time1: string = '00:00';
+    time2: string = '00:00';
+
+    chosenDate: string = '';
+    startTime: string = '';
+    endTime: string = '';
     
     public patientFlag: Boolean = false;
     public patientAppointments : Appointment[] = [];
@@ -43,6 +56,11 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public therapyDay : number;
     public selectedMedicine : Medicine;
     public medicineForPrescription : Medicine;
+    public availableAppointments : Appointment[] = [];
+    public selectedNewAppointment : Appointment;
+    public newAppointmentTerm : Appointment;
+    public appointmentReportInformations : string;
+    public appointmentPrice : number = 0.0;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
@@ -50,37 +68,77 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+    myTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          bodyBackgroundColor: '#ffffff',
+          buttonColor: '#5c6bc0'
+      },
+      dial: {
+          dialBackgroundColor: '#5c6bc0',
+      },
+      clockFace: {
+          clockFaceBackgroundColor: '#e8eaf6',
+          clockHandColor: '#5c6bc0',
+          clockFaceTimeInactiveColor: '#000000'
+      }
+    };
+
     constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService, private medicineService : MedicineService,
-       private _formBuilder: FormBuilder, public dialog: MatDialog, private snackBar: MatSnackBar, private prescriptionService : PrescriptionService) {}
+       private _formBuilder: FormBuilder, public dialog: MatDialog, private snackBar: MatSnackBar, private prescriptionService : PrescriptionService, public router: Router) {}
 
     ngOnInit() {
         this.firstFormGroup = this._formBuilder.group({
             firstCtrl: ['', Validators.required]
         });
         this.secondFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required]
         });
         this.thirdFormGroup = this._formBuilder.group({
-            thirdCtrl: ['', Validators.required]
         });
-        this.fourthFormGroup = this._formBuilder.group({
-            fourthCtrl: ['', Validators.required]
+        this.fourthFormGroup = this._formBuilder.group({   
+          fourthCtrl: [],
+          timePicker1: [],
+          timePicker2: []     
         });
+        this.fiftFormGroup = this._formBuilder.group({   
+               
+      });
     }
 
-    onChange(change: MatSelectionListChange) {
-        console.log(change.option.value, change.option.selected);
-    }
+  onDateChange(chosenDate) {
+    this.chosenDate = moment(chosenDate).format('YYYY-MM-DD')
+  }
+
+  onStartTimeChange(value) {
+    this.startTime = value;
+    this.endTime = this.startTime;
+    this.minTimeFinishing = value;
+    this.disabledTimeFinishing = false;
+  }
+
+  onEndTimeChange(value) {
+    this.endTime = value;
+  }
+
+  onChange(change: MatSelectionListChange) {
+      console.log(change.option.value, change.option.selected);
+  }
 
   onChangeAppointment(appointment) {
     this.selectedAppointment = appointment[0];
   }
 
+  onChangeAvailableAppointment(availableAppointment) {
+    this.selectedNewAppointment = availableAppointment[0];
+  }
+
   firstNextButtonClicked() : void {
-    // PREBACI NA DRUGO MESTO
     if (!this.firstFormGroup.valid) {
       this.openSnackBar('Morate selektovati pregled da bi ga započeli!', 'Zatvori', 3000);
-    } 
+    }      
+  }
+
+  secondNextButtonClicked(textAreaValue) : void {  
+    this.appointmentReportInformations = textAreaValue; 
     this.medicineService.getAllMedicinesForPharmacy(this.selectedAppointment.workDay.pharmacy.id).subscribe(
       data => {
         this.medicinesForPharmacy = data;
@@ -92,7 +150,75 @@ export class DermatologistStartAppointmentComponent implements OnInit {
           this.openSnackBar('Trenutno nema lekova u apoteci!', 'Zatvori', 3000);
         }
       }
-    )
+    );
+  }
+  
+  thirdNextButtonClicked() : void {  
+    this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(),
+     this.selectedAppointment.workDay.pharmacy.id).subscribe(
+      data => {
+        this.availableAppointments = data;
+      },
+      error => {
+        if (error.status == 404){
+
+        }
+      }
+    );
+    this.fourthFormGroup.get('timePicker1').clearValidators();
+    this.fourthFormGroup.get('timePicker1').updateValueAndValidity();
+    this.fourthFormGroup.get('timePicker2').clearValidators();
+    this.fourthFormGroup.get('timePicker2').updateValueAndValidity();
+    this.fourthFormGroup.get('fourthCtrl').clearValidators();
+    this.fourthFormGroup.get('fourthCtrl').updateValueAndValidity();
+  }
+
+  fourthNextButtonClicked() : void {  
+  }
+
+  scheduleNewAppointment() : void {
+    if(this.selected.value == 0) { // Exsisting appointment term
+      if(this.selectedNewAppointment == null) {
+        this.openSnackBar('Morate selektovati termin da bi ga zakazali!', 'Zatvori', 3000);
+        return;
+      }
+      this.appointmentService.scheduleExamination(this.selectedNewAppointment).subscribe(
+        data => {
+          this.openSnackBar('Uspešno ste zakazali nov termin za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+          this.selectedNewAppointment = null;
+          this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(), this.selectedAppointment.workDay.pharmacy.id).subscribe(
+           data => {
+             this.availableAppointments = data;
+           });
+        },
+        error => {
+          this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
+        });
+    } else if (this.selected.value == 1) {  // New appointment term
+      if(this.chosenDate == '' || this.startTime == '' || this.endTime == '') {
+        this.openSnackBar('Morate izabrati datum i početno i krajnje vreme termina!', 'Zatvori', 3000);
+        return;
+      }
+      const forrmatedReservationDate = this.chosenDate + ' ' + '00:00';
+      const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
+      const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
+      this.appointmentService.getAppointmentPrice(forrmatedReservationDate, forrmatedStartTime, forrmatedEndTime, this.selectedAppointment.workDay.pharmacy.id.toString()).subscribe(
+        data => {
+          this.appointmentPrice = data;
+      });
+      this.newAppointmentTerm = new Appointment(0, 0, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), this.selectedAppointment.patient, this.selectedAppointment.workDay, null, this.appointmentPrice); 
+      this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
+        data => {
+          this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+          this.chosenDate = null;
+          this.startTime = null;
+          this.endTime = null;
+        },
+        error => {
+          this.openSnackBar('Izabrani termin trenutno ne možete da zakažete!', 'Zatvori', 3000);
+      });
+    }
+    
   }
 
   findPatientAppointments(): void {
@@ -165,9 +291,17 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       });
   }
 
+  saveAppointmentReport() : void {
+    this.router.navigate(['/auth/dermatologist/work-calendar']);
+  }
+
   displayAppointmentRow(appointment : Appointment): string {
     return appointment.workDay.pharmacy.name + ', ' + this.convertDate(appointment.startTime) + ' ' + this.convertTime(appointment.startTime) + ' - ' + this.convertTime(appointment.endTime) + ', '
       + appointment.patient.firstName + ' ' + appointment.patient.lastName + ', ' + appointment.patient.email;
+  }
+
+  displayAvailableAppointmentRow(appointment : Appointment): string {
+    return this.convertDate(appointment.startTime) + ' ' + this.convertTime(appointment.startTime) + ' - ' + this.convertTime(appointment.endTime);
   }
 
   convertDate(date : Date): string {

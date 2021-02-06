@@ -9,6 +9,7 @@ import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
+import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentReportService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,13 @@ import java.util.List;
 public class AppointmentController {
 
     @Autowired
-    AppointmentService appointmentService;
+    private AppointmentService appointmentService;
 
     @Autowired
-    AppointmentReportService appointmentReportService;
+    private AppointmentReportService appointmentReportService;
+
+    @Autowired
+    private PricelistService pricelistService;
 
     @GetMapping(value = "/getExaminationsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PATIENT')")
@@ -88,6 +93,16 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentDto>> getAvailableExaminationTermsForDermatologist(@PathVariable Long dermatologistId, @PathVariable Long pharmacyId) {
         List<AppointmentDto> availableExaminationTermsForDermatologist = new ArrayList<AppointmentDto>();
         for(Appointment appointment : appointmentService.getAvailableExaminationTermsForDermatologist(dermatologistId, pharmacyId)) {
+            availableExaminationTermsForDermatologist.add(AppointmentMapper.convertToDto(appointment));
+        }
+        return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllAvailableExaminationTermsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<List<AppointmentDto>> getAllAvailableExaminationTermsForDermatologist(@PathVariable Long dermatologistId) {
+        List<AppointmentDto> availableExaminationTermsForDermatologist = new ArrayList<AppointmentDto>();
+        for(Appointment appointment : appointmentService.getAllAvailableExaminationTermsForDermatologist(dermatologistId)) {
             availableExaminationTermsForDermatologist.add(AppointmentMapper.convertToDto(appointment));
         }
         return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
@@ -169,5 +184,14 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAppointmentPrice", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST')")
+    public ResponseEntity<Double> getAppointmentPrice(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String pharmacyId)  throws ParseException {
+        double price = pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, Long.parseLong(pharmacyId));
+        double appointmentPrice = pricelistService.calculateAppointmentPrice(price, startTime, endTime);
+        return new ResponseEntity<>(appointmentPrice, HttpStatus.OK);
     }
 }
