@@ -58,8 +58,8 @@ public class PharmacyController {
     public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime) throws ParseException {
         List<PharmacyDto> pharmaciesDto = new ArrayList<>();
         for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, startTime, endTime)) {
-
-            pharmaciesDto.add(PharmacyMapper.convertToDtoWithPrice(pharmacy, pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, pharmacy.getId())));
+            double price = pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, pharmacy.getId());
+            pharmaciesDto.add(PharmacyMapper.convertToDtoWithPrice(pharmacy, this.pricelistService.calculateAppointmentPrice(price, startTime, endTime)));
         }
 
         if(pharmaciesDto.isEmpty()) {

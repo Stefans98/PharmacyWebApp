@@ -180,9 +180,4 @@ public class PharmacyService {
         }
         return date;
     }
-
-    public static String convertDateToStr(Date date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
-    }
 }
