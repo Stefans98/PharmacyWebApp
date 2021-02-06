@@ -88,6 +88,26 @@ public class PharmacistController {
         return new ResponseEntity<>(pharmacistsForPharmacy, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getAvailablePharmacistsForPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacistDto>> getAvailablePharmacistsForPharmacy(@RequestParam String reservationDate, @RequestParam String startTime,
+                                                                                  @RequestParam String endTime, @RequestParam String pharmacyId) {
+        List<PharmacistDto> availablePharmacistsForPharmacy = new ArrayList<>();
+        if(userService.getAvailablePharmacistsForPharmacy(Long.parseLong(pharmacyId), reservationDate, startTime, endTime) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Pharmacist availablePharmacistForPharmacy : userService.getAvailablePharmacistsForPharmacy(Long.parseLong(pharmacyId), reservationDate, startTime, endTime)){
+            availablePharmacistsForPharmacy.add(PharmacistMapper.convertToDto(availablePharmacistForPharmacy));
+        }
+
+        if(availablePharmacistsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(availablePharmacistsForPharmacy, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/patientsForPharmacist/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PHARMACIST')")
     public ResponseEntity<Set<PatientDto>> getPatientsForPharmacist(@PathVariable Long pharmacistId) {

@@ -15,7 +15,7 @@ import { VacationService } from '../../services/users/vacation.service';
 })
 export class PharmacistVacationRequestComponent implements OnInit {
   campaignOne: FormGroup;
-  public pharmacistPharmacy : Pharmacy = new Pharmacy(0, '', '', '', '', '', 0, '');
+  public pharmacistPharmacy : Pharmacy = new Pharmacy(0, '', '', '', '', '', 0, '', 0.0);
   public startTime : Date = new Date();
   public endTime : Date = new Date();
   public minDate : Date = new Date();

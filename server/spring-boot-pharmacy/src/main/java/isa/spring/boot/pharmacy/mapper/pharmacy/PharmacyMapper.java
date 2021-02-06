@@ -21,6 +21,12 @@ public class PharmacyMapper {
         return pharmacyDto;
     }
 
+    public static PharmacyDto convertToDtoWithPrice(Pharmacy pharmacy, double price) {
+        PharmacyDto pharmacyDto = convertToDto(pharmacy);
+        pharmacyDto.setPrice(price);
+        return pharmacyDto;
+    }
+
     public static Pharmacy convertToEntity(PharmacyDto pharmacyDto){
         Pharmacy pharmacy = new Pharmacy();
 

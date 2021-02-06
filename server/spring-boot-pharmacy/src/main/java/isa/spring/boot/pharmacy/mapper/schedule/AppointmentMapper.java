@@ -23,12 +23,10 @@ public class AppointmentMapper {
             dto.setAppointmentState(0);
         } else if(appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
             dto.setAppointmentState(1);
-        } else if(appointment.getAppointmentState() == AppointmentState.CANCELED) {
+        }  else if(appointment.getAppointmentState() == AppointmentState.FINISHED) {
             dto.setAppointmentState(2);
-        } else if(appointment.getAppointmentState() == AppointmentState.FINISHED) {
-            dto.setAppointmentState(3);
         } else if(appointment.getAppointmentState() == AppointmentState.NOT_HELD) {
-            dto.setAppointmentState(4);
+            dto.setAppointmentState(3);
         }
 
         dto.setStartTime(appointment.getStartTime());
@@ -59,10 +57,8 @@ public class AppointmentMapper {
         } else if(appointmentDto.getAppointmentState() == 1) {
             appointment.setAppointmentState(AppointmentState.OCCUPIED);
         } else if(appointmentDto.getAppointmentState() == 2) {
-            appointment.setAppointmentState(AppointmentState.CANCELED);
-        } else if(appointmentDto.getAppointmentState() == 3) {
             appointment.setAppointmentState(AppointmentState.FINISHED);
-        } else if(appointmentDto.getAppointmentState() == 4) {
+        } else if(appointmentDto.getAppointmentState() == 3) {
             appointment.setAppointmentState(AppointmentState.NOT_HELD);
         }
 

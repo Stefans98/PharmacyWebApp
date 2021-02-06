@@ -1,9 +1,13 @@
 package isa.spring.boot.pharmacy.controller.pharmacy;
 
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
+import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
+import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +24,10 @@ import java.util.List;
 public class PharmacyController {
 
     @Autowired
-    PharmacyService pharmacyService;
+    private PharmacyService pharmacyService;
+
+    @Autowired
+    private PricelistService pricelistService;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
@@ -42,6 +50,22 @@ public class PharmacyController {
             return new ResponseEntity<>(pharmacyDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPharmaciesWithAvailablePharmacistsByDateTime", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacyDto>> getPharmaciesWithAvailablePharmacistsByDateTime(@RequestParam String reservationDate, @RequestParam String startTime, @RequestParam String endTime) throws ParseException {
+        List<PharmacyDto> pharmaciesDto = new ArrayList<>();
+        for(Pharmacy pharmacy :  pharmacyService.getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate, startTime, endTime)) {
+            double price = pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, pharmacy.getId());
+            pharmaciesDto.add(PharmacyMapper.convertToDtoWithPrice(pharmacy, this.pricelistService.calculateAppointmentPrice(price, startTime, endTime)));
+        }
+
+        if(pharmaciesDto.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmaciesDto, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)

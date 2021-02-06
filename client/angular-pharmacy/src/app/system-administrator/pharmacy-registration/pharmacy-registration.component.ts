@@ -24,7 +24,7 @@ export class PharmacyRegistrationComponent implements OnInit {
 
   registrationClick() : void {
     this.pharmacyService.registerPharmacy(new Pharmacy(0, this.name, this.city, this.country,
-      this.street, this.description, 0, null)).subscribe(user => {
+      this.street, this.description, 0, null, 0.0)).subscribe(user => {
         this.snackBar.open('Apoteka je uspešno registrovana!', null, { 
           duration : 3000, 
           verticalPosition: 'top'

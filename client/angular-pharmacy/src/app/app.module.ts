@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LazyLoadModule } from './lazy-load/lazy-load.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -78,6 +77,7 @@ import { MyOffersComponent } from './supplier/my-offers/my-offers.component';
 import { SupplierProfileComponent } from './supplier/supplier-profile/supplier-profile.component';
 import { IssueOfferModalDialogComponent } from './supplier/medicine-order-lists/issue-offer-modal-dialog/issue-offer-modal-dialog.component';
 import { EditOfferModalDialogComponent } from './supplier/my-offers/edit-offer-modal-dialog/edit-offer-modal-dialog.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker'
 import { SubscriptionMedicinesModalDialogComponent } from './dermatologist/dermatologist-start-appointment/subscription-medicines-modal-dialog/subscription-medicines-modal-dialog.component';
 import { ChooseComplaintEntityModalDialogComponent } from './patient/complaints/choose-complaint-entity-modal-dialog/choose-complaint-entity-modal-dialog.component';
 import { AnswerComplaintsComponent } from './system-administrator/answer-complaints/answer-complaints.component';
@@ -196,7 +196,9 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     HttpClientModule,
     MatTableModule,
     NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
     NgxMatTimepickerModule,
+    NgxMaterialTimepickerModule,
     NgxMatNativeDateModule,
     NgxSliderModule
   ],
