@@ -16,8 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="api/pharmacies")
@@ -65,7 +65,9 @@ public class PharmacyController {
         if(pharmaciesDto.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(pharmaciesDto, HttpStatus.OK);
+
+        List<PharmacyDto> pharmaciesDtoWithoutDuplicates = pharmacyService.removePharmaciesDuplicates(pharmaciesDto);
+        return new ResponseEntity<>(pharmaciesDtoWithoutDuplicates, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
