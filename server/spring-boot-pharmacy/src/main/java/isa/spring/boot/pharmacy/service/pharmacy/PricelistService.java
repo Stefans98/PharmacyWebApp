@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.service.pharmacy;
 
 import isa.spring.boot.pharmacy.model.pharmacy.AppointmentPrice;
 import isa.spring.boot.pharmacy.model.pharmacy.Pricelist;
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.repository.pharmacy.PricelistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,27 @@ public class PricelistService {
             }
         }
         return 0.0;
+    }
+
+    public double calculateAppointmentPrice(double price, String startTime, String endTime) {
+        long diffSec = (convertDateStrToDate(endTime, "yyyy-MM-dd HH:mm").getTime() - convertDateStrToDate(startTime, "yyyy-MM-dd HH:mm").getTime()) / 1000;
+        long minute = diffSec / 60;
+        int priceMultiplier = (int)minute / 30;
+        if ((int)minute % 30 != 0) {
+            priceMultiplier += 1;
+        }
+        return priceMultiplier * price;
+    }
+
+    public Date convertDateStrToDate(String dateStr, String format) {
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        Date date = new Date();
+        try {
+            date = df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 }
