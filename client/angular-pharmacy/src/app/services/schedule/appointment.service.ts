@@ -63,4 +63,9 @@ export class AppointmentService {
       .get<Appointment[]>(this.appointmentsUrl + 'getAvailableExaminationTermsForDermatologist/' + dermatologistId + '/' + pharmacyId);
   }
 
+  public getAllAvailableExaminationTermsForDermatologist(dermatologistId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getAllAvailableExaminationTermsForDermatologist/' + dermatologistId);
+  }
+
 }

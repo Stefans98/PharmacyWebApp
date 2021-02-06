@@ -160,7 +160,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
           this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
         });
     } else if (this.selected.value == 1) {
-      // Zakazivanje novog termina
+      // Zakazivanje novog termina sa izborom datuma
     }
     
   }

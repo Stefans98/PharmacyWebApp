@@ -1,5 +1,5 @@
 <div class="main">
-    <mat-tab-group mat-align-tabs="start">
+    <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
         <mat-tab label="Unapred definisani termini">
             <div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 contact-list-container">
 			
@@ -21,35 +21,38 @@
                             <div class="contact-list">
                                 <ng-container matColumnDef="dermatologist">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Dermatolog </th>
-                                    <td mat-cell *matCellDef="let element"> Milan Mitrovic </td>
+                                    <td mat-cell *matCellDef="let element"> {{ element.workDay.employee.firstName + ' ' + element.workDay.employee.lastName }} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="pharmacy">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv apoteke </th>
-                                <td mat-cell *matCellDef="let element"> Galen Pharm </td>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv apoteke </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.workDay.pharmacy.name }} </td>
                                 </ng-container>
                             
                                 <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Datume termina </th>
-                                <td mat-cell *matCellDef="let element"> 02.02.2021. </td>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Datume termina </th>
+                                    <td mat-cell *matCellDef="let element"> {{ convertDate(element.startTime) }} </td>
                                 </ng-container>
     
                                 <ng-container matColumnDef="time">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vreme termina </th>
-                                <td mat-cell *matCellDef="let element"> 10:00 - 10:30 </td>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Vreme termina </th>
+                                    <td mat-cell *matCellDef="let element"> {{ showTimePeriod(element) }} </td>
                                 </ng-container>
                                                   
                                 <ng-container matColumnDef="button">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
                                     <div>
-                                        <button mat-raised-button style="float: right" color="primary" (click)="openDialog()">Zakaži</button>
+                                        <button mat-raised-button style="float: right" color="primary" (click)="openDialog(element)">Zakaži</button>
                                     </div>
                                 </td>
                                 </ng-container>
                             
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">Trenutno nema unapred rezervisanih termina</td>
+                                </tr>
                             </div>             
                         </table>
                     <mat-divider></mat-divider>			
@@ -81,30 +84,27 @@
                 <mat-form-field appearance="fill" style="margin-top: 45px; margin-left: 30px; width: 230px;"> 
                     <mat-label>Izaberite apoteku</mat-label>
                     <mat-select required>
-                        <mat-option>
-                        AAAAA
+                        <mat-option *ngFor="let pharmacy of dermatologistPharmacies" [value]="pharmacy">
+                            {{ pharmacy.name }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <div style="float: right;margin-top: -350px;margin-right: 100px;">
-                    <ng-template>Pretraga leka</ng-template>
+                    <!-- <ng-template>Pretraga leka</ng-template>
                     <mat-form-field >
                         <input matInput placeholder="Pronađite pacijenta" #searchInput>
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
-                    <button mat-stroked-button color="primary" style="margin-left:8px; margin-top: 10px;">Pronađi</button>
+                    <button mat-stroked-button color="primary" style="margin-left:8px; margin-top: 10px;">Pronađi</button> -->
                     
                     <h2 class="mat-title" >Izaberite pacijenta za kog zakazujete pregled:</h2>
-                    <mat-selection-list class="searched-medicine" [multiple]="false"> 
-                        <mat-list-option>
-                        AAA
-                        </mat-list-option>
-                        <mat-list-option >
-                        BBBB
+                    <mat-selection-list [(ngModel)]="selectedPatient" [multiple]="false" required style="overflow-y: auto;height: 150px;">
+                        <mat-list-option *ngFor="let patient of patientsForDermatologist" [value]="patient" style="text-align: center;">
+                            {{ patient.firstName + ' ' + patient.lastName + ', ' + patient.email }}
                         </mat-list-option>
                     </mat-selection-list>
-                    <button mat-raised-button color="primary" style="margin-left: 160px;margin-top: 10px;">Zakaži</button>
+                    <button mat-raised-button color="primary" style="margin-left: 160px;margin-top: 10px;" (click)="scheduleNewAppointment()">Zakaži</button>
                 </div>
 
         </mat-tab>

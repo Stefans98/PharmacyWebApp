@@ -118,6 +118,17 @@ public class AppointmentService {
         return availableExaminationTermsForDermatologist;
     }
 
+    public List<Appointment> getAllAvailableExaminationTermsForDermatologist(Long dermatologistId) {
+        List<Appointment> availableExaminationTermsForDermatologist = new ArrayList<Appointment>();
+        for(Appointment appointment : getDermatologistExaminations()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId &&
+                    appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+                availableExaminationTermsForDermatologist.add(appointment);
+            }
+        }
+        return availableExaminationTermsForDermatologist;
+    }
+
     public List<Appointment> getAvailableExaminationTermsForPharmacy(long pharmacyId) {
         List<Appointment> availableExaminationTermsForPharmacy = new ArrayList<>();
         for (Appointment appointment : getDermatologistExaminations()) {

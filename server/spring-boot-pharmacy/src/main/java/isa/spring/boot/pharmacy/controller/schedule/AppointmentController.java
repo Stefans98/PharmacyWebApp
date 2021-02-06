@@ -81,6 +81,16 @@ public class AppointmentController {
         return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getAllAvailableExaminationTermsForDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<List<AppointmentDto>> getAllAvailableExaminationTermsForDermatologist(@PathVariable Long dermatologistId) {
+        List<AppointmentDto> availableExaminationTermsForDermatologist = new ArrayList<AppointmentDto>();
+        for(Appointment appointment : appointmentService.getAllAvailableExaminationTermsForDermatologist(dermatologistId)) {
+            availableExaminationTermsForDermatologist.add(AppointmentMapper.convertToDto(appointment));
+        }
+        return new ResponseEntity<>(availableExaminationTermsForDermatologist, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getAvailableExaminationTermsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<AppointmentDto>> getAvailableExaminationTermsForPharmacy(@PathVariable Long pharmacyId) {
