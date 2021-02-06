@@ -41,6 +41,20 @@
         <button mat-button (click)="openDialog(dermatologist)">Prikaži apoteke</button>
       </td>
       </ng-container>
+
+      <ng-container matColumnDef="defineTerms">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Definiši termine </th>
+        <td mat-cell *matCellDef="let dermatologist">
+          <button mat-raised-button color="primary" (click)="defineTerms(dermatologist)">Definiši</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="defineWorkDay">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Definiši radno vreme </th>
+        <td mat-cell *matCellDef="let dermatologist">
+          <button mat-raised-button color="primary" (click)="defineWorkDay(dermatologist)">Definiši</button>
+        </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -85,5 +99,41 @@
       </div>
                    		
     </div>
+    </div>
+</div>
+
+<div style="margin-left: 2%;"> <h3 class="mat-h3" *ngIf="openDefiningTermsForm==true"> Definišite novi termin za dermatologa: {{ dermatologistForDefiningTerms.firstName }} {{ dermatologistForDefiningTerms.lastName }} </h3> </div>
+<div style="margin-left: 2%;"> <h3 class="mat-h3" *ngIf="openDefiningWorkDayForm==true"> Definišite novi radni dan za dermatologa: {{ dermatologistForDefiningTerms.firstName }} {{ dermatologistForDefiningTerms.lastName }} </h3> </div>
+
+<div class="define-terms-div">
+
+  <mat-form-field color="accent" appearance="fill" style="float: left; margin-left: 2%; margin-top: 2%;">
+      <mat-label>Izaberite datum</mat-label>
+      <input matInput [matDatepicker]="picker"  [min]="maxDate" readonly required (dateInput)="onDateChange($event.value)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker color="primary"></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field color="accent" appearance="fill" style="float: left; margin-left: 2%; margin-top: 2.5%;">
+      <mat-label >Izaberite vreme</mat-label>
+      <input matInput [ngxTimepicker]="timepicker1" [format]="24" [(ngModel)]="startTime" #input>
+      <ngx-material-timepicker-toggle matSuffix [for]="timepicker1" ></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #timepicker1  [theme]="myTimePickerTheme"></ngx-material-timepicker>
+  </mat-form-field>
+
+  <mat-form-field color="accent" appearance="fill" style="float: left; margin-left: 2%; margin-top: 2.5%;">
+      <mat-label >Izaberite vreme</mat-label>
+      <input matInput [ngxTimepicker]="timepicker2" [format]="24" [min]="minTimeFinishing" required readonly [(ngModel)]="endTime" #input >
+      <ngx-material-timepicker-toggle matSuffix [for]="timepicker2"></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #timepicker2  [theme]="myTimePickerTheme"></ngx-material-timepicker>
+  </mat-form-field>
+
+  <div *ngIf="openDefiningTermsForm==true" >
+    <button mat-raised-button color="primary" style="float: left; margin-left: 2%; margin-top: 4%;" (click)="sendDefindedTerm()">Definiši termin</button>
+  </div>
+
+  <div *ngIf="openDefiningWorkDayForm==true">
+    <button mat-raised-button color="primary" style="float: left; margin-left: 2%; margin-top: 4%;" (click)="sendDefindedWorkDay()">Definiši radni dan</button>
+  </div>
 
 </div>

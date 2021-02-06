@@ -84,9 +84,11 @@ export class VacationRequestComponent implements OnInit {
 
   convertProcessed(processed){
     if(processed == true){
-      return 'OBRAĐEN';
+      return 'PRIHVAĆEN';
     }else if(processed == false){
-      return 'NIJE OBRAĐEN';
+      return 'ODBIJEN';
+    }else if(processed == null){
+      return 'NIJE ODRAĐEN';
     }
   }
 
@@ -103,7 +105,7 @@ export class VacationRequestComponent implements OnInit {
   }
 
   acceptRequest(request){
-    if(request.processed == true){
+    if(request.processed != null){
       this.openSnackBar('Zahtev je vec odobren ili odbijen!', 'Zatvori');
       return;
     }
@@ -146,7 +148,7 @@ export class VacationRequestComponent implements OnInit {
   }
 
   rejectRequest(request){
-    if(request.processed == true){
+    if(request.processed == true || request.processed == false){
       this.openSnackBar('Zahtev je vec odobren ili odbijen!', 'Zatvori');
       return;
     }

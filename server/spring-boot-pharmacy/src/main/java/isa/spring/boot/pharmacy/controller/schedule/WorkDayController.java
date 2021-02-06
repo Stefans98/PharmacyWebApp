@@ -20,7 +20,7 @@ public class WorkDayController {
 
     @GetMapping(value = "/getWorkDayInPharmacyByDateAndEmployeeId", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACY_ADMIN')")
     public ResponseEntity<WorkDayDto> getWorkDayInPharmacyByDateAndEmployeeId(@RequestParam String date, @RequestParam String employeeId, @RequestParam String pharmacyId) {
         WorkDay workDay = workDayService.getWorkDayInPharmacyByDateAndEmployeeId(date, employeeId, pharmacyId);
         if(workDay == null) {

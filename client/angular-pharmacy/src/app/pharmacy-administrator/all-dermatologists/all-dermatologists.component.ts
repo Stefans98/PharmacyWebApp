@@ -1,13 +1,22 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
+import { Appointment } from '../../models/appointment.model';
 import { Dermatologist } from '../../models/dermatologist.model';
+import { Patient } from '../../models/patient.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { WorkDay } from '../../models/work-day.model';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
+import { AppointmentService } from '../../services/schedule/appointment.service';
+import { WorkDayService } from '../../services/schedule/work-day.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { DermatologistService } from '../../services/users/dermatologist.service';
 import { PharmacyComponent } from '../pharmacy/pharmacy.component';
+import { DefineTermsDialogComponent } from './define-terms-dialog/define-terms-dialog.component';
 import { PharmaciesForDermatologistDialogComponent } from './pharmacies-for-dermatologist-dialog/pharmacies-for-dermatologist-dialog.component';
 
 @Component({
@@ -15,7 +24,7 @@ import { PharmaciesForDermatologistDialogComponent } from './pharmacies-for-derm
   templateUrl: './all-dermatologists.component.html',
   styleUrls: ['./all-dermatologists.component.scss']
 })
-export class AllDermatologistsComponent implements OnInit {
+export class AllDermatologistsComponent implements OnInit, AfterViewInit {
 
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
@@ -35,15 +44,51 @@ export class AllDermatologistsComponent implements OnInit {
   newDataSource = new MatTableDataSource(this.dermatologistsForPharmacy);
   dataSourceAfterSearch = new MatTableDataSource(this.dermatologistsForPharmacy);
 
+  public workDay: WorkDay;
+  public appointment : Appointment;
+
+  public openDefiningTermsForm: boolean = false;
+  public openDefiningWorkDayForm: boolean = false;
+  public dermatologistForDefiningTerms: Dermatologist;
+
+  myTimePickerTheme: NgxMaterialTimepickerTheme = {
+    container: {
+        bodyBackgroundColor: '#ffffff',
+        buttonColor: '#5c6bc0'
+    },
+    dial: {
+        dialBackgroundColor: '#5c6bc0',
+    },
+    clockFace: {
+        clockFaceBackgroundColor: '#e8eaf6',
+        clockHandColor: '#5c6bc0',
+        clockFaceTimeInactiveColor: '#000000'
+    }
+  };
+
+  chosenDate: string = '';
+  public startTime: string = '';
+  public endTime: string = '';
+  minTimeFinishing: string = '00:00';
+  disabledTimeFinishing: boolean = false;
+  //time1: string = '00:00';
+  time2: string = '00:00';
+  maxDate: Date;
+
+
   gradeRanges: string[] = ['5 - 6', '6 - 7', '7 - 8', '8 - 9', '9 - 10', '10'];
 
-  displayedColumns: string[] = ['name', 'lastname', 'averageGrade', 'pharmacies'];
+  displayedColumns: string[] = ['name', 'lastname', 'averageGrade', 'pharmacies', 'defineTerms', 'defineWorkDay'];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  ngAfterViewInit(){
+  }
+
   constructor(private snackBar: MatSnackBar, private dermatologistService: DermatologistService, private pharmacyService: PharmacyService, 
-              private authService: AuthenticationService, public dialog: MatDialog) { 
+              private authService: AuthenticationService, public dialog: MatDialog, private appointmentService: AppointmentService, 
+              private workDayService: WorkDayService) { 
     this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
       data => {
         this.pharmacy = data;
@@ -73,8 +118,11 @@ export class AllDermatologistsComponent implements OnInit {
     );
   }
 
+
   ngOnInit(): void {
+    this.maxDate = new Date();
   }
+
   applySearch(event: Event) {
 
     this.dataSource = new MatTableDataSource(this.dermatologistsForPharmacy);
@@ -94,6 +142,24 @@ export class AllDermatologistsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  defineTerms(dermatologist){
+    /*const dialogRef = this.dialog.open(DefineTermsDialogComponent, {
+      data: dermatologist
+    });
+    dialogRef.updatePosition({left:'300px'})*/
+
+    this.openDefiningTermsForm = true;
+    this.openDefiningWorkDayForm = false;
+    this.dermatologistForDefiningTerms = dermatologist;
+
+  }
+
+  defineWorkDay(dermatologist){ 
+    this.openDefiningWorkDayForm = true;
+    this.openDefiningTermsForm = false;
+    this.dermatologistForDefiningTerms = dermatologist;
   }
 
   getPharmaciesForDermatologist(id: number){
@@ -182,6 +248,58 @@ export class AllDermatologistsComponent implements OnInit {
     this.selectedPharmacy = null;
   }
 
+  onDateChange(chosenDate) {
+    this.chosenDate = moment(chosenDate).format('YYYY-MM-DD')
+  }
+
+  /*onStartTimeChange(value) {
+    console.log('aaaaaaaaaaaaa');
+    this.startTime = value;
+    this.minTimeFinishing = value;
+    this.disabledTimeFinishing = false;
+  }
+
+  onEndTimeChange(value) {
+    console.log('aaaaaaaa');
+    this.endTime = value;
+  }*/
+
+  sendDefindedTerm(){
+
+    if(this.dermatologistForDefiningTerms == undefined){
+      this.openSnackBar('Izaberite dermatologa za kog definišete termin!', 'Zatvori');
+      return;
+    }
+
+    console.log(this.chosenDate);
+    console.log(this.startTime);
+    console.log(this.endTime);
+   
+    const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
+    const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
+
+    //var appointment = new Appointment(null, 0, 0, this.startTime, this.endTime, new Patient(1, '', '', '', '', '', '', '', 0, 1, ''), );
+    this.workDayService.getWorkDayInPharmacyByDateAndEmployeeId(this.chosenDate, this.dermatologistForDefiningTerms.id.toString(), this.pharmacy.id.toString()).subscribe(
+      data => {
+        this.workDay = data;
+        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(1, '', '', '', '', '', '', '', 0, 1, ''), this.workDay, null, this.pharmacy.price); 
+        this.appointmentService.scheduleExamination(this.appointment).subscribe(
+          data => {
+            this.openSnackBar('Uspešno ste definisali termin za dermatologa!', 'Zatvori');
+          },
+          error => {
+            this.openSnackBar('Zakazivanje termina trenutno nije moguće, molim Vas pokušajte ponovo!', 'Zatvori');
+          });
+      },
+      error => {
+        if (error.status == 404) {
+          this.openSnackBar('Dermatolog ne radi u apoteci izabranog datuma!', 'Zatvori');
+        }
+      });
+  }
+
+  sendDefindedWorkDay(){}
+
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 3500,
@@ -189,5 +307,6 @@ export class AllDermatologistsComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
+
 
 }

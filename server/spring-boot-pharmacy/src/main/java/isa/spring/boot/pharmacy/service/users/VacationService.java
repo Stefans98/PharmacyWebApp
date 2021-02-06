@@ -71,7 +71,7 @@ public class VacationService {
         VacationRequest savedVacationRequest;
         Employee employee = (Employee)userService.findById(employeeId);
         Pharmacy pharmacy = pharmacyService.findById(pharmacyId);
-        if(vacationRequest.getProcessed() == false){
+        if(vacationRequest.getProcessed() == null){
             vacationRequest.setEmployee(employee);
             vacationRequest.setPharmacy(pharmacy);
             vacationRequest.setProcessed(true);
@@ -88,8 +88,8 @@ public class VacationService {
 
     public VacationRequest rejectVacationRequest(VacationRequest vacationRequest, String text, long employeeId, long pharmacyId){
         VacationRequest oldVacationRequest = findById(vacationRequest.getId());
-        if(vacationRequest.getProcessed() == false){
-            oldVacationRequest.setProcessed(true);
+        if(vacationRequest.getProcessed() == null){
+            oldVacationRequest.setProcessed(false);
             VacationRequest savedVacationRequest = vacationRepository.save(oldVacationRequest);
             emailService.sendEmailAsync(oldVacationRequest.getEmployee(), "Zahtev za godišnjim odmorom/odsustvom",
                     "Poštovani\\-a " + oldVacationRequest.getEmployee().getFirstName() + " " + oldVacationRequest.getEmployee().getLastName() + ", vaš zahtev za godišnjim odmorom/odsustvom" +

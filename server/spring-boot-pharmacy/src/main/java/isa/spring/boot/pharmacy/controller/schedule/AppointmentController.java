@@ -95,7 +95,7 @@ public class AppointmentController {
     }
 
     @PostMapping(value = "/scheduleExamination", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST','PATIENT')")
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST','PATIENT','PHARMACY_ADMIN')")
     public ResponseEntity<AppointmentDto> scheduleExamination(@RequestBody AppointmentDto appointmentDto) {
         Appointment appointment = appointmentService.scheduleAppointment(AppointmentMapper.convertToEntity(appointmentDto),
                 appointmentDto.getPatient().getId(), appointmentDto.getWorkDay().getId());
