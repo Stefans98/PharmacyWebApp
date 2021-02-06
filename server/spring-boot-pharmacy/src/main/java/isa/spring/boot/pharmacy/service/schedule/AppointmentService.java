@@ -92,6 +92,18 @@ public class AppointmentService {
         return dermatologistExaminationsForPatient;
     }
 
+    public List<Appointment> getScheduledCounselingForPatient(long patientId) {
+        List<Appointment> pharmacistCounselingsForPatient = new ArrayList<>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.OCCUPIED
+                    && appointment.getStartTime().compareTo(new Date()) >= 0) {
+                pharmacistCounselingsForPatient.add(appointment);
+            }
+        }
+        return pharmacistCounselingsForPatient;
+    }
+
     public List<Appointment> getCounselingHistoryForPatient(Long patientId) {
         List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : getPharmacistCounselings()) {
