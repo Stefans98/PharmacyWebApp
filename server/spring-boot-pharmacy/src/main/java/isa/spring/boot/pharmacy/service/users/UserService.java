@@ -1,10 +1,13 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
+import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
@@ -37,6 +40,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private MedicineReservationService medicineReservationService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -75,10 +81,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
-    public void givePenaltyToPatient(long patientId) {
+    public Patient givePenaltyToPatient(long patientId) {
         Patient patient = (Patient)findById(patientId);
         patient.setPenalty(patient.getPenalty() + 1);
-        userRepository.save(patient);
+        return userRepository.save(patient);
     }
 
     public Pharmacist updatePharmacist(Pharmacist pharmacist) {
@@ -161,7 +167,37 @@ public class UserService implements UserDetailsService {
 
     public int getPenaltiesByPatientId(long patientId){
         Patient patient = (Patient)userRepository.findById(patientId);
-        return Math.max(patient.getPenalty(), 0);
+        if (patient != null) {
+            patient = calculatePatientPenaltiesForCurrentMonth(patient);
+            return Math.max(patient.getPenalty(), 0);
+        }
+        return 0;
+    }
+
+    private Patient calculatePatientPenaltiesForCurrentMonth(Patient patient) {
+        if (patient.getPenaltiesResetDate().before(getFirstDateInCurrentMonth())) {
+            patient = resetPenalties(patient);
+        }
+        medicineReservationService.checkIfPatientGotPenaltyForMedicineReservationsThisMonth(patient.getId());
+        appointmentService.checkIfPatientGotPenaltyForAppointmentsThisMonth(patient.getId());
+        patient = (Patient)userRepository.findById((long)patient.getId());
+        return patient;
+    }
+
+    private Patient resetPenalties(Patient patient) {
+        patient.setPenaltiesResetDate(new Date());
+        patient.setPenalty(0);
+        return userRepository.save(patient);
+    }
+
+    private Date getFirstDateInCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
     }
 
     public List<Dermatologist> getAllDermatologists(){

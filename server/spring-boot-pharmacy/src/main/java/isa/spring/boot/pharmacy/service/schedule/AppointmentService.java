@@ -167,7 +167,7 @@ public class AppointmentService {
         return occupiedCounselingTermsForPharmacy;
     }
 
-    public List<Appointment> getAllOccupiedAppointmentsForPatient(Long patientId) {
+    public List<Appointment> getAllOccupiedAppointmentsForPatient(long patientId) {
         List<Appointment> occupiedAppointmentsForPatient = new ArrayList<Appointment>();
         for(Appointment appointment : appointmentRepository.findAll()) {
             if(appointment.getPatient().getId() == patientId &&
@@ -176,6 +176,19 @@ public class AppointmentService {
             }
         }
         return occupiedAppointmentsForPatient;
+    }
+
+    public List<Appointment> getOccupiedAvailableNotHeldAppointmentsForPatient(long patientId) {
+        List<Appointment> appointments = new ArrayList<>();
+        for(Appointment appointment : appointmentRepository.findAll()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    (appointment.getAppointmentState() == AppointmentState.AVAILABLE ||
+                            appointment.getAppointmentState() == AppointmentState.OCCUPIED ||
+                                appointment.getAppointmentState() == AppointmentState.NOT_HELD)) {
+                appointments.add(appointment);
+            }
+        }
+        return appointments;
     }
 
     public List<Appointment> getAllCanceledAppointmentsForPatientByEmployee(long patientId, long workDayId) {
@@ -227,7 +240,8 @@ public class AppointmentService {
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
         if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))
-                || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))) {
+                || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))
+                    || userService.getPenaltiesByPatientId(patientId) > 2) {
             return null;
         }
         User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
@@ -254,6 +268,47 @@ public class AppointmentService {
             }
         } catch( Exception ignored ){}
         return appointmentRepository.save(appointment);
+    }
+
+    public void checkIfPatientGotPenaltyForAppointmentsThisMonth(long patientId) {
+        for (Appointment appointment : getOccupiedAvailableNotHeldAppointmentsForPatient(patientId)) {
+            if (isAppointmentInThePast(appointment)
+                    && isPatientDeservesPenalty(appointment)) {
+                givePenaltyToPatient(appointment);
+            }
+        }
+    }
+
+    public boolean isPatientDeservesPenalty(Appointment appointment) {
+        return !appointment.isGotPenalty();
+    }
+
+    public boolean isAppointmentInThePast(Appointment appointment) {
+        if (appointment.getStartTime().before(new Date()) ) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            if (!sdf.format(appointment.getStartTime()).equals(sdf.format(new Date()))) {
+                return appointment.getStartTime().compareTo(getFirstDateInCurrentMonth()) >= 0;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Date getFirstDateInCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
+    }
+
+    private void givePenaltyToPatient(Appointment appointment) {
+        appointment.setGotPenalty(true);
+        appointmentRepository.save(appointment);
+        userService.givePenaltyToPatient(appointment.getPatient().getId());
     }
 
     public List<Appointment> getAllCompletedAppointmentsForPatient(Long patientId) {
@@ -327,6 +382,8 @@ public class AppointmentService {
             "<br>- Cena pregleda: " + appointment.getPrice() + " RSD"+
             "<br>- Dermatolog: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
+            "<br><br>Napomena: Ukoliko ne otkažete pregled 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
+             "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
             "<br><br>S poštovanjem, <br>Vaša ISA");
     }
 
@@ -338,6 +395,8 @@ public class AppointmentService {
             "<br>- Cena savetovanja: " + appointment.getPrice() + " RSD"+
             "<br>- Farmaceut: " + appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName() +
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
+            "<br><br>Napomena: Ukoliko ne otkažete savetovanje 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
+            "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
             "<br><br>S poštovanjem, <br>Vaša ISA");
     }
 
