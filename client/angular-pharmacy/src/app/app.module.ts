@@ -96,6 +96,10 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllMedicinesComponent } from './system-administrator/medicines/all-medicines/all-medicines.component';
+import { CreateMedicineComponent } from './system-administrator/medicines/create-medicine/create-medicine.component';
+import { SubstitutionsModalDialogComponent } from './system-administrator/medicines/create-medicine/substitutions-modal-dialog/substitutions-modal-dialog.component';
+import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
@@ -187,6 +191,10 @@ import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacis
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
     PharmacistForRequestComponent,
+    AllMedicinesComponent,
+    CreateMedicineComponent,
+    SubstitutionsModalDialogComponent,
+    IngredientsModalDialogComponent,
     DefineTermsDialogComponent,
     PharmacyAdministratorProfileComponent,
     AllergiesModalDialogComponent,

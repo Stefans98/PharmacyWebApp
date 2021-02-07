@@ -41,6 +41,8 @@ import { SystemAdministratorRegistrationComponent } from '../system-administrato
 import { SupplierRegistrationComponent } from '../system-administrator/supplier-registration/supplier-registration.component';
 import { LoyaltyProgramComponent } from '../system-administrator/loyalty-program/loyalty-program.component';
 import { AnswerComplaintsComponent } from '../system-administrator/answer-complaints/answer-complaints.component';
+import { AllMedicinesComponent } from '../system-administrator/medicines/all-medicines/all-medicines.component';
+import { CreateMedicineComponent } from '../system-administrator/medicines/create-medicine/create-medicine.component';
 import { RouteGuardService } from '../services/users/route-guard.service';
 import { PharmacistWorkCalendarComponent } from '../pharmacist/pharmacist-work-calendar/pharmacist-work-calendar.component';
 import { PharmacistPatientsComponent } from '../pharmacist/pharmacist-patients/pharmacist-patients.component';
@@ -111,6 +113,8 @@ export const appRoutes: Routes = [{
         { path: 'system-administrator/supplier-registration', component: SupplierRegistrationComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/complaints', component:  AnswerComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'system-administrator/loyalty-program', component:  LoyaltyProgramComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/all-medicines', component:  AllMedicinesComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
+        { path: 'system-administrator/create-medicine', component:  CreateMedicineComponent, canActivate: [RouteGuardService], data : { role: 'SYSTEM_ADMIN'} },
         { path: 'supplier/medicine-order-lists', component:  MedicineOrderListsComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/my-offers', component:  MyOffersComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },
         { path: 'supplier/supplier-profile', component:  SupplierProfileComponent, canActivate: [RouteGuardService], data : { role: 'SUPPLIER'} },

@@ -43,8 +43,19 @@ public class MedicineController {
     @Autowired
     private MedicineInquiryService medicineInquiryService;
 
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<MedicineDto> createMedicine(@RequestBody MedicineDto medicineDto) {
+        if (medicineService.findByCode(medicineDto.getCode()) != null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Medicine medicine = medicineService.save(MedicineMapper.convertToEntity(medicineDto),
+                medicineDto.getMedicineSpecification().getSubstitutionsCodes());
+        return new ResponseEntity<>(MedicineMapper.convertToDto(medicine), HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
