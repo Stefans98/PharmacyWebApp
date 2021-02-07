@@ -18,7 +18,7 @@ public class MedicineSpecification {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
-    @Column(name = "contraindication", nullable = false)
+    @Column(name = "contraindication")
     private String contraindication;
 
     @Column(name = "dailyDose")

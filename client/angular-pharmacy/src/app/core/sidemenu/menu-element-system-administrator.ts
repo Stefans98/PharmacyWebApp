@@ -36,6 +36,25 @@ export const systemAdministratorMenus = [
                 'open': false,
             }   
         ]
+    },{
+        'name': 'Lekovi',
+        'icon': 'create',
+        'link': false,
+        'open': false,
+        'sub': [
+            {
+                'name': 'Svi lekovi',
+                'icon': 'local_hospital',
+                'link': 'system-administrator/all-medicines',
+                'open': false,
+            },
+            {
+                'name': 'Kreiraj lek',
+                'icon': 'person_add',
+                'link': 'system-administrator/create-medicine',
+                'open': false,
+            }  
+        ]
     },
     {
         'name': 'Žalbe',

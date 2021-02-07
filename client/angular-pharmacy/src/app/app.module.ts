@@ -96,6 +96,10 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllMedicinesComponent } from './system-administrator/medicines/all-medicines/all-medicines.component';
+import { CreateMedicineComponent } from './system-administrator/medicines/create-medicine/create-medicine.component';
+import { SubstitutionsModalDialogComponent } from './system-administrator/medicines/create-medicine/substitutions-modal-dialog/substitutions-modal-dialog.component';
+import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -181,7 +185,11 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     VacationRequestPharmacistsComponent,
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
-    PharmacistForRequestComponent
+    PharmacistForRequestComponent,
+    AllMedicinesComponent,
+    CreateMedicineComponent,
+    SubstitutionsModalDialogComponent,
+    IngredientsModalDialogComponent
   ],
   imports: [
     BrowserModule,
