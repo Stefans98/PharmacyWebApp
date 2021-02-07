@@ -97,6 +97,7 @@ import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
+import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 
 @NgModule({
   declarations: [
@@ -183,7 +184,8 @@ import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermato
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
     PharmacistForRequestComponent,
-    DefineTermsDialogComponent
+    DefineTermsDialogComponent,
+    PharmacyAdministratorProfileComponent
   ],
   imports: [
     BrowserModule,

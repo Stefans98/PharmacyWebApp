@@ -10,6 +10,9 @@ import java.util.List;
 @DiscriminatorValue("PHARMACIST")
 public class Pharmacist extends Employee {
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
@@ -20,13 +23,22 @@ public class Pharmacist extends Employee {
     public Pharmacist() {
     }
 
-    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address, Boolean deleted) {
         super(email, password, firstName, lastName, phoneNumber, address);
+        this.deleted = deleted;
     }
 
     public Pharmacist(User user) {
         super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
                 user.getAddress());
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Pharmacy getPharmacy() {

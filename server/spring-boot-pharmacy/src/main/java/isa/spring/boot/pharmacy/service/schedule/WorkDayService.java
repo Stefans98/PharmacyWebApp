@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.dto.schedule.WorkDayDto;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
+import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.VacationRequest;
 import isa.spring.boot.pharmacy.repository.schedule.WorkDayRepository;
 import isa.spring.boot.pharmacy.service.users.UserService;
@@ -62,6 +63,28 @@ public class WorkDayService {
         }
 
         for (WorkDay workDay: findByEmployeeId(dermatologist.getId())) {
+            if (sdf.format(workDay.getStartTime()).equals(sdf.format(workDayToSave.getStartTime()))) {
+                return null;
+            }
+        }
+        return workDayRepository.save(workDayToSave);
+    }
+
+    public WorkDay definingWorkDayForPharmacist(WorkDay workDayToSave, WorkDayDto workDayDto, Pharmacist pharmacist, Pharmacy pharmacy) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        for(VacationRequest vacationRequest : vacationService.getVacationRequestsBtPharmacyAndOnePharmacist(pharmacist, pharmacy.getId())){
+            if(vacationRequest.getProcessed() == null){
+                continue;
+            }
+            if(vacationRequest.getProcessed() == true) {
+                if (vacationRequest.getStartTime().before(workDayToSave.getStartTime()) && vacationRequest.getEndTime().after(workDayToSave.getEntTime())) {
+                    return null;
+                }
+            }
+        }
+
+        for (WorkDay workDay: findByEmployeeId(pharmacist.getId())) {
             if (sdf.format(workDay.getStartTime()).equals(sdf.format(workDayToSave.getStartTime()))) {
                 return null;
             }

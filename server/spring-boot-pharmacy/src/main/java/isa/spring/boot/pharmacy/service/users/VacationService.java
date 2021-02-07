@@ -54,6 +54,16 @@ public class VacationService {
         return vacationRequests;
     }
 
+    public List<VacationRequest> getVacationRequestsBtPharmacyAndOnePharmacist(Pharmacist pharmacist, Long pharmacyId){
+        List<VacationRequest> vacationRequests = new ArrayList<>();
+        for(VacationRequest vacationRequest : pharmacist.getVacationRequests()){
+            if(vacationRequest.getPharmacy().getId() == pharmacyId){
+                vacationRequests.add(vacationRequest);
+            }
+        }
+        return vacationRequests;
+    }
+
     public List<VacationRequest> getVacationRequestByPharmacyAndDermatologists(Long pharmacyId){
         List<VacationRequest> vacationRequests = new ArrayList<>();
         for(Dermatologist dermatologist : userService.getAllDermatologists()){
