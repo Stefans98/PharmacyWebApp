@@ -60,8 +60,8 @@ public class AppointmentService {
         return pharmacistCounselings;
     }
 
-    public List<Appointment> getExaminationsHistoryForPatient(Long patientId) {
-        List<Appointment> dermatologistExaminationsForPatient = new ArrayList<Appointment>();
+    public List<Appointment> getExaminationsHistoryForPatient(long patientId) {
+        List<Appointment> dermatologistExaminationsForPatient = new ArrayList<>();
         for(Appointment appointment : getDermatologistExaminations()) {
             if(appointment.getPatient().getId() == patientId &&
                     appointment.getAppointmentState() == AppointmentState.FINISHED) {
@@ -71,7 +71,7 @@ public class AppointmentService {
         return dermatologistExaminationsForPatient;
     }
 
-    public List<Appointment> getCounselingsHistoryForPatient(Long patientId) {
+    public List<Appointment> getCounselingsHistoryForPatient(long patientId) {
         List<Appointment> pharmacistCounselingsForPatient = new ArrayList<Appointment>();
         for (Appointment appointment : getPharmacistCounselings()) {
             if (appointment.getPatient().getId() == patientId &&
