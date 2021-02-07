@@ -175,7 +175,9 @@ public class UserService implements UserDetailsService {
         for(User user : userRepository.findAll()) {
             if(user.getDiscriminatorValue().equals("PHARMACIST")) {
                 Pharmacist pharmacist = (Pharmacist) Hibernate.unproxy(user) ;
-                pharmacists.add(pharmacist);
+                if(!pharmacist.getDeleted()) {
+                    pharmacists.add(pharmacist);
+                }
             }
         }
         return pharmacists;
@@ -303,5 +305,86 @@ public class UserService implements UserDetailsService {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public List<Dermatologist> getDermatologistsNotForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            boolean works = false;
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    works = true;
+                }
+            }
+            if(works == false) {
+                dermatologists.add(dermatologist);
+            }
+        }
+        return dermatologists;
+    }
+
+    public Dermatologist hireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacy.getDermatologists().add(oldDermatologist);
+        pharmacies.add(pharmacy);
+        oldDermatologist.setPharmacies(pharmacies);
+        pharmacyService.savePharmacy(pharmacy);
+        return userRepository.save(oldDermatologist);
+    }
+
+    public Dermatologist fireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        for(Appointment appointment : appointmentService.getAllOccupiedAppointmentsForDermatologist(oldDermatologist.getId())){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                return null;
+            }
+        }
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacies.remove(pharmacy);
+        List<Dermatologist> dermatologists = pharmacy.getDermatologists();
+        dermatologists.remove(oldDermatologist);
+        oldDermatologist.setPharmacies(pharmacies);
+        return userRepository.save(oldDermatologist);
+    }
+
+    public User savePharmacist(User user, Long pharmacyId) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        Pharmacist pharmacist = new Pharmacist(user);
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacist.setPharmacy(pharmacy);
+        pharmacist.getAddress().setUser(pharmacist);
+        List<Authority> authorities = authorityService.findByName("PHARMACIST");
+        pharmacist.setAuthorities(authorities);
+        pharmacist.setDeleted(false);
+        return userRepository.save(pharmacist);
+    }
+
+    public Pharmacist firePharmacist(Pharmacist pharmacist, long pharmacyId){
+        Pharmacist oldPharmacist = (Pharmacist) findById(pharmacist.getId());
+        for(Appointment appointment : appointmentService.getAllOccupiedAppointmentsForPharmacist(oldPharmacist.getId())){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                return null;
+            }
+        }
+
+        oldPharmacist.setDeleted(true);
+        return userRepository.save(oldPharmacist);
+    }
+
+    public PharmacyAdministrator updatePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
+        if (pharmacyAdministrator.getPassword() == null || pharmacyAdministrator.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(pharmacyAdministrator.getId()).getPassword();
+            pharmacyAdministrator.setPassword(currentPassword, false);
+        } else {
+            pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
+        }
+        pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
+        List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
+        pharmacyAdministrator.setAuthorities(authorities);
+        return userRepository.save(pharmacyAdministrator);
     }
 }

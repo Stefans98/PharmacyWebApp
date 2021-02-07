@@ -1,6 +1,10 @@
 package isa.spring.boot.pharmacy.model.schedule;
 
+import isa.spring.boot.pharmacy.model.medicines.Prescription;
+
 import javax.persistence.*;
+
+import java.util.List;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
@@ -19,6 +23,9 @@ public class AppointmentReport {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
+
+    @OneToMany(mappedBy = "appointmentReport", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
 
     public AppointmentReport() {
     }
@@ -52,4 +59,11 @@ public class AppointmentReport {
         this.appointment = appointment;
     }
 
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
 }

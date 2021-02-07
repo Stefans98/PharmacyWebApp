@@ -64,6 +64,26 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsNotAllergic(@PathVariable Long patientId) {
+        List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
+        for(Medicine medicine : medicineService.getMedicinesToWhichPatientIsNotAllergic(patientId)) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getMedicinesToWhichPatientIsAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsAllergic(@PathVariable Long patientId) {
+        List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
+        for(Medicine medicine : medicineService.getMedicinesToWhichPatientIsAllergic(patientId)) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/findMedicinesBy/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> findMedicinesBy(@PathVariable String name) {

@@ -100,6 +100,11 @@ import { AllMedicinesComponent } from './system-administrator/medicines/all-medi
 import { CreateMedicineComponent } from './system-administrator/medicines/create-medicine/create-medicine.component';
 import { SubstitutionsModalDialogComponent } from './system-administrator/medicines/create-medicine/substitutions-modal-dialog/substitutions-modal-dialog.component';
 import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
+import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
+import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
+import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
+import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
+import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
 
 @NgModule({
   declarations: [
@@ -189,7 +194,13 @@ import { IngredientsModalDialogComponent } from './system-administrator/medicine
     AllMedicinesComponent,
     CreateMedicineComponent,
     SubstitutionsModalDialogComponent,
-    IngredientsModalDialogComponent
+    IngredientsModalDialogComponent,
+    DefineTermsDialogComponent,
+    PharmacyAdministratorProfileComponent,
+    AllergiesModalDialogComponent,
+    DefineTermsDialogComponent,
+    MedicineSpecificationModalDialogPharmacistComponent,
+    SubscriptionMedicinesModalDialogPharmacistComponent
   ],
   imports: [
     BrowserModule,

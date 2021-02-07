@@ -27,4 +27,9 @@ export class LoyaltyProgramService {
     .put<LoyaltyProgram>(this.loyaltyProgramUrl, body );
   }
 
+  public getDiscountByPatientCategory(patientId: number): Observable<number> {
+    return this.http
+      .get<number>(this.loyaltyProgramUrl + 'getDiscountByPatientCategory/' + patientId);
+  } 
+
 }

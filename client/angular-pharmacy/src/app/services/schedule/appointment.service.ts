@@ -29,6 +29,11 @@ export class AppointmentService {
         .get<DermatologistExamination[]>(this.appointmentsUrl + 'getScheduledExaminationForPatient/' + patientId);
   } 
 
+  public getScheduledCounselingForPatient(patientId: number): Observable<DermatologistExamination[]> {
+    return this.http
+        .get<DermatologistExamination[]>(this.appointmentsUrl + 'getScheduledCounselingForPatient/' + patientId);
+  } 
+
   public getOccupiedAppointmentsByPatientEmail(patientEmail: string, employeeId: string): Observable<Appointment[]> {
     let params = new HttpParams()
       .set('patientEmail', patientEmail)
@@ -56,6 +61,27 @@ export class AppointmentService {
   public cancelExamination(appointmentId: number): Observable<DermatologistExamination> {
     return this.http
       .put<DermatologistExamination>(this.appointmentsUrl + 'cancelExamination',  { id: appointmentId });
+  }
+
+  public getAvailableExaminationTermsForDermatologist(dermatologistId: number, pharmacyId : number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getAvailableExaminationTermsForDermatologist/' + dermatologistId + '/' + pharmacyId);
+  }
+
+  public getAllAvailableExaminationTermsForDermatologist(dermatologistId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getAllAvailableExaminationTermsForDermatologist/' + dermatologistId);
+  }
+
+  public getAppointmentPrice(reservationDate: string, startTime: string, endTime: string, pharmacyId : string): Observable<number> {
+    let params = new HttpParams()
+      .set('reservationDate', reservationDate)
+      .set('startTime', startTime)
+      .set('endTime', endTime)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.
+      get<number>(this.appointmentsUrl + 'getAppointmentPrice', { params } );
   }
 
 }

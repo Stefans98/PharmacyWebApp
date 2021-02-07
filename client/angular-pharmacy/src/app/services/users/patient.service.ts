@@ -24,7 +24,7 @@ export class PatientService {
   public updatePatient(id: number, patient: Patient): Observable<Patient> {
     const body = { id: id, firstName: patient.firstName, lastName: patient.lastName, city: patient.city, country: patient.country,
                  street: patient.street, email: patient.email, password: patient.password, phoneNumber: patient.phoneNumber, 
-                points: patient.points, userCategory: patient.userCategory
+                points: patient.points, userCategory: patient.userCategory, medicines: patient.medicines
     };
 
     return this.http

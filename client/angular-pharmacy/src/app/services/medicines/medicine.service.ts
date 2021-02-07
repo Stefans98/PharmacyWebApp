@@ -18,6 +18,16 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
 
+  public getMedicinesToWhichPatientIsNotAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsNotAllergic/' + patientId);
+  }
+  
+  public getMedicinesToWhichPatientIsAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsAllergic/' + patientId);
+  }
+
   public findMedicinesBy(name: string): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);

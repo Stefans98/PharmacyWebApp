@@ -16,8 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="api/pharmacies")
@@ -65,7 +65,9 @@ public class PharmacyController {
         if(pharmaciesDto.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(pharmaciesDto, HttpStatus.OK);
+
+        List<PharmacyDto> pharmaciesDtoWithoutDuplicates = pharmacyService.removePharmaciesDuplicates(pharmaciesDto);
+        return new ResponseEntity<>(pharmaciesDtoWithoutDuplicates, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmaciesByMedicineId/{medicineId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,11 +88,24 @@ public class PharmacyController {
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
     public ResponseEntity<PharmacyDto> getPharmacyByPharmacyAdmin(@PathVariable Long pharmacyAdminId){
         PharmacyDto pharmacyDto = PharmacyMapper.convertToDto(pharmacyService.getPharmacyByPharmacyAdmin(pharmacyAdminId));
+        if(pharmacyDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getPharmacyByPharmacist/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<PharmacyDto> getPharmacyByPharmacist(@PathVariable Long pharmacistId){
+        PharmacyDto pharmacyDto = PharmacyMapper.convertToDto(pharmacyService.getPharmacyByPharmacist(pharmacistId));
+        if(pharmacyDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
     }
 
     @GetMapping(value="/getPharmaciesByDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST')")
     public ResponseEntity<List<PharmacyDto>> getPharmaciesByDermatologist(@PathVariable Long dermatologistId){
         List<PharmacyDto> pharmaciesForDermatologist = new ArrayList<>();
         if(pharmacyService.getPharmaciesForDermatologist(dermatologistId) == null){
@@ -102,12 +117,11 @@ public class PharmacyController {
         }
 
         if(pharmaciesForDermatologist.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
-
 
     @GetMapping(value="/getPharmaciesForPatientAppointmentsAndReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
@@ -129,4 +143,5 @@ public class PharmacyController {
         }
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
     }
+
 }
