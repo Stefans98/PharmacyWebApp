@@ -160,7 +160,7 @@ public class AppointmentController {
 
     @GetMapping(value = "/findOccupiedAppointmentsByPatientEmail", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST','DERMATOLOGIST')")
     public ResponseEntity<List<AppointmentDto>> findOccupiedAppointmentsByPatientEmail(@RequestParam String patientEmail,@RequestParam String employeeId) {
         List<AppointmentDto> occupiedAppointmentsByPatientEmail = new ArrayList<AppointmentDto>();
         if(appointmentService.findOccupiedAppointmentsByPatientEmail(patientEmail, Long.parseLong(employeeId)) == null) {
