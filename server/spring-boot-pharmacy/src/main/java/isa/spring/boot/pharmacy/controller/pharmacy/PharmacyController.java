@@ -92,7 +92,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getPharmaciesByDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST')")
     public ResponseEntity<List<PharmacyDto>> getPharmaciesByDermatologist(@PathVariable Long dermatologistId){
         List<PharmacyDto> pharmaciesForDermatologist = new ArrayList<>();
         if(pharmacyService.getPharmaciesForDermatologist(dermatologistId) == null){
@@ -104,12 +104,11 @@ public class PharmacyController {
         }
 
         if(pharmaciesForDermatologist.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(pharmaciesForDermatologist, HttpStatus.OK);
     }
-
 
     @GetMapping(value="/getPharmaciesForPatientAppointmentsAndReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
@@ -131,4 +130,5 @@ public class PharmacyController {
         }
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
     }
+
 }

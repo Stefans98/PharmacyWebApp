@@ -304,4 +304,47 @@ public class UserService implements UserDetailsService {
         }
         return date;
     }
+
+    public List<Dermatologist> getDermatologistsNotForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            boolean works = false;
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    works = true;
+                }
+            }
+            if(works == false) {
+                dermatologists.add(dermatologist);
+            }
+        }
+        return dermatologists;
+    }
+
+    public Dermatologist hireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacy.getDermatologists().add(oldDermatologist);
+        pharmacies.add(pharmacy);
+        oldDermatologist.setPharmacies(pharmacies);
+        pharmacyService.savePharmacy(pharmacy);
+        return userRepository.save(oldDermatologist);
+    }
+
+    public Dermatologist fireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        for(Appointment appointment : appointmentService.getAllOccupiedAppointmentsForDermatologist(oldDermatologist.getId())){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                return null;
+            }
+        }
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacies.remove(pharmacy);
+        List<Dermatologist> dermatologists = pharmacy.getDermatologists();
+        dermatologists.remove(oldDermatologist);
+        oldDermatologist.setPharmacies(pharmacies);
+        return userRepository.save(oldDermatologist);
+    }
 }

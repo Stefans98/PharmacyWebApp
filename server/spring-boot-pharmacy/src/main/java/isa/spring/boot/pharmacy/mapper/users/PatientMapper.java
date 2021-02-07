@@ -17,6 +17,15 @@ public class PatientMapper {
 
         if (alreadyExist) {
             patient.setId(patientDto.getId());
+            List<Allergy> allergies = new ArrayList<>();
+            for (Medicine medicine: patientDto.getMedicines()) {
+                Allergy allergy = new Allergy();
+                allergy.setMedicine(medicine);
+                allergy.setPatient(patient);
+                allergy.setName(medicine.getName());
+                allergies.add(allergy);
+            }
+            patient.setAllergies(allergies);
         }
         patient.setFirstName(patientDto.getFirstName());
         patient.setLastName(patientDto.getLastName());
@@ -26,16 +35,6 @@ public class PatientMapper {
                 patientDto.getStreet(), patient));
         patient.setPassword(patientDto.getPassword(), false);
         patient.setPoints(patientDto.getPoints());
-
-        List<Allergy> allergies = new ArrayList<>();
-        for (Medicine medicine: patientDto.getMedicines()) {
-            Allergy allergy = new Allergy();
-            allergy.setMedicine(medicine);
-            allergy.setPatient(patient);
-            allergy.setName(medicine.getName());
-            allergies.add(allergy);
-        }
-        patient.setAllergies(allergies);
 
         if (patientDto.getUserCategory() == 0) {
             patient.setUserCategory(UserCategory.REGULAR);
