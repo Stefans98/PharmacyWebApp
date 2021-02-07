@@ -1,1 +1,49 @@
-<p>pharmacist-new-appointment works!</p>
+<div class="main">
+    <h3 class="mat-title" style="margin-top: 50px;float: left;"> Izaberite datum termina: </h3>
+    <mat-form-field appearance="fill" style="margin-top: 35px;margin-left: 30px;">
+        <mat-label>Datum pregleda</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="maxDate" readonly required (dateInput)="onDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker color="primary"></mat-datepicker>
+    </mat-form-field><br>
+
+    <h3 class="mat-title" style="margin-top: 60px;float: left;"> Izaberite početno vreme termina: </h3> 
+    <div style="margin-left: 320px; margin-top: 45px;">
+        <mat-form-field color="accent" appearance="fill">
+            <mat-label >Početno vreme</mat-label>
+            <input matInput [ngxTimepicker]="timepicker1" [(ngModel)]="startTime" [value]="time1" [format]="24" required readonly (ngModelChange)="onStartTimeChange($event)" #input>
+            <ngx-material-timepicker-toggle matSuffix [for]="timepicker1" ></ngx-material-timepicker-toggle>
+            <ngx-material-timepicker #timepicker1 [theme]="myTimePickerTheme"></ngx-material-timepicker>
+        </mat-form-field> 
+    </div><br>
+
+    <h3 class="mat-title" style="margin-top: 58px;float: left;"> Izaberite krajnje vreme termina: </h3> 
+    <div style="margin-left: 320px; margin-top: 45px;">
+        <mat-form-field color="accent" appearance="fill">
+            <mat-label >Krajnje vreme</mat-label>
+            <input matInput [ngxTimepicker]="timepicker2" [(ngModel)]="endTime" [value]="time2" [format]="24" [min]="minTimeFinishing" required readonly (ngModelChange)="onEndTimeChange($event)" #input [disabled]="disabledTimeFinishing">
+            <ngx-material-timepicker-toggle matSuffix [for]="timepicker2"></ngx-material-timepicker-toggle>
+            <ngx-material-timepicker #timepicker2 [theme]="myTimePickerTheme"></ngx-material-timepicker>
+        </mat-form-field> 
+    </div><br>
+
+    <h2 class="mat-h2" style="margin-top: 60px;float: left;">Izaberite apoteku:</h2>
+    <h2 class="mat-h2" style="margin-top: 60px;float: left;margin-left: 20px;">{{ pharmacistPharmacy.name }}</h2>
+
+    <div style="float: right;margin-top: -350px;margin-right: 100px;">
+        <!-- <ng-template>Pretraga leka</ng-template>
+        <mat-form-field >
+            <input matInput placeholder="Pronađite pacijenta" #searchInput>
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <button mat-stroked-button color="primary" style="margin-left:8px; margin-top: 10px;">Pronađi</button> -->
+        
+        <h2 class="mat-title" >Izaberite pacijenta za kog zakazujete pregled:</h2>
+        <mat-selection-list [(ngModel)]="selectedPatient" [multiple]="false" required style="overflow-y: auto;height: 150px;">
+            <mat-list-option *ngFor="let patient of patientsForPharmacist" [value]="patient" style="text-align: center;">
+                {{ patient.firstName + ' ' + patient.lastName + ', ' + patient.email }}
+            </mat-list-option>
+        </mat-selection-list>
+        <button mat-raised-button color="primary" style="margin-left: 160px;margin-top: 10px;" (click)="scheduleNewAppointment()">Zakaži</button>
+    </div>
+</div>
