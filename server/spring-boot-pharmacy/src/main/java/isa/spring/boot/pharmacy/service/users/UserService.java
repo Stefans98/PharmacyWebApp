@@ -159,6 +159,11 @@ public class UserService implements UserDetailsService {
         return userRepository.save(systemAdministrator);
     }
 
+    public int getPenaltiesByPatientId(long patientId){
+        Patient patient = (Patient)userRepository.findById(patientId);
+        return Math.max(patient.getPenalty(), 0);
+    }
+
     public List<Dermatologist> getAllDermatologists(){
         List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {

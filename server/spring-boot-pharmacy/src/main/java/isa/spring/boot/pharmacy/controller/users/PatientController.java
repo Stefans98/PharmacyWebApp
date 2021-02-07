@@ -18,9 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/patients")
@@ -75,5 +73,15 @@ public class PatientController {
             pharmacistDtos.add(PharmacistMapper.convertToDto(pharmacist));
         }
         return new ResponseEntity<List<PharmacistDto>>(pharmacistDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPenaltiesByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<Integer> getPenaltiesByPatientId(@PathVariable Long patientId) {
+        Patient patient = (Patient)userService.findById(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userService.getPenaltiesByPatientId(patientId), HttpStatus.OK);
     }
 }

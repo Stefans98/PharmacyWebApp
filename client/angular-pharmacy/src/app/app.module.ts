@@ -98,6 +98,9 @@ import { RejectRequestDialogComponent } from './pharmacy-administrator/all-derma
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
+import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
+import { ChartModule } from 'angular2-chartjs';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -185,7 +188,8 @@ import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermato
     RejectRequestDialogComponent,
     PharmacistForRequestComponent,
     AllergiesModalDialogComponent,
-    DefineTermsDialogComponent
+    DefineTermsDialogComponent,
+    PenaltyGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -204,7 +208,10 @@ import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermato
     NgxMatTimepickerModule,
     NgxMaterialTimepickerModule,
     NgxMatNativeDateModule,
-    NgxSliderModule
+    NgxSliderModule,
+    CommonModule,
+    ChartModule,
+    FlexLayoutModule
   ],
   providers: [
     {
