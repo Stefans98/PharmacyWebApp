@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Patient } from '../../models/patient.model';
 import { Pharmacist } from '../../models/pharmacist.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,4 +55,22 @@ export class PharmacistService {
     return this.http
         .get<Patient[]>(this.pharmacistUrl + 'patientsForPharmacist/' + pharmacistId);
   } 
+
+  public registerPharmacist(user : User, pharmacyId: number): Observable<User> {
+    const body = { firstName: user.firstName, lastName: user.lastName, city: user.city, country: user.country,
+      street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber, 
+    };  
+
+    return this.http
+    .post<User>(this.pharmacistUrl + 'register/' + pharmacyId, body);
+  }
+
+  public firePharmacist(id: number, pharmacist: Pharmacist): Observable<Pharmacist> {
+    const body = { id: pharmacist.id, firstName: pharmacist.firstName, lastName: pharmacist.lastName, city: pharmacist.city, country: pharmacist.country,
+                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber, averageGrade: pharmacist.averageGrade
+    };
+
+    return this.http
+        .put<Pharmacist>(this.pharmacistUrl + 'firePharmacist/' + id, body);
+  }
 }
