@@ -20,4 +20,14 @@ export class WorkDayService {
     return this.http.
       get<WorkDay>(this.medicineUrl + 'getWorkDayInPharmacyByDateAndEmployeeId', { params } );
   }
+
+  public defineWorkDayForDermatologist(workDay: WorkDay): Observable<WorkDay> {
+    
+    const body = { id: null, startTime: workDay.startTime, entTime: workDay.endTime, pharmacy: workDay.pharmacy,
+       employee: workDay.employee
+    };  
+
+    return this.http
+    .post<WorkDay>(this.medicineUrl + 'defineWorkDayForDermatologist', body);
+  }
 }

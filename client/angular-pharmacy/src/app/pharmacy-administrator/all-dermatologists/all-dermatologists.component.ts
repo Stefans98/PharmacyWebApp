@@ -78,7 +78,7 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
 
   gradeRanges: string[] = ['5 - 6', '6 - 7', '7 - 8', '8 - 9', '9 - 10', '10'];
 
-  displayedColumns: string[] = ['name', 'lastname', 'averageGrade', 'pharmacies', 'defineTerms', 'defineWorkDay'];
+  displayedColumns: string[] = ['name', 'lastname', 'averageGrade', 'pharmacies', 'defineTerms', 'defineWorkDay', 'deleteDermatologist'];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -298,11 +298,45 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  sendDefindedWorkDay(){}
+  sendDefindedWorkDay(dermatologist){
+    const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
+    const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
+    var workDay = new WorkDay(null, new Date(forrmatedStartTime), new Date(forrmatedEndTime), this.pharmacy, dermatologist);
+    this.workDayService.defineWorkDayForDermatologist(workDay).subscribe(
+      data => {
+        this.openSnackBar('Uspešno ste definisali radni dan za dermatologa!', 'Zatvori');
+      },
+      error => {
+        if(error.status == 400){
+          this.openSnackBar('Zakazivanje radnog dana trenutno nije moguće, molim Vas pokušajte ponovo! Razlog može biti poklapanje sa drugim radnim vremenom ili trenutni godišnji odmor/odsustvo.', 'Zatvori');
+        }
+      }
+    );
+  }
+
+  fireDermatologist(dermatologist){
+    this.dermatologistService.fireDermatologist(this.pharmacy.id, dermatologist).subscribe(
+      data => {
+        this.openSnackBar('Uspešno ste obrisali dermatologa!', 'Zatvori');
+        this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+          data => {
+            this.pharmacy = data;
+            console.log(this.pharmacy.id);
+            this.getDermatologistsForPharmacy(this.pharmacy.id);
+          }
+        );
+      }, 
+      error => {
+        if(error.status == 400){
+          this.openSnackBar('Brisanje dermatologa nije uspelo! Dermatolog ima zakazane preglede koje mora da odradi!', 'Zatvori');
+        }
+      }
+    );
+  }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 3500,
+      duration: 30500,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });

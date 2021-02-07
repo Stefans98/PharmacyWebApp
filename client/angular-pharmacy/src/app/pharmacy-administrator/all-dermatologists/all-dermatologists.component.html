@@ -55,6 +55,13 @@
           <button mat-raised-button color="primary" (click)="defineWorkDay(dermatologist)">Definiši</button>
         </td>
       </ng-container>
+
+      <ng-container matColumnDef="deleteDermatologist">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Obriši dermatologa </th>
+        <td mat-cell *matCellDef="let dermatologist">
+          <button mat-raised-button color="warn" (click)="fireDermatologist(dermatologist)">Obriši</button>
+        </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -133,7 +140,7 @@
   </div>
 
   <div *ngIf="openDefiningWorkDayForm==true">
-    <button mat-raised-button color="primary" style="float: left; margin-left: 2%; margin-top: 4%;" (click)="sendDefindedWorkDay()">Definiši radni dan</button>
+    <button mat-raised-button color="primary" style="float: left; margin-left: 2%; margin-top: 4%;" (click)="sendDefindedWorkDay(dermatologistForDefiningTerms)">Definiši radni dan</button>
   </div>
 
 </div>

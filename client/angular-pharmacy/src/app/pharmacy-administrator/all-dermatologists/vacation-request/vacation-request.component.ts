@@ -78,7 +78,7 @@ export class VacationRequestComponent implements OnInit {
     if(type == 0){
       return 'GODIŠNJI ODMOR'
     }else if(type == 1){
-      return 'ODSUSTO'
+      return 'ODSUSTVO'
     }
   }
 
@@ -88,7 +88,7 @@ export class VacationRequestComponent implements OnInit {
     }else if(processed == false){
       return 'ODBIJEN';
     }else if(processed == null){
-      return 'NIJE ODRAĐEN';
+      return 'NIJE OBRAĐEN';
     }
   }
 
