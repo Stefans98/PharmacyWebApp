@@ -25,6 +25,12 @@ import { WorkDayService } from '../../../services/schedule/work-day.service';
   styleUrls: ['./pharmacist-scheduling.component.scss']
 })
 export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
+  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('t1Sort') t1Sort: MatSort;
+  @ViewChild('t2Sort') t2Sort: MatSort;
+  @ViewChild('stepper') stepper: MatStepper;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+
   maxDate: Date;
   minTimeFinishing: string = '00:00';
   disabledTimeFinishing: boolean = true;
@@ -45,15 +51,10 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   availablePharmacists: Pharmacist[] = [];
   dataSourcePharmacists = new MatTableDataSource(this.availablePharmacists);
 
-  displayedColumns: string[] = ['name', 'city', 'grade', 'price', 'choice'];
-  displayedColumnsPharmacist: string[] = ['pharmacistName', 'pharmacistSurname', 'pharmacistGrade', 'scheduling'];
+  displayedColumns: string[] = ['name', 'city', 'averageGrade', 'price', 'choice'];
+  displayedColumnsPharmacist: string[] = ['pharmacistName', 'pharmacistSurname', 'averageGrade', 'scheduling'];
 
   selectedRowIndex = -1;
-
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('stepper') stepper: MatStepper;
-  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   isLinear = true;
   firstFormGroup: FormGroup;
@@ -82,11 +83,11 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
   
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private authenticationService: AuthenticationService, private workDayService: WorkDayService,
     private pharmacistService: PharmacistService, private pharmacyService: PharmacyService, public router: Router, private appointmentService: AppointmentService) {
-      this.dataSourcePharmacies.sort = this.sort;
-      this.dataSourcePharmacists.sort = this.sort;
   }
     
   ngOnInit() {
+    this.dataSourcePharmacies.sort = this.t1Sort;
+    this.dataSourcePharmacists.sort = this.t2Sort;
     this.maxDate = new Date();
 
     this.firstFormGroup = this._formBuilder.group({
@@ -110,6 +111,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
 
   onStartTimeChange(value) {
     this.startTime = value;
+    this.endTime = this.startTime;
     this.minTimeFinishing = value;
     this.disabledTimeFinishing = false;
   }
@@ -142,6 +144,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
       data => {
         this.availablePharmacies = data;
         this.dataSourcePharmacies.data = this.availablePharmacies;
+        this.dataSourcePharmacies.sort = this.t1Sort;
       },
       error => {
         if (error.status == 404){
@@ -161,6 +164,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
       data => {
         this.availablePharmacists = data;
         this.dataSourcePharmacists.data = this.availablePharmacists;
+        this.dataSourcePharmacists.sort = this.t2Sort;
       },
       error => {
         if (error.status == 404){
@@ -186,7 +190,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
             this.openSnackBar('Na Vašem email-u možete pogledati potvrdu o zakazivanju pregleda! Pregled možete otkazati ukoliko do datuma pregleda ima više od 24h!', 'Zatvori', 5600);
           },
           error => {
-            this.openSnackBar('Zakazivanje termina trenutno nije moguće, molim Vas pokušajte ponovo!', 'Zatvori', 4000);
+            this.openSnackBar('Nemate pravo zakazivanja termina kod farmaceuta zato što ste imali ili trenutno imate zakazan termin koji se preklapa sa izabranim datumom i vremenom!', 'Zatvori', 5700);
           });
       },
       error => {

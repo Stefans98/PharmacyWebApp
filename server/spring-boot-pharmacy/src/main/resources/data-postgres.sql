@@ -23,7 +23,7 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive A
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 44');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 9');
 
-insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic', 'Najbolja apoteka u gradu', 9.3, 1);
+insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic apoteka', 'Najbolja apoteka u gradu', 9.3, 1);
 insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 8.7, 2);
 
 insert into authority (name) values ('PATIENT');
@@ -33,6 +33,7 @@ insert into authority (name) values ('SUPPLIER');
 insert into authority (name) values ('PHARMACY_ADMIN');
 insert into authority (name) values ('SYSTEM_ADMIN');
 
+-- svakom hešu odgovara šifra: 123
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 1, 10, 0);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10, 1);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 10, 0);
@@ -118,8 +119,8 @@ insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (820.45, '2021-10-12', '2021-11-19', 2, 5);
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (920.45, '2021-11-12', '2021-12-19', 2, 6);
 
-insert into subscriptions (patient_id, pharmacy_id) values (1, 1);
-insert into subscriptions (patient_id, pharmacy_id) values (2, 1);
+insert into subscriptions (canceled, patient_id, pharmacy_id) values (false, 1, 1);
+insert into subscriptions (canceled, patient_id, pharmacy_id) values (false, 2, 1);
 
 insert into promotions (text, start_time, end_time, subscription_id) values ('Popust na kozmeticke preparate.', '2021-03-02', '2021-06-12', 1);
 
@@ -127,6 +128,8 @@ insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 6, 2);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-06 08:00:00', '2021-02-06 20:00:00', 7, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (2500, 0, 1, '2021-02-05 04:45:00', '2021-02-05 04:45:00', 3, 1);
@@ -146,6 +149,8 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 2, '2021-03-02 10:10:00', '2021-03-02 10:30:00', 2, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-03-02 10:35:00', '2021-03-02 10:45:00', 2, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 3, '2021-03-02 10:55:00', '2021-03-02 11:10:00', 2, 1);
+
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 0, 1, '2021-02-06 10:35:00', '2021-02-06 10:45:00', 6, 1);
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
