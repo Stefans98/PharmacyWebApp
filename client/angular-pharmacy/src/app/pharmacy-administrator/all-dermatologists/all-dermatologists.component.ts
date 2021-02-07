@@ -282,7 +282,7 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
     this.workDayService.getWorkDayInPharmacyByDateAndEmployeeId(this.chosenDate, this.dermatologistForDefiningTerms.id.toString(), this.pharmacy.id.toString()).subscribe(
       data => {
         this.workDay = data;
-        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(1, '', '', '', '', '', '', '', 0, 1, ''), this.workDay, null, this.pharmacy.price); 
+        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(1, '', '', '', '', '', '', '', 0, 1, '', null), this.workDay, null, this.pharmacy.price); 
         this.appointmentService.scheduleExamination(this.appointment).subscribe(
           data => {
             this.openSnackBar('Uspešno ste definisali termin za dermatologa!', 'Zatvori');

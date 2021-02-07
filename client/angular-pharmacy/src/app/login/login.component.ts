@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
        return;
     }
     this.authService.userSignup(new Patient(0, this.firstNameSignup, this.lastNameSignup, this.citySignup, this.countrySignup,
-               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup)) 
+               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup, null)) 
                .subscribe( data => {
                 this.snackBar.open('Nalog je uspešno kreiran!', null, { 
                   duration : 3000, 

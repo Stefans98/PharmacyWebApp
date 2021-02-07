@@ -96,8 +96,11 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
+import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
+import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
 
 @NgModule({
   declarations: [
@@ -185,7 +188,11 @@ import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/
     RejectRequestDialogComponent,
     PharmacistForRequestComponent,
     DefineTermsDialogComponent,
-    PharmacyAdministratorProfileComponent
+    PharmacyAdministratorProfileComponent,
+    AllergiesModalDialogComponent,
+    DefineTermsDialogComponent,
+    MedicineSpecificationModalDialogPharmacistComponent,
+    SubscriptionMedicinesModalDialogPharmacistComponent
   ],
   imports: [
     BrowserModule,

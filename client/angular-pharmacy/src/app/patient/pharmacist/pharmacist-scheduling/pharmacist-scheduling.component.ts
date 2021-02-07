@@ -183,7 +183,7 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
       data => {
         this.workDay = data;
         var patientId = this.authenticationService.getLoggedUserId();
-        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(patientId, '', '', '', '', '', '', '', 0, 1, ''), this.workDay, null, this.price); 
+        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(patientId, '', '', '', '', '', '', '', 0, 1, '', null), this.workDay, null, this.price); 
         this.appointmentService.scheduleExamination(this.appointment).subscribe(
           data => {
             this.router.navigate(['/auth/patient/pharmacist/pharmacist-scheduled-counseling']);
