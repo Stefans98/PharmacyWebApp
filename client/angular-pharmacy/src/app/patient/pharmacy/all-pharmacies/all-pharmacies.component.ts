@@ -18,7 +18,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
 
-  mySubscriptions : Subscription[];
+  mySubscriptions : Subscription[] = [];
 
   selectedGradeRange = 'Ništa od navedenog';
   selectedName = 'Ništa od navedenog';

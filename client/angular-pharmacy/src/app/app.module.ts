@@ -96,6 +96,7 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -181,7 +182,8 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     VacationRequestPharmacistsComponent,
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
-    PharmacistForRequestComponent
+    PharmacistForRequestComponent,
+    AllergiesModalDialogComponent
   ],
   imports: [
     BrowserModule,
