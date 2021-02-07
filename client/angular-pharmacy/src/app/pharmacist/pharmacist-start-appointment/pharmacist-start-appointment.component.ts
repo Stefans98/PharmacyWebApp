@@ -174,7 +174,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
     this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
       data => {
         this.openSnackBar('Uspešno ste zakazali novo savetovanje za pacijenta i obavestili ga putem e-mail pošte!', 'Zatvori', 4200);
-        this.chosenDate = null;
+        //this.chosenDate = null;
         this.startTime = null;
         this.endTime = null;
       },
@@ -254,7 +254,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
   }
 
   saveAppointmentReport() : void {
-    this.router.navigate(['/auth/dermatologist/work-calendar']);
+    this.router.navigate(['/auth/pharmacist/work-calendar']);
   }
 
   displayAppointmentRow(appointment : Appointment): string {

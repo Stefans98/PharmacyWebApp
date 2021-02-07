@@ -154,8 +154,6 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 0, 1, '2021-02-07 10:35:00', '2021-02-07 10:45:00', 6, 1);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id) values (1500, 1, 1, '2021-02-07 11:35:00', '2021-02-07 11:45:00', 7, 1);
 
-insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
-
 insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-02-02', 1, 11);
 insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
 insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
@@ -200,11 +198,13 @@ insert into medicine_reservations (final_purchasing_date, medicine_reservation_s
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-02', 0, false, 1, 1, 1,'16123211631');
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-03-03', 0, false, 1, 2, 1,'16123213641');
 
+insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
+
 insert into e_prescriptions(code, issuing_date, patient_id) values ('eprscrpt111', '2021-03-02', 1);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 1);
 
-insert into prescriptions (therapy_day_length, medicine_id, patient_id) values (28, 1, 1);
+insert into prescriptions (therapy_day_length, medicine_id, patient_id, appointment_report_id) values (28, 1, 1, 1);
 
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (2, 7);

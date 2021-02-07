@@ -205,7 +205,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
         data => {
           this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga putem e-mail pošte!', 'Zatvori', 4200);
-          this.chosenDate = null;
+          //this.chosenDate = null;
           this.startTime = null;
           this.endTime = null;
         },
