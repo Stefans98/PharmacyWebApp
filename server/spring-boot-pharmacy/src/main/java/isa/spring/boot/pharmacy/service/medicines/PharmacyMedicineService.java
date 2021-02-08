@@ -2,10 +2,12 @@ package isa.spring.boot.pharmacy.service.medicines;
 
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.repository.medicines.PharmacyMedicineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +40,16 @@ public class PharmacyMedicineService {
                 return;
             }
         }
+    }
+
+    public List<Pharmacy> getAllPharmaciesWithMedicine(String medicineCode) {
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for (PharmacyMedicine pm : this.findAll()) {
+            if (pm.getMedicine().getCode().equals(medicineCode)) {
+                pharmacies.add(pm.getPharmacy());
+            }
+        }
+        return pharmacies;
     }
 
 }

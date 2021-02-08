@@ -69,4 +69,9 @@ export class PharmacyService{
       get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesWithAvailablePharmacistsByDateTime', { params } );
   }
 
+  public getAllPharmaciesWithMedicine(code : string): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getAllWithMedicine/' + code);
+  } 
+
 }

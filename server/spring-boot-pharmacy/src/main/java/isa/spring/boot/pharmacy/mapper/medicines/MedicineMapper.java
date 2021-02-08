@@ -13,6 +13,10 @@ public class MedicineMapper {
         dto.setCode(medicine.getCode());
         dto.setManufacturer(medicine.getManufacturer());
         dto.setMedicineType(medicine.getMedicineType());
+        dto.setMedicineForm(medicine.getMedicineForm());
+        dto.setAverageGrade(medicine.getAverageGrade());
+        dto.setOnPrescription(medicine.isOnPrescription());
+        dto.setAdditionalInformation(medicine.getAdditionalInformation());
         if (medicine.getMedicineSpecification() != null) {
             dto.setMedicineSpecification(MedicineSpecificationMapper.convertToDto(medicine.getMedicineSpecification()));
         }

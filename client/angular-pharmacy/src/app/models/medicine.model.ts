@@ -9,6 +9,7 @@ export class Medicine {
         public manufacturer: string,
         public medicineType: number,
         public medicineForm: number,
+        public averageGrade: number,
         public additionalInformation: string,
         public points: number,
         public onPrescription: boolean,
