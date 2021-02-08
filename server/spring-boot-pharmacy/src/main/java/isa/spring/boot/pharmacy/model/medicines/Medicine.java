@@ -28,7 +28,7 @@ public class Medicine {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "medicine_type", nullable = false)
+    @Column(name = "medicine_type")
     private String medicineType;
 
     @Column(name = "points")

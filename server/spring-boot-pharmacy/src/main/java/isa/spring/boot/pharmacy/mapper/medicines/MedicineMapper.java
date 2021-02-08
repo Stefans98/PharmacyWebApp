@@ -22,4 +22,13 @@ public class MedicineMapper {
         return medicine;
     }
 
+    public static Medicine convertToEntityWithId(MedicineDto dto) {
+        Medicine medicine = new Medicine();
+        medicine.setId(dto.getId());
+        medicine.setName(dto.getName());
+        medicine.setCode(dto.getCode());
+        medicine.setManufacturer(dto.getManufacturer());
+        return medicine;
+    }
+
 }

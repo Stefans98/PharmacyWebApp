@@ -101,6 +101,7 @@ import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermato
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
 import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
+import { PharmacyPricelistComponent } from './pharmacy-administrator/pharmacy-pricelist/pharmacy-pricelist.component';
 
 @NgModule({
   declarations: [
@@ -192,7 +193,8 @@ import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacis
     AllergiesModalDialogComponent,
     DefineTermsDialogComponent,
     MedicineSpecificationModalDialogPharmacistComponent,
-    SubscriptionMedicinesModalDialogPharmacistComponent
+    SubscriptionMedicinesModalDialogPharmacistComponent,
+    PharmacyPricelistComponent
   ],
   imports: [
     BrowserModule,

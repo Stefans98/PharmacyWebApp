@@ -85,4 +85,16 @@ public class MedicineService {
         return medicinesForPharmacy;
     }
 
+    public List<Medicine> findAllMedicinesNotForPharmacy(Long pharmacyId) {
+        List<Medicine> medicinesNotForPharmacy = findAll();
+        for(Medicine medicine : findAllMedicinesForPharmacy(pharmacyId)){
+            medicinesNotForPharmacy.remove(medicine);
+        }
+        return medicinesNotForPharmacy;
+    }
+
+    public void save(Medicine medicine){
+        medicineRepository.save(medicine);
+    }
+
 }

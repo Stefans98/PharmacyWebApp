@@ -220,18 +220,16 @@ insert into medicine_ingredients (medicine_specification_id, ingredient_id) valu
 
 insert into medicine_substitutions (medicine_specification_id, medicine_id) values (1, 1);
 
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 1, 10);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 2, 20);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 3, 12);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 4, 0);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 5, 5);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 6, 15);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 1, 10);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 2, 20);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 3, 12);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 4, 0);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 5, 5);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 6, 15);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 1, 10, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 2, 20, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 3, 12, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 4, 0, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 1, 10, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 2, 20, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 3, 12, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 4, 0, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 5, 5, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 6, 15, false);
 
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-05', '2021-03-08', 7, 1, true);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-11', '2021-03-15', 7, 1, false);
