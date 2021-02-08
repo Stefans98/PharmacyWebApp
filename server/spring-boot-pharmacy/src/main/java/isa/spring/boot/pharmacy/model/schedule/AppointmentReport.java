@@ -20,7 +20,7 @@ public class AppointmentReport {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
 

@@ -48,7 +48,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public patientAppointments : Appointment[] = [];
     public selectedAppointment : Appointment;
     public medicinesForPharmacy : Medicine[] = [];
-    public therapyDay : number;
+    public therapyDay : number = 1;
     public selectedMedicine : Medicine;
     public medicineForPrescription : Medicine;
     public availableAppointments : Appointment[] = [];
@@ -269,6 +269,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
            this.selectedAppointment.workDay.pharmacy.id, this.therapyDay) 
             .subscribe( data => {
               this.openSnackBar('Uspešno ste prepisali lek pacijentu!', 'Zatvori', 3000);
+              this.therapyDay = 1;
             },
             error => {
               if (error.status == 400){ // Pacijent je alergican na lek
@@ -312,6 +313,26 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     let hours = d.getHours();
     let minutes = d.getMinutes();
     return (hours > 9 ? '' : '0') + hours + ":" + (minutes > 9 ? '' : '0') + minutes;
+  }
+
+  translateMedicineType(type : string) : string {
+    if (type == 'ANTIBIOTIC') {
+      return 'antibiotik';
+    } else if (type == 'ANALGESIC') {
+      return 'anelgetik';
+    } else if (type == 'ANTIHISTAMINE') {
+      return 'antihistaminik';
+    } else if (type == 'VACCINE') {
+      return 'vakcina';
+    } else if (type == 'ANTISEPTIC') {
+      return 'antiseptik';
+    } else if (type == 'ANTIPYRETIC') {
+      return 'antipiretik';
+    } else if (type == 'TRANQUILISER') {
+      return 'sedativ';
+    } else {
+      return 'vitamini';
+    }
   }
 
   openMedicineSpecificationDialog(medicine : Medicine): void {
