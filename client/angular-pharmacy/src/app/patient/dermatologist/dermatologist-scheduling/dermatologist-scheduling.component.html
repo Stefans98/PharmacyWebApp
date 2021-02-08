@@ -11,7 +11,7 @@
 			<mat-divider></mat-divider>
 
         <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" style="padding-top: 0;" >
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+        <table mat-table [dataSource]="dataSource" matSort #t1Sort="matSort" class="mat-elevation-z8" >
             <div class="pharmacy-list">
             <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef> Datum pregleda </th>
@@ -33,7 +33,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.workDay.employee.firstName}} {{element.workDay.employee.lastName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="grade">
+            <ng-container matColumnDef="averageGrade">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena dermatologa </th>
             <td mat-cell *matCellDef="let element"> {{element.workDay.employee.averageGrade}} </td>
             </ng-container>
@@ -41,8 +41,7 @@
             <ng-container matColumnDef="scheduling">
                 <th mat-header-cell *matHeaderCellDef> Zakazivanje </th>
                 <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="scheduleAppointmentClick(element)">Zakaži</button> </td>
-            </ng-container>
-            
+            </ng-container> 
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

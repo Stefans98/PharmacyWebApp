@@ -36,6 +36,9 @@ public class Appointment {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
 
+    @Column(name = "got_penalty", nullable = false)
+    private boolean gotPenalty;
+
     // ***
     @OneToOne(mappedBy = "appointment")
     private AppointmentReport appointmentReport;
@@ -124,5 +127,13 @@ public class Appointment {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public boolean isGotPenalty() {
+        return gotPenalty;
+    }
+
+    public void setGotPenalty(boolean gotPenalty) {
+        this.gotPenalty = gotPenalty;
     }
 }
