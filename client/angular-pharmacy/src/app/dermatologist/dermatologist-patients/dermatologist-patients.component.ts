@@ -16,10 +16,20 @@ import { DermatologistService } from '../../services/users/dermatologist.service
 })
 
 export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
   checked = false;
   indeterminate = false;
+
+  dataSourceChangeIn = 1;
+  searchInputLenght = 0;
+
   public patientsForDermatologist : Patient[] = [];
   public examinationsHistory : DermatologistExamination[] = [];
+
+  displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
+  dataSource = new MatTableDataSource(this.patientsForDermatologist);
+  newDataSource = new MatTableDataSource(this.patientsForDermatologist);
+  dataSourceAfterSearch = new MatTableDataSource(this.patientsForDermatologist);
 
   constructor(private dermatologistService : DermatologistService, private appointmentService : AppointmentService,
        private authenticationService : AuthenticationService, private snackBar : MatSnackBar) {
@@ -40,14 +50,32 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
-  displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
-  dataSource = new MatTableDataSource(this.patientsForDermatologist);
-
-  @ViewChild(MatSort) sort: MatSort;
-
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
+  setFilterPredict() {
+    this.dataSource.filterPredicate = (data, filter: string) => {
+      if (this.dataSourceChangeIn == 1) {
+        return data.firstName.toLowerCase().startsWith(filter) || data.lastName.toLowerCase().startsWith(filter);
+      }   
+    };
+  }
+
+  applySearch(event: Event) {
+
+
+    this.dataSource = new MatTableDataSource(this.patientsForDermatologist);
+    this.setFilterPredict();
+    this.dataSourceChangeIn = 1;
+    const filter = (event.target as HTMLInputElement).value
+    this.searchInputLenght = filter.length;
+    this.dataSource.filter = filter.trim().toLowerCase();
+    this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
+    this.dataSourceAfterSearch = new MatTableDataSource(this.dataSource.filteredData);
+    this.dataSource.sort = this.sort;
+  }
+
 
   getExaminationsHistory(patientId : number) : void {
     this.appointmentService.getExaminationsHistoryForPatient(patientId).subscribe(

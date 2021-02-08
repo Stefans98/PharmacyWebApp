@@ -9,7 +9,7 @@
 
                 <div fxflex="60" class="full" fxLayoutAlign="end center">
                     <mat-form-field class="full">
-                        <input matInput placeholder="Pretraga" >
+                        <input matInput (keyup)="applySearch($event)" placeholder="Pretraga (Ime Prezime)" #input>
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
                 </div>
