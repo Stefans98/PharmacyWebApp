@@ -7,6 +7,7 @@ import isa.spring.boot.pharmacy.model.users.Allergy;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.model.users.UserCategory;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class PatientMapper {
                 patientDto.getStreet(), patient));
         patient.setPassword(patientDto.getPassword(), false);
         patient.setPoints(patientDto.getPoints());
+        patient.setPenaltiesResetDate(new Date());
 
         if (patientDto.getUserCategory() == 0) {
             patient.setUserCategory(UserCategory.REGULAR);

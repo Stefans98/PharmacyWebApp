@@ -135,7 +135,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getPharmacyById/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN', 'PATIENT')")
     public ResponseEntity<PharmacyDto> getPharmacyById(@PathVariable Long pharmacyId){
         Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
         if(pharmacy == null){

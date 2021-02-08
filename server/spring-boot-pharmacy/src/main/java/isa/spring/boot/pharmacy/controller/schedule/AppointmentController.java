@@ -44,7 +44,7 @@ public class AppointmentController {
     @GetMapping(value = "/getExaminationsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getExaminationsHistoryForPatient(@PathVariable Long patientId) {
-        List<ExaminationDto> examinationsHistory = new ArrayList<ExaminationDto>();
+        List<ExaminationDto> examinationsHistory = new ArrayList<>();
         for(Appointment appointment : appointmentService.getExaminationsHistoryForPatient(patientId)) {
             examinationsHistory.add(ExaminationMapper.convertToDto(appointment));
         }
@@ -55,9 +55,9 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/getCounselingsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST','PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getCounselingsHistoryForPatient(@PathVariable Long patientId) {
-        List<ExaminationDto> counselingsHistory = new ArrayList<ExaminationDto>();
+        List<ExaminationDto> counselingsHistory = new ArrayList<>();
         for (Appointment appointment : appointmentService.getCounselingsHistoryForPatient(patientId)) {
             counselingsHistory.add(ExaminationMapper.convertToDto(appointment));
         }
