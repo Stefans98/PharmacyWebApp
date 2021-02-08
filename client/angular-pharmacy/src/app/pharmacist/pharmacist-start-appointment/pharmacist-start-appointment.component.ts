@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { SubscriptionMedicinesModalDialogPharmacistComponent } from './subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
+import { AppointmentReport } from '../../models/appointment-report.model';
+import { Prescription } from '../../models/prescription.model';
 
 @Component({
   selector: 'app-pharmacist-start-appointment',
@@ -47,13 +49,16 @@ export class PharmacistStartAppointmentComponent implements OnInit {
     public patientAppointments : Appointment[] = [];
     public selectedAppointment : Appointment;
     public medicinesForPharmacy : Medicine[] = [];
-    public therapyDay : number;
+    public therapyDay : number = 1;
     public selectedMedicine : Medicine;
     public medicineForPrescription : Medicine;
     public selectedNewAppointment : Appointment;
     public newAppointmentTerm : Appointment;
     public appointmentReportInformations : string;
     public appointmentPrice : number = 0.0;
+    public appointmentReport : AppointmentReport;
+    public prescriptions : Prescription[] = [];
+    public prescription : Prescription;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
@@ -236,6 +241,8 @@ export class PharmacistStartAppointmentComponent implements OnInit {
            this.selectedAppointment.workDay.pharmacy.id, this.therapyDay) 
             .subscribe( data => {
               this.openSnackBar('Uspešno ste prepisali lek pacijentu!', 'Zatvori', 3000);
+              this.therapyDay = 0;
+              this.prescriptions.push(data);
             },
             error => {
               if (error.status == 400){ // Pacijent je alergican na lek
@@ -254,6 +261,14 @@ export class PharmacistStartAppointmentComponent implements OnInit {
   }
 
   saveAppointmentReport() : void {
+    console.log(this.prescriptions);
+    this.appointmentReport = new AppointmentReport(0, this.appointmentReportInformations, this.selectedAppointment, this.prescriptions);
+    this.appointmentService.saveAppointmentReport(this.appointmentReport).subscribe(
+      data => {
+        this.appointmentReport = data;
+        this.openSnackBar('Uspešno ste završili savetovanje za pacijenta!', 'Zatvori', 3000);
+      }
+    );
     this.router.navigate(['/auth/pharmacist/work-calendar']);
   }
 
@@ -281,6 +296,26 @@ export class PharmacistStartAppointmentComponent implements OnInit {
     return (hours > 9 ? '' : '0') + hours + ":" + (minutes > 9 ? '' : '0') + minutes;
   }
 
+  translateMedicineType(type : string) : string {
+    if (type == 'ANTIBIOTIC') {
+      return 'antibiotik';
+    } else if (type == 'ANALGESIC') {
+      return 'anelgetik';
+    } else if (type == 'ANTIHISTAMINE') {
+      return 'antihistaminik';
+    } else if (type == 'VACCINE') {
+      return 'vakcina';
+    } else if (type == 'ANTISEPTIC') {
+      return 'antiseptik';
+    } else if (type == 'ANTIPYRETIC') {
+      return 'antipiretik';
+    } else if (type == 'TRANQUILISER') {
+      return 'sedativ';
+    } else {
+      return 'vitamini';
+    }
+  }
+
   openMedicineSpecificationDialog(medicine : Medicine): void {
     const dialogRef = this.dialog.open(MedicineSpecificationModalDialogPharmacistComponent, {
       panelClass: 'my-centered-dialog',
@@ -300,7 +335,13 @@ export class PharmacistStartAppointmentComponent implements OnInit {
       width: '390px',
       height: '350px',
       position: {left: '650px'},
-      data: { selectedMedicine : selectedMedicine }
+      data: { selectedMedicine : selectedMedicine, selectedAppointment : this.selectedAppointment, prescription : this.prescription }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.prescription = result;
+      if(this.prescriptions != null) {
+        this.prescriptions.push(this.prescription);     
+      }
     });
   }
 

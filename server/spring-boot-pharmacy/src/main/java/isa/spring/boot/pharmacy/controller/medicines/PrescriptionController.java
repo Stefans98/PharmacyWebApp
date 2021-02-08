@@ -24,12 +24,12 @@ public class PrescriptionController {
 
     @PostMapping(value = "/savePrescription", produces = MediaType.APPLICATION_JSON_VALUE , consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
-    public ResponseEntity<Void> savePrescription(@RequestBody PrescriptionDto prescriptionDto) {
+    public ResponseEntity<PrescriptionDto> savePrescription(@RequestBody PrescriptionDto prescriptionDto) {
         Prescription prescription = prescriptionService.savePrescription(PrescriptionMapper.convertToEntity(prescriptionDto),
                 prescriptionDto.getMedicine().getId(), prescriptionDto.getPatient().getId(), prescriptionDto.getPharmacyId());
         if(prescription == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(PrescriptionMapper.convertToDto(prescription), HttpStatus.OK);
     }
 }
