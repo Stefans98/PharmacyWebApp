@@ -72,7 +72,7 @@ export class SubscriptionMedicinesModalDialogPharmacistComponent implements OnIn
   }
 
   closeDialogClick(): void {
-    this.dialogReff.close();
+    this.dialogReff.close(null);
   }
 
   showRow(medicine : Medicine): string {

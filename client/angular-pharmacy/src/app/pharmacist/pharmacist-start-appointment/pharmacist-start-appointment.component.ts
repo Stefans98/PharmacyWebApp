@@ -241,8 +241,10 @@ export class PharmacistStartAppointmentComponent implements OnInit {
            this.selectedAppointment.workDay.pharmacy.id, this.therapyDay) 
             .subscribe( data => {
               this.openSnackBar('Uspešno ste prepisali lek pacijentu!', 'Zatvori', 3000);
-              this.therapyDay = 0;
-              this.prescriptions.push(data);
+              this.therapyDay = 1;
+              if(data != null) {
+                this.prescriptions.push(data);
+              }
             },
             error => {
               if (error.status == 400){ // Pacijent je alergican na lek
@@ -261,7 +263,6 @@ export class PharmacistStartAppointmentComponent implements OnInit {
   }
 
   saveAppointmentReport() : void {
-    console.log(this.prescriptions);
     this.appointmentReport = new AppointmentReport(0, this.appointmentReportInformations, this.selectedAppointment, this.prescriptions);
     this.appointmentService.saveAppointmentReport(this.appointmentReport).subscribe(
       data => {
@@ -339,7 +340,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.prescription = result;
-      if(this.prescriptions != null) {
+      if(this.prescription != null) {
         this.prescriptions.push(this.prescription);     
       }
     });
