@@ -30,7 +30,7 @@
     <h2 class="mat-h2" style="margin-top: 60px;float: left;">Apoteka:</h2>
     <h2 class="mat-h2" style="margin-top: 60px;float: left;margin-left: 20px;">{{ pharmacistPharmacy.name }}</h2>
 
-    <div style="float: right;margin-top: -350px;margin-right: 100px;">
+    <div style="float: right;margin-top: -350px;margin-right: 80px;">
         <!-- <ng-template>Pretraga leka</ng-template>
         <mat-form-field >
             <input matInput placeholder="Pronađite pacijenta" #searchInput>
@@ -38,7 +38,7 @@
         </mat-form-field>
         <button mat-stroked-button color="primary" style="margin-left:8px; margin-top: 10px;">Pronađi</button> -->
         
-        <h2 class="mat-title" >Izaberite pacijenta za kog zakazujete pregled:</h2>
+        <h2 class="mat-title" >Izaberite pacijenta za kog zakazujete savetovanje:</h2>
         <mat-selection-list [(ngModel)]="selectedPatient" [multiple]="false" required style="overflow-y: auto;height: 150px;">
             <mat-list-option *ngFor="let patient of patientsForPharmacist" [value]="patient" style="text-align: center;">
                 {{ patient.firstName + ' ' + patient.lastName + ', ' + patient.email }}

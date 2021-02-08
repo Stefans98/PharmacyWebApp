@@ -18,13 +18,13 @@ export const dermatologistMenus = [
         'open': false,
         'sub': [
             {
-                'name': 'Započni pregled',
+                'name': 'Započnite pregled',
                 'icon': 'slideshow',
                 'link': 'dermatologist/start-appointment',
                 'open': false,
             },
             {
-                'name': 'Zakaži nov pregled',
+                'name': 'Zakažite novi pregled',
                 'icon': 'local_hospital',
                 'link': 'dermatologist/new-appointment',
                 'open': false,

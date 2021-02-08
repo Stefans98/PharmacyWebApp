@@ -108,12 +108,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
 import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
+import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
+import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
 import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
 import { NonAuthenticatedUserToolbarComponent } from './core-non-auth/non-authenticated-user-toolbar/non-authenticated-user-toolbar.component';
 import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authenticated-user-menu/non-authenticated-user-menu.component';
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+
 
 @NgModule({
   declarations: [
@@ -216,7 +219,10 @@ import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-au
     NonAuthenticatedUserMenuComponent,
     NonAuthenticatedHomePageComponent,
     NonAuthenticatedPharamcySearchComponent,
-    NonAuthenticatedMedicinesSearchComponent
+    NonAuthenticatedMedicinesSearchComponent,
+    SpecificationModalDialogComponent,
+    MedicinePharmacyModalDialogComponent,
+    PharmacyChoosingComponent
   ],
   imports: [
     BrowserModule,

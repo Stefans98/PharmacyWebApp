@@ -4,8 +4,10 @@ import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
+import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
+import isa.spring.boot.pharmacy.service.medicines.PharmacyMedicineService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PharmacyController {
 
     @Autowired
     private PricelistService pricelistService;
+
+    @Autowired
+    private PharmacyMedicineService pharmacyMedicineService;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
@@ -142,6 +147,16 @@ public class PharmacyController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getAllWithMedicine/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<List<PharmacyDto>> getPharmacyById(@PathVariable String code){
+        List<PharmacyDto> pharmacyDtos = new ArrayList<>();
+        for (Pharmacy pharmacy : pharmacyMedicineService.getAllPharmaciesWithMedicine(code)) {
+            pharmacyDtos.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+        return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
     }
 
 }

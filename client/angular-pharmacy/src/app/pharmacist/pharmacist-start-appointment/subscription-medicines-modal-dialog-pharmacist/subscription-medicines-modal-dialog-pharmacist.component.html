@@ -2,8 +2,8 @@
 <h4 style="margin-top: -5px;margin-left: 52px;">Prepišite neki od zamenskih lekova</h4>
 
 <mat-selection-list [(ngModel)]="medicineForPrescription" class="substitution-medicines" [multiple]="false" required > 
-    <mat-list-option [value]="medicine" *ngFor="let medicine of medicineSubtitutions">
-    {{ showRow(medicine) }}
+    <mat-list-option [value]="medicineForPrescription" *ngFor="let medicineForPrescription of medicineSubtitutions">
+    {{ showRow(medicineForPrescription) }}
     </mat-list-option>
 </mat-selection-list>
 

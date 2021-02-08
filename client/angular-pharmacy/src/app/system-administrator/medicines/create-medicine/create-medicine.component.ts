@@ -65,7 +65,7 @@ export class CreateMedicineComponent implements OnInit {
 
   createClick() : void {
     this.medicineService.createMedicine(new Medicine(0, this.name, this.code, this.manufacturer,
-      this.medicineType - 1, this.medicineForm - 1, this.additionalInformations, this.points, this.onPrescription,
+      this.medicineType - 1, this.medicineForm - 1, 0, this.additionalInformations, this.points, this.onPrescription,
       new MedicineSpecification(this.dailyDose, this.contraindications, this.substitutions, this.ingredients))).subscribe(
         data => {
           this.snackBar.open('Lek je uspešno kreiran!', null, { 

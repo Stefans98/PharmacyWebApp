@@ -10,6 +10,7 @@ public class MedicineDto {
     private String manufacturer;
     private MedicineType medicineType;
     private MedicineForm medicineForm;
+    private double averageGrade;
     private boolean onPrescription;
     private String additionalInformation;
     private MedicineSpecificationDto medicineSpecification;
@@ -82,6 +83,14 @@ public class MedicineDto {
 
     public void setOnPrescription(boolean onPrescription) {
         this.onPrescription = onPrescription;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 
     public String getAdditionalInformation() {
