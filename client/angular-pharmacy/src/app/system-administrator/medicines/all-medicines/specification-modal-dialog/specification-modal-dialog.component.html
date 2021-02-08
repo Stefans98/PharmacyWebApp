@@ -1,0 +1,44 @@
+<div fxLayout="column" class="components-container-gt-xs" fxFlexFill fxFill fxLayoutAlign="space-between strech">
+    <div fxLayout="row" fxFlex="5" fxLayoutAlign="center center">
+        <h3 class="mat-h2">Specifikacija leka:</h3>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxFlex="20">
+        <div fxLayout="column" fxFlex="30" class="mat-h3">
+            Kontraindikacije:
+        </div>
+        <div fxLayout="column" fxFlex class="mat-h3">
+            <div fxLayout="column" fxFlex class="mat-h3" style="overflow: auto; height: 250px; width: 100%;border: 1px solid; padding: 2%;">
+                {{medicineSpecification.contraindication}}
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" fxFlex="8">
+        <div fxLayout="column" fxFlex="50" class="mat-h3">
+            Preporučena dnevna doza:
+        </div>
+        <div fxLayout="column" fxFlex class="mat-h3">
+            {{medicineSpecification.dailyDose}}
+        </div>
+    </div>
+    <div fxLayout="row" fxFlex = "20">
+        <div fxLayout="row" fxFlex="30" class="mat-h3" fxLayoutAlign="start center">Sastojci:</div>
+        <div fxLayout="row" fxFlex style="overflow: auto; height: 250px; width: 100%;border: 1px solid;" fxFlexFil fxFill fxLayoutAlign="center center">
+            <mat-list role="list">
+                <mat-list-item *ngFor="let element of medicineSpecification.ingredients; index as i;">{{element}}</mat-list-item>
+              </mat-list>
+          </div>
+    </div>
+    <div fxLayout="row" fxFlex = "20">
+        <div fxLayout="row" fxFlex="30" class="mat-h3" fxLayoutAlign="start center">Zamenski lekovi:</div>
+        <div fxLayout="row" fxFlex style="overflow: auto; height: 250px; width: 100%;border: 1px solid;" fxFlexFil fxFill fxLayoutAlign="center center">
+            <mat-list role="list">
+                <mat-list-item *ngFor="let element of medicineSpecification.substitutions; index as i;">{{element.code}} {{element.name}}</mat-list-item>
+              </mat-list>
+          </div>
+    </div>
+    <div fxLayout="row" fxFlex="10" fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" (click)="confirmClick()">Potvrdi</button>
+    </div>
+</div>
+

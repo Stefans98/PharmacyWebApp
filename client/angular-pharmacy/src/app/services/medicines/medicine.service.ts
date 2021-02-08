@@ -106,6 +106,5 @@ export class MedicineService {
 
     return this.http.post<Medicine>(this.medicineUrl + "save", body);
   }
-
   
 }

@@ -78,7 +78,7 @@ export class CreateOrderListComponent implements OnInit {
   sendOrderList(){
     for(var mItem of this.medicineOrderList){
 
-      var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', 0, 0, '', 0, false, null);
+      var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', 0, 0, 0, '', 0, false, null);
       var orderItem = new OrderItem(null, medicine, mItem.quantity);
 
       this.orderItemListForSending.push(orderItem);
