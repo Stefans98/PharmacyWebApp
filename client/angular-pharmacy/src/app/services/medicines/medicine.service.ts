@@ -18,6 +18,16 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
 
+  public getMedicinesToWhichPatientIsNotAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsNotAllergic/' + patientId);
+  }
+  
+  public getMedicinesToWhichPatientIsAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsAllergic/' + patientId);
+  }
+
   public findMedicinesBy(name: string): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
@@ -50,4 +60,52 @@ export class MedicineService {
     return this.http
       .put<MedicineReservation>(this.medicineUrl + 'cancelMedicineReservation',  { id: medicineReservationId });
   }
+
+  public getAllMedicinesForPharmacy(pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findAllMedicinesForPharmacy/' + pharmacyId);
+  }  
+
+  public isMedicineAvailable(medicineId : string, pharmacyId: string) : Observable<Medicine> {
+    let params = new HttpParams()
+      .set('medicineId', medicineId)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<Medicine>(this.medicineUrl + 'isMedicineAvailable', { params });
+  }
+
+  public getMedicineSubstitutions(medicineId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicineSubstitutions/' + medicineId);
+  }
+
+  public saveMedicineInquiry(pharmacyId: number, employeeId: number, medicineId: number): Observable<void> {
+    const body = { pharmacy: { id : pharmacyId}, employee: { id : employeeId }, medicine : { id : medicineId } };  
+
+    return this.http
+      .post<void>(this.medicineUrl + 'saveMedicineInquiry', body);
+  }
+
+  public findMedicineReservationByUniqueCode(uniqueCode : string, pharmacyId: string) : Observable<MedicineReservation> {
+    let params = new HttpParams()
+      .set('uniqueCode', uniqueCode)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<MedicineReservation>(this.medicineUrl + 'findMedicineReservationByUniqueCode', { params });
+  }
+
+  public issueMedicineReservation(medicineReservationId: number): Observable<MedicineReservation> {
+    return this.http
+      .put<MedicineReservation>(this.medicineUrl + 'issueMedicineReservation/' + medicineReservationId, null);
+  }
+
+  public createMedicine(medicine : Medicine): Observable<Medicine> {
+    const body = { name : medicine.name, code : medicine.code, manufacturer : medicine.manufacturer, 
+      medicineType : medicine.medicineType, medicineForm : medicine.medicineForm, onPrescription : medicine.onPrescription,
+      additionalInformation : medicine.additionalInformation, medicineSpecification : medicine.medicineSpecification  };
+
+    return this.http.post<Medicine>(this.medicineUrl + "save", body);
+  }
+
+  
 }

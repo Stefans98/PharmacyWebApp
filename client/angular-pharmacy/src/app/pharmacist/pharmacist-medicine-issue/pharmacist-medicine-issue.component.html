@@ -1,1 +1,33 @@
-<p>pharmacist-medicine-issue works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs" style="padding-left: 310px;padding-top: 150px;">
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="62" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 contact-list-container">
+			
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                <h3 class="mat-headline" fxFlex="80" style="margin-top: 16px; margin-left: 95px;">Izdavanje rezervisanog leka pacijentu</h3> 
+            </div>
+            <mat-divider style="margin-top: 10px;"></mat-divider>	
+
+            <div fxFlex="90" fxLayout="column"  fxLayoutAlign="start center"class="contact-list-container">
+                <div fxFlex="30" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-form-field style="margin-left: 10px; width: 330px;float: left;">
+                        <input matInput placeholder="Unesite jedinstveni kod rezervacije leka" #searchInput>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <button mat-stroked-button color="primary" (click)="findMedicineReservation()" style="height: 35px;margin-top: -10px;margin-left: 12px;">Pronađi</button>	
+                </div>
+                
+                <div *ngIf="medicineReservationExist" style="margin-top: -15px;">
+                    <h4 style="margin-left: 110px;">Selektujete rezervaciju leka za pacijenta</h4>
+                    <mat-selection-list [(ngModel)]="selectedMedicineReservation" class="patient-appointments" [multiple]="false" style="margin-top: -5px;"> 
+                        <mat-list-option [value]="medicineReservation" *ngFor="let medicineReservation of medicineReservations" >
+                            {{ showMedicineReservation(medicineReservation) }}
+                        </mat-list-option>
+                    </mat-selection-list><br>           
+                        
+                    <button mat-flat-button color="primary" (click)="issueMedicineReservationClick()" style="max-width: 150px;margin-left: 220px;">Potvrdi</button>
+                </div>
+            </div>
+		</div>		      
+</div>

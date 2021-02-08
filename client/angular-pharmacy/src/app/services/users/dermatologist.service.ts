@@ -46,12 +46,34 @@ import { User } from "../../models/user.model";
       public getDermatologistsForPharmacy(pharmacyId: number): Observable<Dermatologist[]>{
         return this.http
             .get<Dermatologist[]>(this.dermatologistUrl + 'dermatologistsForPharmacy/' + pharmacyId);
-
       }
 
       public getPatientsForDermatologist(dermatologistId: number): Observable<Patient[]> {
         return this.http
             .get<Patient[]>(this.dermatologistUrl + 'patientsForDermatologist/' + dermatologistId);
       } 
+
+      public getDermatologistsNotForPharmacy(pharmacyId: number): Observable<Dermatologist[]>{
+        return this.http
+            .get<Dermatologist[]>(this.dermatologistUrl + 'dermatologistsNotForPharmacy/' + pharmacyId);
+      }
+
+      public hireDermatologist(id: number, dermatologist: Dermatologist): Observable<Dermatologist> {
+        const body = { id: dermatologist.id, firstName: dermatologist.firstName, lastName: dermatologist.lastName, city: dermatologist.city, country: dermatologist.country,
+                     street: dermatologist.street, email: dermatologist.email, password: dermatologist.password, phoneNumber: dermatologist.phoneNumber, averageGrade: dermatologist.averageGrade
+        };
+    
+        return this.http
+            .put<Dermatologist>(this.dermatologistUrl + 'hireDermatologist/' + id, body);
+      }
+
+      public fireDermatologist(id: number, dermatologist: Dermatologist): Observable<Dermatologist> {
+        const body = { id: dermatologist.id, firstName: dermatologist.firstName, lastName: dermatologist.lastName, city: dermatologist.city, country: dermatologist.country,
+                     street: dermatologist.street, email: dermatologist.email, password: dermatologist.password, phoneNumber: dermatologist.phoneNumber, averageGrade: dermatologist.averageGrade
+        };
+    
+        return this.http
+            .put<Dermatologist>(this.dermatologistUrl + 'fireDermatologist/' + id, body);
+      }
   }
   

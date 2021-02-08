@@ -1,1 +1,54 @@
-<p>my-pharmacies works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="row" fxLayoutAlign="center center" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="80" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacy-list-container">
+			
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+            <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Apoteke na koje sam pretplaćen</h3> 
+            </div>
+                
+			<mat-divider></mat-divider>
+
+      <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" >
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+          <div class="pharmacy-list">
+            <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv </th>
+            <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="averageGrade">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena </th>
+            <td mat-cell *matCellDef="let element"> {{element.pharmacy.averageGrade}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
+            <td mat-cell *matCellDef="let element"> {{element.pharmacy.address}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unsubscribe">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ukloni pretplatu </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button mat-raised-button color="primary" (click)="unsubscribeClick(element)">Ukloni </button>
+                </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">Nemate pretplata za prikazivanje</td>
+            </tr>
+          </div>             
+        </table>
+        <mat-divider></mat-divider>			
+      </div>
+
+		</div>
+      
+                   		
+    </div>
+
+</div>

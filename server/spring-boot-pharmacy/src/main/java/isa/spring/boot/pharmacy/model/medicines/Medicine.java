@@ -25,17 +25,29 @@ public class Medicine {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "medicine_type", nullable = false)
-    private String medicineType;
+    private MedicineType medicineType;
+
+    @Column(name = "medicine_form", nullable = false)
+    private MedicineForm medicineForm;
+
+    @Column(name = "on_prescription", nullable = false)
+    private boolean onPrescription;
 
     @Column(name = "points")
     private int points;
 
+    @Column(name = "average_grade")
+    private double averageGrade;
+
     @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
+
+    @Column(name = "additional_information")
+    private String additionalInformation;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "medicine_specification_id", referencedColumnName = "id")
@@ -63,19 +75,26 @@ public class Medicine {
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyMedicine> pharmacyMedicines;
 
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineInquiry> medicineInquiries;
+
     @OneToOne(mappedBy = "medicine")
     private Allergy allergy;
 
     public Medicine() {
     }
 
-    public Medicine(String name, String code, String medicineType, int points, String manufacturer, MedicineSpecification medicineSpecification) {
+    public Medicine(Long id, String name, String code, MedicineType medicineType, MedicineForm medicineForm,
+                    boolean onPrescription, int points, String manufacturer, String additionalInformation) {
+        this.id = id;
         this.name = name;
         this.code = code;
         this.medicineType = medicineType;
+        this.medicineForm = medicineForm;
+        this.onPrescription = onPrescription;
         this.points = points;
         this.manufacturer = manufacturer;
-        this.medicineSpecification = medicineSpecification;
+        this.additionalInformation = additionalInformation;
     }
 
     public Long getId() {
@@ -102,12 +121,44 @@ public class Medicine {
         this.code = code;
     }
 
-    public String getMedicineType() {
+    public MedicineType getMedicineType() {
         return medicineType;
     }
 
-    public void setMedicineType(String medicineType) {
+    public void setMedicineType(MedicineType medicineType) {
         this.medicineType = medicineType;
+    }
+
+    public MedicineForm getMedicineForm() {
+        return medicineForm;
+    }
+
+    public void setMedicineForm(MedicineForm medicineForm) {
+        this.medicineForm = medicineForm;
+    }
+
+    public boolean isOnPrescription() {
+        return onPrescription;
+    }
+
+    public void setOnPrescription(boolean onPrescription) {
+        this.onPrescription = onPrescription;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
+
+    public String getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
     }
 
     public int getPoints() {
@@ -196,5 +247,13 @@ public class Medicine {
 
     public void setPharmacyMedicines(List<PharmacyMedicine> pharmacyMedicines) {
         this.pharmacyMedicines = pharmacyMedicines;
+    }
+
+    public List<MedicineInquiry> getMedicineInquiries() {
+        return medicineInquiries;
+    }
+
+    public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
+        this.medicineInquiries = medicineInquiries;
     }
 }

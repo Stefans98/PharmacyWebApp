@@ -51,7 +51,7 @@ public class MedicineReservationService {
     }
 
     public MedicineReservation reserveMedicine(MedicineReservation medicineReservation, Long medicineId, Long pharmacyId, Long patientId) {
-        if (!pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId)) {
+        if (pharmacyMedicineService.isMedicineAvailable(medicineId, pharmacyId) == null || userService.getPenaltiesByPatientId(patientId) > 2) {
             return null;
         }
         pharmacyMedicineService.decrementMedicineQuantity(medicineId, pharmacyId);
@@ -65,7 +65,10 @@ public class MedicineReservationService {
         try {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
                     "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
-                            "<br><br>S poštovanjem, <br>Vaša apoteka ISA");
+                            "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
+                            " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
+                            " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
+                            "<br><br>S poštovanjem, <br>Vaša ISA");
         } catch( Exception ignored ){}
 
         return medicineReservationRepository.save(medicineReservation);
@@ -74,14 +77,20 @@ public class MedicineReservationService {
     public List<MedicineReservation> getAllReservedMedicinesByPatientId(long patientId) {
         List<MedicineReservation> medicineReservations = new ArrayList<>();
         for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
-            if (isMedicineReservationInThePastOrCurrentDateInCurrentMonth(medicineReservation) && isPatientDeservesPenalty(medicineReservation)) {
-                givePenaltyToPatient(medicineReservation);
-            }
             if (medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
                 medicineReservations.add(medicineReservation);
             }
         }
         return medicineReservations;
+    }
+
+    public void checkIfPatientGotPenaltyForMedicineReservationsThisMonth(long patientId) {
+        for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
+            if (isMedicineReservationInThePastOrCurrentDateInCurrentMonth(medicineReservation)
+                    && isPatientDeservesPenalty(medicineReservation)) {
+                givePenaltyToPatient(medicineReservation);
+            }
+        }
     }
 
     public boolean isMedicineReservationInThePastOrCurrentDateInCurrentMonth(MedicineReservation medicineReservation) {
@@ -110,7 +119,7 @@ public class MedicineReservationService {
         return !medicineReservation.isGotPenalty() && medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED;
     }
 
-    public void givePenaltyToPatient(MedicineReservation medicineReservation) {
+    private void givePenaltyToPatient(MedicineReservation medicineReservation) {
         medicineReservation.setGotPenalty(true);
         medicineReservationRepository.save(medicineReservation);
         userService.givePenaltyToPatient(medicineReservation.getPatient().getId());
@@ -126,6 +135,43 @@ public class MedicineReservationService {
             medicineReservationRepository.save(medicineReservation);
             return true;
         }
-        return  false;
+        return false;
+    }
+
+    public List<MedicineReservation> getALlMedicineReservationsForPharmacy(Long pharmacyId) {
+        List<MedicineReservation> medicineReservationsForPharmacy = new ArrayList<MedicineReservation>();
+        for(MedicineReservation medicineReservation : medicineReservationRepository.findAll()) {
+            if(medicineReservation.getPharmacy().getId() == pharmacyId) {
+                medicineReservationsForPharmacy.add(medicineReservation);
+            }
+        }
+        return  medicineReservationsForPharmacy;
+    }
+
+    public MedicineReservation findMedicineReservationByUniqueCode(String uniqueCode, Long pharmacyId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 1);
+
+        for(MedicineReservation medicineReservation : getALlMedicineReservationsForPharmacy(pharmacyId)) {
+            if(medicineReservation.getUniqueReservationCode().equals(uniqueCode) &&
+                calendar.getTime().before(medicineReservation.getFinalPurchasingDate()) &&
+                    medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
+                return medicineReservation;
+            }
+        }
+        return null;
+    }
+
+    public MedicineReservation issueMedicineReservation(Long medicineReservationId) {
+        MedicineReservation medicineReservation = findById(medicineReservationId);
+        medicineReservation.setMedicineReservationState(MedicineReservationState.COMPLETED);
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
+                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
+                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
+                            "<br><br>S poštovanjem, <br>Vaša ISA");
+        } catch( Exception ignored ){}
+        return  medicineReservationRepository.save(medicineReservation);
     }
 }

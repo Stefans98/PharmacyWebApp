@@ -54,8 +54,7 @@ export class PharmacyAdministratorRegistrationComponent implements OnInit {
     const dialogRef = this.dialog.open(SysAdminPharmaciesModalDialogComponent, {
       panelClass: 'my-centered-dialog',
       width: '550px',
-      height: '350px',
-      position: {left: '675px'}
+      height: '350px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

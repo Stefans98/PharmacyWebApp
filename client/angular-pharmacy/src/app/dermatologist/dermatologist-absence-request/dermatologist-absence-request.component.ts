@@ -56,7 +56,7 @@ export class DermatologistAbsenceRequestComponent implements OnInit {
       return
     } 
     this.vacationService.sendVacationRequest(
-      new Vacation(0, 1, this.startTime, this.endTime, this.authenticationService.getLoggedUserId(), this.selectedPharmacy.id)).subscribe(
+      new Vacation(0, 1, this.startTime, this.endTime, null, this.authenticationService.getLoggedUserId(), this.selectedPharmacy.id)).subscribe(
       data => {
         this.vacation = data;
         this.refreshData()   

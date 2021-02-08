@@ -1,29 +1,20 @@
-<mat-horizontal-stepper labelPosition="bottom" #stepper
+<mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear"
   style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 650px;">
 
-  <mat-step [stepControl]="firstFormGroup">
+  <mat-step [stepControl]="firstFormGroup" *ngIf="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Početak pregleda</ng-template>
       <mat-form-field style="margin-top: 5px;margin-left: 420px; width: 300px;">
-        <input matInput placeholder="Pronađite pacijenta (E-mail adresa)">
+        <input matInput placeholder="Pronađite pacijenta (E-mail adresa)" #searchInput>
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
-      <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findPatient()">Pronađi</button>
+      <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findPatientAppointments()">Pronađi</button>
  
       <h4 *ngIf="patientFlag" style="margin-top: 5px;margin-left: 460px;">Selektujete jedan od pacijentovih termina:</h4>
-      <mat-selection-list *ngIf="patientFlag" class="patient-appointments" [multiple]="false" required style="height: 100px"> 
-          <mat-list-option>
-          Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
+      <mat-selection-list *ngIf="patientFlag" (ngModelChange)="onChangeAppointment($event)" formControlName="firstCtrl" required class="patient-appointments" [multiple]="false" style="height: 100px"> 
+          <mat-list-option [value]="appointment" *ngFor="let appointment of patientAppointments">
+          {{ displayAppointmentRow(appointment) }}
           </mat-list-option>
-          <mat-list-option>
-            Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-            </mat-list-option>
-            <mat-list-option>
-              Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-              </mat-list-option>
-              <mat-list-option>
-                Zegin apoteka, 02.02.2021. 10:00 - 10:30, Petar Petrovic, patient1@gmail.com
-                </mat-list-option>
       </mat-selection-list><br>
 
        <!-- <div class="example-action-buttons">
@@ -43,7 +34,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <button mat-raised-button color="primary" matStepperNext style="float: left;margin-top: 10px;">Započni</button>
+            <button mat-raised-button color="primary" matStepperNext (click)="firstNextButtonClicked()" style="float: left;margin-top: 10px;">Započni</button>
           </div>
 
         </mat-expansion-panel>
@@ -60,7 +51,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <button mat-raised-button color="warn" style="float: left;margin-top: 10px;">Završi</button>
+            <button mat-raised-button color="warn" (click)="patientNotHeldOnAppointment()" style="float: left;margin-top: 10px;">Završi</button>
           </div>
 
         </mat-expansion-panel>
@@ -68,161 +59,141 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
+  <mat-step [stepControl]="secondFormGroup" *ngIf="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Unos informacija o pregledu</ng-template>
 
       <mat-form-field class="example-full-width">
-        <mat-label>Unos informacija o pregledu</mat-label>
-        <textarea matInput placeholder=""></textarea>
+        <mat-label>Unesite informacije o pregledu</mat-label>
+        <textarea matInput placeholder="" #textArea></textarea>
       </mat-form-field>
 
       <div>
         <button mat-raised-button color="warn" matStepperPrevious style="float: left;">Nazad</button>
-        <button mat-raised-button color="primary" matStepperNext style="float: right;">Dalje</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="secondNextButtonClicked(textArea.value)" style="float: right;">Dalje</button>
       </div>
 
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup">
+  <mat-step [stepControl]="thirdFormGroup" *ngIf="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Prepisivanje lekova</ng-template>
       
+      <h4 style="margin-top: 15px;margin-left: 460px;">Prepišite pacijentu neke od lekova iz apoteke</h4>
       <div class="table-container">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" class="medicinesTable">
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()"
-                          [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
-                          [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-          </td>
-        </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+          <td mat-cell *matCellDef="let medicine"> {{ medicine.name }}  </td>
         </ng-container>
 
         <!-- Manufacturer Column -->
         <ng-container matColumnDef="manufacturer">
           <th mat-header-cell *matHeaderCellDef> Proizvođač </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+          <td mat-cell *matCellDef="let medicine"> {{ medicine.manufacturer }}  </td>
         </ng-container>
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef> Vrsta leka </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
+          <td mat-cell *matCellDef="let medicine"> {{ medicine.medicineType }}  </td>
         </ng-container>
       
         <!-- Specification Column -->
         <ng-container matColumnDef="specification">
           <th mat-header-cell *matHeaderCellDef> Specifikacija leka </th>
-          <td mat-cell *matCellDef="let element"><button mat-stroked-button color="primary" (click)="openDialog()" class="modal-dialog">Prikaži</button> </td>
+          <td mat-cell *matCellDef="let medicine"><button mat-stroked-button color="primary" (click)="openMedicineSpecificationDialog(medicine)" class="modal-dialog">Prikaži</button> </td>
         </ng-container>
 
         <!-- Prescribe Column -->
         <ng-container matColumnDef="prescribe">
-          <th mat-header-cell *matHeaderCellDef> Prepišite lek </th>
-          <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="openDialog()" class="modal-dialog">Prepiši lek</button> </td>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let medicine"><button mat-raised-button color="primary" (click)="prescriptMedicine(medicine.id)" class="modal-dialog">Prepišite lek</button> </td>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="substitute">
-          <th mat-header-cell *matHeaderCellDef> Zamenski lekovi </th>
-          <td mat-cell *matCellDef="let element">
-            <mat-form-field style="max-width:140px;">
-              <mat-label>Zamenski lekovi</mat-label>
-              <mat-select [formControl]="medicines" multiple>
-                <mat-select-trigger>
-                {{medicines.value ? medicines.value[0].name : ''}}
-                <span *ngIf="medicines.value?.length > 1" class="example-additional-selection">
-                  (+ još {{medicines.value.length - 1}}) 
-                </span>
-                </mat-select-trigger>
-                <mat-option *ngFor="let medicine of medicineList" [value]="medicine">{{medicine}}</mat-option>
-              </mat-select>
-              </mat-form-field> 
-          </td>
-        </ng-container> -->
    
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            (click)="selection.toggle(row)">
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Trenutno nema lekova u apoteci</td>
         </tr>
       </table>
       </div>
 
       <div>
         <button mat-raised-button color="warn" matStepperPrevious style="float: left;margin-top: 40px;">Nazad</button>
-        <button mat-raised-button color="primary" matStepperNext style="float: right;;margin-top: 40px;">Dalje</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="thirdNextButtonClicked()" style="float: right;;margin-top: 40px;">Dalje</button>
       </div>
 
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="fourthFormGroup">
+  <mat-step [stepControl]="fourthFormGroup" *ngIf="fourthFormGroup">
     <form [formGroup]="fourthFormGroup">
       <ng-template matStepLabel>Zakazivanje novog pregleda</ng-template>
 
-      <mat-tab-group mat-align-tabs="start" style="width: 420px;margin-left: 380px;">
+      <h4 style="margin-top: 15px;margin-left: 470px;">Zakažite pacijentu novi pregled</h4>
+      <mat-tab-group mat-align-tabs="start" style="width: 425px;margin-left: 380px;" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
         <mat-tab label="Unapred definisani termini">
           <h4 style="padding-top: 10px;margin-left: 60px;">Selektujete jedan od ponuđenih termina:</h4>
-            <mat-selection-list  class="examination-terms" [multiple]="false"required> 
-                <mat-list-option>
-                20.02.2021. 10:00 - 10:30
+            <mat-selection-list (ngModelChange)="onChangeAvailableAppointment($event)" formControlName="fourthCtrl" class="examination-terms" [multiple]="false"> 
+                <mat-list-option [value]="availableAppointment" *ngFor="let availableAppointment of availableAppointments">
+                  {{ displayAvailableAppointmentRow(availableAppointment) }}
                 </mat-list-option>
             </mat-selection-list>
         </mat-tab>
 
         <mat-tab label="Definisanje novog termina">
-          <h4 style="padding-top: 10px;margin-left: 120px;">Izaberite datum pregleda:</h4>
-            <mat-form-field appearance="fill" style="margin-left: 85px">
+          <h4 style="margin-left: 120px;margin-top: -1;">Izaberite datum pregleda:</h4>
+            <mat-form-field appearance="fill" style="margin-left: 85px;margin-top: -11px">
                 <mat-label>Datum pregleda</mat-label>
-                <input matInput [matDatepicker]="picker" required>
+                <input matInput [matDatepicker]="picker" [min]="maxDate" readonly required (dateInput)="onDateChange($event.value)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker color="primary"></mat-datepicker>
             </mat-form-field>
 
-            <h4 style="margin-left: 95px;">Izaberite početno i krajnje vreme:</h4>
-            <div style="margin-left: 122px;float: left;">
-              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
-            </div>
-            <div style="margin-left: 230px;">
-              <ngx-mat-timepicker [stepHour]="1" [stepMinute]="5" ></ngx-mat-timepicker>
-            </div>
+            <h4 style="margin-left: 126px; margin-top: -6px;">Izaberite početno vreme:</h4>
+            <mat-form-field color="accent" appearance="fill" style="margin-top: -6px;margin-left: 87px;">
+                <mat-label >Početno vreme</mat-label>
+                <input matInput [ngxTimepicker]="timepicker1" [value]="time1" [format]="24" required readonly (ngModelChange)="onStartTimeChange($event)" #input formControlName="timePicker1">
+                <ngx-material-timepicker-toggle matSuffix [for]="timepicker1" ></ngx-material-timepicker-toggle>
+                <ngx-material-timepicker #timepicker1 [theme]="myTimePickerTheme"></ngx-material-timepicker>
+            </mat-form-field>
+
+            
+            <h4 style="margin-left: 126px; margin-top: -6px;">Izaberite krajnje vreme:</h4>
+            <mat-form-field color="accent" appearance="fill" style="margin-top: -6px;margin-left: 87px;">
+                <mat-label >Krajnje vreme</mat-label>
+                <input matInput [ngxTimepicker]="timepicker2" [value]="time2" [format]="24" [min]="minTimeFinishing" required readonly (ngModelChange)="onEndTimeChange($event)" #input formControlName="timePicker2" [disabled]="disabledTimeFinishing">
+                <ngx-material-timepicker-toggle matSuffix [for]="timepicker2"></ngx-material-timepicker-toggle>
+                <ngx-material-timepicker #timepicker2 [theme]="myTimePickerTheme"></ngx-material-timepicker>
+            </mat-form-field>
    
         </mat-tab>
       </mat-tab-group>
-      
+  
       <div>
         <button mat-raised-button color="warn" matStepperPrevious style="float: left;margin-top: 40px;">Nazad</button>
-        <button mat-raised-button color="primary" matStepperNext style="float: right;;margin-top: 40px;">Dalje</button>
+        <button mat-raised-button color="primary" (click)="scheduleNewAppointment()" style="margin-top: 35px;margin-left: 472px;">Zakaži</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="fourthNextButtonClicked()" style="float: right;;margin-top: 40px;">Dalje</button>
       </div>
     </form>
   </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Kraj pregleda</ng-template>
+  <mat-step [stepControl]="fiftFormGroup" *ngIf="fiftFormGroup">
+    <form [formGroup]="fiftFormGroup">
+      <ng-template matStepLabel>Kraj pregleda</ng-template>
 
-    <br><h1 class="mat-h1" style="margin-top: 50px; margin-left: 350px;">Uspešno ste izvršili pregled za pacijenta</h1><br><br>
-    <h1 class="mat-h1" style="margin-left: 442px;">Potvrdite kraj pregleda</h1><br><br>
+      <br><h1 class="mat-h1" style="margin-top: 50px; margin-left: 350px;">Uspešno ste izvršili pregled za pacijenta</h1><br><br>
+      <h1 class="mat-h1" style="margin-left: 442px;">Potvrdite kraj pregleda</h1><br><br>
 
-    <div>
-      <button mat-flat-button color="primary" matStepperNext style="margin-left: 522px;">Potvrdi</button>
-    </div>
+      <div>
+        <button mat-flat-button color="warn" matStepperPrevious style="margin-left: 475px;margin-top: 5px;">Nazad</button>
+        <button mat-flat-button color="primary" (click)="saveAppointmentReport()" style="margin-left: 20px;">Potvrdi</button>
+      </div>
+    </form>
   </mat-step>
 
 </mat-horizontal-stepper>

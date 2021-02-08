@@ -27,7 +27,13 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
         data => {
           this.patientsForDermatologist = data;
           this.dataSource.data = this.patientsForDermatologist;
-        }
+        },
+        error => {
+          if (error.status = 404){
+            this.patientsForDermatologist = [];
+            this.dataSource.data = this.patientsForDermatologist;
+          }
+        } 
      );
   }
 
@@ -51,6 +57,7 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
       error => {
         if (error.status = 404){
           this.openSnackBar('Ne postoji istorija poseta za pacijenta', 'Zatvori');
+          this.examinationsHistory = [];
         }
       }
    );

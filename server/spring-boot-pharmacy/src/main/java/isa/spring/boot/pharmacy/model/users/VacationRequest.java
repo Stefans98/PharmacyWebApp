@@ -22,6 +22,9 @@ public class VacationRequest {
     @Column(name = "end_time", nullable = false)
     private Date endTime;
 
+    @Column(name = "processed", nullable = true)
+    private Boolean processed;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Employee employee;
 
@@ -31,13 +34,14 @@ public class VacationRequest {
     public VacationRequest() {
     }
 
-    public VacationRequest(Long id, VacationType vacationType, Date startTime, Date endTime, Employee employee, Pharmacy pharmacy) {
+    public VacationRequest(Long id, VacationType vacationType, Date startTime, Date endTime, Employee employee, Pharmacy pharmacy, boolean processed) {
         this.id = id;
         this.vacationType = vacationType;
         this.startTime = startTime;
         this.endTime = endTime;
         this.employee = employee;
         this.pharmacy = pharmacy;
+        this.processed = processed;
     }
 
     public Long getId() {
@@ -70,6 +74,14 @@ public class VacationRequest {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(Boolean processed) {
+        this.processed = processed;
     }
 
     public Employee getEmployee() {

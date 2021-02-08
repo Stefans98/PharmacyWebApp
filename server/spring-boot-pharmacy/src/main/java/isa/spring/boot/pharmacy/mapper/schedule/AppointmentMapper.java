@@ -14,6 +14,21 @@ public class AppointmentMapper {
         AppointmentDto dto = new AppointmentDto();
 
         dto.setId(appointment.getId());
+        if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
+            dto.setAppointmentType(0);
+        } else if (appointment.getAppointmentType() == AppointmentType.COUNSELING) {
+            dto.setAppointmentType(1);
+        }
+        if(appointment.getAppointmentState() == AppointmentState.AVAILABLE) {
+            dto.setAppointmentState(0);
+        } else if(appointment.getAppointmentState() == AppointmentState.OCCUPIED) {
+            dto.setAppointmentState(1);
+        }  else if(appointment.getAppointmentState() == AppointmentState.FINISHED) {
+            dto.setAppointmentState(2);
+        } else if(appointment.getAppointmentState() == AppointmentState.NOT_HELD) {
+            dto.setAppointmentState(3);
+        }
+
         dto.setStartTime(appointment.getStartTime());
         dto.setEndTime(appointment.getEndTime());
         dto.setPrice(appointment.getPrice());
@@ -27,7 +42,7 @@ public class AppointmentMapper {
 
         Appointment appointment = new Appointment();
 
-        if(appointmentDto.getId() != 0) { // Sa fronta se salje id 0 kada se menja postojeci objekat
+        if(appointmentDto.getId() != 0) {
             appointment.setId(appointmentDto.getId());
         }
 
@@ -42,10 +57,8 @@ public class AppointmentMapper {
         } else if(appointmentDto.getAppointmentState() == 1) {
             appointment.setAppointmentState(AppointmentState.OCCUPIED);
         } else if(appointmentDto.getAppointmentState() == 2) {
-            appointment.setAppointmentState(AppointmentState.CANCELED);
-        } else if(appointmentDto.getAppointmentState() == 3) {
             appointment.setAppointmentState(AppointmentState.FINISHED);
-        } else if(appointmentDto.getAppointmentState() == 4) {
+        } else if(appointmentDto.getAppointmentState() == 3) {
             appointment.setAppointmentState(AppointmentState.NOT_HELD);
         }
 
