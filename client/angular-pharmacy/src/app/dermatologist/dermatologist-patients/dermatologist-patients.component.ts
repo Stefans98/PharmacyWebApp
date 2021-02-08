@@ -20,12 +20,11 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
 
-  dataSourceChangeIn = 1;
-  searchInputLenght = 0;
-
   public patientsForDermatologist : Patient[] = [];
   public examinationsHistory : DermatologistExamination[] = [];
-
+  
+  dataSourceChangeIn = 1;
+  searchInputLenght = 0;
   displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
   dataSource = new MatTableDataSource(this.patientsForDermatologist);
   newDataSource = new MatTableDataSource(this.patientsForDermatologist);
@@ -63,8 +62,6 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
   }
 
   applySearch(event: Event) {
-
-
     this.dataSource = new MatTableDataSource(this.patientsForDermatologist);
     this.setFilterPredict();
     this.dataSourceChangeIn = 1;
@@ -75,7 +72,6 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
     this.dataSourceAfterSearch = new MatTableDataSource(this.dataSource.filteredData);
     this.dataSource.sort = this.sort;
   }
-
 
   getExaminationsHistory(patientId : number) : void {
     this.appointmentService.getExaminationsHistoryForPatient(patientId).subscribe(
