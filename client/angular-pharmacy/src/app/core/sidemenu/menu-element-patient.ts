@@ -40,7 +40,7 @@ export const patientMenus = [
             {
                 'name': 'Zakazivanje pregleda',
                 'icon': 'schedule',
-                'link': 'patient/dermatologist/dermatologist-scheduling',
+                'link': 'patient/dermatologist/pharmacy-choosing',
                 'open': false,
             }
         ]
