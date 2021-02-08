@@ -38,8 +38,8 @@ insert into users (user_type, email, password, first_name, last_name, phone_numb
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty, penalties_reset_date, user_category) values ('PATIENT', 'patient2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 2, 10, 1, '2021-01-22 08:00:00', 0);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty, penalties_reset_date, user_category) values ('PATIENT', 'patient3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 3, 67, 0, '2021-01-22 08:00:00', 2);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, points, penalty, penalties_reset_date, user_category) values ('PATIENT', 'patient4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 4, 9, 4, '2021-01-22 08:00:00', 0);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1, 8.7);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milan', 'Milic', '0605955485', 6, 2, 9.8);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 5, 1, 8.7, false);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milan', 'Milic', '0605955485', 6, 2, 9.8, false);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 7, 8.7);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist2@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 8, 9.2);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id) values ('SUPPLIER', 'supplier1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Petar', 'Petrovic', '0605955485', 9);
@@ -53,11 +53,11 @@ insert into users (user_type, email, password, first_name, last_name, phone_numb
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mitar', 'Jovic', '0605955485', 17, 7.8);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ivan', 'Pavlovic', '0605955485', 18, 8.4);
 insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, average_grade) values ('DERMATOLOGIST', 'dermatologist7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milan', 'Todorovic', '0605955485', 19, 9.1);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Luka', 'Marinkovic', '0605955485', 20, 1, 5.6);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ivana', 'Mirkovic', '0605955485', 21, 1, 8.9);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksandar', 'Jovanovic', '0605955485', 22, 1, 9.3);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Maric', '0605955485', 23, 1, 6.2);
-insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade) values ('PHARMACIST', 'pharmacist7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milica', 'Milic', '0605955485', 24, 2, 7.8);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist3@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Luka', 'Marinkovic', '0605955485', 20, 1, 5.6, false);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist4@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ivana', 'Mirkovic', '0605955485', 21, 1, 8.9, false);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist5@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Aleksandar', 'Jovanovic', '0605955485', 22, 1, 9.3, false);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist6@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Maric', '0605955485', 23, 1, 6.2, false);
+insert into users (user_type, email, password, first_name, last_name, phone_number, address_id, pharmacy_id, average_grade, deleted) values ('PHARMACIST', 'pharmacist7@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Milica', 'Milic', '0605955485', 24, 2, 7.8, false);
 
 insert into user_authority (user_id, authority_id) values (1, 1);
 insert into user_authority (user_id, authority_id) values (2, 1);
@@ -102,12 +102,12 @@ insert into medicine_specifications (contraindication, daily_dose) values ('bol 
 insert into medicine_specifications (contraindication, daily_dose) values ('naglo oticanje šaka, stopala i članaka nogu', 1);
 insert into medicine_specifications (contraindication, daily_dose) values ('sedacija(umirenje), umor, pospanost, loša kontrola pokreta, konfuzija', 1);
 
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Brufen', 'L123', 'Antibiotik', 6, 'Hemofarm', 1);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Nimulid', 'L124', 'Vitamini', 4, 'Medik', 2);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Amoksicilin', 'L125', 'Vitamini', 7, 'Hemofarm', 3);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Diklofenak', 'L126', 'Antibiotik', 2, 'Pharmaswis', 4);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Bromazepam', 'L127', 'Vitamini', 3, 'Hemofarm', 5);
-insert into medicines (name, code, medicine_type, points, manufacturer, medicine_specification_id) values ('Lorazepam', 'L128', 'Antibiotik', 3, 'Hemofarm', 6);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Brufen', 'L123', 0, 1, false, 6, 'Hemofarm', 0.0, 1);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Nimulid', 'L124', 7, 4, false, 1, 'Medik', 0.0, 2);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Amoksicilin', 'L125', 0, 2, true, 7, 'Hemofarm', 0.0, 3);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Diklofenak', 'L126', 1, 2, true, 1, 'Pharmaswis', 0.0, 4);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Bromazepam', 'L127', 6, 1, true, 1, 'Hemofarm', 0.0, 5);
+insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Lorazepam', 'L128', 6, 1, true, 3, 'Hemofarm', 0.0, 6);
 
 insert into allergies (name, patient_id, medicine_id) values ('Brufen', 1, 1);
 insert into allergies (name, patient_id, medicine_id) values ('Nimulid', 1, 2);
@@ -129,7 +129,8 @@ insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-06 08:00:00', '2021-02-06 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-07 08:00:00', '2021-02-07 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-07 08:00:00', '2021-02-07 20:00:00', 5, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-05 04:45:00', '2021-02-05 04:45:00', 3, 1, false);
@@ -156,7 +157,8 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-06 10:35:00', '2021-02-06 10:45:00', 6, 1, false);
 
-insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-07 10:35:00', '2021-02-07 10:45:00', 6, 1, false);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 1, '2021-02-07 11:35:00', '2021-02-07 11:45:00', 7, 1, false);
 
 insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-02-02', 1, 11);
 insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
@@ -202,11 +204,13 @@ insert into medicine_reservations (final_purchasing_date, medicine_reservation_s
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-02', 0, false, 1, 1, 1,'16123211631');
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-03-03', 0, false, 1, 2, 1,'16123213641');
 
+insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
+
 insert into e_prescriptions(code, issuing_date, patient_id) values ('eprscrpt111', '2021-03-02', 1);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 1);
 
-insert into prescriptions (therapy_day_length, medicine_id, patient_id) values (28, 1, 1);
+insert into prescriptions (therapy_day_length, medicine_id, patient_id, appointment_report_id) values (28, 1, 1, 1);
 
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (1, 7);
 insert into employee_dermatologists (pharmacy_id, dermatologist_id) values (2, 7);
@@ -243,9 +247,9 @@ insert into vacation_requests (vacation_type, start_time, end_time, employee_id,
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 16, 1, null);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 17, 1, null);
 
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, null);
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, null);
-insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 6, 1, null);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-05', '2021-03-08', 5, 1, true);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-11', '2021-03-15', 5, 1, false);
+insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-19', '2021-03-22', 5, 1, null);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 20, 1, null);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 21, 1, null);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-02', '2021-03-04', 21, 1, null);

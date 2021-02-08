@@ -96,11 +96,18 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllMedicinesComponent } from './system-administrator/medicines/all-medicines/all-medicines.component';
+import { CreateMedicineComponent } from './system-administrator/medicines/create-medicine/create-medicine.component';
+import { SubstitutionsModalDialogComponent } from './system-administrator/medicines/create-medicine/substitutions-modal-dialog/substitutions-modal-dialog.component';
+import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
 import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
 import { ChartModule } from 'angular2-chartjs';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
+import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
+import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
 
 @NgModule({
   declarations: [
@@ -187,9 +194,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
     PharmacistForRequestComponent,
+    AllMedicinesComponent,
+    CreateMedicineComponent,
+    SubstitutionsModalDialogComponent,
+    IngredientsModalDialogComponent,
+    DefineTermsDialogComponent,
+    PharmacyAdministratorProfileComponent,
     AllergiesModalDialogComponent,
     DefineTermsDialogComponent,
-    PenaltyGraphComponent
+    PenaltyGraphComponent,
+    MedicineSpecificationModalDialogPharmacistComponent,
+    SubscriptionMedicinesModalDialogPharmacistComponent
   ],
   imports: [
     BrowserModule,

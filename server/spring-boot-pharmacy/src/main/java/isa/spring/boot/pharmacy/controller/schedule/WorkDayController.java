@@ -6,6 +6,7 @@ import isa.spring.boot.pharmacy.mapper.schedule.WorkDayMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
+import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.WorkDayService;
 import isa.spring.boot.pharmacy.service.users.UserService;
@@ -47,6 +48,19 @@ public class WorkDayController {
         Pharmacy pharmacy = pharmacyService.getPharmacyById(workDayDto.getPharmacy().getId());
         WorkDay workDay = WorkDayMapper.convertToEntity(workDayDto, dermatologist, pharmacy);
         WorkDay savedWorkDay = workDayService.definingWorkDayForDermatologist(workDay, workDayDto, dermatologist, pharmacy);
+        if(savedWorkDay == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value="/defineWorkDayForPharmacist", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<Void> defineWorkDayForPharmacist(@RequestBody WorkDayDto workDayDto){
+        Pharmacist pharmacist = (Pharmacist) userService.findById(workDayDto.getEmployee().getId());
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(workDayDto.getPharmacy().getId());
+        WorkDay workDay = WorkDayMapper.convertToEntity(workDayDto, pharmacist, pharmacy);
+        WorkDay savedWorkDay = workDayService.definingWorkDayForPharmacist(workDay, workDayDto, pharmacist, pharmacy);
         if(savedWorkDay == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

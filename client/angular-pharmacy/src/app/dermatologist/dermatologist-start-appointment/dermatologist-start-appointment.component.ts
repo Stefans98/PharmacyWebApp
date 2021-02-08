@@ -17,11 +17,6 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
-export interface ModalDialogData {
-  madicine: Medicine;
-  therapyDay: number;
-}
-
 @Component({
   selector: 'app-dermatologist-start-appointment',
   templateUrl: './dermatologist-start-appointment.component.html',
@@ -184,7 +179,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       }
       this.appointmentService.scheduleExamination(this.selectedNewAppointment).subscribe(
         data => {
-          this.openSnackBar('Uspešno ste zakazali nov termin za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+          this.openSnackBar('Uspešno ste zakazali nov pregled za pacijenta i obavestili ga putem e-mail pošte!', 'Zatvori', 4200);
           this.selectedNewAppointment = null;
           this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(), this.selectedAppointment.workDay.pharmacy.id).subscribe(
            data => {
@@ -209,8 +204,8 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       this.newAppointmentTerm = new Appointment(0, 0, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), this.selectedAppointment.patient, this.selectedAppointment.workDay, null, this.appointmentPrice); 
       this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
         data => {
-          this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
-          this.chosenDate = null;
+          this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga putem e-mail pošte!', 'Zatvori', 4200);
+          //this.chosenDate = null;
           this.startTime = null;
           this.endTime = null;
         },
