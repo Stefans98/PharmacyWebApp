@@ -38,4 +38,9 @@ export class PatientService {
   public getPharmacistsThatCounseledPatient(id: number): Observable<Pharmacist[]> {
     return this.http.get<Pharmacist[]>(this.patientUrl + 'pharmacistsForPatient/' + id);
   }
+
+  public getPenaltiesByPatientId(patientId: number): Observable<number> {
+    return this.http
+      .get<number>(this.patientUrl + 'getPenaltiesByPatientId/' + patientId);
+  } 
 }

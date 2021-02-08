@@ -102,6 +102,9 @@ import { SubstitutionsModalDialogComponent } from './system-administrator/medici
 import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
+import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
+import { ChartModule } from 'angular2-chartjs';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
 import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
@@ -199,6 +202,7 @@ import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacis
     PharmacyAdministratorProfileComponent,
     AllergiesModalDialogComponent,
     DefineTermsDialogComponent,
+    PenaltyGraphComponent,
     MedicineSpecificationModalDialogPharmacistComponent,
     SubscriptionMedicinesModalDialogPharmacistComponent
   ],
@@ -219,7 +223,10 @@ import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacis
     NgxMatTimepickerModule,
     NgxMaterialTimepickerModule,
     NgxMatNativeDateModule,
-    NgxSliderModule
+    NgxSliderModule,
+    CommonModule,
+    ChartModule,
+    FlexLayoutModule
   ],
   providers: [
     {
