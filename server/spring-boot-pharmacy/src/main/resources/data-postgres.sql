@@ -156,15 +156,15 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-02-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 12);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 2, 12);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-02-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 12, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 2, 12, false);
 
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (12, 1, 1);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (6, 2, 1);
-insert into order_items (quantity, medicine_id, medicine_order_list_id) values (3, 5, 1);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (0, 5, 1);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (9, 6, 1);
 
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (2, 1, 2);
