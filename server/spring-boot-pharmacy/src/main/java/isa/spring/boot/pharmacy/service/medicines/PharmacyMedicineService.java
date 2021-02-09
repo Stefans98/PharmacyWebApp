@@ -96,15 +96,25 @@ public class PharmacyMedicineService {
         return pharmacyMedicineRepository.save(pharmacyMedicine);
     }
 
-    public PharmacyMedicine deletePharmacyMedicine(PharmacyMedicine pharmacyMedicine, Long pharmacyId){
+    public PharmacyMedicine deletePharmacyMedicine(PharmacyMedicine pharmacyMedicine, Long pharmacyId) {
         PharmacyMedicine oldPharmacyMedicine = findById(pharmacyMedicine.getId());
-        for(MedicineReservation medicineReservation : medicineReservationService.getALlMedicineReservationsForPharmacy(pharmacyId)){
-            if(medicineReservation.getMedicine().getId() == pharmacyMedicine.getMedicine().getId()){
+        for (MedicineReservation medicineReservation : medicineReservationService.getALlMedicineReservationsForPharmacy(pharmacyId)) {
+            if (medicineReservation.getMedicine().getId() == pharmacyMedicine.getMedicine().getId()) {
                 return null;
             }
         }
         oldPharmacyMedicine.setDeleted(true);
         return pharmacyMedicineRepository.save(oldPharmacyMedicine);
+    }
+
+    public List<Pharmacy> getAllPharmaciesWithMedicine(String medicineCode) {
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for (PharmacyMedicine pm : this.findAll()) {
+            if (pm.getMedicine().getCode().equals(medicineCode)) {
+                pharmacies.add(pm.getPharmacy());
+            }
+        }
+        return pharmacies;
     }
 
 }

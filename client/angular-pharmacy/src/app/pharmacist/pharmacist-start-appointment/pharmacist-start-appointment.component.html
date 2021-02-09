@@ -99,7 +99,7 @@
         <!-- Type Column -->
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef> Vrsta leka </th>
-          <td mat-cell *matCellDef="let medicine"> {{ medicine.medicineType }}  </td>
+          <td mat-cell *matCellDef="let medicine"> {{ translateMedicineType(medicine.medicineType) }}  </td>
         </ng-container>
       
         <!-- Specification Column -->

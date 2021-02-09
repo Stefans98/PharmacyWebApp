@@ -1,7 +1,9 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
+import isa.spring.boot.pharmacy.model.medicines.Ingredient;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
+import isa.spring.boot.pharmacy.repository.medicines.IngredientRepository;
 import isa.spring.boot.pharmacy.model.users.Allergy;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.MedicineRepository;
@@ -23,6 +25,9 @@ public class MedicineService {
     private MedicineRepository medicineRepository;
 
     @Autowired
+    private IngredientRepository ingredientRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -31,6 +36,16 @@ public class MedicineService {
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
 
+    public Medicine save(Medicine medicine, List<String> substitutions) {
+        List<Medicine> medicines = new ArrayList<>();
+        for (String s : substitutions) {
+            medicines.add(findByCode(s));
+        }
+        medicine.getMedicineSpecification().setMedicineSubstitutions(medicines);
+        saveIngredients(medicine.getMedicineSpecification().getIngredients());
+        return medicineRepository.save(medicine);
+    }
+
     public List<Medicine> findAll() {
         return medicineRepository.findAll();
     }
@@ -38,6 +53,8 @@ public class MedicineService {
     public Medicine findById(long id) {
         return medicineRepository.findById(id);
     }
+
+    public Medicine findByCode(String code) { return medicineRepository.findByCode(code); }
 
     public List<Medicine> findMedicinesBy(String name) {
         List<Medicine> medicines = new ArrayList<>();
@@ -93,8 +110,14 @@ public class MedicineService {
         return medicinesNotForPharmacy;
     }
 
-    public void save(Medicine medicine){
+    public void save(Medicine medicine) {
         medicineRepository.save(medicine);
+    }
+
+    public void saveIngredients(List<Ingredient> ingredients) {
+        for (Ingredient i : ingredients) {
+            this.ingredientRepository.save(i);
+        }
     }
 
 }

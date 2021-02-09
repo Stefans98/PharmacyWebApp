@@ -103,7 +103,7 @@ export class UpdateOrderListDialogComponent implements OnInit {
         return;
       } else {
       for(var mItem of this.tempMedicineOrderList){
-        var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', '');
+        var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', 0, 0, 0, '', 0, false, null);
         var orderItem = new OrderItem(mItem.orderItemId, medicine, mItem.quantity);
         this.orderItemListForSending.push(orderItem);
         

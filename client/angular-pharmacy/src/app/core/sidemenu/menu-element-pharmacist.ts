@@ -24,13 +24,13 @@ export const pharmacistMenus = [
         'open': false,
         'sub': [
             {
-                'name': 'Započni savetovanje',
+                'name': 'Započnite savetovanje',
                 'icon': 'slideshow',
                 'link': 'pharmacist/start-appointment',
                 'open': false,
             },
             {
-                'name': 'Zakaži novo savetovanje',
+                'name': 'Zakažite novo savetovanje',
                 'icon': 'local_hospital',
                 'link': 'pharmacist/new-appointment',
                 'open': false,

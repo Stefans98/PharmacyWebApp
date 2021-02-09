@@ -4,8 +4,10 @@ import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
+import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
+import isa.spring.boot.pharmacy.service.medicines.PharmacyMedicineService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PharmacyController {
 
     @Autowired
     private PricelistService pricelistService;
+
+    @Autowired
+    private PharmacyMedicineService pharmacyMedicineService;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
@@ -88,6 +93,19 @@ public class PharmacyController {
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
     public ResponseEntity<PharmacyDto> getPharmacyByPharmacyAdmin(@PathVariable Long pharmacyAdminId){
         PharmacyDto pharmacyDto = PharmacyMapper.convertToDto(pharmacyService.getPharmacyByPharmacyAdmin(pharmacyAdminId));
+        if(pharmacyDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getPharmacyByPharmacist/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<PharmacyDto> getPharmacyByPharmacist(@PathVariable Long pharmacistId){
+        PharmacyDto pharmacyDto = PharmacyMapper.convertToDto(pharmacyService.getPharmacyByPharmacist(pharmacistId));
+        if(pharmacyDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(pharmacyDto, HttpStatus.OK);
     }
 
@@ -122,13 +140,23 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getPharmacyById/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN', 'PATIENT')")
     public ResponseEntity<PharmacyDto> getPharmacyById(@PathVariable Long pharmacyId){
         Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
         if(pharmacy == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getAllWithMedicine/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<List<PharmacyDto>> getPharmacyById(@PathVariable String code){
+        List<PharmacyDto> pharmacyDtos = new ArrayList<>();
+        for (Pharmacy pharmacy : pharmacyMedicineService.getAllPharmaciesWithMedicine(code)) {
+            pharmacyDtos.add(PharmacyMapper.convertToDto(pharmacy));
+        }
+        return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
     }
 
 }

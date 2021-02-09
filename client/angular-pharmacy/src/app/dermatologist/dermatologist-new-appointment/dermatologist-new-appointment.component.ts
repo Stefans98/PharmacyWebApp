@@ -106,7 +106,6 @@ export class DermatologistNewAppointmentComponent implements OnInit {
     const forrmatedReservationDate = this.chosenDate + ' ' + '00:00';
     const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
     const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
-    console.log(forrmatedEndTime);
     this.appointmentService.getAppointmentPrice(forrmatedReservationDate, forrmatedStartTime, forrmatedEndTime, this.selectedPharmacy.id.toString()).subscribe(
       data => {
         this.appointmentPrice = data;
@@ -117,10 +116,10 @@ export class DermatologistNewAppointmentComponent implements OnInit {
         this.newAppointmentTerm = new Appointment(0, 0, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), this.selectedPatient[0], this.workDay, null, this.appointmentPrice); 
         this.appointmentService.scheduleExamination(this.newAppointmentTerm).subscribe(
           data => {
-            this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+            this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga putem e-mail pošte!', 'Zatvori', 4000);
             this.selectedPatient = null;
             this.selectedPharmacy = null;
-            this.chosenDate = null;
+            //this.chosenDate = null;
             this.startTime = null;
             this.endTime = null;
           },

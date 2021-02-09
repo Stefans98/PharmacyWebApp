@@ -35,6 +35,11 @@
             <td mat-cell *matCellDef="let element"> {{element.address}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="pharmacyProfile">
+              <th mat-header-cell *matHeaderCellDef> Profil apoteke </th>
+              <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="viewProfileClick(element)">Pogledaj profil</button> </td>
+            </ng-container>
+
             <ng-container matColumnDef="subscribe">
                 <th mat-header-cell *matHeaderCellDef> Pretplata </th>
                 <td mat-cell *matCellDef="let element"> 

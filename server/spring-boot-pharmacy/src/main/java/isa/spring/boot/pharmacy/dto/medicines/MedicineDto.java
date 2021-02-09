@@ -1,11 +1,19 @@
 package isa.spring.boot.pharmacy.dto.medicines;
 
+import isa.spring.boot.pharmacy.model.medicines.MedicineForm;
+import isa.spring.boot.pharmacy.model.medicines.MedicineType;
+
 public class MedicineDto {
     private Long id;
     private String name;
     private String code;
     private String manufacturer;
-    private String medicineType;
+    private MedicineType medicineType;
+    private MedicineForm medicineForm;
+    private double averageGrade;
+    private boolean onPrescription;
+    private String additionalInformation;
+    private MedicineSpecificationDto medicineSpecification;
 
     public MedicineDto() {}
 
@@ -14,6 +22,11 @@ public class MedicineDto {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
+    }
+
+    public MedicineDto(String name, String code) {
+        this.name = name;
+        this.code = code;
     }
 
     public Long getId() {
@@ -48,11 +61,51 @@ public class MedicineDto {
         this.manufacturer = manufacturer;
     }
 
-    public String getMedicineType() {
+    public MedicineType getMedicineType() {
         return medicineType;
     }
 
-    public void setMedicineType(String medicineType) {
+    public void setMedicineType(MedicineType medicineType) {
         this.medicineType = medicineType;
+    }
+
+    public MedicineForm getMedicineForm() {
+        return medicineForm;
+    }
+
+    public void setMedicineForm(MedicineForm medicineForm) {
+        this.medicineForm = medicineForm;
+    }
+
+    public boolean isOnPrescription() {
+        return onPrescription;
+    }
+
+    public void setOnPrescription(boolean onPrescription) {
+        this.onPrescription = onPrescription;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
+
+    public String getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
+    public MedicineSpecificationDto getMedicineSpecification() {
+        return medicineSpecification;
+    }
+
+    public void setMedicineSpecification(MedicineSpecificationDto medicineSpecificationDto) {
+        this.medicineSpecification = medicineSpecificationDto;
     }
 }

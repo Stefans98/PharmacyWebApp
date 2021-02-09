@@ -1,12 +1,17 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
+import isa.spring.boot.pharmacy.dto.medicines.PrescriptionDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.dto.schedule.AppointmentReportDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
+import isa.spring.boot.pharmacy.mapper.medicines.PrescriptionMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.dto.schedule.ExaminationDto;
+import isa.spring.boot.pharmacy.mapper.schedule.AppointmentReportMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.model.medicines.Prescription;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
 import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
@@ -39,7 +44,7 @@ public class AppointmentController {
     @GetMapping(value = "/getExaminationsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getExaminationsHistoryForPatient(@PathVariable Long patientId) {
-        List<ExaminationDto> examinationsHistory = new ArrayList<ExaminationDto>();
+        List<ExaminationDto> examinationsHistory = new ArrayList<>();
         for(Appointment appointment : appointmentService.getExaminationsHistoryForPatient(patientId)) {
             examinationsHistory.add(ExaminationMapper.convertToDto(appointment));
         }
@@ -50,9 +55,9 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/getCounselingsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST','PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getCounselingsHistoryForPatient(@PathVariable Long patientId) {
-        List<ExaminationDto> counselingsHistory = new ArrayList<ExaminationDto>();
+        List<ExaminationDto> counselingsHistory = new ArrayList<>();
         for (Appointment appointment : appointmentService.getCounselingsHistoryForPatient(patientId)) {
             counselingsHistory.add(ExaminationMapper.convertToDto(appointment));
         }
@@ -149,8 +154,15 @@ public class AppointmentController {
 
     @PostMapping(value = "/saveAppointmentReport", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST')")
-    public ResponseEntity<Void> saveAppointmentReport(@RequestBody AppointmentDto appointmentDto) {
-        AppointmentReport appointmentReport = appointmentReportService.saveAppointmentReport(AppointmentMapper.convertToEntity(appointmentDto));
+    public ResponseEntity<Void> saveAppointmentReport(@RequestBody AppointmentReportDto appointmentReportDto) {
+        List<Prescription> prescriptions = new ArrayList<Prescription>();
+        if(appointmentReportDto.getPrescriptions() != null) {
+            for(PrescriptionDto prescriptionDto : appointmentReportDto.getPrescriptions()) {
+                prescriptions.add(PrescriptionMapper.convertToEntity(prescriptionDto));
+            }
+        }
+        AppointmentReport appointmentReport = appointmentReportService.saveAppointmentReport(AppointmentReportMapper.convertToEntity(appointmentReportDto),
+                appointmentReportDto.getAppointment().getPatient().getId(), appointmentReportDto.getAppointment().getWorkDay().getId(), prescriptions);
         if(appointmentReport == null) {
             return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
         }
