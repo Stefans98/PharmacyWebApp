@@ -109,8 +109,8 @@ export class PharmacistNewAppointmentComponent implements OnInit {
             this.endTime = null;
           },
           error => {
-            this.openSnackBar('Izabrani termin trenutno ne možete da zakažete!', 'Zatvori', 3000);
-        });     
+            this.openSnackBar('Izabrani termin trenutno ne možete da zakažete ! MOGUĆI RAZLOZI: 1. Farmaceut ne radi u izabranom vremenu! 2. Pacijent ili farmaceut imaju zakazan termin u izabranom vremenu!', 'Zatvori', 6000);
+          });     
       },
       error => {
         if (error.status == 404) {

@@ -85,6 +85,7 @@ export class SubscriptionMedicinesModalDialogComponent implements OnInit, AfterV
       width: '400px',
       height: '220px',
       position: {left: '650px'},
+      disableClose: true, 
       data: { medicine : medicine, therapyDay : this.therapyDay }
     });
     dialogRef.afterClosed().subscribe(result => {
