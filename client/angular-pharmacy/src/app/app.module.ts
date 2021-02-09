@@ -121,7 +121,7 @@ import { FullCalendarModule } from '@fullcalendar/angular'; // the main connecto
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
-import listPlugin from '@fullcalendar/list'; 
+import listPlugin from '@fullcalendar/list';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,

@@ -119,6 +119,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
         );
       } else {
         // Select new appointment
+        this.searchInput.nativeElement.disabled = false;
       }
     }
 
@@ -210,7 +211,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
 
   findPatientAppointments(): void {
     if(this.searchInput.nativeElement.disabled) {
-      this.openSnackBar('Ne možete vršiti pretragu zato što ste izabrali pregled iz radnog kalendara!', 'Zatvori', 4000);
+      this.openSnackBar('Ne možete vršiti pretragu zato što ste izabrali savetovanje iz radnog kalendara!', 'Zatvori', 3000);
       return;
     }
     this.patientAppointments = [];

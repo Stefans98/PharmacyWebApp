@@ -14,7 +14,7 @@ import { SubscriptionMedicinesModalDialogComponent } from './subscription-medici
 import { Medicine } from '../../models/medicine.model';
 import { PrescriptionService } from '../../services/medicines/prescription.service';
 import * as moment from 'moment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { AppointmentReport } from '../../models/appointment-report.model';
 import { Prescription } from '../../models/prescription.model';
@@ -61,6 +61,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public appointmentReport : AppointmentReport;
     public prescriptions : Prescription[] = [];
     public prescription : Prescription;
+    public appointmentIdFromWorkCalendar : number = 0;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
@@ -83,7 +84,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
       }
     };
 
-    constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService, private medicineService : MedicineService,
+    constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService, private medicineService : MedicineService, private route: ActivatedRoute,
        private _formBuilder: FormBuilder, public dialog: MatDialog, private snackBar: MatSnackBar, private prescriptionService : PrescriptionService, public router: Router) {}
 
     ngOnInit() {
@@ -99,9 +100,29 @@ export class DermatologistStartAppointmentComponent implements OnInit {
           timePicker1: [],
           timePicker2: []     
         });
-        this.fiftFormGroup = this._formBuilder.group({   
-               
+        this.fiftFormGroup = this._formBuilder.group({                 
       });
+      this.appointmentIdFromWorkCalendar = Number(this.route.snapshot.queryParamMap.get('appointmentId'));
+      if(this.appointmentIdFromWorkCalendar != 0) {
+        // From work calendar
+        this.appointmentService.getAppointmentById(this.appointmentIdFromWorkCalendar).subscribe(
+          data => {
+            this.selectedAppointment = data;
+            this.searchInput.nativeElement.disabled = true;
+            this.patientAppointments.push(this.selectedAppointment);
+            this.patientFlag = true;
+            this.openSnackBar('Selektujte ponuđen termin koji ste izabrali iz radnog kalendara! NAPOMENA: Ne možete vršiti pretragu zato što ste izabrali termin iz vašeg radnog kalendara', 'Zatvori', 6000);
+          },
+          error => {
+            if (error.status == 404){
+              this.openSnackBar('Doslo je do greške prilikom početka pregleda. Pokušajte ponovo da pronađete željeni pregled!', 'Zatvori', 4000);
+            }
+          }
+        );
+      } else {
+        // Select new appointment
+        this.searchInput.nativeElement.disabled = false;
+      }
     }
 
   onDateChange(chosenDate) {
@@ -222,6 +243,10 @@ export class DermatologistStartAppointmentComponent implements OnInit {
   }
 
   findPatientAppointments(): void {
+    if(this.searchInput.nativeElement.disabled) {
+      this.openSnackBar('Ne možete vršiti pretragu zato što ste izabrali pregled iz radnog kalendara!', 'Zatvori', 3000);
+      return;
+    }
     this.patientAppointments = [];
     if(this.searchInput.nativeElement.value == '') {
       this.openSnackBar('Morate popuniti polje za pretragu!', 'Zatvori', 3000);
