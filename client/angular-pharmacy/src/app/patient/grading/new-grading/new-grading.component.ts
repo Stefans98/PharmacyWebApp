@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Complaint } from '../../../models/complaint.model';
 import { Dermatologist } from '../../../models/dermatologist.model';
+import { Grade } from '../../../models/grade.model';
 import { Medicine } from '../../../models/medicine.model';
 import { Pharmacist } from '../../../models/pharmacist.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 import { ComplaintService } from '../../../services/users/complaint.service';
+import { GradeService } from '../../../services/users/grade.service';
 import { ChooseGradeEntityModalDialogComponent } from './choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
 
 @Component({
@@ -30,8 +32,12 @@ export class NewGradingComponent implements OnInit {
   chosenPharmacist: Pharmacist;
   chosenMedicine: Medicine;
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   // napravi servis za ocenjivanje i dodaj ga ovde
-  constructor(private snackBar: MatSnackBar, private dialog: MatDialog, private authService: AuthenticationService) {
+  constructor(private snackBar: MatSnackBar, private dialog: MatDialog, 
+      private authService: AuthenticationService, private gradeService: GradeService) {
     this.selectedGradeType = 'Ocena za apoteku';
     this.gradeEntityType = 'PHARMACY_GRADE';
    }
@@ -74,13 +80,57 @@ export class NewGradingComponent implements OnInit {
 
   gradeClick(): void {
     if (this.selectedGradeType === 'Ocena za apoteku') {
-
+      this.gradeService.gradePharmacy(new Grade(0, this.gradeEntityType, Number(this.selectedGrade),
+        this.authService.getLoggedUserId(), null, this.chosenPharmacy.id, null, 0, null, 0, null, 0, null)).subscribe(
+          data => {
+            this.openSnackBar('Uspešno ste ocenili apoteku!', 'Zatvori', 25000);
+        },
+        error => {
+          if (error.status == 400){
+            this.openSnackBar('Već ste ocenili ovu apoteku! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+          } else {  
+            this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
+          }
+        });
     } else if (this.selectedGradeType === 'Ocena za farmaceuta') {
-
+      this.gradeService.gradePharmacist(new Grade(0, this.gradeEntityType, Number(this.selectedGrade),
+        this.authService.getLoggedUserId(), null, 0, null, this.chosenPharmacist.id, null, 0, null, 0, null)).subscribe(
+          data => {
+            this.openSnackBar('Uspešno ste ocenili farmaceuta!', 'Zatvori', 25000);
+        },
+        error => {
+          if (error.status == 400){
+            this.openSnackBar('Već ste ocenili ovog farmaceuta! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+          } else {  
+            this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
+          }
+        });
     } else if (this.selectedGradeType === 'Ocena za dermatologa') {
-
+      this.gradeService.gradeDermatologist(new Grade(0, this.gradeEntityType, Number(this.selectedGrade),
+        this.authService.getLoggedUserId(),null, 0, null, 0, null, this.chosenDermatologist.id, null, 0, null)).subscribe(
+          data => {
+            this.openSnackBar('Uspešno ste ocenili dermatologa!', 'Zatvori', 25000);
+        },
+        error => {
+          if (error.status == 400){
+            this.openSnackBar('Već ste ocenili ovog dermatologa! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+          } else {  
+            this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
+          }
+        });
     } else if (this.selectedGradeType === 'Ocena za lek') {
-
+      this.gradeService.gradeMedicine(new Grade(0, this.gradeEntityType, Number(this.selectedGrade),
+        this.authService.getLoggedUserId(),null, 0, null, 0, null, 0, null, this.chosenMedicine.id, null)).subscribe(
+          data => {
+            this.openSnackBar('Uspešno ste ocenili lek!', 'Zatvori', 25000);
+        },
+        error => {
+          if (error.status == 400){
+            this.openSnackBar('Već ste ocenili ovaj lek! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+          } else {  
+            this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
+          }
+        });
     }
   }
 
@@ -124,5 +174,13 @@ export class NewGradingComponent implements OnInit {
 
   onChangeGrade(selectedGrade) {
     this.selectedGrade = selectedGrade;
+  }
+
+  openSnackBar(message: string, action: string, duration: number) {
+    this.snackBar.open(message, action, {
+      duration: duration,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 }

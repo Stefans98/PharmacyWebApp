@@ -384,7 +384,7 @@ public class AppointmentService {
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
             "<br><br>Napomena: Ukoliko ne otkažete pregled 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
              "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-            "<br><br>S poštovanjem, <br>Vaša ISA");
+            "<br><br>S poštovanjem, <br>Health Pharmacy");
     }
 
     public void sendEmailForCounseling(Appointment appointment) {
@@ -397,7 +397,7 @@ public class AppointmentService {
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
             "<br><br>Napomena: Ukoliko ne otkažete savetovanje 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
             "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-            "<br><br>S poštovanjem, <br>Vaša ISA");
+            "<br><br>S poštovanjem, <br>Health Pharmacy");
     }
 
     public static String convertToTimeStr(Date date) {

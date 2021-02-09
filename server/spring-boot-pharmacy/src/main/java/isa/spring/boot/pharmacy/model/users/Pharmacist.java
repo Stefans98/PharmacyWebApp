@@ -20,6 +20,9 @@ public class Pharmacist extends Employee {
     @OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacistComplaint> complaints;
 
+    @OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacistGrade> grades;
+
     public Pharmacist() {
     }
 
@@ -57,4 +60,11 @@ public class Pharmacist extends Employee {
         this.complaints = complaints;
     }
 
+    public List<PharmacistGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<PharmacistGrade> grades) {
+        this.grades = grades;
+    }
 }

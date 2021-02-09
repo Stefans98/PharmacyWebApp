@@ -68,7 +68,7 @@ public class MedicineReservationService {
                             "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
                             " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
                             " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-                            "<br><br>S poštovanjem, <br>Vaša ISA");
+                            "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
 
         return medicineReservationRepository.save(medicineReservation);
@@ -180,7 +180,7 @@ public class MedicineReservationService {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
                     "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
                             "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
-                            "<br><br>S poštovanjem, <br>Vaša ISA");
+                            "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
         return  medicineReservationRepository.save(medicineReservation);
     }

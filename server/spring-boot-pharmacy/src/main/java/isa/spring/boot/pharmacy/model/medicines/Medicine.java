@@ -4,6 +4,8 @@ import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.pharmacy.Promotion;
 import isa.spring.boot.pharmacy.model.users.Allergy;
+import isa.spring.boot.pharmacy.model.users.MedicineGrade;
+import isa.spring.boot.pharmacy.model.users.PharmacyGrade;
 import isa.spring.boot.pharmacy.model.users.User;
 
 import javax.persistence.*;
@@ -80,6 +82,9 @@ public class Medicine {
 
     @OneToOne(mappedBy = "medicine")
     private Allergy allergy;
+
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MedicineGrade> grades;
 
     public Medicine() {
     }
@@ -255,5 +260,13 @@ public class Medicine {
 
     public void setMedicineInquiries(List<MedicineInquiry> medicineInquiries) {
         this.medicineInquiries = medicineInquiries;
+    }
+
+    public List<MedicineGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<MedicineGrade> grades) {
+        this.grades = grades;
     }
 }

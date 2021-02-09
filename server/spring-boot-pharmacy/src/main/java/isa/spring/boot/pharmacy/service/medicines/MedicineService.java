@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
+import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
 import isa.spring.boot.pharmacy.model.medicines.*;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.repository.medicines.IngredientRepository;
@@ -131,6 +133,18 @@ public class MedicineService {
         for (Ingredient i : ingredients) {
             this.ingredientRepository.save(i);
         }
+    }
+
+    public List<MedicineDto> removeMedicineDuplicates(List<MedicineDto> medicineDtos){
+        Map<Long, MedicineDto> map = new HashMap<>();
+        List<MedicineDto> medicineDtoWithoutDuplicates = new ArrayList<>();
+        for(MedicineDto p: medicineDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            medicineDtoWithoutDuplicates.add(map.get(id));
+        }
+        return medicineDtoWithoutDuplicates;
     }
 
 }
