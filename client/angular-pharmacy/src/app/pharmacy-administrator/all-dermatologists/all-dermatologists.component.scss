@@ -1,0 +1,69 @@
+.full {
+    width: 70%;
+    margin-top: 2px;
+}
+.dermatologists-container {
+	background-color: white;
+    padding: 10px;
+    height: 450px;
+    overflow: auto;
+
+	.dermatologists-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	
+}
+
+.dermatologists-container-second {
+	background-color: white;
+    padding: 10px;
+    height: 337.5px;
+    overflow: auto;
+
+	.dermatologists-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+}
+
+table{
+    width: 100%;
+}
+
+.define-terms-div{
+	background-color: white;
+	margin-top: 1%;
+	margin-left: 1.8%;
+	margin-right: 15%;
+	height: 115px;
+}

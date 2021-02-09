@@ -2,7 +2,7 @@
 
 	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
 
-		<div fxFlex="66" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 contact-list-container">
+		<div fxFlex="68" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 contact-list-container">
 			
 			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
                 <h3 class="mat-headline" fxFlex="80" style="margin-top: 16px; margin-left: 140px;">Podnesite zahtev za godišnji odmor</h3> 
@@ -12,16 +12,16 @@
             <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="contact-list-container">
                    
                 <div fxFlex="200" fxLayout="row" fxLayoutAlign="space-between stretch" class="contact-list-container">
-                    <h2 class="mat-h2" style="margin-top: 22px;">Vremenski period godišnjeg odmora:</h2>
+                    <h2 class="mat-h2" style="margin-top: 23px;">Vremenski period godišnjeg odmora:</h2>
                     <mat-form-field class="example-form-field" appearance="fill">
                         <mat-label>Izaberite vremenski period</mat-label>
-                        <mat-date-range-input
+                        <mat-date-range-input required [min]="minDate"
                           [formGroup]="campaignOne"
                           [rangePicker]="campaignOnePicker"
                           [comparisonStart]="campaignOne.value.start"
                           [comparisonEnd]="campaignOne.value.end">
-                          <input matStartDate placeholder="Start date" formControlName="start">
-                          <input matEndDate placeholder="End date" formControlName="end">
+                          <input matStartDate placeholder="Start date" formControlName="start" [(ngModel)]="startTime">
+                          <input matEndDate placeholder="End date" formControlName="end" [(ngModel)]="endTime">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
                         <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
@@ -29,11 +29,11 @@
                 </div>
 
                 <div fxFlex="39" fxLayout="row" class="contact-list-container">
-                    <h2 class="mat-h2">Apoteka:</h2>
-                    <h2 class="mat-h2" style="margin-left: 245px;">Zegin apoteka</h2>
+                    <h2 class="mat-h2">Godišnji odmor u apoteci:</h2>
+                    <h2 class="mat-h2" style="margin-left: 116px;">{{ pharmacistPharmacy.name }}</h2>
                 </div>
                     
-                <button mat-flat-button color="primary" style="max-width: 150px;margin-left: 240px;">Potvrdi</button>
+                <button mat-flat-button color="primary" (click)="sendVacationRequest()" style="max-width: 150px;margin-left: 240px;">Potvrdi</button>
             </div>
 		</div>		      
 </div>

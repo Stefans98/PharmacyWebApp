@@ -12,16 +12,16 @@
             <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="contact-list-container">
                    
                 <div fxFlex="200" fxLayout="row" fxLayoutAlign="space-between stretch" class="contact-list-container">
-                    <h2 class="mat-h2" style="margin-top: 22px;">Vremenski period odsustva:</h2>
+                    <h2 class="mat-h2" style="margin-top: 23px;">Vremenski period odsustva:</h2>
                     <mat-form-field class="example-form-field" appearance="fill">
                         <mat-label>Izaberite vremenski period</mat-label>
-                        <mat-date-range-input
+                        <mat-date-range-input required [min]="minDate"
                           [formGroup]="campaignOne"
                           [rangePicker]="campaignOnePicker"
                           [comparisonStart]="campaignOne.value.start"
                           [comparisonEnd]="campaignOne.value.end">
-                          <input matStartDate placeholder="Start date" formControlName="start">
-                          <input matEndDate placeholder="End date" formControlName="end">
+                          <input matStartDate placeholder="Start date" formControlName="start" [(ngModel)]="startTime">
+                          <input matEndDate placeholder="End date" formControlName="end" [(ngModel)]="endTime">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
                         <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
@@ -29,11 +29,11 @@
                 </div>
 
                 <div fxFlex="39" fxLayout="row" class="contact-list-container">
-                    <h2 class="mat-h2">Apoteka:</h2>
-                    <h2 class="mat-h2" style="margin-left: 185px;">Zegin apoteka</h2>
+                    <h2 class="mat-h2">Odsustvo u apoteci:</h2>
+                    <h2 class="mat-h2" style="margin-left: 90px;"> {{ pharmacistPharmacy.name }} </h2>
                 </div>
                     
-                <button mat-flat-button color="primary" style="max-width: 150px;margin-left: 210px;">Potvrdi</button>
+                <button mat-flat-button color="primary" (click)="sendVacationRequest()" style="max-width: 150px;margin-left: 210px;">Potvrdi</button>
             </div>
 		</div>		      
 </div>

@@ -8,53 +8,61 @@
                 <tr>
                     <th>Kod</th>
                     <th>Naziv</th>
-                    <th>Kolicina</th>
+                    <th>Količina</th>
                     <th>Ukloni</th>
                 </tr>
-                <tr *ngFor="let med of newMedicineList" [value]="med" style="height: 10px;">
+                <tr *ngFor="let med of medicineOrderList; index as i" [value]="med" style="height: 10px;">
                     <td> {{ med.code }} </td>
                     <td> {{ med.name }} </td>
-                    <td> 
-                        <mat-form-field style="width: 70px;">
-                            <input matInput type="number" style="width: 70px;">
-                        </mat-form-field>
-                    </td>
+                    <td> {{ med.quantity }} </td>
                     <td>
-                        <button mat-raised-button color="warn" style="margin-left: 10%;">
+                        <button mat-raised-button color="warn" style="margin-left: 10%;" (click)="removeMedicine(med, i)">
                             Ukloni
                         </button>
                     </td>
                 </tr>  
-            </table>
-            </div>
+            </table>         
+        </div>
+
+        <mat-form-field appearance="fill" class="end-date-class">
+            <mat-label>Rok za izdavanje ponude</mat-label>
+            <input matInput [matDatepicker]="picker" [min]="maxDate" [(ngModel)]="offerDeadline">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>  
+        
+        <button mat-raised-button color="primary" style="float: right; margin-top: 17%; height: 40px; width: 100px;" (click)="sendOrderList()">
+            Pošalji
+        </button>
+
     </mat-card>
 </div>
 
 <div class="all-medicines">
-    <mat-card class="create-order-list-card">
+    <mat-card class="all-medicines-card">
         <mat-card-header>
             <mat-card-title>Lekovi</mat-card-title>
         </mat-card-header>
-        <div class="create-order-list-table mat-elevation-z8">
+        <div class="all-medicines-table mat-elevation-z8">
             <table>
                 
                 <tr>
                     <th>Kod</th>
                     <th>Naziv</th>
-                    <th>Kolicina</th>
-                    <th>Ukloni</th>
+                    <th>Količina</th>
+                    <th>Dodaj</th>
                 </tr>
-                <tr *ngFor="let med of medicineList" [value]="med" style="height: 10px;">
+                <tr *ngFor="let med of medicineItemList" [value]="med" style="height: 10px;">
                     <td> {{ med.code }} </td>
                     <td> {{ med.name }} </td>
                     <td> 
                         <mat-form-field style="width: 70px;">
-                            <input matInput type="number" style="width: 70px;">
+                            <input matInput type="number" min="1" style="width: 70px;" [(ngModel)]="med.quantity">
                         </mat-form-field>
                     </td>
                     <td>
-                        <button mat-raised-button color="warn" style="margin-left: 10%;" (click)="addMedicine(med)">
-                            Ukloni
+                        <button mat-raised-button color="primary" style="margin-left: 10%;" (click)="addMedicine(med, med.quantity)">
+                            Dodaj
                         </button>
                     </td>
                 </tr>  

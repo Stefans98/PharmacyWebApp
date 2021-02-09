@@ -1,0 +1,61 @@
+.full {
+    width: 70%;
+    margin-top: 2px;
+}
+.pharmacist-container {
+	background-color: white;
+    padding: 10px;
+    height: 630px;
+    overflow: auto;
+
+	.pharmacist-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	
+}
+
+.pharmacist-container-second {
+	background-color: white;
+    padding: 10px;
+    height: 337.5px;
+    overflow: auto;
+
+	.pharmacist-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+}
+
+table{
+    width: 100%;
+}

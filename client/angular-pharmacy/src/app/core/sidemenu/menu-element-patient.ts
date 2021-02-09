@@ -26,21 +26,21 @@ export const patientMenus = [
         'open': false,
         'sub': [
             {
-                'name': 'Istorija poseta',
+                'name': 'Istorija pregleda',
                 'icon': 'history',
                 'link': 'patient/dermatologist/dermatologist-appointment-history',
                 'open': false,
             },
             {
-                'name': 'Zakazane posete',
+                'name': 'Zakazani pregledi',
                 'icon': 'today',
                 'link': 'patient/dermatologist/dermatologist-scheduled-appointments',
                 'open': false,
             },
             {
-                'name': 'Zakazivanje poseta',
+                'name': 'Zakazivanje pregleda',
                 'icon': 'schedule',
-                'link': 'patient/dermatologist/dermatologist-scheduling',
+                'link': 'patient/dermatologist/pharmacy-choosing',
                 'open': false,
             }
         ]

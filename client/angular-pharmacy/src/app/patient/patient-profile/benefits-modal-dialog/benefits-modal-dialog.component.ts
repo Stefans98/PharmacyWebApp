@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AuthenticationService } from '../../../services/users/authentication.service';
+import { LoyaltyProgramService } from '../../../services/users/loyalty-program.service';
 
 @Component({
   selector: 'app-benefits-modal-dialog',
@@ -8,11 +9,14 @@ import { FormControl } from '@angular/forms';
 })
 export class BenefitsModalDialogComponent implements OnInit {
 
-  benefits = new FormControl();
-  public benefitList: string[];
+  public discount: number;
 
-  constructor() { 
-    this.benefitList = ['Pogodnost 1', 'Pogodnost 2', 'Pogodnost 3', 'Pogodnost 4', 'Pogodnost 5'];
+  constructor(private loyaltyProgramService: LoyaltyProgramService, private authenticationService: AuthenticationService) { 
+    this.loyaltyProgramService.getDiscountByPatientCategory(this.authenticationService.getLoggedUserId()).subscribe(
+      data => {
+        this.discount = data;
+      }
+    );
   }
 
   ngOnInit(): void {

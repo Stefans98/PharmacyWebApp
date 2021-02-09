@@ -8,6 +8,7 @@ export class Pharmacist {
         public street: string,
         public email: string,
         public phoneNumber: string,
-        public password: string
+        public password: string,
+        public averageGrade: number
     ) { }
 }

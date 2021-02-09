@@ -1,0 +1,112 @@
+.full {
+    width: 70%;
+    margin-top: 2px;
+}
+.orders-list-container {
+	background-color: white;
+    padding: 10px;
+    height: 675px;
+    overflow: auto;
+
+	.orders-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	.pharmacy-list-header {
+		background-color: #eee;
+		padding: 10px;
+		div {
+			margin: auto;
+		}
+		
+	}
+}
+
+.order-item-list-container {
+	background-color: white;
+    padding: 10px;
+    height: 675px;
+	overflow: auto;
+	.orders-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+}
+
+.pharmacy-list-container-second {
+	background-color: white;
+    padding: 10px;
+    height: 337.5px;
+    overflow: auto;
+
+	.pharmacy-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	.pharmacy-list-header {
+		background-color: #eee;
+		padding: 10px;
+		div {
+			margin: auto;
+		}
+		
+	}
+}
+
+.pharmacy-add {
+		padding: 10px;
+		background: white;
+		.avatar {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+		}
+		h3 {
+			margin: auto;
+		}
+}
+

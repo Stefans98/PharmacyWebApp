@@ -1,0 +1,10 @@
+<div  style="height: 100px;">
+  <h1 mat-dialog-title class="benefits-dialog-titile">Pacijent je alergičan na:</h1>
+  <div style="height: 110px;">
+    <div mat-dialog-conten *ngFor="let medicine of medicineList" [value]="medicine" class="benefits-dialog">{{medicine.name}}</div>
+  </div>
+  
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Zatvori</button>
+  </div>
+</div>

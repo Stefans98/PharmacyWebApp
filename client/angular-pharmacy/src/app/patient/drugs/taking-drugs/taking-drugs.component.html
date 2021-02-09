@@ -1,1 +1,75 @@
-<p>taking-drugs works!</p>
+<mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear"  
+  style="margin-top: 20px;margin-left: 20px;margin-right: 20px; min-height: 620px;">
+
+  <mat-step [stepControl]="firstFormGroup"  *ngIf="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Pretraga leka</ng-template>
+        <div class="parent">
+            <mat-form-field style="text-align:center;width: 300px;">
+                <input matInput placeholder="Pronađite lek" #searchInput>
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-stroked-button color="primary" style="margin-left:8px" (click)="findMedicine()">Pronađi</button>
+            
+            <h4 style="padding-top: 20px;">Selektujete jedan od ponuđenih lekova:</h4>
+            <mat-selection-list (ngModelChange)="onChangeMedicine($event)" class="searched-medicine" [multiple]="false" formControlName="firstCtrl" required> 
+                <mat-list-option  *ngFor="let medicine of medicines"  [value]="medicine.id">
+                {{medicine.name}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+
+        <button mat-raised-button color="primary" matStepperNext class="button-position-first-form" (click)="firstNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" *ngIf="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Izaberite apoteku</ng-template>
+        <div class="parent">
+            <h4 style="padding-top: 20px;">Selektujete apoteku iz koje rezervišete lek:</h4>
+            <mat-selection-list (ngModelChange)="onChangePharmacy($event)" class="searched-medicine" [multiple]="false"  formControlName="secondCtrl" required>    
+                <mat-list-option  *ngFor="let pharmacy of pharmaciesWhichContainMedicine"  [value]="pharmacy.id" >
+                    {{pharmacy.name}}, {{pharmacy.city}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-second-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-second-form-next" (click)="secondNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" *ngIf="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Datum preuzimanja</ng-template>
+        <div class="parent">
+            <h4 style="padding-top: 20px;">Izaberite datum preuzimanja leka:</h4>
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Datum preuzimanja</mat-label>
+                <input matInput [matDatepicker]="picker"  [min]="maxDate"  formControlName="thirdCtrl" readonly required (dateInput)="onDateChange($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker color="primary"></mat-datepicker>
+              </mat-form-field>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-third-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-third-form-next" (click)="thirdNextButtonClicked()">Dalje</button>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
+    <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Kraj rezervacije</ng-template>
+        <div class="parent">
+            <h3 style="padding-top: 130px;">Stigli ste do kraja postupka rezervacije leka!</h3>
+            <h3 style="padding-top: 5px;">Cena izabranog leka je:  {{this.medicinePrice}} RSD</h3>
+            <h3 style="padding-top: 5px;">Za rezervaciju kliknite na dugme rezerviši!</h3>
+        </div>
+
+        <button mat-raised-button color="warn" matStepperPrevious class="button-position-fourth-form-back">Nazad</button>
+        <button mat-raised-button color="primary" matStepperNext class="button-position-fourth-form-next" (click)="reserveMedicineClick()">Rezerviši</button>
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>

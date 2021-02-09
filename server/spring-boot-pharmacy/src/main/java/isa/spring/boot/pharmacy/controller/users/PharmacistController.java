@@ -4,9 +4,9 @@ import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.*;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
-import isa.spring.boot.pharmacy.mapper.users.DermatologistPatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
 import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
+import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
@@ -34,7 +34,7 @@ public class PharmacistController {
     private PharmacyService pharmacyService;
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACIST', 'PHARMACY_ADMIN')")
     public ResponseEntity<PharmacistDto> getPharmacistById(@PathVariable Long id) {
         Pharmacist pharmacist = (Pharmacist)userService.findById(id);
         if (pharmacist == null){
@@ -68,5 +68,84 @@ public class PharmacistController {
 
         Pharmacy pharmacyForPharmacist = pharmacyService.getPharmacyForPharmacist(pharmacistId);
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacyForPharmacist), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPharmacistsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<PharmacistDto>> getPharmacistsForPharmacy(@PathVariable Long pharmacyId) {
+        List<PharmacistDto> pharmacistsForPharmacy = new ArrayList<>();
+        if(userService.getPharmacistsForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Pharmacist pharmacistForPharmacy : userService.getPharmacistsForPharmacy(pharmacyId)){
+            pharmacistsForPharmacy.add(PharmacistMapper.convertToDto(pharmacistForPharmacy));
+        }
+
+        if(pharmacistsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(pharmacistsForPharmacy, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAvailablePharmacistsForPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<PharmacistDto>> getAvailablePharmacistsForPharmacy(@RequestParam String reservationDate, @RequestParam String startTime,
+                                                                                  @RequestParam String endTime, @RequestParam String pharmacyId) {
+        List<PharmacistDto> availablePharmacistsForPharmacy = new ArrayList<>();
+        if(userService.getAvailablePharmacistsForPharmacy(Long.parseLong(pharmacyId), reservationDate, startTime, endTime) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Pharmacist availablePharmacistForPharmacy : userService.getAvailablePharmacistsForPharmacy(Long.parseLong(pharmacyId), reservationDate, startTime, endTime)){
+            availablePharmacistsForPharmacy.add(PharmacistMapper.convertToDto(availablePharmacistForPharmacy));
+        }
+
+        if(availablePharmacistsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(availablePharmacistsForPharmacy, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/patientsForPharmacist/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<Set<PatientDto>> getPatientsForPharmacist(@PathVariable Long pharmacistId) {
+        Set<PatientDto> patientsForPharmacist = new HashSet<PatientDto>();
+        for(Patient patient : userService.getPatientsForPharmacist(pharmacistId)) {
+            patientsForPharmacist.add(PatientMapper.convertToDto(patient));
+        }
+        if(patientsForPharmacist.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(patientsForPharmacist, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/register/{pharmacyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<UserDto> registerPharmacist(@PathVariable Long pharmacyId, @RequestBody UserDto pharmacistDto) {
+        if (userService.findByEmail(pharmacistDto.getEmail()) != null) {
+            throw new RuntimeException();
+        }
+        User pharmacist = userService.savePharmacist(UserMapper.convertToEntity(pharmacistDto, false), pharmacyId);
+
+        return new ResponseEntity<>(UserMapper.convertToDto(pharmacist), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/firePharmacist/{pharmacyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<Void> firePharmacist(@PathVariable Long pharmacyId, @RequestBody PharmacistDto pharmacistDto) throws  Exception{
+        Pharmacist pharmacist = (Pharmacist) userService.findById(pharmacistDto.getId());
+        if (pharmacist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Pharmacist firedPharmacist = userService.firePharmacist(pharmacist, pharmacyId);
+        if (firedPharmacist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

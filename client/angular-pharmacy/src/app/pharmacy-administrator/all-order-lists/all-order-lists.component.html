@@ -1,1 +1,30 @@
-<p>all-order-lists works!</p>
+<div style="margin-bottom: 6%;">
+<div class="create-order-list" *ngFor="let medicineOrderList of medicineOrderListsForPharmacy">
+    <mat-card class="create-order-list-card">
+        <div class="create-order-list-table mat-elevation-z8">
+            <table class="co-table">
+                <tr>
+                    <th>Kod</th>
+                    <th>Naziv</th>
+                    <th>Količina</th>
+                </tr>
+                <tr *ngFor="let orderItem of medicineOrderList.orderItems; index as i" [value]="med" style="height: 10px;">
+                    <td> {{ orderItem.medicine.code }} </td>
+                    <td> {{ orderItem.medicine.name }} </td>
+                    <td> {{ orderItem.quantity }} </td>
+                </tr>  
+            </table>         
+        </div>
+        
+        <h3 class="mat-h3" style="margin-top: 3%;"> Krajni rok za izdavanje ponude: {{ convertDate(medicineOrderList.finalOfferDate) }} </h3>
+        <h3 class="mat-h3" style="margin-top: -3%;"> Kreirao: {{user.firstName}} {{user.lastName}}</h3>
+
+        <button mat-raised-button color="primary" style="float: left; margin-top: -2%; margin-right: 3%;" (click)="openDialog(medicineOrderList)">Izmeni</button>
+        <button mat-mini-fab color="warn" style="float: left; margin-top: -2%;" (click)="deleteMedicineOrderList(medicineOrderList)"><mat-icon>delete</mat-icon></button>
+        <button mat-raised-button color="primary" style="float: right; margin-top: -2%;" (click)="openOffers(medicineOrderList)">Ponude</button>
+    </mat-card>
+</div>
+</div>
+
+
+

@@ -1,0 +1,32 @@
+<div class="offers-table mat-elevation-z8">
+    <table mat-table [dataSource]="offersForMedicineOrderList">
+  
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Cena </th>
+        <td mat-cell *matCellDef="let offer"> {{offer.price}} RSD </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="deliveryDeadline">
+        <th mat-header-cell *matHeaderCellDef> Rok isporuke </th>
+        <td mat-cell *matCellDef="let offer"> {{convertDate(offer.deliveryDeadline)}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="offerState">
+        <th mat-header-cell *matHeaderCellDef> Stanje </th>
+        <td mat-cell *matCellDef="let offer"> {{convertOffer(offer.offerState)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accept">
+        <th mat-header-cell *matHeaderCellDef> Prihvati </th>
+        <td mat-cell *matCellDef="let offer">
+            <button mat-stroked-button color="primary" (click)="acceptOffer(offer)">Prihvati</button>        
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Zatvori</button>
+</div>

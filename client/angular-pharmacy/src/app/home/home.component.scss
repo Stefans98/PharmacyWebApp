@@ -1,0 +1,30 @@
+.image{
+    height:100%; 
+    background-size:cover;
+    width:auto;
+    background-image:url('../../assets/images/background.png');
+    background-position:50% 50%;
+    overflow: hidden;
+    // filter: brightness(80%); 
+}
+
+mat-card {
+  font-family: 'Roboto, "Helvetica Neue", sans-serif';
+  font-size: 24px;
+  width: 31%;
+  height: 31%;
+  margin: 20% auto;
+  margin-left: 65%;
+  margin-top: 25%;
+  overflow-x: hidden;
+  border-radius: 8px;
+}
+mat-form-field, mat-checkbox {
+  width: 0%;
+  display: block;
+  margin: auto;
+}
+mat-card-content {
+  font-size: 20px;
+  margin-top: 20px;
+}

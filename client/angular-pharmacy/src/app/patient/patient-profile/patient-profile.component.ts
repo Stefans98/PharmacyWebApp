@@ -9,6 +9,7 @@ import { Medicine } from '../../models/medicine.model';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AllergiesModalDialogComponent } from './allergies-modal-dialog/allergies-modal-dialog.component';
 
 @Component({
   selector: 'app-patient-profile',
@@ -30,6 +31,7 @@ export class PatientProfileComponent implements OnInit {
   public country: string = '';
   medicines = new FormControl();
   public medicineList: Medicine[] = [];
+  public selectedMedicines: Medicine[] = [];
   public points: number;
   public userCategory: number;
   public category: string = '';
@@ -37,7 +39,7 @@ export class PatientProfileComponent implements OnInit {
   constructor(public dialog: MatDialog, private patientService: PatientService, private router: Router,
     private medicineService: MedicineService, private snackBar: MatSnackBar, private authService : AuthenticationService) { 
 
-      this.medicineService.getAll().subscribe(
+      this.medicineService.getMedicinesToWhichPatientIsNotAllergic(authService.getLoggedUserId()).subscribe(
         data => {
           this.medicineList = data;
         }
@@ -64,9 +66,10 @@ export class PatientProfileComponent implements OnInit {
     this.street = patient.street;
     this.country = patient.country;
     this.points = patient.points;
-    if (patient.userCategory == 0) {
+    this.userCategory = patient.userCategory;
+    if (this.userCategory == 0) {
       this.category = 'Regular';
-    } else if (patient.userCategory == 1) {
+    } else if (this.userCategory == 1) {
       this.category = 'Silver';
     } else {
       this.category = 'Gold';
@@ -83,9 +86,7 @@ export class PatientProfileComponent implements OnInit {
 
   saveClick(): void {
     if (this.checkInputData()) {
-      if (confirm("Da li ste sigurni da želite da sačuvate izmene?")) {   
           this.updatePatient();
-      }
     }
   }
 
@@ -115,7 +116,7 @@ export class PatientProfileComponent implements OnInit {
   }
 
   updatePatient(): void {
-    this.patientService.updatePatient(this.id, new Patient(this.patient.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, this.points, this.userCategory, encodeURIComponent(this.password))).subscribe(
+    this.patientService.updatePatient(this.id, new Patient(this.patient.id,  this.name, this.surname, this.city, this.country,  this.street, this.email, this.phoneNumber, this.points, this.userCategory, encodeURIComponent(this.password), this.selectedMedicines)).subscribe(
       data => {
         this.patient = data;
         this.prepareDate(this.patient);
@@ -124,6 +125,12 @@ export class PatientProfileComponent implements OnInit {
           this.authService.logout();
           this.router.navigate(['login']);
         }
+        this.selectedMedicines = [];
+        this.medicineService.getMedicinesToWhichPatientIsNotAllergic(this.authService.getLoggedUserId()).subscribe(
+          data => {
+            this.medicineList = data;
+          }
+        );
       },
       error => {
         if (error.status = 500){
@@ -148,8 +155,17 @@ export class PatientProfileComponent implements OnInit {
 
   // MODALNI DIALOG
   
-  openDialog(): void {
+  openBenefitsDialog(): void {
     this.dialog.open(BenefitsModalDialogComponent, {
+      panelClass: 'my-centered-dialog',
+      width: '450px',
+      height: '250px',
+      position: {left: '675px'}
+    });
+  }
+
+  openAllergiesDialog(): void {
+    this.dialog.open(AllergiesModalDialogComponent, {
       panelClass: 'my-centered-dialog',
       width: '450px',
       height: '250px',

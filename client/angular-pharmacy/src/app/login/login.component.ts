@@ -43,11 +43,11 @@ export class LoginComponent implements OnInit {
       } else if(tokenPayload['userRole'] == 'DERMATOLOGIST') {
         this.router.navigate(['/auth/dermatologist/work-calendar']);
       } else if(tokenPayload['userRole'] == 'SUPPLIER') {
-        this.router.navigate(['/auth/dermatologist/work-calendar']);
+        this.router.navigate(['/auth/supplier/medicine-order-lists']);
       } else if(tokenPayload['userRole'] == 'PHARMACY_ADMIN') {
         this.router.navigate(['/auth/pharmacy-administrator/my-pharmacy']);
       } else if(tokenPayload['userRole'] == 'SYSTEM_ADMIN') {
-        this.router.navigate(['/auth/dermatologist/work-calendar']);
+        this.router.navigate(['/auth/system-administrator/pharmacy-registration']);
       } else{
         this.router.navigate(['/login']);
       }
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
        return;
     }
     this.authService.userSignup(new Patient(0, this.firstNameSignup, this.lastNameSignup, this.citySignup, this.countrySignup,
-               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup)) 
+               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup, null)) 
                .subscribe( data => {
                 this.snackBar.open('Nalog je uspešno kreiran!', null, { 
                   duration : 3000, 

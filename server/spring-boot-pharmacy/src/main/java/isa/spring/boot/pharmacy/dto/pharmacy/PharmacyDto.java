@@ -10,8 +10,15 @@ public class PharmacyDto {
     private String description;
     private double averageGrade;
     private String address;
+    private double price;
 
     public PharmacyDto() {
+    }
+
+    public PharmacyDto(Long id, String name, String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
     }
 
     public Long getId() {
@@ -76,5 +83,13 @@ public class PharmacyDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Patient } from '../../models/patient.model';
 import { Pharmacist } from '../../models/pharmacist.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +23,54 @@ export class PharmacistService {
 
   public updatePharmacist(id: number, pharmacist: Pharmacist): Observable<Pharmacist> {
     const body = { id: id, firstName: pharmacist.firstName, lastName: pharmacist.lastName, city: pharmacist.city, country: pharmacist.country,
-                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber
+                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber, averageGrade: pharmacist.averageGrade
     };
 
     return this.http
         .put<Pharmacist>(this.pharmacistUrl + 'updateProfile/' + id, body);
   }
 
-  public getPharmacyForPharmacist(id: number): Observable<Pharmacy> {
+  public getPharmacyForPharmacist(pharmacistId: number): Observable<Pharmacy> {
     return this.http
-        .get<Pharmacy>(this.pharmacistUrl + 'pharmacyForPharmacist/' + id);
+        .get<Pharmacy>(this.pharmacistUrl + 'pharmacyForPharmacist/' + pharmacistId);
   } 
+
+  public getPharmacistsForPharmacy(pharmacyId: number): Observable<Pharmacist[]>{
+    return this.http
+        .get<Pharmacist[]>(this.pharmacistUrl + 'getPharmacistsForPharmacy/' + pharmacyId);
+  }
+    
+  public getAvailablePharmacistsForPharmacy(reservationDate: string, startTime: string, endTime: string, pharmacyId: string): Observable<Pharmacist[]> {
+    let params = new HttpParams()
+      .set('reservationDate', reservationDate)
+      .set('startTime', startTime)
+      .set('endTime', endTime)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.
+      get<Pharmacist[]>(this.pharmacistUrl + 'getAvailablePharmacistsForPharmacy', { params } );
+  }
+
+  public getPatientsForPharmacist(pharmacistId: number): Observable<Patient[]> {
+    return this.http
+        .get<Patient[]>(this.pharmacistUrl + 'patientsForPharmacist/' + pharmacistId);
+  } 
+
+  public registerPharmacist(user : User, pharmacyId: number): Observable<User> {
+    const body = { firstName: user.firstName, lastName: user.lastName, city: user.city, country: user.country,
+      street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber, 
+    };  
+
+    return this.http
+    .post<User>(this.pharmacistUrl + 'register/' + pharmacyId, body);
+  }
+
+  public firePharmacist(id: number, pharmacist: Pharmacist): Observable<Pharmacist> {
+    const body = { id: pharmacist.id, firstName: pharmacist.firstName, lastName: pharmacist.lastName, city: pharmacist.city, country: pharmacist.country,
+                 street: pharmacist.street, email: pharmacist.email, password: pharmacist.password, phoneNumber: pharmacist.phoneNumber, averageGrade: pharmacist.averageGrade
+    };
+
+    return this.http
+        .put<Pharmacist>(this.pharmacistUrl + 'firePharmacist/' + id, body);
+  }
 }

@@ -1,0 +1,178 @@
+<div fxLyout="column" fxLayoutAlign="space-between stretch" fxFlex fxFlexFil fxFill class="components-container-gt-xs">
+    <div fxLayout="row" fxFlexFil fxFill  fxLayoutAlign="space-between stretch">
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 loyalty-program">
+            <div fxLayout="row" fxFlex="8">
+                <h3 class="mat-headline" fxLayoutAlign="space-between center">Definisanje loyalty programa:</h3>
+            </div>
+            <mat-divider></mat-divider>
+            <div fxLayout="row" fxFlex="84">
+                <div fxLayout="column" fxFlex="50" fxLayoutAlign="center none">
+                        <div  fxLayout="row" fxFlex="23" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxFlex="80" style="background-color: #e9e7e6;">
+                                <div fxLayout="row">
+                                    <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="none center">Regular:</div>
+                                    <div fxLayout="row" fxFlex="80" class="mat-h3">
+                                        <table fxFlex>
+                                            <tr>
+                                                <th class="mat-h4">
+                                                    Min. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Maks. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Popust:
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    0
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{value}}
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    0%
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div  fxLayout="row" fxFlex="23" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxFlex="80" style="background-color: #999999;">
+                                <div fxLayout="row">
+                                    <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="none center">Silver:</div>
+                                    <div fxLayout="row" fxFlex="80" class="mat-h3">
+                                        <table fxFlex>
+                                            <tr>
+                                                <th class="mat-h4">
+                                                    Min. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Maks. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Popust:
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{value}}
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{highValue}}
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{silverUserDiscount}}%
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div  fxLayout="row" fxFlex="23" fxLayoutAlign="center center">
+                            <mat-card fxLayout="column" fxFlex="80" style="background-color: rgb(238, 219, 108);">
+                                <div fxLayout="row">
+                                    <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="none center">Gold:</div>
+                                    <div fxLayout="row" fxFlex="80" class="mat-h3" fxLayoutAlign="none none">
+                                        <table fxFlex>
+                                            <tr>
+                                                <th class="mat-h4">
+                                                    Min. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Maks. poena:
+                                                </th>
+                                                <th class="mat-h4">
+                                                    Popust:
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{highValue}}
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    100
+                                                </td>
+                                                <td class="mat-h4" style="text-align:center">
+                                                    {{goldUserDiscount}}%
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
+                            <div fxFlex="80" fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z8">
+                                <div fxFlex="50" fxLayout="column" fxLayoutAlign="center start" >
+                                    <mat-form-field class="example-form-field">
+                                        <mat-label>Poeni za pregled</mat-label>
+                                        <input matInput type="number" [(ngModel)]="examinationPoints" required>
+                                        <button mat-button *ngIf="examinationPoints" matSuffix mat-icon-button aria-label="Clear" (click)="examinationPoints=''">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div fxFlex="50" fxLayout="column" fxLayoutAlign="center start" >
+                                    <mat-form-field class="example-form-field">
+                                        <mat-label>Poeni za savetovanje</mat-label>
+                                        <input matInput type="number" [(ngModel)]="counselingPoints" required>
+                                        <button mat-button *ngIf="counselingPoints" matSuffix mat-icon-button aria-label="Clear" (click)="counselingPoints=''">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>   
+                                </div>
+                            </div>
+                            
+                        </div>
+                </div>
+                <div fxLayout="column" fxFlex="50">
+                    <div fxLayout="column" fxFlex style="margin: 2% 5% 3% 0%;" class="mat-elevation-z8">
+                        <div fxLayout="row" fxFlex="15" class="mat-h2" fxLayoutAlign="center center">Skala kategorija:</div>
+                        <div fxLayout="row" fxFlex="25" class="custom-slider" fxLayoutAlign="center start">
+                            <div fxLayout="column" fxFlex="70">
+                                <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ngx-slider>
+                            </div>
+                            
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div fxLayout="row" fxFlex="15" class="mat-h2" fxLayoutAlign="center center">Popusti:</div>
+                        <div fxLayout="row" fxFlex="20" fxLayoutAlign="center start">
+                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">
+                                Silver:
+                            </div>
+                            <div fxLayout="column" fxFlex="50">
+                                <ngx-slider [(value)]="silverUserDiscount" [options]="silverUserDiscountSliderOptions"
+                                (valueChange)="silverUserDiscountSliderValueChange()">
+                             </ngx-slider>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxFlex="20" fxLayoutAlign="center start">
+                            <div fxLayout="row" fxFlex="20" class="mat-h3" fxLayoutAlign="start end">
+                                Gold:
+                            </div>
+                            <div fxLayout="column" fxFlex="50">
+                                <ngx-slider [(value)]="goldUserDiscount" [options]="goldUserDiscountSliderOptions"></ngx-slider>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div fxLayout="row" fxFlex fxLayoutAlign="center center">
+                <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
+					<button mat-raised-button color="primary" style="width: 150px;" (click)="defineLoyaltyProgramClick()" [disabled]="!counselingPoints || !examinationPoints">
+                        Potvrdi
+                    </button>
+				</div>
+            </div>
+                
+        </div>
+    </div>
+</div>

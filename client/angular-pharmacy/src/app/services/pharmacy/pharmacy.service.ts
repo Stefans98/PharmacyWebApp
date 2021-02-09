@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Pharmacy } from "../../models/pharmacy.model";
@@ -11,17 +11,67 @@ import { Pharmacy } from "../../models/pharmacy.model";
 @Injectable()
 export class PharmacyService{
     
-    private readonly pharmacyUrl = 'http://localhost:8081/api/pharmacies/'
+  private readonly pharmacyUrl = 'http://localhost:8081/api/pharmacies/'
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-    public getPharmacyByPharmacyAdminId(id: number): Observable<Pharmacy> {
-      return this.http
-        .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
-    } 
+  public registerPharmacy(pharmacy: Pharmacy): Observable<Pharmacy> {
+    const body = { name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
+      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade 
+    };  
 
-    public getAllPharmacies(): Observable<Pharmacy[]> {
-      return this.http
-        .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
-    } 
+    return this.http
+    .post<Pharmacy>(this.pharmacyUrl + 'register', body);
+  }
+
+  public getPharmacyByPharmacyAdminId(id: number): Observable<Pharmacy> {
+    return this.http
+      .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
+  } 
+
+  public getPharmacyByPharmacist(id: number): Observable<Pharmacy> {
+    return this.http
+      .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacist/' + id);
+  } 
+
+  public getAllPharmacies(): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getAllPharmacies');
+  }
+
+  public getPharmaciesForDermatologist(id: number): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByDermatologist/' + id);
+  }  
+
+  public getPharmaciesByMedicineId(id: number): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesByMedicineId/' + id);
+  } 
+
+  public getPharmaciesForPatientAppointmentsAndReservations(patientId: number): Observable<Pharmacy[]> {
+    return this.http
+    .get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesForPatientAppointmentsAndReservations/' + patientId);
+  }
+
+  public getPharmacyById(id: number): Observable<Pharmacy> {
+    return this.http
+      .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyById/' + id);
+  } 
+  
+  public getPharmaciesWithAvailablePharmacistsByDateTime(reservationDate: string, startTime: string, endTime: string): Observable<Pharmacy[]> {
+    let params = new HttpParams()
+      .set('reservationDate', reservationDate)
+      .set('startTime', startTime)
+      .set('endTime', endTime);
+
+    return this.http.
+      get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesWithAvailablePharmacistsByDateTime', { params } );
+  }
+
+  public getAllPharmaciesWithMedicine(code : string): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getAllWithMedicine/' + code);
+  } 
+
 }
