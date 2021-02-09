@@ -121,7 +121,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         );
       } else {
         // Select new appointment
-        this.searchInput.nativeElement.disabled = false;
+        //this.searchInput.nativeElement.disabled = false;
       }
     }
 
@@ -213,7 +213,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
            });
         },
         error => {
-          this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
+          this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće ! MOGUĆI RAZLOZI: 1. Dermatolog ne radi u izabranom vremenu! 2. Pacijent ili dermatolog imaju zakazan termin u izabranom vremenu!', 'Zatvori', 6000);
         });
     } else if (this.selected.value == 1) {  // New appointment term
       if(this.chosenDate == '' || this.startTime == '' || this.endTime == '') {
@@ -236,7 +236,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
           this.endTime = null;
         },
         error => {
-          this.openSnackBar('Izabrani termin trenutno ne možete da zakažete!', 'Zatvori', 3000);
+          this.openSnackBar('Izabrani termin trenutno ne možete da zakažete ! MOGUĆI RAZLOZI: 1. Dermatolog ne radi u izabranom vremenu! 2. Pacijent ili dermatolog imaju zakazan termin u izabranom vremenu!', 'Zatvori', 6000);
       });
     }
     
@@ -282,7 +282,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         this.selectedAppointment = null;
         this.patientAppointments = [];
         this.searchInput.nativeElement.value = '';
-        this.openSnackBar('Uspešno ste završili pregled', 'Zatvori', 3000);
+        this.openSnackBar('Uspešno ste završili pregled!', 'Zatvori', 3000);
       },
       error => {
         if (error.status = 404){
@@ -325,7 +325,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     this.appointmentService.saveAppointmentReport(this.appointmentReport).subscribe(
       data => {
         this.appointmentReport = data;
-        this.openSnackBar('Uspešno ste završili pregled za pacijenta!', 'Zatvori', 3000);
+        this.openSnackBar('Uspešno ste završili pregled!' , 'Zatvori', 3000);
       }
     );
     this.router.navigate(['/auth/dermatologist/work-calendar']);

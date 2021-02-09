@@ -28,26 +28,27 @@ export class DermatologistWorkCalendarComponent implements OnInit {
     this.userService.getPasswordResetDataForUser(authenticationService.getLoggedUserId()).subscribe(
       data => {
         this.resetPasswordData = data;
-        if(this.resetPasswordData.passwordReset == false) {
+        this.appointmentService.getExaminationsForDermatologistWorkCalendar(authenticationService.getLoggedUserId()).subscribe(
+          data => {
+            this.dermatologistExaminations = data;
+            for(var dermatologistExamination of this.dermatologistExaminations) {
+              this.INITIAL_EVENTS.push(
+                { 
+                  id : dermatologistExamination.id.toString(),
+                  title : dermatologistExamination.patient.firstName + ' ' + dermatologistExamination.patient.lastName + ', ' + dermatologistExamination.workDay.pharmacy.name,
+                  start: dermatologistExamination.startTime,
+                  end : dermatologistExamination.endTime,
+                })
+                this.calendarOptions.events = this.INITIAL_EVENTS;
+            }
+          }
+        );
+        if(this.resetPasswordData.passwordReset == false) { // First login
           this.openDialog();
         }
       }
     );
-    this.appointmentService.getExaminationsForDermatologistWorkCalendar(authenticationService.getLoggedUserId()).subscribe(
-      data => {
-        this.dermatologistExaminations = data;
-        for(var dermatologistExamination of this.dermatologistExaminations) {
-          this.INITIAL_EVENTS.push(
-            { 
-              id : dermatologistExamination.id.toString(),
-              title : dermatologistExamination.patient.firstName + ' ' + dermatologistExamination.patient.lastName,
-              start: dermatologistExamination.startTime,
-              end : dermatologistExamination.endTime,
-            })
-            this.calendarOptions.events = this.INITIAL_EVENTS;
-        }
-      }
-    ); 
+     
   }
 
   ngOnInit(): void {}
@@ -146,7 +147,7 @@ export class DermatologistWorkCalendarComponent implements OnInit {
       width: '550px',
       height: '365px',
       position: {left: '600px'},
-      disableClose:true
+      disableClose: true
     });
   }
 

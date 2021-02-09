@@ -2,24 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Dermatologist } from '../../../models/dermatologist.model';
+import { Pharmacist } from '../../../models/pharmacist.model';
 import { AuthenticationService } from '../../../services/users/authentication.service';
-import { DermatologistService } from '../../../services/users/dermatologist.service';
-import { UserService } from '../../../services/users/user.service';
+import { PharmacistService } from '../../../services/users/pharmacist.service';
 
 @Component({
-  selector: 'app-change-password-modal-dialog',
-  templateUrl: './change-password-modal-dialog.component.html',
-  styleUrls: ['./change-password-modal-dialog.component.scss']
+  selector: 'app-change-password-modal-dialog-pharmacist',
+  templateUrl: './change-password-modal-dialog-pharmacist.component.html',
+  styleUrls: ['./change-password-modal-dialog-pharmacist.component.scss']
 })
-export class ChangePasswordModalDialogComponent implements OnInit {
+export class ChangePasswordModalDialogPharmacistComponent implements OnInit {
 
   public password: string = '';
   public repeatPassword: string = '';
-  public loggedDermatologist: Dermatologist;
+  public loggedPharmacist: Pharmacist;
 
-  constructor(private dermatologistService : DermatologistService, private authService : AuthenticationService,
-    private router : Router, private snackBar: MatSnackBar, public dialogRef: MatDialogRef<ChangePasswordModalDialogComponent>) { }
+  constructor(private pharmacistService : PharmacistService, private authService : AuthenticationService,
+    private router : Router, private snackBar: MatSnackBar, public dialogRef: MatDialogRef<ChangePasswordModalDialogPharmacistComponent>) { }
 
   ngOnInit(): void {
   }
@@ -35,12 +34,12 @@ export class ChangePasswordModalDialogComponent implements OnInit {
       this.openSnackBar('Morate izmeniti lozinku pri prvoj prijavi na vaš nalog!', 'Zatvori');
       return;
     }
-    this.dermatologistService.getDermatologistById(this.authService.getLoggedUserId()).subscribe(
+    this.pharmacistService.getPharmacistById(this.authService.getLoggedUserId()).subscribe(
       data => {
-        this.loggedDermatologist = data;
-        this.dermatologistService.updateDermatologist(this.loggedDermatologist.id, new Dermatologist(this.loggedDermatologist.id,  this.loggedDermatologist.firstName, this.loggedDermatologist.lastName, this.loggedDermatologist.city, this.loggedDermatologist.country,  this.loggedDermatologist.street, this.loggedDermatologist.email, this.loggedDermatologist.phoneNumber, encodeURIComponent(this.password), 0)).subscribe(
+        this.loggedPharmacist = data;
+        this.pharmacistService.updatePharmacist(this.loggedPharmacist.id, new Pharmacist(this.loggedPharmacist.id,  this.loggedPharmacist.firstName, this.loggedPharmacist.lastName, this.loggedPharmacist.city, this.loggedPharmacist.country,  this.loggedPharmacist.street, this.loggedPharmacist.email, this.loggedPharmacist.phoneNumber, encodeURIComponent(this.password), 0)).subscribe(
           data => {
-            this.loggedDermatologist = data;
+            this.loggedPharmacist = data;
             this.password = '';
             this.repeatPassword = '';
             this.openSnackBar('Uspešno ste izmenili lozinku, možete se prijaviti na vaš nalog!', 'Zatvori');
