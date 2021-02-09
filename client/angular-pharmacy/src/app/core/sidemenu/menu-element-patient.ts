@@ -99,9 +99,23 @@ export const patientMenus = [
     },
     {
         'name': 'ERecepti',
+        'link': false,
         'open': false,
-        'link': 'patient/e-prescription',
         'icon': 'receipt',
+        'sub': [
+            {
+                'name': 'Novi e-recept',
+                'icon': 'local_pharmacy',
+                'link': 'patient/new-e-prescription',
+                'open': false,
+            },
+            {
+                'name': 'Moji e-recepti',
+                'icon': 'medical_services',
+                'link': 'patient/my-e-prescriptions',
+                'open': false,
+            }
+        ]
     },
     {
         'name': 'Penali',
