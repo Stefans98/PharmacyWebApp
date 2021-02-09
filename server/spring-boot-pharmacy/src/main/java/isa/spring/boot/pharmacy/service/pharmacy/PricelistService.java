@@ -57,4 +57,17 @@ public class PricelistService {
         return date;
     }
 
+    public Pricelist findPricelistForPharmacy(Long pharmacyId){
+        for(Pricelist pricelist : pricelistRepository.findAll()){
+            if(pricelist.getPharmacy().getId() == pharmacyId){
+                return pricelist;
+            }
+        }
+        return null;
+    }
+
+    public Pricelist save(Pricelist pricelist){
+        return pricelistRepository.save(pricelist);
+    }
+
 }

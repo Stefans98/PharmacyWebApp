@@ -37,4 +37,14 @@ public class PharmacyMapper {
 
         return pharmacy;
     }
+
+    public static Pharmacy convertToEntityWithId(PharmacyDto pharmacyDto){
+        Pharmacy pharmacy = new Pharmacy();
+        pharmacy.setId(pharmacyDto.getId());
+        pharmacy.setName(pharmacyDto.getName());
+        pharmacy.setAddress(new Address(pharmacyDto.getCountry(), pharmacyDto.getCity(), pharmacyDto.getStreet()));
+        pharmacy.setDescription(pharmacyDto.getDescription());
+        pharmacy.setAverageGrade(pharmacyDto.getAverageGrade());
+        return pharmacy;
+    }
 }

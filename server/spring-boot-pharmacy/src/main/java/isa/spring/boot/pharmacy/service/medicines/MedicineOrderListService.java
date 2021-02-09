@@ -21,11 +21,18 @@ public class MedicineOrderListService {
     private OrderItemService orderItemService;
 
     public MedicineOrderList createMedicineOrderList(MedicineOrderList medicineOrderList){
+        medicineOrderList.setDeleted(false);
         return medicineOrderListRepository.save(medicineOrderList);
     }
 
     public List<MedicineOrderList> getAll() {
-        return medicineOrderListRepository.findAll();
+        List<MedicineOrderList> medicineOrderLists = new ArrayList<>();
+        for(MedicineOrderList medicineOrderList : medicineOrderListRepository.findAll()){
+            if(!medicineOrderList.getDeleted()){
+                medicineOrderLists.add(medicineOrderList);
+            }
+        }
+        return medicineOrderLists;
     }
 
     public List<MedicineOrderList> getAllActive() {
@@ -55,6 +62,7 @@ public class MedicineOrderListService {
     public MedicineOrderList updateMedicineOrderList(MedicineOrderList newMedicineOrderList){
         MedicineOrderList oldMedicineOrderList = findOldMedicineOrderList(newMedicineOrderList.getId());
         if(oldMedicineOrderList.getOffers().isEmpty()){
+            newMedicineOrderList.setDeleted(false);
             return medicineOrderListRepository.save(newMedicineOrderList);
         }else{
             return null;
@@ -64,19 +72,16 @@ public class MedicineOrderListService {
     public boolean deleteMedicineOrderList(MedicineOrderList medicineOrderList){
         MedicineOrderList tempMedicineOrderList = findOldMedicineOrderList(medicineOrderList.getId());
         if(tempMedicineOrderList.getOffers().isEmpty()){
-            medicineOrderListRepository.deleteById(tempMedicineOrderList.getId());
+            tempMedicineOrderList.setDeleted(true);
+            medicineOrderListRepository.save(tempMedicineOrderList);
             return true;
         }else{
             return false;
         }
     }
 
-    public List<MedicineOrderList> findAll(){
-        return medicineOrderListRepository.findAll();
-    }
-
     public MedicineOrderList findOldMedicineOrderList(Long id){
-        for(MedicineOrderList medicineOrderList : findAll()){
+        for(MedicineOrderList medicineOrderList : getAll()){
             if(medicineOrderList.getId() == id){
                 return medicineOrderList;
             }

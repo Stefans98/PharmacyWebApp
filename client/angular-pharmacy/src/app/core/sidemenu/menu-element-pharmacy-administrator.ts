@@ -24,6 +24,12 @@ export const pharmacyAdministratorMenus = [
         'open': false
     },
     {
+        'name': 'Cenovnik',
+        'icon': 'people',
+        'link': 'pharmacy-administrator/pharmacy-pricelist',
+        'open': false
+    },
+    {
         'name': 'Lekovi',
         'icon': 'medical_services',
         'link': false,

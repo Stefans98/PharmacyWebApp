@@ -108,10 +108,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
 import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
+import { PharmacyPricelistComponent } from './pharmacy-administrator/pharmacy-pricelist/pharmacy-pricelist.component';
 import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
 import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
 import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
-
 
 @NgModule({
   declarations: [
@@ -209,6 +209,7 @@ import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choo
     PenaltyGraphComponent,
     MedicineSpecificationModalDialogPharmacistComponent,
     SubscriptionMedicinesModalDialogPharmacistComponent,
+    PharmacyPricelistComponent,
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
     PharmacyChoosingComponent
