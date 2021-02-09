@@ -117,6 +117,18 @@ import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list'; 
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -245,7 +257,9 @@ import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-au
     NgxSliderModule,
     CommonModule,
     ChartModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatTableModule,
+    FullCalendarModule 
   ],
   providers: [
     {
