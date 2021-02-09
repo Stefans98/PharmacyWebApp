@@ -1,7 +1,7 @@
 package isa.spring.boot.pharmacy.dto.schedule;
 
 public class AnnualStatistics {
-    private int january;
+    private double january;
     private int february;
     private int march;
     private int april;
@@ -17,11 +17,11 @@ public class AnnualStatistics {
     public AnnualStatistics() {
     }
 
-    public int getJanuary() {
+    public double getJanuary() {
         return january;
     }
 
-    public void setJanuary(int january) {
+    public void setJanuary(double january) {
         this.january = january;
     }
 

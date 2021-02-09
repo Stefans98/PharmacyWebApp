@@ -3,6 +3,7 @@
 <mat-tab-group>
 
     <mat-tab label="Pregledi na mesečnom nivou"> 
+        <h1 class="mat-h1" style="margin-left: 5%; margin-top: 3%;">Broj održanih pregleda u 2021 je: {{ annualStatData }}.</h1> 
         <div style="margin-left: 15%; margin-top: 5%;">
             <ngx-charts-bar-vertical
             [view]="view"
@@ -17,11 +18,12 @@
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
             (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>  
+            </ngx-charts-bar-vertical> 
         </div>  
     </mat-tab>
 
     <mat-tab label="Pregledi na kvartalnom nivou"> 
+        <h1 class="mat-h1" style="margin-left: 5%; margin-top: 3%;">Broj održanih pregleda u 2021 je: {{ annualStatData }}.</h1> 
         <div style="margin-left: 15%; margin-top: 5%;">
             <ngx-charts-bar-vertical
             [view]="view"
@@ -39,9 +41,77 @@
             </ngx-charts-bar-vertical>  
         </div>  
     </mat-tab>
-    <mat-tab label="Lekovi na mesečnom nivou"> Content 1 </mat-tab>
-    <mat-tab label="Lekovi na kvartalnom nivou"> Content 2 </mat-tab>
-    <mat-tab label="Prihod apoteke"> Content 2 </mat-tab>
+    <mat-tab label="Lekovi na mesečnom nivou">
+        <h1 class="mat-h1" style="margin-left: 5%; margin-top: 3%;">Broj potrošenih lekova u 2021 je: {{ annualStatDataMedicine }}.</h1> 
+        <div style="margin-left: 15%; margin-top: 5%;">
+            <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="statDataMedicine"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>  
+        </div>  
+    </mat-tab>
+    <mat-tab label="Lekovi na kvartalnom nivou">
+        <h1 class="mat-h1" style="margin-left: 5%; margin-top: 3%;">Broj potrošenih lekova u 2021 je: {{ annualStatDataMedicine }}.</h1> 
+        <div style="margin-left: 15%; margin-top: 5%;">
+            <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="quartalStatDataMedicine"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>  
+        </div>  
+    </mat-tab>
+    <mat-tab label="Prihod apoteke">
+        <mat-form-field color="accent" appearance="fill" style="margin-left: 22%; margin-top: 3%;">
+            <mat-label>Datum početka</mat-label>
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          
+          <mat-form-field color="accent" appearance="fill" style="margin-left: 1%;">
+            <mat-label>Datum kraja</mat-label>
+            <input matInput [matDatepicker]="picker2" [min]="startDate" [(ngModel)]="endDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" style="margin-left: 1%;" (click)="calculateProfit()">Potvrdi</button>
+
+          <div style="margin-left: 18%; margin-top: 5%;">
+            <ngx-charts-gauge
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="profitData"
+            [min]="0"
+            [max]="100"
+            [angleSpan]="240"
+            [startAngle]="-120"
+            [units]="'RSD'"
+            [bigSegments]="10"
+            [smallSegments]="5"
+            (select)="onSelect($event)">
+          </ngx-charts-gauge>
+          </div>
+    </mat-tab>
   </mat-tab-group>
 
 </div>

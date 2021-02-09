@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.controller.medicines;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineInquiryDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
+import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
@@ -21,7 +22,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -239,5 +243,29 @@ public class MedicineController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicinesForPharmacy, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/medicineStatistic/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<AnnualStatistics> medicineStatistic(@PathVariable Long pharmacyId) {
+        AnnualStatistics annualStatistics = medicineReservationService.medicineStatistic(pharmacyId);
+        if(annualStatistics == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/calculatePharmacyProfit/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<AnnualStatistics> calculatePharmacyProfit(@PathVariable Long pharmacyId, @RequestParam String startDate, @RequestParam String endDate) throws ParseException {
+        //Date startTime =new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+        //Date endTime =new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+        Date startTime = new Date(Long.valueOf(startDate));
+        Date endTime = new Date(Long.valueOf(endDate));
+        AnnualStatistics annualStatistics = medicineReservationService.calculatePharmacyProfit(pharmacyId, startTime, endTime);
+        if(annualStatistics == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
     }
 }

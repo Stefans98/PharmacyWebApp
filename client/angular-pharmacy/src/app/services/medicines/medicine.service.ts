@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AnnualStatistics } from '../../models/annual-statistics.model';
 import { Medicine } from '../../models/medicine.model';
 import { MedicineReservation } from '../../models/medicineReservation.model';
 
@@ -118,5 +119,19 @@ export class MedicineService {
       additionalInformation : medicine.additionalInformation, medicineSpecification : medicine.medicineSpecification  };
 
     return this.http.post<Medicine>(this.medicineUrl + "save", body);
+  }
+
+  public medicineStatistic(pharmacyId: number): Observable<AnnualStatistics> {
+    return this.http
+        .get<AnnualStatistics>(this.medicineUrl + 'medicineStatistic/' + pharmacyId);
+  }
+  
+  public calculatePharmacyProfit(pharmacyId: number, startDate: string, endDate: string): Observable<AnnualStatistics> {
+    let params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+
+    return this.http
+        .get<AnnualStatistics>(this.medicineUrl + 'calculatePharmacyProfit/' + pharmacyId, {params});
   }
 }

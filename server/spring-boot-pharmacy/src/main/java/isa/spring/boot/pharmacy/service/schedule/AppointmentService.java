@@ -424,6 +424,9 @@ public class AppointmentService {
     public AnnualStatistics appointmentStatistic(Long pharmacyId){
         AnnualStatistics annualStatistics = new AnnualStatistics();
         for(Appointment appointment : getAppointmentsForPharmacy(pharmacyId)){
+            if(appointment.getAppointmentState() != AppointmentState.FINISHED){
+                continue;
+            }
             if(appointment.getStartTime().getMonth() == 0){
                 annualStatistics.setJanuary(annualStatistics.getJanuary() + 1);
             }else if(appointment.getStartTime().getMonth() == 1){
