@@ -3,11 +3,14 @@ package isa.spring.boot.pharmacy.controller.medicines;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineInquiryDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
+import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineInquiry;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.service.medicines.MedicineInquiryService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
@@ -20,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +135,17 @@ public class MedicineController {
             return new ResponseEntity<>(medicineReservationDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicineReservationDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicinesForPatientCompletedReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesForPatientCompletedReservations(@PathVariable Long patientId) {
+        List<MedicineDto> medicineDtos = new ArrayList<>();
+        List<Medicine> medicines = medicineService.getMedicinesForPatientCompletedReservations(patientId);
+        for (Medicine medicine : medicines) {
+            medicineDtos.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineDtos, HttpStatus.OK);
     }
 
     @PutMapping(value = "/cancelMedicineReservation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

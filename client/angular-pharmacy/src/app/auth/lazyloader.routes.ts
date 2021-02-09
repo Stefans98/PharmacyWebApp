@@ -62,6 +62,8 @@ import { VacationRequestPharmacistsComponent } from '../pharmacy-administrator/a
 import { PharmacyAdministratorProfileComponent } from '../pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { PharmacyPricelistComponent } from '../pharmacy-administrator/pharmacy-pricelist/pharmacy-pricelist.component';
 import { PharmacyChoosingComponent } from '../patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
+import { NewGradingComponent } from '../patient/grading/new-grading/new-grading.component';
+import { ChangeGradeComponent } from '../patient/grading/change-grade/change-grade.component';
 
 export const appRoutes: Routes = [{
     path: '', component: AuthComponent, children: [
@@ -82,6 +84,8 @@ export const appRoutes: Routes = [{
         { path: 'patient/penalty', component: PenaltyComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/complaints', component: ComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/patient-profile', component: PatientProfileComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
+        { path: 'patient/grading/new-grading', component: NewGradingComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
+        { path: 'patient/grading/change-grade', component: ChangeGradeComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'pharmacist/work-calendar', component: PharmacistWorkCalendarComponent,  canActivate: [RouteGuardService], data : { role: 'PHARMACIST'}  },
         { path: 'pharmacist/patients', component: PharmacistPatientsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACIST'} },
         { path: 'pharmacist/start-appointment', component: PharmacistStartAppointmentComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACIST'}  },

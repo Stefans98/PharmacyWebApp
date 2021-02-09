@@ -84,6 +84,16 @@ public class MedicineReservationService {
         return medicineReservations;
     }
 
+    public List<MedicineReservation> getAllCompletedMedicineReservationByPatientId(long patientId) {
+        List<MedicineReservation> medicineReservations = new ArrayList<>();
+        for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
+            if (medicineReservation.getMedicineReservationState() == MedicineReservationState.COMPLETED) {
+                medicineReservations.add(medicineReservation);
+            }
+        }
+        return medicineReservations;
+    }
+
     public void checkIfPatientGotPenaltyForMedicineReservationsThisMonth(long patientId) {
         for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
             if (isMedicineReservationInThePastOrCurrentDateInCurrentMonth(medicineReservation)

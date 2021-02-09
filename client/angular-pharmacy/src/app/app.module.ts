@@ -117,6 +117,9 @@ import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
+import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
+import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -223,7 +226,10 @@ import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-au
     PharmacyPricelistComponent,
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
-    PharmacyChoosingComponent
+    PharmacyChoosingComponent,
+    NewGradingComponent,
+    ChangeGradeComponent,
+    ChooseGradeEntityModalDialogComponent
   ],
   imports: [
     BrowserModule,
