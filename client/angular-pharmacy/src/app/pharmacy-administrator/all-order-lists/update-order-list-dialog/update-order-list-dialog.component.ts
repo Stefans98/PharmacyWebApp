@@ -95,16 +95,18 @@ export class UpdateOrderListDialogComponent implements OnInit {
     }
   
     sendOrderList(){
+      if(this.tempMedicineOrderList == undefined || this.tempMedicineOrderList.length == 0){
+        this.openSnackBar('Lista lekova mora biti popunjena!', 'Zatvori');
+        return;
+      }else if(this.offerDeadline == undefined){
+        this.openSnackBar('Datum mora biti unet!', 'Zatvori');
+        return;
+      } else {
       for(var mItem of this.tempMedicineOrderList){
         var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', 0, 0, 0, '', 0, false, null);
         var orderItem = new OrderItem(mItem.orderItemId, medicine, mItem.quantity);
         this.orderItemListForSending.push(orderItem);
-        console.log(mItem.id);
-        console.log(mItem.code);
-        console.log(mItem.name);
-        console.log(mItem.quantity);
-        console.log(this.offerDeadline);
-        console.log('***********');
+        
       }
       this.medicineOrderListForSending = new MedicineOrderList(this.data.id, this.orderItemListForSending, this.offerDeadline, this.authService.getLoggedUserId());
       this.medicineOrderListService.updateMedicineOrderList(this.medicineOrderListForSending).subscribe(
@@ -117,6 +119,7 @@ export class UpdateOrderListDialogComponent implements OnInit {
           }
         }
       );
+      }
 
       this.dialogRef.close();
 
