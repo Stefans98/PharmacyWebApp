@@ -55,7 +55,7 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
@@ -64,7 +64,7 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsNotAllergic(@PathVariable Long patientId) {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
