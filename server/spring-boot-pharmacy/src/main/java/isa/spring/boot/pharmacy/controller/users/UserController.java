@@ -1,6 +1,8 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.ResetPasswordDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.ResetPasswordMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.service.users.UserService;
@@ -29,6 +31,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(UserMapper.convertToDto(user), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getPasswordResetDataForUser/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('PATIENT','PHARMACIST','DERMATOLOGIST','SUPPLIER','PHARMACY_ADMIN','SYSTEM_ADMIN')")
+    public ResponseEntity<ResetPasswordDto> getPasswordResetDataForUser(@PathVariable Long userId) {
+        User user = userService.findById(userId);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(ResetPasswordMapper.convertToDto(user), HttpStatus.OK);
     }
 
 }

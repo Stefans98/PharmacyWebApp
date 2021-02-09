@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CalendarOptions, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
 import { Appointment } from '../../models/appointment.model';
+import { ResetPassword } from '../../models/reset-password.model';
 import { AppointmentService } from '../../services/schedule/appointment.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
+import { UserService } from '../../services/users/user.service';
+import { ChangePasswordModalDialogComponent } from './change-password-modal-dialog/change-password-modal-dialog.component';
 
 @Component({
   selector: 'app-dermatologist-work-calendar',
@@ -17,9 +21,18 @@ export class DermatologistWorkCalendarComponent implements OnInit {
   public INITIAL_EVENTS: EventInput[] = [];
   public dermatologistExaminations : Appointment[] = [];
   public selectedAppointment : Appointment;
+  public resetPasswordData : ResetPassword;
 
   constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService,
-      private router : Router, private snackBar: MatSnackBar) {
+      private userService : UserService, private router : Router, private snackBar: MatSnackBar, public dialog: MatDialog) {
+    this.userService.getPasswordResetDataForUser(authenticationService.getLoggedUserId()).subscribe(
+      data => {
+        this.resetPasswordData = data;
+        if(this.resetPasswordData.passwordReset == false) {
+          this.openDialog();
+        }
+      }
+    );
     this.appointmentService.getExaminationsForDermatologistWorkCalendar(authenticationService.getLoggedUserId()).subscribe(
       data => {
         this.dermatologistExaminations = data;
@@ -125,6 +138,16 @@ export class DermatologistWorkCalendarComponent implements OnInit {
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
     return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordModalDialogComponent,{
+      panelClass: 'my-centered-dialog',
+      width: '550px',
+      height: '365px',
+      position: {left: '600px'},
+      disableClose:true
+    });
   }
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';

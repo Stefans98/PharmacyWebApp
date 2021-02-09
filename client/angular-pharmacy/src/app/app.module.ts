@@ -122,6 +122,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import listPlugin from '@fullcalendar/list';
+import { ChangePasswordModalDialogComponent } from './dermatologist/dermatologist-work-calendar/change-password-modal-dialog/change-password-modal-dialog.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -235,7 +236,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     PharmacyPricelistComponent,
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
-    PharmacyChoosingComponent
+    PharmacyChoosingComponent,
+    ChangePasswordModalDialogComponent
   ],
   imports: [
     BrowserModule,
