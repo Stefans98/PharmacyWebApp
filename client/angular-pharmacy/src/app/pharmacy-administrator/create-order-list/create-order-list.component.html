@@ -57,7 +57,7 @@
                     <td> {{ med.name }} </td>
                     <td> 
                         <mat-form-field style="width: 70px;">
-                            <input matInput type="number" style="width: 70px;" [(ngModel)]="med.quantity">
+                            <input matInput type="number" min="1" style="width: 70px;" [(ngModel)]="med.quantity">
                         </mat-form-field>
                     </td>
                     <td>

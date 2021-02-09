@@ -4,6 +4,7 @@
         <mat-card-header>
             <mat-card-title>Nova narudžbenica</mat-card-title>
         </mat-card-header>
+        <h2 class="mat-h2">*Za brisanje leka iz narudzbenice postaviti količinu na 0</h2>
         <div class="create-order-list-table mat-elevation-z8">
             <table class="co-table">
                 <tr>
@@ -17,13 +18,8 @@
                     <td> {{ orderItem.name }} </td>
                     <td> 
                         <mat-form-field style="width: 70px;">
-                            <input matInput type="number" min="1" style="width: 70px;" [(ngModel)]="orderItem.quantity">
+                            <input matInput type="number" min="0" style="width: 70px;" [(ngModel)]="orderItem.quantity">
                         </mat-form-field>
-                    </td>
-                    <td>
-                        <button mat-raised-button color="warn" style="margin-left: 10%;" (click)="removeMedicine(med, i)">
-                            Ukloni
-                        </button>
                     </td>
                 </tr>  
             </table>         
@@ -36,7 +32,7 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>  
         
-        <button mat-raised-button color="primary" style="float: right; margin-top: 17%; height: 40px; width: 100px;" (click)="sendOrderList()">
+        <button mat-raised-button color="primary" style="float: right; margin-top: 7%; height: 40px; width: 100px;" (click)="sendOrderList()">
             Pošalji
         </button>
 

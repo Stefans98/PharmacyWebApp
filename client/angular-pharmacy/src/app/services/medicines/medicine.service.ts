@@ -99,6 +99,19 @@ export class MedicineService {
       .put<MedicineReservation>(this.medicineUrl + 'issueMedicineReservation/' + medicineReservationId, null);
   }
 
+  public getQuantityOfMedicineForPharmacy(medicineId : string, pharmacyId: string) : Observable<number> {
+    let params = new HttpParams()
+      .set('medicineId', medicineId)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<number>(this.medicineUrl + 'getQuantityOfMedicineForPharmacy', { params });
+  }
+
+  public getAllMedicinesNotForPharmacy(pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findAllMedicinesNotForPharmacy/' + pharmacyId);
+  }  
+
   public createMedicine(medicine : Medicine): Observable<Medicine> {
     const body = { name : medicine.name, code : medicine.code, manufacturer : medicine.manufacturer, 
       medicineType : medicine.medicineType, medicineForm : medicine.medicineForm, onPrescription : medicine.onPrescription,
@@ -106,5 +119,4 @@ export class MedicineService {
 
     return this.http.post<Medicine>(this.medicineUrl + "save", body);
   }
-  
 }

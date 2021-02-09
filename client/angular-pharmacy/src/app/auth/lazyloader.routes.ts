@@ -60,6 +60,7 @@ import { DefinePromotionComponent } from '../pharmacy-administrator/define-promo
 import { VacationRequestComponent } from '../pharmacy-administrator/all-dermatologists/vacation-request/vacation-request.component';
 import { VacationRequestPharmacistsComponent } from '../pharmacy-administrator/all-pharmacists/vacation-request-pharmacists/vacation-request-pharmacists.component';
 import { PharmacyAdministratorProfileComponent } from '../pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
+import { PharmacyPricelistComponent } from '../pharmacy-administrator/pharmacy-pricelist/pharmacy-pricelist.component';
 import { PharmacyChoosingComponent } from '../patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
 
 export const appRoutes: Routes = [{
@@ -124,7 +125,8 @@ export const appRoutes: Routes = [{
         { path: 'pharmacy-administrator/define-promotion', component:  DefinePromotionComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/request-vacation-dermatologists', component:  VacationRequestComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
         { path: 'pharmacy-administrator/request-vacation-pharmacists', component:  VacationRequestPharmacistsComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
-        { path: 'pharmacy-administrator/pharmacy-administrator-profile', component:  PharmacyAdministratorProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
+        { path: 'pharmacy-administrator/pharmacy-administrator-profile', component:  PharmacyAdministratorProfileComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} },
+        { path: 'pharmacy-administrator/pharmacy-pricelist', component:  PharmacyPricelistComponent, canActivate: [RouteGuardService], data : { role: 'PHARMACY_ADMIN'} }
     ]
 }];
  

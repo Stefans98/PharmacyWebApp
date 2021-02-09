@@ -7,11 +7,13 @@ import { MedicineOrderList } from '../../models/medicine-order-list.model';
 import { Medicine } from '../../models/medicine.model';
 import { OrderItem } from '../../models/order-item.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { User } from '../../models/user.model';
 import { MedicineOrderListService } from '../../services/medicines/medicine-order-list.service';
 import { MedicineService } from '../../services/medicines/medicine.service';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { PharmacistService } from '../../services/users/pharmacist.service';
+import { UserService } from '../../services/users/user.service';
 import { OrderListOffersDialogComponent } from './order-list-offers-dialog/order-list-offers-dialog.component';
 import { UpdateOrderListDialogComponent } from './update-order-list-dialog/update-order-list-dialog.component';
 
@@ -49,10 +51,18 @@ export class AllOrderListsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  public user: User;
+
   public maxDate : Date;
 
   constructor(private snackBar: MatSnackBar, private medicineService: MedicineService, private medicineOrderListService: MedicineOrderListService, 
-              private pharmacyService: PharmacyService, private authService: AuthenticationService, public dialog: MatDialog) {
+              private pharmacyService: PharmacyService, private authService: AuthenticationService, private userService: UserService, public dialog: MatDialog) {
+    
+    this.userService.getUserById(this.authService.getLoggedUserId()).subscribe(
+      data => {
+        this.user = data;
+      }
+    );
     this.medicineService.getAll().subscribe(
       data => {
         this.medicineList = data;
@@ -168,17 +178,27 @@ export class AllOrderListsComponent implements OnInit {
   }
 
   deleteMedicineOrderList(medicineOrderList){
-    /*medicineOrderList.pharmacyAdministratorId = this.authService.getLoggedUserId();
+    medicineOrderList.pharmacyAdministratorId = this.authService.getLoggedUserId();
     this.medicineOrderListService.deleteMedicineOrderList(medicineOrderList).subscribe(
-      data=>{},
+      data=>{
+        this.openSnackBarForDeletion('Uspešno ste obrisali narudžbenicu!', 'Zatvori');
+          this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+            data => {
+              this.pharmacy = data;
+              this.medicineOrderListService.getAllMedicineOrderListsForPharmacy(this.pharmacy.id).subscribe(
+                data => {
+                  this.medicineOrderListsForPharmacy = data;
+                }
+              );
+            }
+          );
+      },
       error => {
         if (error.status == 400){
           this.openSnackBarForDeletion('!!!Nije moguće obrisali narudžbenicu!!!Razlozog: - POSTOJE PONUDE ZA NARUDŽBENICU', 'Zatvori');
-        }else{
-          this.openSnackBarForDeletion('Uspešno ste prihvatili obrisali narudžbenicu!', 'Zatvori');
         }
       }
-    );*/
+    );
   }
 
 }
