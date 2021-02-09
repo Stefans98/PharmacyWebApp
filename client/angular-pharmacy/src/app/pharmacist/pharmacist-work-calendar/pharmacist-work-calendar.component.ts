@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { CalendarOptions, EventClickArg, DateSelectArg, EventApi, EventInput } from '@fullcalendar/angular';
+import { CalendarOptions, EventClickArg, EventApi, EventInput } from '@fullcalendar/angular';
 import { Appointment } from '../../models/appointment.model';
-import { Pharmacy } from '../../models/pharmacy.model';
 import { AppointmentService } from '../../services/schedule/appointment.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
 
@@ -82,7 +81,6 @@ export class PharmacistWorkCalendarComponent implements OnInit {
     this.appointmentService.getAppointmentById(Number(clickInfo.event.id)).subscribe(
       data => {
         this.selectedAppointment = data;
-        console.log(this.selectedAppointment);
         if(this.selectedAppointment.appointmentState == 0) {
           this.openSnackBar('Savetovanje koje ste izabrali još uvek nije zakazano!', 'Zatvori', 3000);
         } else if(this.selectedAppointment.appointmentState == 1) {
