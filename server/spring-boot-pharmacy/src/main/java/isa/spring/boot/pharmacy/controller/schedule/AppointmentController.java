@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.controller.schedule;
 
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
 import isa.spring.boot.pharmacy.dto.medicines.PrescriptionDto;
+import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentReportDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
@@ -205,5 +206,15 @@ public class AppointmentController {
         double price = pricelistService.getCounselingPriceByDateAndPharmacyId(reservationDate, Long.parseLong(pharmacyId));
         double appointmentPrice = pricelistService.calculateAppointmentPrice(price, startTime, endTime);
         return new ResponseEntity<>(appointmentPrice, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/appointmentStatistic/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<AnnualStatistics> appointmentStatistic(@PathVariable Long pharmacyId) {
+        AnnualStatistics annualStatistics = appointmentService.appointmentStatistic(pharmacyId);
+        if(annualStatistics == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
     }
 }

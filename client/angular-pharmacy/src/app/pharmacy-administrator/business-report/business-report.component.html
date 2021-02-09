@@ -1,1 +1,48 @@
-<p>business-report works!</p>
+<div class="statistic-div">
+
+<mat-tab-group>
+
+    <mat-tab label="Pregledi na mesečnom nivou"> 
+        <div style="margin-left: 15%; margin-top: 5%;">
+            <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="statData"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>  
+        </div>  
+    </mat-tab>
+
+    <mat-tab label="Pregledi na kvartalnom nivou"> 
+        <div style="margin-left: 15%; margin-top: 5%;">
+            <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="quartalStatData"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>  
+        </div>  
+    </mat-tab>
+    <mat-tab label="Lekovi na mesečnom nivou"> Content 1 </mat-tab>
+    <mat-tab label="Lekovi na kvartalnom nivou"> Content 2 </mat-tab>
+    <mat-tab label="Prihod apoteke"> Content 2 </mat-tab>
+  </mat-tab-group>
+
+</div>
+  

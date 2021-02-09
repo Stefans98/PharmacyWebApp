@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.schedule;
 
+import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
 import isa.spring.boot.pharmacy.model.schedule.*;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.schedule.AppointmentRepository;
@@ -408,5 +409,47 @@ public class AppointmentService {
     public static String convertToDateStr(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
         return sdf.format(date);
+    }
+
+    public List<Appointment> getAppointmentsForPharmacy(Long pharmacyId){
+        List<Appointment> appointments = new ArrayList<>();
+        for(Appointment appointment : appointmentRepository.findAll()){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                appointments.add(appointment);
+            }
+        }
+        return appointments;
+    }
+
+    public AnnualStatistics appointmentStatistic(Long pharmacyId){
+        AnnualStatistics annualStatistics = new AnnualStatistics();
+        for(Appointment appointment : getAppointmentsForPharmacy(pharmacyId)){
+            if(appointment.getStartTime().getMonth() == 0){
+                annualStatistics.setJanuary(annualStatistics.getJanuary() + 1);
+            }else if(appointment.getStartTime().getMonth() == 1){
+                annualStatistics.setFebruary(annualStatistics.getFebruary() + 1);
+            }else if(appointment.getStartTime().getMonth() == 2){
+                annualStatistics.setMarch(annualStatistics.getMarch() + 1);
+            }else if(appointment.getStartTime().getMonth() == 3){
+                annualStatistics.setApril(annualStatistics.getApril() + 1);
+            }else if(appointment.getStartTime().getMonth() == 4){
+                annualStatistics.setMay(annualStatistics.getMay() + 1);
+            }else if(appointment.getStartTime().getMonth() == 5){
+                annualStatistics.setJun(annualStatistics.getJun() + 1);
+            }else if(appointment.getStartTime().getMonth() == 6){
+                annualStatistics.setJuly(annualStatistics.getJuly() + 1);
+            }else if(appointment.getStartTime().getMonth() == 7){
+                annualStatistics.setAugust(annualStatistics.getAugust() + 1);
+            }else if(appointment.getStartTime().getMonth() == 8){
+                annualStatistics.setSeptember(annualStatistics.getSeptember() + 1);
+            }else if(appointment.getStartTime().getMonth() == 9){
+                annualStatistics.setOctober(annualStatistics.getOctober() + 1);
+            }else if(appointment.getStartTime().getMonth() == 10){
+                annualStatistics.setNovember(annualStatistics.getNovember() + 1);
+            }else if(appointment.getStartTime().getMonth() == 11){
+                annualStatistics.setDecember(annualStatistics.getDecember() + 1);
+            }
+        }
+        return annualStatistics;
     }
 }
