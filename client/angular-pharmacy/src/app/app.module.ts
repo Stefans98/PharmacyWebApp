@@ -111,7 +111,18 @@ import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacis
 import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
 import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
 import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list'; 
 
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -233,7 +244,9 @@ import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choo
     NgxSliderModule,
     CommonModule,
     ChartModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatTableModule,
+    FullCalendarModule 
   ],
   providers: [
     {
