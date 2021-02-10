@@ -35,7 +35,7 @@ export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.t1Sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'date': return moment(item.issuingDate, "DD-MM-YYYY").toDate();
+        case 'issuingDate': return moment(item.issuingDate, "DD-MM-YYYY").toDate();
         default: return item[property];
       }
     };

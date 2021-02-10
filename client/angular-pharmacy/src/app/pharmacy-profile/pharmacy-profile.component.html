@@ -27,14 +27,15 @@
     </mat-tab>
 
     <mat-tab label="Rezervacija leka">
-        Rezervacija leka
         <div style="margin-bottom: 10%;">
             <app-medicine-reservation [pharmacyId]="pharmacyId"></app-medicine-reservation>
         </div>
     </mat-tab>
 
-    <mat-tab label="Savetovanje">
-        Savetovanje
+    <mat-tab label="Savetovanje">       
+        <div style="margin-bottom: 10%;">
+            <app-counseling-scheduling [pharmacyId]="pharmacyId"></app-counseling-scheduling>
+        </div>
     </mat-tab>
 
     <mat-tab label="Pregled"> 
