@@ -22,6 +22,9 @@ public class MedicineOrderList {
     @Column(name = "final_offer_date", nullable = false)
     private Date finalOfferDate;
 
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted;
+
     @OneToMany(mappedBy = "medicineOrderList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
@@ -38,11 +41,12 @@ public class MedicineOrderList {
     public MedicineOrderList() {
     }
 
-    public MedicineOrderList(Date finalOfferDate, List<OrderItem> orderItems, Pharmacy pharmacy, PharmacyAdministrator pharmacyAdministrator) {
+    public MedicineOrderList(Date finalOfferDate, List<OrderItem> orderItems, Pharmacy pharmacy, PharmacyAdministrator pharmacyAdministrator, Boolean deleted) {
         this.finalOfferDate = finalOfferDate;
         this.orderItems = orderItems;
         this.pharmacy = pharmacy;
         this.pharmacyAdministrator = pharmacyAdministrator;
+        this.deleted = deleted;
     }
 
     public Long getId() {
@@ -87,5 +91,13 @@ public class MedicineOrderList {
 
     public void setPharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator) {
         this.pharmacyAdministrator = pharmacyAdministrator;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

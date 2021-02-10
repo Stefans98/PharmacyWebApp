@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { EPrescriptionItem } from '../../../models/e-prescription-item.model';
+import { EPrescriptionPharmacy } from '../../../models/e-prescription-pharmacy.model';
+import { EPrescription } from '../../../models/e-prescription.model';
 import { ImageSnippet } from '../../../models/image-snipet.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
 import { EPrescriptionService } from '../../../services/medicines/e-prescription.service';
 import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
+import { AuthenticationService } from '../../../services/users/authentication.service';
 
 @Component({
   selector: 'app-new-e-prescription',
@@ -14,8 +17,8 @@ import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
 })
 export class NewEPrescriptionComponent implements OnInit {
 
-  pharmacies : Pharmacy[] = [];
-  displayedColumns: string[] = ['name', 'averageGrade', 'address'];
+  pharmacies : EPrescriptionPharmacy[] = [];
+  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'price', 'reservation'];
   dataSource = new MatTableDataSource(this.pharmacies);
 
   medicines : EPrescriptionItem[];
@@ -23,7 +26,7 @@ export class NewEPrescriptionComponent implements OnInit {
   selectedFile : ImageSnippet;
 
   constructor(private pharmacyService : PharmacyService, private eprescriptionService : EPrescriptionService, 
-              private snackBar : MatSnackBar) {
+              private snackBar : MatSnackBar, private authService : AuthenticationService) {
 
    }
 
@@ -52,7 +55,32 @@ export class NewEPrescriptionComponent implements OnInit {
             verticalPosition: 'top'
            });
         })
+    } else {
+      this.snackBar.open('Morate selektovati fajl za obradu!', null, { 
+        duration : 3000, 
+        verticalPosition: 'top'
+       });
     }
-    
+  }
+
+  searchPharmaciesClick() : void {
+    this.pharmacyService.getAllPharmaciesWithEPrescriptionItems(this.medicines).subscribe(data => {
+      this.pharmacies = data;
+      this.dataSource.data = this.pharmacies;
+    })
+  }
+
+  medicineReservationClick(element : EPrescriptionPharmacy) : void {
+    this.eprescriptionService.createNewEPrescription(new EPrescription(0, this.authService.getLoggedUserId(), new Date(),
+      this.medicines, element.pharmacy.id, null, element.price)).subscribe(data => {
+        this.snackBar.open('ERecept je uspešno kreiran!', null, { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
+         this.pharmacies = [];
+         this.dataSource.data = this.pharmacies;
+         this.medicines = [];
+         this.selectedFile = null
+      })
   }
 }

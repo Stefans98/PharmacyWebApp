@@ -55,7 +55,7 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
@@ -64,7 +64,7 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsNotAllergic(@PathVariable Long patientId) {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
@@ -175,7 +175,7 @@ public class MedicineController {
     }
 
     @GetMapping(value="/findAllMedicinesForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST')")
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST','PHARMACY_ADMIN')")
     public ResponseEntity<List<MedicineDto>> findAllMedicinesForPharmacy(@PathVariable Long pharmacyId){
         List<MedicineDto> medicinesForPharmacy = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAllMedicinesForPharmacy(pharmacyId)) {
@@ -218,5 +218,26 @@ public class MedicineController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getQuantityOfMedicineForPharmacy", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST','PHARMACY_ADMIN')")
+    public ResponseEntity<Double> getQuantityOfMedicineForPharmacy(@RequestParam String medicineId, @RequestParam String pharmacyId){
+        double medicineQuantity = pharmacyMedicineService.getQuantityOfMedicineForPharmacy(Long.parseLong(medicineId), Long.parseLong(pharmacyId));
+        return new ResponseEntity<>(medicineQuantity, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/findAllMedicinesNotForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST', 'PHARMACIST','PHARMACY_ADMIN')")
+    public ResponseEntity<List<MedicineDto>> findAllMedicinesNotForPharmacy(@PathVariable Long pharmacyId){
+        List<MedicineDto> medicinesForPharmacy = new ArrayList<MedicineDto>();
+        for(Medicine medicine : medicineService.findAllMedicinesNotForPharmacy(pharmacyId)) {
+            medicinesForPharmacy.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if(medicinesForPharmacy.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicinesForPharmacy, HttpStatus.OK);
     }
 }

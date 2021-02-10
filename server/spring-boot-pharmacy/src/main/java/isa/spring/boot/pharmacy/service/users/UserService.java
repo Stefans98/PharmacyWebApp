@@ -428,4 +428,10 @@ public class UserService implements UserDetailsService {
         pharmacyAdministrator.setAuthorities(authorities);
         return userRepository.save(pharmacyAdministrator);
     }
+
+    public void addPointsToPatient(Long patientId, int points) {
+        Patient patient = (Patient) Hibernate.unproxy(findById(patientId));
+        patient.setPoints(patient.getPoints() + points);
+        userRepository.save(patient);
+    }
 }

@@ -105,13 +105,13 @@ export const patientMenus = [
         'sub': [
             {
                 'name': 'Novi e-recept',
-                'icon': 'local_pharmacy',
+                'icon': 'add_circle',
                 'link': 'patient/new-e-prescription',
                 'open': false,
             },
             {
                 'name': 'Moji e-recepti',
-                'icon': 'medical_services',
+                'icon': 'receipt',
                 'link': 'patient/my-e-prescriptions',
                 'open': false,
             }

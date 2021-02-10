@@ -119,6 +119,9 @@ insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (720.45, '2021-09-12', '2021-10-19', 1, 4);
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (820.45, '2021-10-12', '2021-11-19', 2, 5);
 insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (920.45, '2021-11-12', '2021-12-19', 2, 6);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (890.00, '2021-02-8', '2021-02-19', 2, 1);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (900.00, '2021-02-8', '2021-02-19', 1, 1);
+insert into medicine_prices (price, start_time, end_time, pricelist_id, medicine_id) values (750.00, '2021-02-8', '2021-02-19', 1, 2);
 
 insert into subscriptions (canceled, patient_id, pharmacy_id) values (false, 1, 1);
 insert into subscriptions (canceled, patient_id, pharmacy_id) values (false, 2, 1);
@@ -130,8 +133,8 @@ insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-08 08:00:00', '2021-02-08 20:00:00', 7, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-08 08:00:00', '2021-02-08 20:00:00', 5, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-09 08:00:00', '2021-02-09 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-09 08:00:00', '2021-02-09 20:00:00', 5, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-05 04:45:00', '2021-02-05 04:45:00', 3, 1, false);
@@ -158,23 +161,23 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-06 10:35:00', '2021-02-06 10:45:00', 6, 1, false);
 
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-08 10:35:00', '2021-02-08 10:45:00', 6, 1, false);
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 1, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 7, 1, false);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-09 10:35:00', '2021-02-09 10:45:00', 6, 1, false);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 1, '2021-02-09 11:35:00', '2021-02-09 11:45:00', 7, 1, false);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 6, 2, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 6, 3, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 7, 2, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 7, 3, false);
 
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-02-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 11);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 1, 12);
-insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id) values ('2021-03-02', 2, 12);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-02-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 11, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 1, 12, false);
+insert into medicine_order_lists (final_offer_date, pharmacy_id, pharmacy_administrator_id, deleted) values ('2021-03-02', 2, 12, false);
 
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (12, 1, 1);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (6, 2, 1);
-insert into order_items (quantity, medicine_id, medicine_order_list_id) values (3, 5, 1);
+insert into order_items (quantity, medicine_id, medicine_order_list_id) values (0, 5, 1);
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (9, 6, 1);
 
 insert into order_items (quantity, medicine_id, medicine_order_list_id) values (2, 1, 2);
@@ -212,7 +215,7 @@ insert into medicine_reservations (final_purchasing_date, medicine_reservation_s
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
-insert into e_prescriptions(code, issuing_date, patient_id) values ('eprscrpt111', '2021-03-02', 1);
+insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price) values ('eprscrpt111', '2021-03-02', 1, 1, 8000);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 1);
 
@@ -243,18 +246,16 @@ insert into medicine_substitutions (medicine_specification_id, medicine_id) valu
 insert into medicine_substitutions (medicine_specification_id, medicine_id) values (6, 3);
 insert into medicine_substitutions (medicine_specification_id, medicine_id) values (6, 4);
 
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 1, 10);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 2, 20);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 3, 12);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 4, 0);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 5, 5);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (1, 6, 15);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 1, 10);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 2, 20);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 3, 12);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 4, 0);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 5, 5);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity) values (2, 6, 15);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 1, 10, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 2, 20, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 3, 12, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (1, 4, 0, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 1, 8, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 2, 20, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 3, 12, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 4, 0, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 5, 5, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 6, 15, false);
 
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-05', '2021-03-08', 7, 1, true);
 insert into vacation_requests (vacation_type, start_time, end_time, employee_id, pharmacy_id, processed) values (0, '2021-03-11', '2021-03-15', 7, 1, false);

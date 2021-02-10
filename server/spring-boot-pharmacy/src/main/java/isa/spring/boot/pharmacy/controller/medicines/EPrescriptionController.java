@@ -1,10 +1,14 @@
 package isa.spring.boot.pharmacy.controller.medicines;
 
+import isa.spring.boot.pharmacy.dto.medicines.EPrescriptionDto;
 import isa.spring.boot.pharmacy.dto.medicines.EPrescriptionItemDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
+import isa.spring.boot.pharmacy.mapper.medicines.EPrescriptionMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
+import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionItem;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
+import isa.spring.boot.pharmacy.service.medicines.EPrescriptionService;
 import isa.spring.boot.pharmacy.service.qrcode.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,15 +28,17 @@ public class EPrescriptionController {
     @Autowired
     private QRCodeService qrCodeService;
 
+    @Autowired
+    private EPrescriptionService ePrescriptionService;
+
     @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<Void> generateQRCode() {
-        EPrescriptionItemDto dto = new EPrescriptionItemDto();
-        dto.setMedicineCode("L123");
-        dto.setMedicineName("Brufen");
-        dto.setQuantity(10);
+        EPrescriptionItemDto dto1 = new EPrescriptionItemDto("L123", "Brufen", 10);
+        EPrescriptionItemDto dto2 = new EPrescriptionItemDto("L124", "Nimulid", 12);
         List<EPrescriptionItemDto> medicines = new ArrayList<>();
-        medicines.add(dto);
+        medicines.add(dto1);
+        medicines.add(dto2);
         try {
             qrCodeService.generateQRCode(medicines);
         } catch (Exception e) {
@@ -53,4 +59,27 @@ public class EPrescriptionController {
         }
         return new ResponseEntity<>(medicines, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<EPrescriptionDto> createNewEPrescription(@RequestBody EPrescriptionDto ePrescriptionDto) {
+        EPrescription ePrescription = ePrescriptionService.createNewPrescription(EPrescriptionMapper.convertToEntity(ePrescriptionDto),
+                ePrescriptionDto.getPatientId(), ePrescriptionDto.getPharmacyId(), ePrescriptionDto.getMedicineCodesWithQuantities());
+        if (ePrescription != null) {
+            ePrescriptionService.sendEmailForEPrescription(ePrescription);
+        }
+        return new ResponseEntity<>(EPrescriptionMapper.convertToDto(ePrescription), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<EPrescriptionDto>> getAllForPatient(@PathVariable Long patientId) {
+        List<EPrescription> ePrescriptions = ePrescriptionService.getEPrescriptionsForPatient(patientId);
+        List<EPrescriptionDto> ePrescriptionDtos = new ArrayList<>();
+        for (EPrescription ePrescription : ePrescriptions) {
+            ePrescriptionDtos.add(EPrescriptionMapper.convertToDto(ePrescription));
+        }
+        return new ResponseEntity<>(ePrescriptionDtos, HttpStatus.OK);
+    }
+
 }

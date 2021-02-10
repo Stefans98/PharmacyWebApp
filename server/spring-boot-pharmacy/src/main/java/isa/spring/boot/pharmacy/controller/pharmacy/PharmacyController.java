@@ -1,7 +1,11 @@
 package isa.spring.boot.pharmacy.controller.pharmacy;
 
+import isa.spring.boot.pharmacy.dto.medicines.EPrescriptionItemDto;
+import isa.spring.boot.pharmacy.dto.pharmacy.EPrescriptionPharmacyDto;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.mapper.medicines.EPrescriptionItemMapper;
+import isa.spring.boot.pharmacy.mapper.pharmacy.EPrescriptionPharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
@@ -44,7 +48,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getAllPharmacies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<PharmacyDto>> getAllPharmacies() {
         List<PharmacyDto> pharmacyDto = new ArrayList<>();
         for(Pharmacy pharmacy :  pharmacyService.getAllPharmacies()) {
@@ -150,13 +154,27 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getAllWithMedicine/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    //@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<List<PharmacyDto>> getPharmacyById(@PathVariable String code){
         List<PharmacyDto> pharmacyDtos = new ArrayList<>();
         for (Pharmacy pharmacy : pharmacyMedicineService.getAllPharmaciesWithMedicine(code)) {
             pharmacyDtos.add(PharmacyMapper.convertToDto(pharmacy));
         }
         return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
+    }
+
+    @PutMapping(value="/pharmaciesWithEPrescriptionItems", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<EPrescriptionPharmacyDto>> findAllPharmaciesWithEPrescriptionItems(@RequestBody List<EPrescriptionItemDto> items) {
+        List<EPrescriptionPharmacyDto> dtos = new ArrayList<>();
+        HashMap<Long, Double> pharmacyPrices = pharmacyMedicineService.getPharmaciesAndPricesForMedicines(
+                EPrescriptionItemMapper.convertEPrescriptionItemsToMap(items)
+        );
+        for (Long pharmacyId : pharmacyPrices.keySet()) {
+            dtos.add(EPrescriptionPharmacyMapper.convertToDto(pharmacyService.findById(pharmacyId),
+                    pharmacyPrices.get(pharmacyId)));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }

@@ -39,4 +39,21 @@ public class MedicineMapper {
         return medicine;
     }
 
+    public static Medicine convertToEntityWithId(MedicineDto dto) {
+        Medicine medicine = new Medicine();
+        medicine.setId(dto.getId());
+        medicine.setName(dto.getName());
+        medicine.setCode(dto.getCode());
+        medicine.setManufacturer(dto.getManufacturer());
+        medicine.setMedicineType(dto.getMedicineType());
+        medicine.setMedicineForm(dto.getMedicineForm());
+        medicine.setOnPrescription(dto.isOnPrescription());
+        medicine.setAdditionalInformation(dto.getAdditionalInformation());
+        if (dto.getMedicineSpecification() != null) {
+            medicine.setMedicineSpecification(MedicineSpecificationMapper.convertToEntity(dto.getMedicineSpecification()));
+            medicine.getMedicineSpecification().setMedicine(medicine);
+        }
+        return medicine;
+    }
+
 }

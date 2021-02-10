@@ -87,6 +87,7 @@ public class OfferController {
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        offerService.sendEmailForAcceptedOffer(offer);
         return new ResponseEntity<>(offerService.findAll(), HttpStatus.OK);
     }
 }

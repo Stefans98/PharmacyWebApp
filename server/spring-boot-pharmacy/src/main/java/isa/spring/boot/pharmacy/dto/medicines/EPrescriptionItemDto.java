@@ -9,6 +9,12 @@ public class EPrescriptionItemDto {
     public EPrescriptionItemDto() {
     }
 
+    public EPrescriptionItemDto(String medicineCode, String medicineName, int quantity) {
+        this.medicineCode = medicineCode;
+        this.medicineName = medicineName;
+        this.quantity = quantity;
+    }
+
     public String getMedicineCode() {
         return medicineCode;
     }
