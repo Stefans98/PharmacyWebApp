@@ -54,7 +54,6 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
@@ -88,6 +87,20 @@ public class MedicineController {
     public ResponseEntity<List<MedicineDto>> findMedicinesBy(@PathVariable String name) {
         List<MedicineDto> medicineDto = new ArrayList<>();
         for (Medicine medicine : medicineService.findMedicinesBy(name)) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if (medicineDto.isEmpty()){
+            return new ResponseEntity<>(medicineDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findMedicinesByNameAndPharmacyId/{name}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> findMedicinesByNameAndPharmacyId(@PathVariable String name, @PathVariable Long pharmacyId) {
+        List<MedicineDto> medicineDto = new ArrayList<>();
+        for (Medicine medicine : medicineService.findMedicinesByNameAndPharmacyId(name, pharmacyId)) {
             medicineDto.add(MedicineMapper.convertToDto(medicine));
         }
 
