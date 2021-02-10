@@ -84,7 +84,7 @@ export const patientMenus = [
                 'open': false,
             },
             {
-                'name': 'Izdati lekovi',
+                'name': 'Izdati lekovi preko eRecepta',
                 'icon': 'fact_check',
                 'link': 'patient/drugs/dispensed-drugs',
                 'open': false,

@@ -12,20 +12,20 @@
 			<mat-divider></mat-divider>
 
       <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" >
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+        <table mat-table [dataSource]="dataSource" matSort #t1Sort="matSort" class="mat-elevation-z8" >
           <div class="pharmacy-list">
             <ng-container matColumnDef="pharmacy">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apoteka </th>
+            <th mat-header-cell *matHeaderCellDef> Apoteka </th>
             <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}} </td>
             </ng-container>
         
-            <ng-container matColumnDef="date">
+            <ng-container matColumnDef="issuingDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Datum izdavanja </th>
             <td mat-cell *matCellDef="let element"> {{convertDate(element.issuingDate)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena </th>
+            <th mat-header-cell *matHeaderCellDef> Cena </th>
             <td mat-cell *matCellDef="let element"> {{element.price}} </td>
             </ng-container>
 

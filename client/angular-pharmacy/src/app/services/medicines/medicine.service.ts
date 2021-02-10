@@ -28,6 +28,12 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsNotAllergic/' + patientId);
   }
   
+
+  public getMedicinesFromEPrescriptionByPatientId(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesFromEPrescriptionByPatientId/' + patientId);
+  }
+  
   public getMedicinesToWhichPatientIsAllergic(patientId: number): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsAllergic/' + patientId);

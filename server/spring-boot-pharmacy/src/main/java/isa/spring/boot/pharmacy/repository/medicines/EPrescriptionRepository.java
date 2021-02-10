@@ -1,6 +1,5 @@
 package isa.spring.boot.pharmacy.repository.medicines;
 
-import isa.spring.boot.pharmacy.dto.medicines.EPrescriptionDto;
 import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import org.springframework.data.jpa.repository.JpaRepository;
 

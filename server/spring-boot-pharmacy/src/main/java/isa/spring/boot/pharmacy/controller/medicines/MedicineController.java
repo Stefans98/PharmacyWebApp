@@ -54,7 +54,6 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
@@ -63,7 +62,7 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
-        @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsNotAllergic(@PathVariable Long patientId) {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
@@ -81,6 +80,21 @@ public class MedicineController {
             medicineDto.add(MedicineMapper.convertToDto(medicine));
         }
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getMedicinesFromEPrescriptionByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesFromEPrescriptionByPatientId(@PathVariable Long patientId) {
+        List<Medicine> medicines = medicineService.getMedicinesFromEPrescriptionByPatientId(patientId);
+        if(medicines.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<MedicineDto> medicineDto = new ArrayList<>();
+        for(Medicine medicine : medicines) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineService.removeMedicineDuplicates(medicineDto), HttpStatus.OK);
     }
 
     @GetMapping(value = "/findMedicinesBy/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
