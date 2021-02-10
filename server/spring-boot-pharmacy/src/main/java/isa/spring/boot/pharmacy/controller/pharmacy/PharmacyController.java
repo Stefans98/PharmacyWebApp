@@ -159,4 +159,13 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/updatePharmacy", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<PharmacyDto> updatePharmacy(@RequestBody PharmacyDto pharmacyDto)
+    {
+        Pharmacy pharmacy = pharmacyService.savePharmacy(PharmacyMapper.convertToEntityWithId(pharmacyDto));
+
+        return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
+
 }

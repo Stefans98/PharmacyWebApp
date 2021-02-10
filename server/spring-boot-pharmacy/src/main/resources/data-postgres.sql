@@ -1,4 +1,4 @@
-insert into address (country, city, street) values ('Srbija', 'Beograd', 'Milosa Obilica 47');
+insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Danila Kisa 10');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Bulevar Oslobodjenja 30');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Danila Kisa 15');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Car Dusana 100');
@@ -23,8 +23,8 @@ insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Ive A
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Josifa Runjanina 44');
 insert into address (country, city, street) values ('Srbija', 'Novi Sad', 'Cirpanova 9');
 
-insert into pharmacies (name, description, average_grade, address_id) values ('Jankovic apoteka', 'Najbolja apoteka u gradu', 9.3, 1);
-insert into pharmacies (name, description, average_grade, address_id) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 8.7, 2);
+insert into pharmacies (name, description, average_grade, address_id, longitude, latitude) values ('Jankovic apoteka', 'Najbolja apoteka u gradu', 9.3, 1, 19.837220, 45.249360);
+insert into pharmacies (name, description, average_grade, address_id, longitude, latitude) values ('Zegin apoteka', 'Najbolja apoteka u gradu', 8.7, 2, 19.831910, 45.260100);
 
 insert into authority (name) values ('PATIENT');
 insert into authority (name) values ('PHARMACIST');

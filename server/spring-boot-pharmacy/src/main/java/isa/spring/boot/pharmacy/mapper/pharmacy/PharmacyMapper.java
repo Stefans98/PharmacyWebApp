@@ -17,6 +17,8 @@ public class PharmacyMapper {
         pharmacyDto.setDescription(pharmacy.getDescription());
         pharmacyDto.setAverageGrade(pharmacy.getAverageGrade());
         pharmacyDto.setAddress(pharmacy.getAddress().getCity() + ", " + pharmacy.getAddress().getStreet());
+        pharmacyDto.setLongitude(pharmacy.getLongitude());
+        pharmacyDto.setLatitude(pharmacy.getLatitude());
 
         return pharmacyDto;
     }
@@ -45,6 +47,8 @@ public class PharmacyMapper {
         pharmacy.setAddress(new Address(pharmacyDto.getCountry(), pharmacyDto.getCity(), pharmacyDto.getStreet()));
         pharmacy.setDescription(pharmacyDto.getDescription());
         pharmacy.setAverageGrade(pharmacyDto.getAverageGrade());
+        pharmacy.setLongitude(pharmacyDto.getLongitude());
+        pharmacy.setLatitude(pharmacyDto.getLatitude());
         return pharmacy;
     }
 }

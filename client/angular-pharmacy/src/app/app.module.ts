@@ -117,7 +117,7 @@ import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
-import { NgxChartsModule }from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [

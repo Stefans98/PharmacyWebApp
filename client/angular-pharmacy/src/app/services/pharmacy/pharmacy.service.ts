@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { PharmacyFull } from "../../models/pharmacy-full.model";
 import { Pharmacy } from "../../models/pharmacy.model";
 
 
@@ -72,6 +73,20 @@ export class PharmacyService{
   public getAllPharmaciesWithMedicine(code : string): Observable<Pharmacy[]> {
     return this.http
       .get<Pharmacy[]>(this.pharmacyUrl + 'getAllWithMedicine/' + code);
+  } 
+
+  public updatePharmacy(pharmacy: Pharmacy, lng: number, lat: number): Observable<Pharmacy> {
+    const body = { id: pharmacy.id, name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
+      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade, longitude: lng, latitude: lat
+    };  
+
+    return this.http
+    .post<Pharmacy>(this.pharmacyUrl + 'updatePharmacy', body);
+  }
+
+  public getPharmacyByFullPharmacyAdminId(id: number): Observable<PharmacyFull> {
+    return this.http
+      .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
   } 
 
 }
