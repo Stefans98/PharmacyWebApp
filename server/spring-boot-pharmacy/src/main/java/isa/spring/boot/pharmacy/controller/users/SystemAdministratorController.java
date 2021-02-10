@@ -34,7 +34,7 @@ public class SystemAdministratorController {
     {
         if (userService.findByEmail(systemAdministratorDto.getEmail()) != null)
         {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User systemAdministrator = userService.saveSystemAdministrator(UserMapper.convertToEntity(systemAdministratorDto, false));
 

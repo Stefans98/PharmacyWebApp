@@ -59,6 +59,11 @@ export class LoginComponent implements OnInit {
           duration : 3000, 
           verticalPosition: 'top'
          });
+      } else if (error.status == 400) {
+        this.snackBar.open('Vaš nalog nije aktiviran!', 'Zatvori', { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
       }
     });
   }
@@ -78,11 +83,37 @@ export class LoginComponent implements OnInit {
                   duration : 3000, 
                   verticalPosition: 'top'
                  });
-               });               
+               },
+               error => {
+                if (error.status == 409)
+                {
+                  this.snackBar.open('Registracija neuspešna! Uneti email već postoji!', 'Zatvori', { 
+                    duration : 3000, 
+                    verticalPosition: 'top'
+                   });
+                }
+              });               
   }
 
   checkPasswordMatch() : boolean {
     return this.passwordSignup === this.repasswordSignup;
   }
 
+  checkIfFieldsAreEmpty() : boolean {
+    return !this.firstNameSignup || !this.lastNameSignup || !this.emailSignup || !this.phoneNumberSignup || !this.passwordSignup 
+      || !this.repasswordSignup || !this.countrySignup || !this.citySignup || !this.streetSignup || 
+      this.passwordSignup.length < 3 || this.repasswordSignup.length < 3; 
+  }
+
+  clearFields() : void {
+    this.firstNameSignup = null;
+    this.lastNameSignup = null;
+    this.emailSignup = null;
+    this.phoneNumberSignup = null;
+    this.repasswordSignup = null;
+    this.passwordSignup = null;
+    this.countrySignup = null;
+    this.citySignup = null;
+    this.streetSignup = null;
+  }
 }

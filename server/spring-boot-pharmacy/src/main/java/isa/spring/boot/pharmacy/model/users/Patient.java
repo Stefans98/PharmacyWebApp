@@ -28,6 +28,9 @@ public class Patient extends User {
     @Column(name = "user_category")
     private UserCategory userCategory;
 
+    @Column(name = "account_activated")
+    private boolean accountActivated;
+
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Allergy> allergies;
 
@@ -73,6 +76,14 @@ public class Patient extends User {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public boolean isAccountActivated() {
+        return accountActivated;
+    }
+
+    public void setAccountActivated(boolean accountActivated) {
+        this.accountActivated = accountActivated;
     }
 
     public UserCategory getUserCategory() {

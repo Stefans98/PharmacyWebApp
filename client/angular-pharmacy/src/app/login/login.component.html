@@ -160,7 +160,6 @@
   
               </mat-form-field>
               
-              
               <mat-form-field  style="width: 24%; float: left; margin-left: 20px; padding: 0%;">
                   <input
                   matInput
@@ -189,11 +188,13 @@
                 </mat-error>
               <mat-icon matSuffix>address</mat-icon>
             </mat-form-field>
+            <br>
               <button
                 mat-raised-button
                 color="primary"
                 class="login-button"
                 (click)="signupClick()"
+                [disabled]="checkIfFieldsAreEmpty()"
                 >
                 Registruj se
               </button>
