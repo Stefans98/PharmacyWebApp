@@ -3,6 +3,7 @@ package isa.spring.boot.pharmacy.service.users;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
 import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
+import isa.spring.boot.pharmacy.dto.users.SystemAdministratorDto;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
@@ -129,6 +130,21 @@ public class UserService implements UserDetailsService {
         }
         supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
         return userRepository.save(supplier);
+
+    }
+
+    public SystemAdministrator updateSystemAdministrator(SystemAdministrator systemAdministrator) {
+        if (systemAdministrator.getPassword() == null || systemAdministrator.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(systemAdministrator.getId()).getPassword();
+            systemAdministrator.setPassword(currentPassword, false);
+        } else {
+            systemAdministrator.setPassword(passwordEncoder.encode(systemAdministrator.getPassword()), true);
+        }
+        if(systemAdministrator.getLastPasswordResetDate() != null) {
+            systemAdministrator.setLastPasswordResetDate(systemAdministrator.getLastPasswordResetDate());
+        }
+        systemAdministrator.setAuthorities(authorityService.findByName("SYSTEM_ADMIN"));
+        return userRepository.save(systemAdministrator);
 
     }
 
