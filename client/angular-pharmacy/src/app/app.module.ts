@@ -118,6 +118,8 @@ import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MedicinesForPharmacyComponent } from './pharmacy-profile/medicines-for-pharmacy/medicines-for-pharmacy.component';
+import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for-pharmacy/free-terms-for-pharmacy.component';
 
 @NgModule({
   declarations: [
@@ -224,7 +226,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     PharmacyPricelistComponent,
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
-    PharmacyChoosingComponent
+    PharmacyChoosingComponent,
+    MedicinesForPharmacyComponent,
+    FreeTermsForPharmacyComponent
   ],
   imports: [
     BrowserModule,

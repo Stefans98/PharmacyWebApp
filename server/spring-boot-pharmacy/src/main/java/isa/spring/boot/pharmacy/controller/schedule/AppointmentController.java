@@ -219,7 +219,7 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/getFreeAppointmentForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','PATIENT')")
     public ResponseEntity<List<AppointmentDto>> getFreeAppointmentForPharmacy(@PathVariable Long pharmacyId) {
         List<AppointmentDto> freeAppointments = new ArrayList<>();
         for(Appointment appointment : appointmentService.getFreeDermatologistsAppointmentForPharmacy(pharmacyId)) {

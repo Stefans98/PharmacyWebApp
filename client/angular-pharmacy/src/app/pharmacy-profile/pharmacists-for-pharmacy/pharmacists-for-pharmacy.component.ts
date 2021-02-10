@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { PharmacistService } from '../../services/users/pharmacist.service';
   templateUrl: './pharmacists-for-pharmacy.component.html',
   styleUrls: ['./pharmacists-for-pharmacy.component.scss']
 })
-export class PharmacistsForPharmacyComponent implements OnInit {
+export class PharmacistsForPharmacyComponent implements OnInit, AfterViewInit  {
 
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
@@ -23,7 +23,6 @@ export class PharmacistsForPharmacyComponent implements OnInit {
   selectedGradeRange = 'Ništa od navedenog';
 
   public pharmacy: Pharmacy;
-  public pharmacyId: number;
   public pharmacistsForPharmacy: Pharmacist[] = [];
   public dermatologistsAfterFilter: Pharmacist[] = [];
   public pharmaciesForDermatologist: Pharmacy[];
@@ -32,6 +31,7 @@ export class PharmacistsForPharmacyComponent implements OnInit {
   public pharmaciesForSending: string[] = [];
   dataSource = new MatTableDataSource(this.pharmacistsForPharmacy);
   dataSourceAfterSearch = new MatTableDataSource(this.pharmacistsForPharmacy);
+  public pharmacyName: string;
 
   gradeRanges: string[] = ['5 - 6', '6 - 7', '7 - 8', '8 - 9', '9 - 10', '10'];
 
@@ -40,21 +40,10 @@ export class PharmacistsForPharmacyComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  @Input() pharmacyId: number;
+
   constructor(private snackBar: MatSnackBar, private pharmacistService: PharmacistService, private pharmacyService: PharmacyService, 
               private authService: AuthenticationService, public dialog: MatDialog) { 
-    this.pharmacyService.getPharmacyById(1).subscribe(
-      data => {
-        this.pharmacy = data;
-        console.log(this.pharmacy.id);
-        this.getPharmacistsForPharmacy(this.pharmacy.id);
-      }
-    );
-
-    this.pharmacyService.getAllPharmacies().subscribe(
-      data => {
-        this.allPharmacies = data;
-      }
-    );
 
   }
 
@@ -69,6 +58,23 @@ export class PharmacistsForPharmacyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    this.pharmacyService.getPharmacyById(this.pharmacyId).subscribe(
+      data => {
+        this.pharmacy = data;
+        this.pharmacyName = this.pharmacy.name;
+        console.log(this.pharmacy.id);
+        this.getPharmacistsForPharmacy(this.pharmacy.id);
+      }
+    );
+
+    this.pharmacyService.getAllPharmacies().subscribe(
+      data => {
+        this.allPharmacies = data;
+      }
+    );
   }
 
   applySearch(event: Event) {

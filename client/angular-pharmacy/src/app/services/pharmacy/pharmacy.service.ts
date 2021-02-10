@@ -89,4 +89,9 @@ export class PharmacyService{
       .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
   } 
 
+  public getFullPharmacyById(id: number): Observable<PharmacyFull> {
+    return this.http
+      .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyById/' + id);
+  } 
+
 }

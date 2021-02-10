@@ -30,7 +30,7 @@ public class PharmacyMedicineController {
     PharmacyService pharmacyService;
 
     @GetMapping(value = "/getMedicinesForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN', 'PATIENT')")
     public ResponseEntity<List<PharmacyMedicineDto>> getMedicinesForPharmacy(@PathVariable Long pharmacyId) {
         List<PharmacyMedicineDto> pharmacyMedicines = new ArrayList<>();
         if(pharmacyMedicineService.getMedicinesForPharmacy(pharmacyId) == null){

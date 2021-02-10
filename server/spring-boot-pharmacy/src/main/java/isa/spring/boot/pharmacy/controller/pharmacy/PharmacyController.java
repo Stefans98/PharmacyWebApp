@@ -110,7 +110,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getPharmaciesByDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST','PATIENT')")
     public ResponseEntity<List<PharmacyDto>> getPharmaciesByDermatologist(@PathVariable Long dermatologistId){
         List<PharmacyDto> pharmaciesForDermatologist = new ArrayList<>();
         if(pharmacyService.getPharmaciesForDermatologist(dermatologistId) == null){
