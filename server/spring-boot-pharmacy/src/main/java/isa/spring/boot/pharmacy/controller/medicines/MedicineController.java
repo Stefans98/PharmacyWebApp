@@ -255,6 +255,7 @@ public class MedicineController {
         if(medicineReservation == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        medicineReservationService.sendEmailForIssuingMedicineReservation(medicineReservation);
         return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0), HttpStatus.OK);
     }
 

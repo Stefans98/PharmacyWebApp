@@ -166,13 +166,7 @@ public class MedicineReservationService {
     public MedicineReservation issueMedicineReservation(Long medicineReservationId) {
         MedicineReservation medicineReservation = findById(medicineReservationId);
         medicineReservation.setMedicineReservationState(MedicineReservationState.COMPLETED);
-        try {
-            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
-                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
-                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
-                            "<br><br>S poštovanjem, <br>Health Pharmacy");
-        } catch( Exception ignored ){}
-        return  medicineReservationRepository.save(medicineReservation);
+        return medicineReservationRepository.save(medicineReservation);
     }
 
     public void sendEmailForMedicineReservation(MedicineReservation medicineReservation) {
@@ -183,6 +177,15 @@ public class MedicineReservationService {
                     " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
                     " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
                     "<br><br>S poštovanjem, <br>Health Pharmacy");
+        } catch( Exception ignored ){}
+    }
+
+    public void sendEmailForIssuingMedicineReservation(MedicineReservation medicineReservation) {
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
+                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
+                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
+                            "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
     }
 }
