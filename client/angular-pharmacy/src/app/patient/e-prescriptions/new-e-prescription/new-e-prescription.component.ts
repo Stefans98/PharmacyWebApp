@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { error } from 'protractor';
 import { EPrescriptionItem } from '../../../models/e-prescription-item.model';
 import { EPrescriptionPharmacy } from '../../../models/e-prescription-pharmacy.model';
 import { EPrescription } from '../../../models/e-prescription.model';
@@ -81,6 +82,13 @@ export class NewEPrescriptionComponent implements OnInit {
          this.dataSource.data = this.pharmacies;
          this.medicines = [];
          this.selectedFile = null
-      })
+      }, error => {
+        if (error.status == 406) {
+          this.snackBar.open('Nemate pravo kreiranja eRecepta, jer imate više od 2 penala ovog meseca!', null, { 
+            duration : 3000, 
+            verticalPosition: 'top'
+           });
+        }
+      });
   }
 }

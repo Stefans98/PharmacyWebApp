@@ -65,9 +65,10 @@ public class EPrescriptionController {
     public ResponseEntity<EPrescriptionDto> createNewEPrescription(@RequestBody EPrescriptionDto ePrescriptionDto) {
         EPrescription ePrescription = ePrescriptionService.createNewPrescription(EPrescriptionMapper.convertToEntity(ePrescriptionDto),
                 ePrescriptionDto.getPatientId(), ePrescriptionDto.getPharmacyId(), ePrescriptionDto.getMedicineCodesWithQuantities());
-        if (ePrescription != null) {
-            ePrescriptionService.sendEmailForEPrescription(ePrescription);
+        if (ePrescription == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
+        ePrescriptionService.sendEmailForEPrescription(ePrescription);
         return new ResponseEntity<>(EPrescriptionMapper.convertToDto(ePrescription), HttpStatus.OK);
     }
 

@@ -32,6 +32,9 @@ public class MedicineService {
     private PharmacyService pharmacyService;
 
     @Autowired
+    private EPrescriptionService ePrescriptionService;
+
+    @Autowired
     private MedicineReservationService medicineReservationService;
 
     @Autowired
@@ -88,6 +91,16 @@ public class MedicineService {
         return patientAllergicMedicine;
     }
 
+    public List<Medicine> getMedicinesFromEPrescriptionByPatientId(long patientId) {
+        List<Medicine> medicines = new ArrayList<>();
+        for(EPrescription ePrescription : ePrescriptionService.getEPrescriptionsForPatient(patientId)) {
+            for(EPrescriptionItem ePrescriptionItem: ePrescription.getePrescriptionItems()) {
+                medicines.add(ePrescriptionItem.getMedicine());
+            }
+        }
+        return medicines;
+    }
+
     public List<Medicine> getMedicinesForPatientCompletedReservations(Long patientId) {
         List<MedicineReservation> medicineReservations = medicineReservationService.getAllCompletedMedicineReservationByPatientId(patientId);
         return getMedicinesByCompletedMedicineReservation(medicineReservations);
@@ -138,8 +151,8 @@ public class MedicineService {
     public List<MedicineDto> removeMedicineDuplicates(List<MedicineDto> medicineDtos){
         Map<Long, MedicineDto> map = new HashMap<>();
         List<MedicineDto> medicineDtoWithoutDuplicates = new ArrayList<>();
-        for(MedicineDto p: medicineDtos){
-            map.put(p.getId(), p);
+        for(MedicineDto m: medicineDtos){
+            map.put(m.getId(), m);
         }
         for (Long id: map.keySet()) {
             medicineDtoWithoutDuplicates.add(map.get(id));
