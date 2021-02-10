@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EPrescriptionComponent } from './e-prescription.component';
+import { DefineTermsDialogComponent } from './define-terms-dialog.component';
 
-describe('EPrescriptionComponent', () => {
-  let component: EPrescriptionComponent;
-  let fixture: ComponentFixture<EPrescriptionComponent>;
+describe('DefineTermsDialogComponent', () => {
+  let component: DefineTermsDialogComponent;
+  let fixture: ComponentFixture<DefineTermsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EPrescriptionComponent ]
+      declarations: [ DefineTermsDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EPrescriptionComponent);
+    fixture = TestBed.createComponent(DefineTermsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

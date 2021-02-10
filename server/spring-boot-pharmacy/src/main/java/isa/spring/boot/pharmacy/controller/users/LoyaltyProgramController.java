@@ -33,4 +33,10 @@ public class LoyaltyProgramController {
         LoyaltyProgram loyaltyProgram = loyaltyProgramService.get();
         return new ResponseEntity<>(LoyaltyProgramMapper.convertToDto(loyaltyProgram), HttpStatus.CREATED);
     }
+    @GetMapping(value = "/getDiscountByPatientCategory/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<Integer> getDiscountByPatientCategory(@PathVariable Long patientId)
+    {
+        return new ResponseEntity<>(loyaltyProgramService.getDiscountByPatientCategory(patientId), HttpStatus.OK);
+    }
 }

@@ -1,0 +1,78 @@
+<div class="pricelist-div">
+    <h1 class="mat-h1" style="margin-left: 45%;  margin-top: 1%;">Cenovnik</h1>
+
+    <mat-form-field appearance="fill" style="margin-left: 2%; float: left;">
+        <mat-label>Izaberite početak važenja</mat-label>
+        <input matInput [matDatepicker]="picker1" [min]="minDate" [(ngModel)]="startDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="margin-left: 2%;">
+        <mat-label>Izaberite kraj važenja</mat-label>
+        <input matInput [matDatepicker]="picker2" [min]="startDate" [(ngModel)]="endDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      
+    <div class="pricelist-table mat-elevation-z8" style="margin-left: 3%; margin-right: 3%;">
+        <table>
+            <tr>
+                <th><h2 class="mat-h2">Kod</h2></th>
+                <th><h2 class="mat-h2">Naziv</h2></th>
+                <th><h2 class="mat-h2">Cena</h2></th>
+            </tr>
+            <tr *ngFor="let medicinePrice of medicinePrices">
+                <td style="text-align: center"> <h3 class="mat-h3">{{medicinePrice.medicine.code}} </h3></td>
+                <td style="text-align: center"> <h3 class="mat-h3">{{medicinePrice.medicine.name}} </h3></td>
+                <td style="text-align: center"> <input type="number" [(ngModel)]="medicinePrice.price" min="0"></td>
+            </tr>
+        </table> 
+        
+        <table>
+            <tr>
+                <th><h2 class="mat-h2">Pregled</h2></th>
+                <th><h2 class="mat-h2">Cena</h2></th>
+            </tr>
+            <tr *ngFor="let appointmentPrice of appointmentPrices">
+                <td style="text-align: center"> <h3 class="mat-h3"> {{ convertType(appointmentPrice.appointmentType) }} </h3></td>
+                <td style="text-align: center"> <input type="number" [(ngModel)]="appointmentPrice.price" min="0"></td>
+            </tr>
+        </table> 
+
+    </div>
+    <button mat-raised-button color="primary" style="float: right; margin-top: 2%; margin-right: 2%;" (click)="definePricelist(startDate, endDate)">Definiši cenovnik</button>
+</div>
+
+<div class="all-medicines-div">
+    <h1 class="mat-h1" style="margin-left: 45%;  margin-top: 8%;">Lekovi</h1>
+    <div class="all-medicines-table mat-elevation-z8" style="margin-left: 3%; margin-right: 3%;">
+        <table mat-table [dataSource]="medicinesForPharmacy">
+      
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Kod </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.medicine.code}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.medicine.name}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Količina </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.quantity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Dodaj </th>
+            <td mat-cell *matCellDef="let medicinePharmacy">
+                <button mat-raised-button color="primary" (click)="add(medicinePharmacy)">Dodaj</button>
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</div>

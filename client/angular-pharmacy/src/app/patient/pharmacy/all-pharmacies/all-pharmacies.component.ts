@@ -2,8 +2,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Pharmacy } from '../../../models/pharmacy.model';
+import { Subscription } from '../../../models/subscription.model';
 import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
+import { SubscriptionService } from '../../../services/pharmacy/subscription.service';
+import { AuthenticationService } from '../../../services/users/authentication.service';
 
 @Component({
   selector: 'app-all-pharmacies',
@@ -15,6 +19,8 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
 
+  mySubscriptions : Subscription[] = [];
+
   selectedGradeRange = 'Ništa od navedenog';
   selectedName = 'Ništa od navedenog';
   selectedCity = 'Ništa od navedenog';
@@ -23,7 +29,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   searchInputLenght = 0;
 
   pharmacies: Pharmacy[] = [];
-  displayedColumns: string[] = ['name', 'averageGrade', 'address'];
+  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'pharmacyProfile', 'subscribe'];
   dataSource = new MatTableDataSource(this.pharmacies);
   newDataSource = new MatTableDataSource(this.pharmacies);
   dataSourceAfterSearch = new MatTableDataSource(this.pharmacies);
@@ -37,7 +43,8 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private snackBar: MatSnackBar, private pharmacyService: PharmacyService) {
+  constructor(private snackBar: MatSnackBar, private pharmacyService: PharmacyService, private subscriptionService : SubscriptionService,
+              private authService : AuthenticationService, private router : Router) {
     this.pharmacyService.getAllPharmacies().subscribe(
       data => {
         this.pharmacies = data;
@@ -47,6 +54,9 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
 
         this.namesWithoutDuplicate = this.getDistinctNames();
         this.citiesWithoutDuplicate = this.getDistinctCities();
+
+        this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
+          this.mySubscriptions = data);
       },
       error => {
         if (error.status == 404){
@@ -54,6 +64,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
         }
       }
     );
+   
   }
 
   ngOnInit(): void {}
@@ -187,5 +198,30 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
     this.selectedGradeRange = null;
     this.selectedName = null;
     this.selectedCity = null;
+  }
+
+  subscribeClick(pharmacy) : void {
+    this.subscriptionService.subscribeToPharmacy(new Subscription(0, this.authService.getLoggedUserId(), null,
+    pharmacy.id, null)).subscribe(data => {
+      this.snackBar.open('Apoteka je dodata u listu vaših pretplata!', null, { 
+        duration : 3000, 
+        verticalPosition: 'top'
+       });
+       this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
+        this.mySubscriptions = data);
+    })
+  }
+
+  isAlreadySubscribed(pharmacy): boolean {
+    for (let s of this.mySubscriptions) {
+      if (s.pharmacy.id == pharmacy.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  viewProfileClick(pharmacy): void {
+    this.router.navigate(['/auth/pharmacy-administrator/pharmacy-profile'], {queryParams: {pharmacyId: pharmacy.id, tab: 0}});
   }
 }

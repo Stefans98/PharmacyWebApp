@@ -10,6 +10,9 @@ import java.util.List;
 @DiscriminatorValue("PHARMACIST")
 public class Pharmacist extends Employee {
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     // ***
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
@@ -17,16 +20,28 @@ public class Pharmacist extends Employee {
     @OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacistComplaint> complaints;
 
+    @OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacistGrade> grades;
+
     public Pharmacist() {
     }
 
-    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address) {
+    public Pharmacist(String email, String password, String firstName, String lastName, String phoneNumber, Address address, Boolean deleted) {
         super(email, password, firstName, lastName, phoneNumber, address);
+        this.deleted = deleted;
     }
 
     public Pharmacist(User user) {
         super(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
                 user.getAddress());
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Pharmacy getPharmacy() {
@@ -45,4 +60,11 @@ public class Pharmacist extends Employee {
         this.complaints = complaints;
     }
 
+    public List<PharmacistGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<PharmacistGrade> grades) {
+        this.grades = grades;
+    }
 }

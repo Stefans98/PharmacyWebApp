@@ -97,12 +97,12 @@ export class TakingDrugsComponent implements OnInit {
     this.medicineService.reserveMedicine(new MedicineReservation(0, this.chosenDate, false, this.medicineId, this.pharmacyId, this.authenticationService.getLoggedUserId(), null, null, 0.0)) 
       .subscribe( data => {
         this.router.navigate(['/auth/patient/drugs/reserved-drugs']);
-        this.openSnackBar('Lek je uspešno rezervisan! Rezervaciju možete otkazati ukoliko do datuma preuzimanja ima više od 24h!', 'Zatvori', 4500);
+        this.openSnackBar('Lek je uspešno rezervisan! Rezervaciju možete otkazati ukoliko do datuma preuzimanja ima više od 24h! Ukoliko ne preuzmete lek na vreme dobijate 1 penal!', 'Zatvori', 5700);
       },
       error => {
         if (error.status == 404){
-          this.openSnackBar('Na stanju izabrane apoteke trenutno nema željenog leka.', 'Zatvori', 3300);
-        } else {
+          this.openSnackBar('Ne možete izvršiti rezervaciju leka, jer na stanju nema izabranog leka ili imate više od 2 penala za ovaj mesec!', 'Zatvori', 4700);
+        } else {  
           this.openSnackBar('Neuspešna rezervacija leka!', 'Zatvori', 2500);
         }
       });    

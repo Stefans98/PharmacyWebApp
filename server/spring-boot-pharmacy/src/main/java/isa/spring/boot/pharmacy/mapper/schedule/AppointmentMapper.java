@@ -42,7 +42,7 @@ public class AppointmentMapper {
 
         Appointment appointment = new Appointment();
 
-        if(appointmentDto.getId() != 0) { // Sa fronta se salje id 0 kada se menja postojeci objekat
+        if(appointmentDto.getId() != 0) {
             appointment.setId(appointmentDto.getId());
         }
 

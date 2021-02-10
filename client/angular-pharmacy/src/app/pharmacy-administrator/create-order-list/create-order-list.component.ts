@@ -76,22 +76,27 @@ export class CreateOrderListComponent implements OnInit {
   }
 
   sendOrderList(){
+    if(this.medicineOrderList == undefined || this.medicineOrderList.length == 0){
+      this.openSnackBar('Lista lekova mora biti popunjena!', 'Zatvori');
+      return;
+    }else if(this.offerDeadline == undefined){
+      this.openSnackBar('Datum mora biti unet!', 'Zatvori');
+      return;
+    } else {
     for(var mItem of this.medicineOrderList){
 
-      var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', '');
+      var medicine = new Medicine(mItem.id, mItem.code, mItem.name, '', 0, 0, 0, '', 0, false, null);
       var orderItem = new OrderItem(null, medicine, mItem.quantity);
 
       this.orderItemListForSending.push(orderItem);
-      console.log(mItem.id);
-      console.log(mItem.code);
-      console.log(mItem.name);
-      console.log(mItem.quantity);
-      console.log(this.offerDeadline);
-      console.log(this.authService.getLoggedUserId());
-      console.log('***********');
     }
     this.medicineOrderListForSending = new MedicineOrderList(0, this.orderItemListForSending, this.offerDeadline, this.authService.getLoggedUserId());
-    this.medicineOrderListService.createMedicineOrderList(this.medicineOrderListForSending).subscribe();
+    this.medicineOrderListService.createMedicineOrderList(this.medicineOrderListForSending).subscribe(
+      data => {
+        this.openSnackBar('Uspešno ste kreirali narudžbenicu!', 'Zatvori');
+      }
+    );
+    }
   }
 
   ngOnInit(): void {

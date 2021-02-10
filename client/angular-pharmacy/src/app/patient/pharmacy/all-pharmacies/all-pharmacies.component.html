@@ -34,6 +34,19 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
             <td mat-cell *matCellDef="let element"> {{element.address}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="pharmacyProfile">
+              <th mat-header-cell *matHeaderCellDef> Profil apoteke </th>
+              <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="viewProfileClick(element)">Pogledaj profil</button> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="subscribe">
+                <th mat-header-cell *matHeaderCellDef> Pretplata </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button *ngIf="!isAlreadySubscribed(element)" mat-raised-button color="primary" (click)="subscribeClick(element)">Pretplati se</button>
+                    <div *ngIf="isAlreadySubscribed(element)">Pretplaćeni ste</div>
+                </td>
+                </ng-container>
         
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

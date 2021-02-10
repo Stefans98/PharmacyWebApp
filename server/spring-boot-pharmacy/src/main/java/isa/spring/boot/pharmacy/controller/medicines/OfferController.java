@@ -26,7 +26,7 @@ public class OfferController {
     public ResponseEntity<OfferDto> createNewOffer(@RequestBody OfferDto offerDto) {
         Offer offer = offerService.createNewOffer(OfferMapper.convertToEntity(offerDto, false),
                 offerDto.getSupplierId(), offerDto.getMedicineOrderListId());
-        return new ResponseEntity<>(OfferMapper.convertToDto(offer), HttpStatus.OK);
+        return new ResponseEntity<>(OfferMapper.convertToDto(offer), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/getOffersForSupplier/{supplierId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,6 +87,7 @@ public class OfferController {
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        offerService.sendEmailForAcceptedOffer(offer);
         return new ResponseEntity<>(offerService.findAll(), HttpStatus.OK);
     }
 }

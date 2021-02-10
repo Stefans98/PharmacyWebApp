@@ -3,18 +3,18 @@
 <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
 
     <mat-tab label="Početna stranica">
-        <app-pharmacy-profile-home></app-pharmacy-profile-home>
+        <app-pharmacy-profile-home [pharmacyId]="pharmacyId"></app-pharmacy-profile-home>
     </mat-tab>
 
     <mat-tab label="Dermatolozi">
         <div style="margin-bottom: 10%;">
-            <app-dermatologists-for-pharmacy></app-dermatologists-for-pharmacy>
+            <!-- <app-dermatologists-for-pharmacy></app-dermatologists-for-pharmacy> -->
         </div>
     </mat-tab>
 
     <mat-tab label="Farmaceuti">
         <div style="margin-bottom: 10%;">
-            <app-all-pharmacists></app-all-pharmacists>
+            <!-- <app-all-pharmacists></app-all-pharmacists> -->
         </div>
     </mat-tab>
 
@@ -28,14 +28,19 @@
 
     <mat-tab label="Rezervacija leka">
         Rezervacija leka
+        <div style="margin-bottom: 10%;">
+            <app-medicine-reservation [pharmacyId]="pharmacyId"></app-medicine-reservation>
+        </div>
     </mat-tab>
 
     <mat-tab label="Savetovanje">
         Savetovanje
     </mat-tab>
 
-    <mat-tab label="Pregled">
-        Pregled
+    <mat-tab label="Pregled"> 
+        <div style="margin-bottom: 10%;">
+            <app-dermatologist-scheduling [pharmacyId]="pharmacyId"></app-dermatologist-scheduling>
+        </div>
     </mat-tab>
 
     <mat-tab label="Promocije">

@@ -5,7 +5,7 @@
 .pharmacist-container {
 	background-color: white;
     padding: 10px;
-    height: 630px;
+    height: 450px;
     overflow: auto;
 
 	.pharmacist-list {
@@ -58,4 +58,12 @@
 
 table{
     width: 100%;
+}
+
+.define-terms-div{
+	background-color: white;
+	margin-top: 1%;
+	margin-left: 1.8%;
+	margin-right: 15%;
+	height: 115px;
 }

@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.model.medicines;
 
+import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
+import isa.spring.boot.pharmacy.model.schedule.WorkDay;
 import isa.spring.boot.pharmacy.model.users.Patient;
 
 import javax.persistence.*;
@@ -23,6 +25,10 @@ public class Prescription {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
+
+    //**
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AppointmentReport appointmentReport;
 
     public Prescription() {
     }
@@ -63,5 +69,13 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public AppointmentReport getAppointmentReport() {
+        return appointmentReport;
+    }
+
+    public void setAppointmentReport(AppointmentReport appointmentReport) {
+        this.appointmentReport = appointmentReport;
     }
 }

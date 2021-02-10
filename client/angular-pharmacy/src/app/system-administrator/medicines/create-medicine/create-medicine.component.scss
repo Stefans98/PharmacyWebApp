@@ -1,0 +1,27 @@
+.full {
+	width: 100%;
+}
+
+.patient-profile {
+	padding: 10px;
+	background: white;
+	margin-top: 10px;
+	margin-left: 2%;
+	min-width: 1200px;
+	min-height: 650px;
+	.avatar {
+		width: 110px;
+		height: 110px;
+		margin-left: 40px;
+		border-radius: 50%;
+	}
+	h3 {
+		margin: auto;
+	}
+	.center-data {
+		margin-left: 200px;
+	}
+	.center-address {
+		margin-left: 70px;
+	}
+}

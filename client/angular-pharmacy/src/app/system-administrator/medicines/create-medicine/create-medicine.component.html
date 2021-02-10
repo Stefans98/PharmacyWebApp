@@ -1,0 +1,199 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+            <div fxFlex="5" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+                <h3  class="mat-h2"  fxFill fxLayoutAlign="space-around center">Kreiranje leka</h3> 
+
+            </div>
+            <mat-divider></mat-divider>
+            <div fxFlex fxFlex="85" fxLayout="row" fxLayoutAlign="space-around none">
+                <div fxLayout="column" fxFlex="45" class="mat-elevation-z5" fxLayoutAlign="start none">
+                   
+                    <div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+                        <h3  class="mat-h3"  fxFill fxLayoutAlign="space-around center">Opšte informacije</h3> 
+        
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+        
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Ime</mat-label>
+                                <input matInput type="text" [(ngModel)]="name" required>
+                                <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+                                  <mat-icon>close</mat-icon>
+                                </button>
+                              </mat-form-field>
+                        </div>
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                                <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Šifra</mat-label>
+                                <input matInput type="text" [(ngModel)]="code" required>
+                                <button mat-button *ngIf="code" matSuffix mat-icon-button aria-label="Clear" (click)="code=''">
+                                <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>  
+                        
+                    </div>
+        
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Proizvođač</mat-label>
+                                <input matInput type="text" [(ngModel)]="manufacturer" required>
+                                <button mat-button *ngIf="manufacturer" matSuffix mat-icon-button aria-label="Clear" (click)="manufacturer=''">
+                                <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>  
+                        
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Broj poena</mat-label>
+                                <input matInput type="number" [(ngModel)]="points" required>
+                                <button mat-button *ngIf="points" matSuffix mat-icon-button aria-label="Clear" (click)="points=''">
+                                <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Tip leka</mat-label>
+                                <select matNativeControl required [(ngModel)]="medicineType">
+                                    <option value="1">antibiotik</option>
+                                    <option value="2">anelgetik</option>
+                                    <option value="3">antihistaminik</option>
+                                    <option value="4">vakcina</option>
+                                    <option value="5">antiseptik</option>
+                                    <option value="6">antipiretik</option>
+                                    <option value="7">sedativ</option>
+                                    <option value="8">vitamin</option>
+                                  </select>
+                              </mat-form-field>
+                        </div>
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                                <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Oblik leka</mat-label>
+                                <select matNativeControl required [(ngModel)]="medicineForm">
+                                    <option value="1">sirup</option>
+                                    <option value="2">tableta</option>
+                                    <option value="3">kapsule</option>
+                                    <option value="4">kapi</option>
+                                    <option value="5">sprej</option>
+                                    <option value="6">krema</option>
+                                    <option value="7">prašak</option>
+                                    <option value="8">ulje</option>
+                                    <option value="9">suspenzija</option>
+                                  </select>
+                            </mat-form-field>
+                        </div>  
+                    </div>
+                    
+        
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="85" fxLayout="column" fxLayoutAlign="start strech" >
+        
+                              <mat-form-field class="example-form-field">
+                                <mat-label>Dodatne informacije</mat-label>
+                                <textarea matInput [(ngModel)]="additionalInformations" rows="3"></textarea>
+                                <button mat-button *ngIf="additionalInformations" matSuffix mat-icon-button aria-label="Clear" (click)="additionalInformations=''">
+                                    <mat-icon>close</mat-icon>
+                                 </button>
+                              </mat-form-field>
+        
+                        </div>
+                        
+                    </div>
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                         <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-checkbox class="example-margin" [(ngModel)]="onPrescription">
+                                Na recept
+                            </mat-checkbox>
+                         </div>  
+                    </div>
+                   
+        
+                </div>
+                <div fxLayout="column" fxFlex="45" class="mat-elevation-z5" fxLayoutAlign="start none">
+                    <div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+                        <h3  class="mat-h3"  fxFill fxLayoutAlign="space-around center">Specifikacija leka</h3> 
+        
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="85" fxLayout="column" fxLayoutAlign="start strech" >
+        
+                              <mat-form-field class="example-form-field">
+                                <mat-label>Kontraindikacije</mat-label>
+                                <textarea matInput [(ngModel)]="contraindications" rows="3"></textarea>
+                                <button mat-button *ngIf="contraindications" matSuffix mat-icon-button aria-label="Clear" (click)="contraindications=''">
+                                    <mat-icon>close</mat-icon>
+                                 </button>
+                              </mat-form-field>
+        
+                        </div>
+                        
+                    </div>
+        
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <mat-form-field class="example-form-field">
+                                <mat-label>Dnevna doza</mat-label>
+                                <input matInput type="number" [(ngModel)]="dailyDose" required>
+                                <button mat-button *ngIf="dailyDose" matSuffix mat-icon-button aria-label="Clear" (click)="dailyDose=''">
+                                <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>  
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" ></div>
+                    </div>
+
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <div class="mat-h3">Sastav leka:</div>
+                        </div>
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center start" >
+                            <button mat-raised-button color="basic" (click)="showIngredientsClick()">Prikaži</button>
+                        </div>
+                    </div>
+                    <div fxFlex="20"  fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" >
+                            <br>
+                            <div class="mat-h3">Zamenski lekovi:</div>
+                    </div>  
+                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center start" >
+                        <button mat-raised-button color="basic" (click)="selectSubstitutionsClick()">Izaberi</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+			<div fxLayout="row" fxFlex fxLayoutAlign="center end">
+                <button mat-raised-button color="primary" (click)="createClick()" style="width: 200px;">Kreiraj</button>
+            </div>
+
+		</div>
+
+	</div>
+	
+</div>

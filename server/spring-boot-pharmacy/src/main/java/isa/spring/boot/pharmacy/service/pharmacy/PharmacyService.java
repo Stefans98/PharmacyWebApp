@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
@@ -19,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class PharmacyService {
@@ -55,8 +53,12 @@ public class PharmacyService {
 
     public Pharmacy getPharmacyByPharmacyAdmin(Long pharmacyAdministratorId) {
         PharmacyAdministrator pharmacyAdministrator = (PharmacyAdministrator) userService.findById(pharmacyAdministratorId);
-
         return pharmacyAdministrator.getPharmacy();
+    }
+
+    public Pharmacy getPharmacyByPharmacist(Long pharmacistId) {
+        Pharmacist pharmacist = (Pharmacist) userService.findById(pharmacistId);
+        return pharmacist.getPharmacy();
     }
 
     public Pharmacy savePharmacy(Pharmacy pharmacy) {
@@ -170,6 +172,18 @@ public class PharmacyService {
         return null;
     }
 
+    public List<PharmacyDto> removePharmaciesDuplicates(List<PharmacyDto> pharmaciesDto){
+        Map<Long, PharmacyDto> map = new HashMap<>();
+        List<PharmacyDto> pharmaciesDtoWithoutDuplicates = new ArrayList<>();
+        for(PharmacyDto p: pharmaciesDto){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            pharmaciesDtoWithoutDuplicates.add(map.get(id));
+        }
+        return pharmaciesDtoWithoutDuplicates;
+    }
+
     public Date convertDateStrToDate(String dateStr, String format) {
         SimpleDateFormat df = new SimpleDateFormat(format);
         Date date = new Date();
@@ -180,4 +194,6 @@ public class PharmacyService {
         }
         return date;
     }
+
+
 }
