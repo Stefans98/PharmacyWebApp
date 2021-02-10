@@ -1,11 +1,18 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
+import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
+import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
+import isa.spring.boot.pharmacy.model.pharmacy.Pricelist;
+import isa.spring.boot.pharmacy.model.schedule.Appointment;
+import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.MedicineReservationRepository;
 import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
+import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
+import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +43,12 @@ public class MedicineReservationService {
 
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @Autowired
+    private PricelistService pricelistService;
 
     public List<MedicineReservation> findAll() {
         return medicineReservationRepository.findAll();
@@ -166,13 +179,7 @@ public class MedicineReservationService {
     public MedicineReservation issueMedicineReservation(Long medicineReservationId) {
         MedicineReservation medicineReservation = findById(medicineReservationId);
         medicineReservation.setMedicineReservationState(MedicineReservationState.COMPLETED);
-        try {
-            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
-                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
-                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
-                            "<br><br>S poštovanjem, <br>Health Pharmacy");
-        } catch( Exception ignored ){}
-        return  medicineReservationRepository.save(medicineReservation);
+        return medicineReservationRepository.save(medicineReservation);
     }
 
     public void sendEmailForMedicineReservation(MedicineReservation medicineReservation) {
@@ -185,4 +192,73 @@ public class MedicineReservationService {
                     "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
     }
+
+    public void sendEmailForIssuingMedicineReservation(MedicineReservation medicineReservation) {
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
+                    "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
+                            "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
+                            "<br><br>S poštovanjem, <br>Health Pharmacy");
+        } catch( Exception ignored ){}
+    }
+
+    public AnnualStatistics medicineStatistic(Long pharmacyId){
+        AnnualStatistics annualStatistics = new AnnualStatistics();
+        for(MedicineReservation medicineReservation : getALlMedicineReservationsForPharmacy(pharmacyId)){
+            if(medicineReservation.getMedicineReservationState() != MedicineReservationState.COMPLETED){
+                continue;
+            }
+            if(medicineReservation.getFinalPurchasingDate().getMonth() == 0){
+                annualStatistics.setJanuary(annualStatistics.getJanuary() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 1){
+                annualStatistics.setFebruary(annualStatistics.getFebruary() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 2){
+                annualStatistics.setMarch(annualStatistics.getMarch() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 3){
+                annualStatistics.setApril(annualStatistics.getApril() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 4){
+                annualStatistics.setMay(annualStatistics.getMay() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 5){
+                annualStatistics.setJun(annualStatistics.getJun() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 6){
+                annualStatistics.setJuly(annualStatistics.getJuly() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 7){
+                annualStatistics.setAugust(annualStatistics.getAugust() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 8){
+                annualStatistics.setSeptember(annualStatistics.getSeptember() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 9){
+                annualStatistics.setOctober(annualStatistics.getOctober() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 10){
+                annualStatistics.setNovember(annualStatistics.getNovember() + 1);
+            }else if(medicineReservation.getFinalPurchasingDate().getMonth() == 11){
+                annualStatistics.setDecember(annualStatistics.getDecember() + 1);
+            }
+        }
+        return annualStatistics;
+    }
+
+    public AnnualStatistics calculatePharmacyProfit(Long pharmacyId, Date startDate, Date endDate){
+        AnnualStatistics annualStatistics = new AnnualStatistics();
+
+        for(Appointment appointment : appointmentService.getAppointmentsForPharmacy(pharmacyId)) {
+            if (appointment.getAppointmentState() != AppointmentState.FINISHED || appointment.getStartTime().before(startDate) || appointment.getStartTime().after(endDate)) {
+                continue;
+            }
+            annualStatistics.setJanuary(annualStatistics.getJanuary() + appointment.getPrice());
+        }
+
+        for(MedicineReservation medicineReservation : getALlMedicineReservationsForPharmacy(pharmacyId)) {
+            if (medicineReservation.getMedicineReservationState() != MedicineReservationState.COMPLETED || medicineReservation.getFinalPurchasingDate().before(startDate) || medicineReservation.getFinalPurchasingDate().after(endDate)) {
+                continue;
+            }
+            Pricelist pricelist = pricelistService.findPricelistForPharmacy(pharmacyId);
+            for(MedicinePrice medicinePrice : pricelist.getMedicinePrices()){
+                if(medicinePrice.getMedicine().getId() == medicineReservation.getMedicine().getId()){
+                    annualStatistics.setJanuary(annualStatistics.getJanuary() + medicinePrice.getPrice());
+                }
+            }
+        }
+        return annualStatistics;
+    }
+
 }

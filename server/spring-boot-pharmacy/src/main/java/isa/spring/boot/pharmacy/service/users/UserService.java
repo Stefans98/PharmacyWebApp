@@ -95,6 +95,11 @@ public class UserService implements UserDetailsService {
         } else {
             pharmacist.setPassword(passwordEncoder.encode(pharmacist.getPassword()), true);
         }
+        User user = userRepository.findByEmail(pharmacist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacist.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
+        pharmacist.setDeleted(false);
         pharmacist.setAuthorities(authorityService.findByName("PHARMACIST"));
         pharmacist.setPharmacy(pharmacyService.getPharmacyForPharmacist(pharmacist.getId()));
         return userRepository.save(pharmacist);
@@ -106,6 +111,10 @@ public class UserService implements UserDetailsService {
             dermatologist.setPassword(currentPassword, false);
         } else {
             dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
+        }
+        User user = userRepository.findByEmail(dermatologist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            dermatologist.setLastPasswordResetDate(user.getLastPasswordResetDate());
         }
         dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
         return userRepository.save(dermatologist);
@@ -131,6 +140,7 @@ public class UserService implements UserDetailsService {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
         patient.setAuthorities(authorities);
+        patient.setAccountActivated(false);
 
         return userRepository.save(patient);
     }
@@ -462,5 +472,13 @@ public class UserService implements UserDetailsService {
             dermatologistDtoWithoutDuplicates.add(map.get(id));
         }
         return dermatologistDtoWithoutDuplicates;
+    }
+
+    public void activatePatientAccount(String email) {
+        Patient patient = (Patient) Hibernate.unproxy(userRepository.findByEmail(email));
+        if (patient != null) {
+            patient.setAccountActivated(true);
+            userRepository.save(patient);
+        }
     }
 }

@@ -27,7 +27,7 @@ public class SupplierController {
     {
         if (userService.findByEmail(supplierDto.getEmail()) != null)
         {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Supplier supplier = userService.saveSupplier(SupplierMapper.convertToEntity(supplierDto, false));
 

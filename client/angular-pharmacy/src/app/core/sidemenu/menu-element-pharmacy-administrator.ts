@@ -2,7 +2,7 @@ export const pharmacyAdministratorMenus = [
     {
         'name': 'Moja apoteka',
         'icon': 'event_note',
-        'link': 'pharmacy-administrator/pharmacy-profile',
+        'link': 'pharmacy-administrator/my-pharmacy',
         'open': false
     },
     {

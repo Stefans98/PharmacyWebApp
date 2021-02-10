@@ -1,5 +1,7 @@
 package isa.spring.boot.pharmacy.dto.pharmacy;
 
+import javax.persistence.Column;
+
 public class PharmacyDto {
 
     private Long id;
@@ -11,6 +13,8 @@ public class PharmacyDto {
     private double averageGrade;
     private String address;
     private double price;
+    private double longitude;
+    private double latitude;
 
     public PharmacyDto() {
     }
@@ -91,5 +95,21 @@ public class PharmacyDto {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

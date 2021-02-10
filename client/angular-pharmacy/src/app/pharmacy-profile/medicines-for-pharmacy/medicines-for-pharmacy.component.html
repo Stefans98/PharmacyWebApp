@@ -1,0 +1,25 @@
+<div class="all-medicines-div">
+    <h1 class="mat-h1" style="margin-left: 45%;  margin-top: 8%;">Lekovi</h1>
+    <div class="all-medicines-table mat-elevation-z8" style="margin-left: 3%; margin-right: 3%;">
+        <table mat-table [dataSource]="medicinesForPharmacy">
+      
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Kod </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.medicine.code}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.medicine.name}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Količina </th>
+            <td mat-cell *matCellDef="let medicinePharmacy"> {{medicinePharmacy.quantity}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</div>

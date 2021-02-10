@@ -43,7 +43,7 @@ public class DermatologistController {
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
         if (userService.findByEmail(dermatologistDto.getEmail()) != null) {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User dermatologist = userService.saveDermatologist(UserMapper.convertToEntity(dermatologistDto, false));
 
@@ -95,7 +95,7 @@ public class DermatologistController {
     }
 
     @GetMapping(value = "/dermatologistsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','PATIENT')")
     public ResponseEntity<List<DermatologistDto>> getDermatologistsForPharmacy(@PathVariable Long pharmacyId) {
         List<DermatologistDto> dermatologistsForPharmacy = new ArrayList<>();
         if(userService.getDermatologistsForPharmacy(pharmacyId) == null){

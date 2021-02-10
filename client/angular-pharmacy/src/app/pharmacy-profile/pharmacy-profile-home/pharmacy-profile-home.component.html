@@ -1,6 +1,55 @@
-<!-- <h1> {{ pharmacy.name }} </h1>
-<h3> {{ pharmacy.country }}, {{ pharmacy.city }}, {{ pharmacy.street }}</h3>
-<h2 style="float: left; margin-top: -1%;"> Ocena: {{pharmacy.averageGrade}} </h2> 
-<mat-progress-bar mode="determinate" [value]="scaledPharmacyAverageGrade" style="width: 140px; margin-left: 100px; height: 12px;"></mat-progress-bar> -->
+<div class="pharmacy-administrator-my-pharmacy">
 
-{{name}}
+    <table style="width: 100%;">
+        <tr>
+        <mat-form-field class="pharmacy-name-input">
+            <mat-label>Naziv Apoteke</mat-label>
+            <input matInput readonly [(ngModel)]="name">
+        </mat-form-field>
+        </tr>
+        <tr>
+        <mat-form-field style="float: left;">
+            <mat-label>Država</mat-label>
+            <input matInput readonly [(ngModel)]="country">
+        </mat-form-field>
+
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Grad</mat-label>
+            <input matInput readonly [(ngModel)]="city">
+        </mat-form-field>
+
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Ulica</mat-label>
+            <input matInput readonly [(ngModel)]="street">
+        </mat-form-field>
+
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Longitude</mat-label>
+            <input matInput readonly [(ngModel)]="lng">
+        </mat-form-field>
+
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Latitude</mat-label>
+            <input matInput readonly [(ngModel)]="lat">
+        </mat-form-field>
+
+        </tr>
+    </table>  
+
+    <h2 class="mat-h2">Ocena apoteke: {{ averageGrade }}</h2>
+    
+    <div class="pharmacy-description-div">
+        <mat-card class="pharmacy-description-card">
+            <mat-form-field style="width: 500px;">
+                <mat-label>Opis apoteke</mat-label>
+                <textarea matInput class="pharmacy-description-text" readonly style="height: 250px; width: 480px;" [(ngModel)] = "description"></textarea>
+              </mat-form-field>
+        </mat-card>
+    </div>
+
+    <div class="pharmacy-medicines-div">
+        <div class="map">
+            <div id="map" class="map"></div>
+        </div>
+    </div>
+</div>

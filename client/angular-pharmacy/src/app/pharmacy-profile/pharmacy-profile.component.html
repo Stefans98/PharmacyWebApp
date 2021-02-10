@@ -8,22 +8,22 @@
 
     <mat-tab label="Dermatolozi">
         <div style="margin-bottom: 10%;">
-            <!-- <app-dermatologists-for-pharmacy></app-dermatologists-for-pharmacy> -->
+            <app-dermatologists-for-pharmacy [pharmacyId]="pharmacyId" ></app-dermatologists-for-pharmacy>
         </div>
     </mat-tab>
 
     <mat-tab label="Farmaceuti">
         <div style="margin-bottom: 10%;">
-            <!-- <app-all-pharmacists></app-all-pharmacists> -->
+            <app-pharmacists-for-pharmacy [pharmacyId]="pharmacyId"></app-pharmacists-for-pharmacy>
         </div>
     </mat-tab>
 
     <mat-tab label="Termini">
-        Termini
+        <app-free-terms-for-pharmacy [pharmacyId]="pharmacyId"></app-free-terms-for-pharmacy>
     </mat-tab>
 
     <mat-tab label="Lekovi">
-        Lekovi
+        <app-medicines-for-pharmacy [pharmacyId]="pharmacyId"></app-medicines-for-pharmacy>
     </mat-tab>
 
     <mat-tab label="Rezervacija leka">
