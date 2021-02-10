@@ -95,6 +95,11 @@ public class UserService implements UserDetailsService {
         } else {
             pharmacist.setPassword(passwordEncoder.encode(pharmacist.getPassword()), true);
         }
+        User user = userRepository.findByEmail(pharmacist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacist.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
+        pharmacist.setDeleted(false);
         pharmacist.setAuthorities(authorityService.findByName("PHARMACIST"));
         pharmacist.setPharmacy(pharmacyService.getPharmacyForPharmacist(pharmacist.getId()));
         return userRepository.save(pharmacist);
@@ -106,6 +111,10 @@ public class UserService implements UserDetailsService {
             dermatologist.setPassword(currentPassword, false);
         } else {
             dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
+        }
+        User user = userRepository.findByEmail(dermatologist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            dermatologist.setLastPasswordResetDate(user.getLastPasswordResetDate());
         }
         dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
         return userRepository.save(dermatologist);

@@ -23,7 +23,7 @@ export class PharmacistPatientsComponent implements OnInit, AfterViewInit {
 
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
-  displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'phoneNumber', 'button'];
   dataSource = new MatTableDataSource(this.patientsForPharmacist);
   newDataSource = new MatTableDataSource(this.patientsForPharmacist);
   dataSourceAfterSearch = new MatTableDataSource(this.patientsForPharmacist);
