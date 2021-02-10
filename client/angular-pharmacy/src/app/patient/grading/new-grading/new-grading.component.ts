@@ -83,7 +83,7 @@ export class NewGradingComponent implements OnInit {
         },
         error => {
           if (error.status == 400){
-            this.openSnackBar('Već ste ocenili ovu apoteku! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+            this.openSnackBar('Već ste ocenili ovu apoteku! Moguća je samo izmena ocene u delu za izmenu postojećih ocena!', 'Zatvori', 5000);
           } else {  
             this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
           }
@@ -96,7 +96,7 @@ export class NewGradingComponent implements OnInit {
         },
         error => {
           if (error.status == 400){
-            this.openSnackBar('Već ste ocenili ovog farmaceuta! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+            this.openSnackBar('Već ste ocenili ovog farmaceuta! Moguća je samo izmena ocene u delu za izmenu postojećih ocena!', 'Zatvori', 5000);
           } else {  
             this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
           }
@@ -109,7 +109,7 @@ export class NewGradingComponent implements OnInit {
         },
         error => {
           if (error.status == 400){
-            this.openSnackBar('Već ste ocenili ovog dermatologa! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+            this.openSnackBar('Već ste ocenili ovog dermatologa! Moguća je samo izmena ocene u delu za izmenu postojećih ocena!', 'Zatvori', 5000);
           } else {  
             this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
           }
@@ -122,7 +122,7 @@ export class NewGradingComponent implements OnInit {
         },
         error => {
           if (error.status == 400){
-            this.openSnackBar('Već ste ocenili ovaj lek! Moguća je samo promena ocene u delu za promenu ocene!', 'Zatvori', 4700);
+            this.openSnackBar('Već ste ocenili ovaj lek! Moguća je samo izmena ocene u delu za izmenu postojećih ocena!', 'Zatvori', 5000);
           } else {  
             this.openSnackBar('Neuspešno ocenjivanje!', 'Zatvori', 2500);
           }

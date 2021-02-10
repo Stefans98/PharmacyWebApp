@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     error => {
       if (error.status == 401)
       {
-        this.snackBar.open('Uneli ste neispravan email ili lozinku!', null, { 
+        this.snackBar.open('Uneli ste neispravan email ili lozinku!', 'Zatvori', { 
           duration : 3000, 
           verticalPosition: 'top'
          });

@@ -1,27 +1,57 @@
 <ng-scrollbar style="height: calc(100% - 33px);">
     <div fxLayout="column" >
-        <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
-          <img width="100" [style.borderRadius]="'50%'" src="./assets/images/user.png">
-        </div>
-        <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
-            <img width="50" [style.borderRadius]="'50%'" src="./assets/images/user.png">
-        </div>
         <div *ngIf="userRole == 'PATIENT'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/patient.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/patient.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of patientMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'PHARMACIST'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/pharmacist.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/pharmacist.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of pharmacistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'DERMATOLOGIST'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/dermatologist.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/dermatologist.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of dermatologistMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'SUPPLIER'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/supplier.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/supplier.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of supplierMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'PHARMACY_ADMIN'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/pharmacy-admin.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/pharmacy-admin.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of pharmacyAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
         <div *ngIf="userRole == 'SYSTEM_ADMIN'">
+            <div *ngIf="!iconOnly" fxLayoutAlign="space-around center" [style.margin]="'10px 0px'" >
+                <img width="100" [style.borderRadius]="'50%'" src="./assets/images/system-admin.png">
+              </div>
+              <div *ngIf="iconOnly" style="height: 100px;" fxLayoutAlign="space-around center"  >
+                  <img width="50" [style.borderRadius]="'50%'" src="./assets/images/system-admin.png">
+              </div>
             <cdk-sidemenu-item *ngFor="let menu of systemAdministratorMenus" [menu]="menu" [iconOnly]="iconOnly"> </cdk-sidemenu-item>
         </div>
     </div>   

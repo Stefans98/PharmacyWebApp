@@ -135,8 +135,8 @@ insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 7, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 8, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-03-02 08:00:00', '2021-03-02 20:00:00', 20, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-08 08:00:00', '2021-02-08 20:00:00', 7, 1);
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-08 08:00:00', '2021-02-08 20:00:00', 5, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-09 08:00:00', '2021-02-09 20:00:00', 7, 1);
+insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-09 08:00:00', '2021-02-09 20:00:00', 5, 1);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-02 17:30:00', '2021-02-02 17:40:00', 3, 1, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (2500, 0, 1, '2021-02-05 04:45:00', '2021-02-05 04:45:00', 3, 1, false);
@@ -163,8 +163,8 @@ insert into appointments (price, appointment_type, appointment_state, start_time
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-06 10:35:00', '2021-02-06 10:45:00', 6, 1, false);
 
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-08 10:35:00', '2021-02-08 10:45:00', 6, 1, false);
-insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 1, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 7, 1, false);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 1, '2021-02-09 10:35:00', '2021-02-09 10:45:00', 6, 1, false);
+insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 1, 1, '2021-02-09 11:35:00', '2021-02-09 11:45:00', 7, 1, false);
 
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 6, 2, false);
 insert into appointments (price, appointment_type, appointment_state, start_time, end_time, work_day_id, patient_id, got_penalty) values (1500, 0, 2, '2021-02-08 11:35:00', '2021-02-08 11:45:00', 6, 3, false);

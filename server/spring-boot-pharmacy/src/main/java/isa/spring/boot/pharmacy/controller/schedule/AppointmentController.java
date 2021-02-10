@@ -39,6 +39,16 @@ public class AppointmentController {
     @Autowired
     private PricelistService pricelistService;
 
+    @GetMapping(value = "/findById/{appointmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('PHARMACIST','DERMATOLOGIST')")
+    public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable long appointmentId) {
+        Appointment appointment = appointmentService.findById(appointmentId);
+        if (appointment == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(AppointmentMapper.convertToDto(appointment), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getExaminationsHistoryForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PATIENT')")
     public ResponseEntity<List<ExaminationDto>> getExaminationsHistoryForPatient(@PathVariable Long patientId) {
@@ -212,4 +222,33 @@ public class AppointmentController {
         double appointmentPrice = pricelistService.calculateAppointmentPrice(price, startTime, endTime);
         return new ResponseEntity<>(appointmentPrice, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getExaminationsForDermatologistWorkCalendar/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('DERMATOLOGIST')")
+    public ResponseEntity<List<AppointmentDto>> getExaminationsForDermatologistWorkCalendar(@PathVariable Long dermatologistId) {
+        List<AppointmentDto> dermatologistExaminations = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getExaminationsForDermatologistWorkCalendar(dermatologistId)) {
+            dermatologistExaminations.add(AppointmentMapper.convertToDto(appointment));
+        }
+
+        if (dermatologistExaminations.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(dermatologistExaminations, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getCounselingsForPharmacistWorkCalendar/{pharmacistId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACIST')")
+    public ResponseEntity<List<AppointmentDto>> getCounselingsForPharmacistWorkCalendar(@PathVariable Long pharmacistId) {
+        List<AppointmentDto> pharmacistCounselings = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getCounselingsForPharmacistWorkCalendar(pharmacistId)) {
+            pharmacistCounselings.add(AppointmentMapper.convertToDto(appointment));
+        }
+
+        if (pharmacistCounselings.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pharmacistCounselings, HttpStatus.OK);
+    }
+
 }

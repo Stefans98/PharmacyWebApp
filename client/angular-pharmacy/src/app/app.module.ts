@@ -120,6 +120,20 @@ import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-au
 import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
 import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
 import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
+import { ChangePasswordModalDialogComponent } from './dermatologist/dermatologist-work-calendar/change-password-modal-dialog/change-password-modal-dialog.component';
+import { ChangePasswordModalDialogPharmacistComponent } from './pharmacist/pharmacist-work-calendar/change-password-modal-dialog-pharmacist/change-password-modal-dialog-pharmacist.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -229,7 +243,9 @@ import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-gra
     PharmacyChoosingComponent,
     NewGradingComponent,
     ChangeGradeComponent,
-    ChooseGradeEntityModalDialogComponent
+    ChooseGradeEntityModalDialogComponent,
+    ChangePasswordModalDialogComponent,
+    ChangePasswordModalDialogPharmacistComponent
   ],
   imports: [
     BrowserModule,
@@ -251,7 +267,9 @@ import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-gra
     NgxSliderModule,
     CommonModule,
     ChartModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatTableModule,
+    FullCalendarModule 
   ],
   providers: [
     {
