@@ -38,19 +38,19 @@ export const systemAdministratorMenus = [
         ]
     },{
         'name': 'Lekovi',
-        'icon': 'create',
+        'icon': 'healing',
         'link': false,
         'open': false,
         'sub': [
             {
                 'name': 'Svi lekovi',
-                'icon': 'local_hospital',
+                'icon': 'healing',
                 'link': 'system-administrator/all-medicines',
                 'open': false,
             },
             {
                 'name': 'Kreiraj lek',
-                'icon': 'person_add',
+                'icon': 'add_circle',
                 'link': 'system-administrator/create-medicine',
                 'open': false,
             }  

@@ -1,7 +1,15 @@
 package isa.spring.boot.pharmacy.controller.users;
 
+import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
+import isa.spring.boot.pharmacy.dto.users.SupplierDto;
+import isa.spring.boot.pharmacy.dto.users.SystemAdministratorDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
+import isa.spring.boot.pharmacy.mapper.users.DermatologistMapper;
+import isa.spring.boot.pharmacy.mapper.users.SupplierMapper;
+import isa.spring.boot.pharmacy.mapper.users.SystemAdministratorMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
+import isa.spring.boot.pharmacy.model.users.Dermatologist;
+import isa.spring.boot.pharmacy.model.users.SystemAdministrator;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +49,16 @@ public class SystemAdministratorController {
         return new ResponseEntity<>(UserMapper.convertToDto(systemAdministrator), HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+    public ResponseEntity<UserDto> updateSupplier(@RequestBody SystemAdministratorDto systemAdministratorDto)
+    {
+        if (userService.findById(systemAdministratorDto.getId()) == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User supplier = userService.updateSystemAdministrator(SystemAdministratorMapper.convertToEntity(systemAdministratorDto, true));
+
+        return new ResponseEntity<>(UserMapper.convertToDto(supplier), HttpStatus.OK);
+    }
 }
