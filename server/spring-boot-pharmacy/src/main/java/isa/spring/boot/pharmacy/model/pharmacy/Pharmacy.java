@@ -64,6 +64,9 @@ public class Pharmacy {
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyComplaint> complaints;
 
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyGrade> grades;
+
      @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyMedicine> pharmacyMedicines;
 
@@ -184,13 +187,20 @@ public class Pharmacy {
         this.medicineOrderLists = medicineOrderLists;
     }
 
-
     public List<PharmacyComplaint> getComplaints() {
         return complaints;
     }
 
     public void setComplaints(List<PharmacyComplaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public List<PharmacyGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<PharmacyGrade> grades) {
+        this.grades = grades;
     }
 
     public List<VacationRequest> getVacationRequests() {
@@ -232,4 +242,5 @@ public class Pharmacy {
     public void setePrescriptions(List<EPrescription> ePrescriptions) {
         this.ePrescriptions = ePrescriptions;
     }
+
 }

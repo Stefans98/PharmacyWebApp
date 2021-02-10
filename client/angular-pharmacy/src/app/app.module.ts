@@ -118,11 +118,16 @@ import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
+import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
+import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
+import { ChangePasswordModalDialogComponent } from './dermatologist/dermatologist-work-calendar/change-password-modal-dialog/change-password-modal-dialog.component';
+import { ChangePasswordModalDialogPharmacistComponent } from './pharmacist/pharmacist-work-calendar/change-password-modal-dialog-pharmacist/change-password-modal-dialog-pharmacist.component';
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
-import listPlugin from '@fullcalendar/list'; 
+import listPlugin from '@fullcalendar/list';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -237,7 +242,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MedicinePharmacyModalDialogComponent,
     PharmacyChoosingComponent,
     MyEPrescriptionsComponent,
-    NewEPrescriptionComponent
+    NewEPrescriptionComponent,
+    NewGradingComponent,
+    ChangeGradeComponent,
+    ChooseGradeEntityModalDialogComponent,
+    ChangePasswordModalDialogComponent,
+    ChangePasswordModalDialogPharmacistComponent
+
   ],
   imports: [
     BrowserModule,

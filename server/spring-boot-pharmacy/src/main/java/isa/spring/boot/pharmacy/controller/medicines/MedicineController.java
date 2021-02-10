@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +116,7 @@ public class MedicineController {
         if (medicineReservation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        medicineReservationService.sendEmailForMedicineReservation(medicineReservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -133,6 +133,16 @@ public class MedicineController {
             return new ResponseEntity<>(medicineReservationDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicineReservationDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicinesForPatientCompletedReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesForPatientCompletedReservations(@PathVariable Long patientId) {
+        List<MedicineDto> medicineDtos = new ArrayList<>();
+        for (Medicine medicine : medicineService.getMedicinesForPatientCompletedReservations(patientId)) {
+            medicineDtos.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineService.removeMedicineDuplicates(medicineDtos), HttpStatus.OK);
     }
 
     @PutMapping(value = "/cancelMedicineReservation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

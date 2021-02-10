@@ -1,7 +1,8 @@
 package isa.spring.boot.pharmacy.service.users;
 
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
@@ -120,6 +121,10 @@ public class UserService implements UserDetailsService {
         supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
         return userRepository.save(supplier);
 
+    }
+
+    public User saveUpdatedUser (User user) {
+        return userRepository.save(user);
     }
 
     public Patient savePatient(Patient patient) {
@@ -433,5 +438,29 @@ public class UserService implements UserDetailsService {
         Patient patient = (Patient) Hibernate.unproxy(findById(patientId));
         patient.setPoints(patient.getPoints() + points);
         userRepository.save(patient);
+    }
+
+    public List<PharmacistDto> removePharmacistDuplicates(List<PharmacistDto> pharmacistDtos){
+        Map<Long, PharmacistDto> map = new HashMap<>();
+        List<PharmacistDto> pharmacistDtoWithoutDuplicates = new ArrayList<>();
+        for(PharmacistDto p: pharmacistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            pharmacistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return pharmacistDtoWithoutDuplicates;
+    }
+
+    public List<DermatologistDto> removeDermatologistDuplicates(List<DermatologistDto> dermatologistDtos){
+        Map<Long, DermatologistDto> map = new HashMap<>();
+        List<DermatologistDto> dermatologistDtoWithoutDuplicates = new ArrayList<>();
+        for(DermatologistDto p: dermatologistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            dermatologistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return dermatologistDtoWithoutDuplicates;
     }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResetPassword } from '../../models/reset-password.model';
 import { User } from '../../models/user.model';
 
 @Injectable({
@@ -16,5 +17,11 @@ export class UserService {
     return this.http
       .get<User>(this.userUrl + 'findById/' + id);
   } 
+
+  public getPasswordResetDataForUser(userId: number): Observable<ResetPassword> {
+    return this.http
+      .get<ResetPassword>(this.userUrl + 'getPasswordResetDataForUser/' + userId);
+  } 
+
 }
 

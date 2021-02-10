@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { CalendarOptions, EventClickArg, DateSelectArg, EventApi, EventInput } from '@fullcalendar/angular';
+import { CalendarOptions, EventClickArg, EventApi, EventInput } from '@fullcalendar/angular';
 import { Appointment } from '../../models/appointment.model';
-import { Pharmacy } from '../../models/pharmacy.model';
+import { ResetPassword } from '../../models/reset-password.model';
 import { AppointmentService } from '../../services/schedule/appointment.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
+import { UserService } from '../../services/users/user.service';
+import { ChangePasswordModalDialogPharmacistComponent } from './change-password-modal-dialog-pharmacist/change-password-modal-dialog-pharmacist.component';
 
 @Component({
   selector: 'app-pharmacist-work-calendar',
@@ -19,24 +22,33 @@ export class PharmacistWorkCalendarComponent implements OnInit {
   public INITIAL_EVENTS: EventInput[] = [];
   public pharmacistCounselings : Appointment[] = [];
   public selectedAppointment : Appointment;
+  public resetPasswordData : ResetPassword;
 
   constructor(private appointmentService : AppointmentService, private authenticationService : AuthenticationService,
-      private router : Router, private snackBar: MatSnackBar) {
-    this.appointmentService.getCounselingsForPharmacistWorkCalendar(authenticationService.getLoggedUserId()).subscribe(
-      data => {
-        this.pharmacistCounselings = data;
-        for(var pharmacistCounseling of this.pharmacistCounselings) {
-          this.INITIAL_EVENTS.push(
-            { 
-              id : pharmacistCounseling.id.toString(),
-              title : pharmacistCounseling.patient.firstName + ' ' + pharmacistCounseling.patient.lastName,
-              start: pharmacistCounseling.startTime,
-              end : pharmacistCounseling.endTime,
-            })
-            this.calendarOptions.events = this.INITIAL_EVENTS;
-        }
-      }
-    ); 
+      private userService : UserService, private router : Router, private snackBar: MatSnackBar, public dialog: MatDialog) {
+        this.userService.getPasswordResetDataForUser(authenticationService.getLoggedUserId()).subscribe(
+          data => {
+            this.resetPasswordData = data;
+            this.appointmentService.getCounselingsForPharmacistWorkCalendar(authenticationService.getLoggedUserId()).subscribe(
+              data => {
+                this.pharmacistCounselings = data;
+                for(var pharmacistCounseling of this.pharmacistCounselings) {
+                  this.INITIAL_EVENTS.push(
+                    { 
+                      id : pharmacistCounseling.id.toString(),
+                      title : pharmacistCounseling.patient.firstName + ' ' + pharmacistCounseling.patient.lastName,
+                      start: pharmacistCounseling.startTime,
+                      end : pharmacistCounseling.endTime,
+                    })
+                    this.calendarOptions.events = this.INITIAL_EVENTS;
+                }
+              }
+            );
+            if(this.resetPasswordData.passwordReset == false) { // First login
+              this.openDialog();
+            }
+          }
+        ); 
   }
 
   ngOnInit(): void {}
@@ -82,7 +94,6 @@ export class PharmacistWorkCalendarComponent implements OnInit {
     this.appointmentService.getAppointmentById(Number(clickInfo.event.id)).subscribe(
       data => {
         this.selectedAppointment = data;
-        console.log(this.selectedAppointment);
         if(this.selectedAppointment.appointmentState == 0) {
           this.openSnackBar('Savetovanje koje ste izabrali još uvek nije zakazano!', 'Zatvori', 3000);
         } else if(this.selectedAppointment.appointmentState == 1) {
@@ -128,6 +139,16 @@ export class PharmacistWorkCalendarComponent implements OnInit {
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
     return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordModalDialogPharmacistComponent,{
+      panelClass: 'my-centered-dialog',
+      width: '550px',
+      height: '365px',
+      position: {left: '600px'},
+      disableClose: true
+    });
   }
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';

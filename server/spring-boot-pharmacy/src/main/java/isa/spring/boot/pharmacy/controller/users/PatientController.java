@@ -61,7 +61,7 @@ public class PatientController {
         for (Dermatologist dermatologist : dermatologists) {
             dermatologistDtos.add(DermatologistMapper.convertToDto(dermatologist));
         }
-        return new ResponseEntity<List<DermatologistDto>>(dermatologistDtos, HttpStatus.OK);
+        return new ResponseEntity<>(userService.removeDermatologistDuplicates(dermatologistDtos), HttpStatus.OK);
     }
 
     @GetMapping(value = "/pharmacistsForPatient/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +72,7 @@ public class PatientController {
         for (Pharmacist pharmacist : pharmacists) {
             pharmacistDtos.add(PharmacistMapper.convertToDto(pharmacist));
         }
-        return new ResponseEntity<List<PharmacistDto>>(pharmacistDtos, HttpStatus.OK);
+        return new ResponseEntity<>(userService.removePharmacistDuplicates(pharmacistDtos), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getPenaltiesByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)

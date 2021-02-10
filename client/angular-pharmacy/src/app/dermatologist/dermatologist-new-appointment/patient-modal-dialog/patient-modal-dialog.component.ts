@@ -40,7 +40,7 @@ export class PatientModalDialogComponent implements OnInit {
             this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
           },
           error => {
-            this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće!', 'Zatvori', 3000);
+            this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće ! MOGUĆI RAZLOZI: 1. Dermatolog ne radi u izabranom vremenu! 2. Pacijent ili dermatolog imaju zakazan termin u izabranom vremenu!', 'Zatvori', 6000);
           });
           this.dialogRef.close();
      }
