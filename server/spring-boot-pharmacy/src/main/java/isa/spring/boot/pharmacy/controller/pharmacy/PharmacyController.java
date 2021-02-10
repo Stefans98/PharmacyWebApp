@@ -1,7 +1,11 @@
 package isa.spring.boot.pharmacy.controller.pharmacy;
 
+import isa.spring.boot.pharmacy.dto.medicines.EPrescriptionItemDto;
+import isa.spring.boot.pharmacy.dto.pharmacy.EPrescriptionPharmacyDto;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
+import isa.spring.boot.pharmacy.mapper.medicines.EPrescriptionItemMapper;
+import isa.spring.boot.pharmacy.mapper.pharmacy.EPrescriptionPharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
@@ -161,11 +165,24 @@ public class PharmacyController {
 
     @PostMapping(value = "/updatePharmacy", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
-    public ResponseEntity<PharmacyDto> updatePharmacy(@RequestBody PharmacyDto pharmacyDto)
-    {
+    public ResponseEntity<PharmacyDto> updatePharmacy(@RequestBody PharmacyDto pharmacyDto) {
         Pharmacy pharmacy = pharmacyService.savePharmacy(PharmacyMapper.convertToEntityWithId(pharmacyDto));
 
         return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
+    }
+
+    @PutMapping(value="/pharmaciesWithEPrescriptionItems", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<EPrescriptionPharmacyDto>> findAllPharmaciesWithEPrescriptionItems(@RequestBody List<EPrescriptionItemDto> items) {
+        List<EPrescriptionPharmacyDto> dtos = new ArrayList<>();
+        HashMap<Long, Double> pharmacyPrices = pharmacyMedicineService.getPharmaciesAndPricesForMedicines(
+                EPrescriptionItemMapper.convertEPrescriptionItemsToMap(items)
+        );
+        for (Long pharmacyId : pharmacyPrices.keySet()) {
+            dtos.add(EPrescriptionPharmacyMapper.convertToDto(pharmacyService.findById(pharmacyId),
+                    pharmacyPrices.get(pharmacyId)));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }

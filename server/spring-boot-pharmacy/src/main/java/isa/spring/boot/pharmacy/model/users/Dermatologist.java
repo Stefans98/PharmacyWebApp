@@ -19,6 +19,9 @@ public class Dermatologist extends Employee {
     @OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DermatologistComplaint> complaints;
 
+    @OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DermatologistGrade> grades;
+
     public Dermatologist() {
     }
 
@@ -45,5 +48,13 @@ public class Dermatologist extends Employee {
 
     public void setComplaints(List<DermatologistComplaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public List<DermatologistGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<DermatologistGrade> grades) {
+        this.grades = grades;
     }
 }

@@ -15,7 +15,6 @@ import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -75,15 +74,6 @@ public class MedicineReservationService {
         String uniqueCode = ((new Date().getTime() / 1000L) % Integer.MAX_VALUE) + medicineReservation.getPatient().getId().toString();
         medicineReservation.setUniqueReservationCode(uniqueCode);
 
-        try {
-            emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
-                    "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
-                            "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
-                            " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
-                            " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-                            "<br><br>S poštovanjem, <br>Vaša ISA");
-        } catch( Exception ignored ){}
-
         return medicineReservationRepository.save(medicineReservation);
     }
 
@@ -91,6 +81,16 @@ public class MedicineReservationService {
         List<MedicineReservation> medicineReservations = new ArrayList<>();
         for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
             if (medicineReservation.getMedicineReservationState() == MedicineReservationState.CREATED) {
+                medicineReservations.add(medicineReservation);
+            }
+        }
+        return medicineReservations;
+    }
+
+    public List<MedicineReservation> getAllCompletedMedicineReservationByPatientId(long patientId) {
+        List<MedicineReservation> medicineReservations = new ArrayList<>();
+        for (MedicineReservation medicineReservation : findByPatientId(patientId)) {
+            if (medicineReservation.getMedicineReservationState() == MedicineReservationState.COMPLETED) {
                 medicineReservations.add(medicineReservation);
             }
         }
@@ -179,13 +179,27 @@ public class MedicineReservationService {
     public MedicineReservation issueMedicineReservation(Long medicineReservationId) {
         MedicineReservation medicineReservation = findById(medicineReservationId);
         medicineReservation.setMedicineReservationState(MedicineReservationState.COMPLETED);
+        return medicineReservationRepository.save(medicineReservation);
+    }
+
+    public void sendEmailForMedicineReservation(MedicineReservation medicineReservation) {
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
+            "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + medicineReservation.getUniqueReservationCode() +
+                    "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
+                    " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
+                    " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
+                    "<br><br>S poštovanjem, <br>Health Pharmacy");
+        } catch( Exception ignored ){}
+    }
+
+    public void sendEmailForIssuingMedicineReservation(MedicineReservation medicineReservation) {
         try {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Izdavanje rezervisanog leka",
                     "Poštovani, <br><br>Uspešno ste preuzeli lek " + medicineReservation.getMedicine().getName() +
                             "<br>koji ste rezervisali u apoteci: " + medicineReservation.getPharmacy().getName() +
-                            "<br><br>S poštovanjem, <br>Vaša ISA");
+                            "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
-        return  medicineReservationRepository.save(medicineReservation);
     }
 
     public AnnualStatistics medicineStatistic(Long pharmacyId){

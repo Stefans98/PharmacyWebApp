@@ -20,9 +20,20 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
 
+  public getMedicinesForPatientCompletedReservations(patientId: number): Observable<Medicine[]> {
+    return this.http
+    .get<Medicine[]>(this.medicineUrl + 'getMedicinesForPatientCompletedReservations/' + patientId);
+  }
+
   public getMedicinesToWhichPatientIsNotAllergic(patientId: number): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsNotAllergic/' + patientId);
+  }
+  
+
+  public getMedicinesFromEPrescriptionByPatientId(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesFromEPrescriptionByPatientId/' + patientId);
   }
   
   public getMedicinesToWhichPatientIsAllergic(patientId: number): Observable<Medicine[]> {
@@ -33,6 +44,11 @@ export class MedicineService {
   public findMedicinesBy(name: string): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
+  } 
+
+  public findMedicinesByNameAndPharmacyId(name: string, pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findMedicinesByNameAndPharmacyId/' + name + '/' + pharmacyId);
   } 
 
   public reserveMedicine(medicineReservation: MedicineReservation): Observable<void> {

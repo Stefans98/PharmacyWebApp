@@ -1,7 +1,8 @@
 package isa.spring.boot.pharmacy.service.users;
 
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
@@ -94,6 +95,11 @@ public class UserService implements UserDetailsService {
         } else {
             pharmacist.setPassword(passwordEncoder.encode(pharmacist.getPassword()), true);
         }
+        User user = userRepository.findByEmail(pharmacist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacist.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
+        pharmacist.setDeleted(false);
         pharmacist.setAuthorities(authorityService.findByName("PHARMACIST"));
         pharmacist.setPharmacy(pharmacyService.getPharmacyForPharmacist(pharmacist.getId()));
         return userRepository.save(pharmacist);
@@ -105,6 +111,10 @@ public class UserService implements UserDetailsService {
             dermatologist.setPassword(currentPassword, false);
         } else {
             dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
+        }
+        User user = userRepository.findByEmail(dermatologist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            dermatologist.setLastPasswordResetDate(user.getLastPasswordResetDate());
         }
         dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
         return userRepository.save(dermatologist);
@@ -122,10 +132,15 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public User saveUpdatedUser (User user) {
+        return userRepository.save(user);
+    }
+
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
         patient.setAuthorities(authorities);
+        patient.setAccountActivated(false);
 
         return userRepository.save(patient);
     }
@@ -427,5 +442,43 @@ public class UserService implements UserDetailsService {
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
         pharmacyAdministrator.setAuthorities(authorities);
         return userRepository.save(pharmacyAdministrator);
+    }
+
+    public void addPointsToPatient(Long patientId, int points) {
+        Patient patient = (Patient) Hibernate.unproxy(findById(patientId));
+        patient.setPoints(patient.getPoints() + points);
+        userRepository.save(patient);
+    }
+
+    public List<PharmacistDto> removePharmacistDuplicates(List<PharmacistDto> pharmacistDtos){
+        Map<Long, PharmacistDto> map = new HashMap<>();
+        List<PharmacistDto> pharmacistDtoWithoutDuplicates = new ArrayList<>();
+        for(PharmacistDto p: pharmacistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            pharmacistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return pharmacistDtoWithoutDuplicates;
+    }
+
+    public List<DermatologistDto> removeDermatologistDuplicates(List<DermatologistDto> dermatologistDtos){
+        Map<Long, DermatologistDto> map = new HashMap<>();
+        List<DermatologistDto> dermatologistDtoWithoutDuplicates = new ArrayList<>();
+        for(DermatologistDto p: dermatologistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            dermatologistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return dermatologistDtoWithoutDuplicates;
+    }
+
+    public void activatePatientAccount(String email) {
+        Patient patient = (Patient) Hibernate.unproxy(userRepository.findByEmail(email));
+        if (patient != null) {
+            patient.setAccountActivated(true);
+            userRepository.save(patient);
+        }
     }
 }

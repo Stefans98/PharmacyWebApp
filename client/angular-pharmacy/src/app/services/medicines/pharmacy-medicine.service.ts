@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { EPrescriptionItem } from "../../models/e-prescription-item.model";
 import { PharmacyMedicine } from "../../models/pharmacy-medicine.model";
 
 @Injectable({
@@ -29,4 +30,6 @@ import { PharmacyMedicine } from "../../models/pharmacy-medicine.model";
     return this.http
         .put<PharmacyMedicine>(this.pharmacyMedicineUrl + 'deletePharmacyMedicine/' + pharmacyId, body);
     }
+
+    
   }

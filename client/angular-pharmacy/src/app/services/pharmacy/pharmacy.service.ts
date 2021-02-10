@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PharmacyFull } from "../../models/pharmacy-full.model";
+import { EPrescriptionItem } from "../../models/e-prescription-item.model";
+import { EPrescriptionPharmacy } from "../../models/e-prescription-pharmacy.model";
 import { Pharmacy } from "../../models/pharmacy.model";
 
 
@@ -94,4 +96,8 @@ export class PharmacyService{
       .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyById/' + id);
   } 
 
+  public getAllPharmaciesWithEPrescriptionItems(medicines : EPrescriptionItem[]) : Observable<EPrescriptionPharmacy[]> {
+    return this.http
+      .put<EPrescriptionPharmacy[]>(this.pharmacyUrl + 'pharmaciesWithEPrescriptionItems', medicines);
+  }
 }

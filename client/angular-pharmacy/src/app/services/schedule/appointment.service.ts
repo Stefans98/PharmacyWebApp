@@ -16,6 +16,11 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) { }
 
+  public getAppointmentById(appointmentId: number): Observable<Appointment> {
+    return this.http
+      .get<Appointment>(this.appointmentsUrl + 'findById/' + appointmentId);
+  }
+
   public getExaminationsHistoryForPatient(patientId: number): Observable<DermatologistExamination[]> {
     return this.http
         .get<DermatologistExamination[]>(this.appointmentsUrl + 'getExaminationsHistoryForPatient/' + patientId);
@@ -99,6 +104,17 @@ export class AppointmentService {
   public getFreeAppointmentForPharmacy(pharmacyId: number): Observable<Appointment[]> {
     return this.http
       .get<Appointment[]>(this.appointmentsUrl + 'getFreeAppointmentForPharmacy/' + pharmacyId);
+
+  }
+
+  public getExaminationsForDermatologistWorkCalendar(dermatologistId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getExaminationsForDermatologistWorkCalendar/' + dermatologistId);
+  }
+
+  public getCounselingsForPharmacistWorkCalendar(pharmacistId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getCounselingsForPharmacistWorkCalendar/' + pharmacistId);
   }
 
 }

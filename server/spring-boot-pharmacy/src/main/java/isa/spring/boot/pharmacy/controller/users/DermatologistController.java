@@ -43,7 +43,7 @@ public class DermatologistController {
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
         if (userService.findByEmail(dermatologistDto.getEmail()) != null) {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User dermatologist = userService.saveDermatologist(UserMapper.convertToEntity(dermatologistDto, false));
 

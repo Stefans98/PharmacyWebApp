@@ -1,8 +1,9 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
-import isa.spring.boot.pharmacy.model.medicines.Ingredient;
-import isa.spring.boot.pharmacy.model.medicines.Medicine;
-import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
+import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
+import isa.spring.boot.pharmacy.model.medicines.*;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.repository.medicines.IngredientRepository;
 import isa.spring.boot.pharmacy.model.users.Allergy;
 import isa.spring.boot.pharmacy.model.users.Patient;
@@ -13,10 +14,7 @@ import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class MedicineService {
@@ -32,6 +30,12 @@ public class MedicineService {
 
     @Autowired
     private PharmacyService pharmacyService;
+
+    @Autowired
+    private EPrescriptionService ePrescriptionService;
+
+    @Autowired
+    private MedicineReservationService medicineReservationService;
 
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
@@ -66,6 +70,20 @@ public class MedicineService {
         return medicines;
     }
 
+    public List<Medicine> findMedicinesByNameAndPharmacyId(String name, long pharmacyId) {
+        List<Medicine> medicines = new ArrayList<>();
+        for(Medicine medicine : findAll()) {
+            if (medicine.getName().toLowerCase().startsWith(name)) {
+                for(PharmacyMedicine pharmacyMedicine : medicine.getPharmacyMedicines()) {
+                    if(pharmacyMedicine.getPharmacy().getId() == pharmacyId) {
+                        medicines.add(medicine);
+                    }
+                }
+            }
+        }
+        return medicines;
+    }
+
     public List<Medicine> getMedicinesToWhichPatientIsNotAllergic(Long patientId) {
         List<Medicine> patientNotAllergicMedicine = new ArrayList<>();
         Patient patient = (Patient)userService.findById(patientId);
@@ -86,6 +104,30 @@ public class MedicineService {
 
         return patientAllergicMedicine;
     }
+
+    public List<Medicine> getMedicinesFromEPrescriptionByPatientId(long patientId) {
+        List<Medicine> medicines = new ArrayList<>();
+        for(EPrescription ePrescription : ePrescriptionService.getEPrescriptionsForPatient(patientId)) {
+            for(EPrescriptionItem ePrescriptionItem: ePrescription.getePrescriptionItems()) {
+                medicines.add(ePrescriptionItem.getMedicine());
+            }
+        }
+        return medicines;
+    }
+
+    public List<Medicine> getMedicinesForPatientCompletedReservations(Long patientId) {
+        List<MedicineReservation> medicineReservations = medicineReservationService.getAllCompletedMedicineReservationByPatientId(patientId);
+        return getMedicinesByCompletedMedicineReservation(medicineReservations);
+    }
+
+    public List<Medicine> getMedicinesByCompletedMedicineReservation(List<MedicineReservation> medicineReservations) {
+        List<Medicine> medicines = new ArrayList<>();
+        for (MedicineReservation medicineReservation : medicineReservations) {
+            medicines.add(findById(medicineReservation.getMedicine().getId()));
+        }
+        return medicines;
+    }
+
 
     public List<Medicine> getMedicineSubstitutions(Long medicineId) {
         Medicine medicine = findById(medicineId);
@@ -118,6 +160,18 @@ public class MedicineService {
         for (Ingredient i : ingredients) {
             this.ingredientRepository.save(i);
         }
+    }
+
+    public List<MedicineDto> removeMedicineDuplicates(List<MedicineDto> medicineDtos){
+        Map<Long, MedicineDto> map = new HashMap<>();
+        List<MedicineDto> medicineDtoWithoutDuplicates = new ArrayList<>();
+        for(MedicineDto m: medicineDtos){
+            map.put(m.getId(), m);
+        }
+        for (Long id: map.keySet()) {
+            medicineDtoWithoutDuplicates.add(map.get(id));
+        }
+        return medicineDtoWithoutDuplicates;
     }
 
 }

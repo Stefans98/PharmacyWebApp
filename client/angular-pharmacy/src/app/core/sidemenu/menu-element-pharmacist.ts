@@ -12,7 +12,7 @@ export const pharmacistMenus = [
         'open': false
     },
     {
-        'name': 'Izdavanje leka',
+        'name': 'Izdavanje lekova',
         'icon': 'healing',
         'link': 'pharmacist/medicine-issue',
         'open': false

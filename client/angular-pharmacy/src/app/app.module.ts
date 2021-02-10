@@ -16,7 +16,6 @@ import { PharmacistSchedulingComponent } from './patient/pharmacist/pharmacist-s
 import { ReservedDrugsComponent } from './patient/drugs/reserved-drugs/reserved-drugs.component';
 import { DispensedDrugsComponent } from './patient/drugs/dispensed-drugs/dispensed-drugs.component';
 import { TakingDrugsComponent } from './patient/drugs/taking-drugs/taking-drugs.component';
-import { EPrescriptionComponent } from './patient/e-prescription/e-prescription.component';
 import { PenaltyComponent } from './patient/penalty/penalty.component';
 import { ComplaintsComponent } from './patient/complaints/complaints.component';
 import { HomeComponent } from './home/home.component';
@@ -112,6 +111,8 @@ import { PharmacyPricelistComponent } from './pharmacy-administrator/pharmacy-pr
 import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
 import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
 import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
+import { MyEPrescriptionsComponent } from './patient/e-prescriptions/my-e-prescriptions/my-e-prescriptions.component';
+import { NewEPrescriptionComponent } from './patient/e-prescriptions/new-e-prescription/new-e-prescription.component';
 import { NonAuthenticatedUserToolbarComponent } from './core-non-auth/non-authenticated-user-toolbar/non-authenticated-user-toolbar.component';
 import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authenticated-user-menu/non-authenticated-user-menu.component';
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
@@ -120,6 +121,24 @@ import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-au
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MedicinesForPharmacyComponent } from './pharmacy-profile/medicines-for-pharmacy/medicines-for-pharmacy.component';
 import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for-pharmacy/free-terms-for-pharmacy.component';
+import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
+import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
+import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
+import { ChangePasswordModalDialogComponent } from './dermatologist/dermatologist-work-calendar/change-password-modal-dialog/change-password-modal-dialog.component';
+import { ChangePasswordModalDialogPharmacistComponent } from './pharmacist/pharmacist-work-calendar/change-password-modal-dialog-pharmacist/change-password-modal-dialog-pharmacist.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list';
+import { MedicineReservationComponent } from './pharmacy-profile/medicine-reservation/medicine-reservation.component';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -136,7 +155,6 @@ import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for
     ReservedDrugsComponent,
     DispensedDrugsComponent,
     TakingDrugsComponent,
-    EPrescriptionComponent,
     PenaltyComponent,
     ComplaintsComponent,
     HomeComponent,
@@ -228,7 +246,15 @@ import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for
     MedicinePharmacyModalDialogComponent,
     PharmacyChoosingComponent,
     MedicinesForPharmacyComponent,
-    FreeTermsForPharmacyComponent
+    FreeTermsForPharmacyComponent,
+    MyEPrescriptionsComponent,
+    NewEPrescriptionComponent,
+    NewGradingComponent,
+    ChangeGradeComponent,
+    ChooseGradeEntityModalDialogComponent,
+    ChangePasswordModalDialogComponent,
+    ChangePasswordModalDialogPharmacistComponent,
+    MedicineReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -251,7 +277,9 @@ import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for
     CommonModule,
     ChartModule,
     FlexLayoutModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatTableModule,
+    FullCalendarModule 
   ],
   providers: [
     {

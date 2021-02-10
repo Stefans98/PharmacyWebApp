@@ -25,7 +25,7 @@ export class DermatologistPatientsComponent implements OnInit, AfterViewInit {
   
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
-  displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'phoneNumber', 'button'];
   dataSource = new MatTableDataSource(this.patientsForDermatologist);
   newDataSource = new MatTableDataSource(this.patientsForDermatologist);
   dataSourceAfterSearch = new MatTableDataSource(this.patientsForDermatologist);

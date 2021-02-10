@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import javax.websocket.server.PathParam;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +59,6 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('PATIENT', 'PHARMACY_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<MedicineDto>> getMedicines() {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
         for(Medicine medicine : medicineService.findAll()) {
@@ -69,7 +67,7 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
-        @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getMedicinesToWhichPatientIsNotAllergic/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicinesToWhichPatientIsNotAllergic(@PathVariable Long patientId) {
         List<MedicineDto> medicineDto = new ArrayList<MedicineDto>();
@@ -89,11 +87,40 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getMedicinesFromEPrescriptionByPatientId/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesFromEPrescriptionByPatientId(@PathVariable Long patientId) {
+        List<Medicine> medicines = medicineService.getMedicinesFromEPrescriptionByPatientId(patientId);
+        if(medicines.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<MedicineDto> medicineDto = new ArrayList<>();
+        for(Medicine medicine : medicines) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineService.removeMedicineDuplicates(medicineDto), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/findMedicinesBy/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> findMedicinesBy(@PathVariable String name) {
         List<MedicineDto> medicineDto = new ArrayList<>();
         for (Medicine medicine : medicineService.findMedicinesBy(name)) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if (medicineDto.isEmpty()){
+            return new ResponseEntity<>(medicineDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findMedicinesByNameAndPharmacyId/{name}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> findMedicinesByNameAndPharmacyId(@PathVariable String name, @PathVariable Long pharmacyId) {
+        List<MedicineDto> medicineDto = new ArrayList<>();
+        for (Medicine medicine : medicineService.findMedicinesByNameAndPharmacyId(name, pharmacyId)) {
             medicineDto.add(MedicineMapper.convertToDto(medicine));
         }
 
@@ -122,6 +149,7 @@ public class MedicineController {
         if (medicineReservation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        medicineReservationService.sendEmailForMedicineReservation(medicineReservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -138,6 +166,16 @@ public class MedicineController {
             return new ResponseEntity<>(medicineReservationDto, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicineReservationDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicinesForPatientCompletedReservations/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> getMedicinesForPatientCompletedReservations(@PathVariable Long patientId) {
+        List<MedicineDto> medicineDtos = new ArrayList<>();
+        for (Medicine medicine : medicineService.getMedicinesForPatientCompletedReservations(patientId)) {
+            medicineDtos.add(MedicineMapper.convertToDto(medicine));
+        }
+        return new ResponseEntity<>(medicineService.removeMedicineDuplicates(medicineDtos), HttpStatus.OK);
     }
 
     @PutMapping(value = "/cancelMedicineReservation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -222,6 +260,7 @@ public class MedicineController {
         if(medicineReservation == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        medicineReservationService.sendEmailForIssuingMedicineReservation(medicineReservation);
         return new ResponseEntity<>(MedicineReservationMapper.convertToDto(medicineReservation, 0), HttpStatus.OK);
     }
 

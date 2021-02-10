@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EPrescriptionComponent } from './e-prescription.component';
+import { ChangeGradeComponent } from './change-grade.component';
 
-describe('EPrescriptionComponent', () => {
-  let component: EPrescriptionComponent;
-  let fixture: ComponentFixture<EPrescriptionComponent>;
+describe('ChangeGradeComponent', () => {
+  let component: ChangeGradeComponent;
+  let fixture: ComponentFixture<ChangeGradeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EPrescriptionComponent ]
+      declarations: [ ChangeGradeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EPrescriptionComponent);
+    fixture = TestBed.createComponent(ChangeGradeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

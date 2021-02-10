@@ -84,7 +84,7 @@ export const patientMenus = [
                 'open': false,
             },
             {
-                'name': 'Izdati lekovi',
+                'name': 'Izdati lekovi preko eRecepta',
                 'icon': 'fact_check',
                 'link': 'patient/drugs/dispensed-drugs',
                 'open': false,
@@ -98,10 +98,44 @@ export const patientMenus = [
         ]
     },
     {
-        'name': 'ERecepti',
+        'name': 'Ocenjivanje',
+        'icon': 'grading',
+        'link': false,
         'open': false,
-        'link': 'patient/e-prescription',
+        'sub': [
+            {
+                'name': 'Novo ocenjivanje',
+                'icon': 'add_circle_outline',
+                'link': 'patient/grading/new-grading',
+                'open': false,
+            },
+            {
+                'name': 'Izmena postojećih ocena',
+                'icon': 'create',
+                'link': 'patient/grading/change-grade',
+                'open': false,
+            }
+        ]
+    },
+    {
+        'name': 'ERecepti',
+        'link': false,
+        'open': false,
         'icon': 'receipt',
+        'sub': [
+            {
+                'name': 'Novi e-recept',
+                'icon': 'add_circle',
+                'link': 'patient/new-e-prescription',
+                'open': false,
+            },
+            {
+                'name': 'Moji e-recepti',
+                'icon': 'receipt',
+                'link': 'patient/my-e-prescriptions',
+                'open': false,
+            }
+        ]
     },
     {
         'name': 'Penali',

@@ -29,7 +29,7 @@ public class PharmacyAdministratorController {
     {
         if (userService.findByEmail(pharmacyAdministratorDto.getEmail()) != null)
         {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User pharmacyAdministrator = userService.savePharmacyAdministrator(PharmacyAdministratorMapper.convertToEntity(pharmacyAdministratorDto, false)
                     , pharmacyAdministratorDto.getPharmacyId());

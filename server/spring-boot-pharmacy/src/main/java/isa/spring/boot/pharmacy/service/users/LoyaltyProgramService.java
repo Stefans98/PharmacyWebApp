@@ -38,4 +38,8 @@ public class LoyaltyProgramService {
             return 0;
         }
     }
+
+    public double calculatePriceBasedOnUserCategory(Long patientId, double price) {
+        return price * (double) getDiscountByPatientCategory(patientId) / 100.0;
+    }
 }

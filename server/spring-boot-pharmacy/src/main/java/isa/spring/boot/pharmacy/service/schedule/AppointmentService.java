@@ -61,6 +61,26 @@ public class AppointmentService {
         return pharmacistCounselings;
     }
 
+    public List<Appointment> getExaminationsForDermatologistWorkCalendar(Long dermatologistId) {
+        List<Appointment> dermatologistExaminations = new ArrayList<Appointment>();
+        for(Appointment appointment : getDermatologistExaminations()) {
+            if(appointment.getWorkDay().getEmployee().getId() == dermatologistId) {
+                dermatologistExaminations.add(appointment);
+            }
+        }
+        return dermatologistExaminations;
+    }
+
+    public List<Appointment> getCounselingsForPharmacistWorkCalendar(Long pharmacistId) {
+        List<Appointment> pharmacistCounselings = new ArrayList<Appointment>();
+        for(Appointment appointment : getPharmacistCounselings()) {
+            if(appointment.getWorkDay().getEmployee().getId() == pharmacistId) {
+                pharmacistCounselings.add(appointment);
+            }
+        }
+        return pharmacistCounselings;
+    }
+
     public List<Appointment> getExaminationsHistoryForPatient(long patientId) {
         List<Appointment> dermatologistExaminationsForPatient = new ArrayList<>();
         for(Appointment appointment : getDermatologistExaminations()) {
@@ -261,13 +281,6 @@ public class AppointmentService {
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
         appointment.setAppointmentState(AppointmentState.OCCUPIED);
-        try {
-            if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
-                sendEmailForExamination(appointment);
-            } else if(appointment.getAppointmentType() == AppointmentType.COUNSELING) {
-                sendEmailForCounseling(appointment);
-            }
-        } catch( Exception ignored ){}
         return appointmentRepository.save(appointment);
     }
 
@@ -385,7 +398,7 @@ public class AppointmentService {
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
             "<br><br>Napomena: Ukoliko ne otkažete pregled 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
              "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-            "<br><br>S poštovanjem, <br>Vaša ISA");
+            "<br><br>S poštovanjem, <br>Health Pharmacy");
     }
 
     public void sendEmailForCounseling(Appointment appointment) {
@@ -398,7 +411,7 @@ public class AppointmentService {
             "<br>- Apoteka: " + appointment.getWorkDay().getPharmacy().getName() +
             "<br><br>Napomena: Ukoliko ne otkažete savetovanje 24h ranije ili se ne pojavite na istom, broj penala na Vašem nalogu će se povećati za 1. <br>" +
             "Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-            "<br><br>S poštovanjem, <br>Vaša ISA");
+            "<br><br>S poštovanjem, <br>Health Pharmacy");
     }
 
     public static String convertToTimeStr(Date date) {
