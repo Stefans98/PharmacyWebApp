@@ -131,6 +131,7 @@ public class UserService implements UserDetailsService {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
         patient.setAuthorities(authorities);
+        patient.setAccountActivated(false);
 
         return userRepository.save(patient);
     }
@@ -462,5 +463,13 @@ public class UserService implements UserDetailsService {
             dermatologistDtoWithoutDuplicates.add(map.get(id));
         }
         return dermatologistDtoWithoutDuplicates;
+    }
+
+    public void activatePatientAccount(String email) {
+        Patient patient = (Patient) Hibernate.unproxy(userRepository.findByEmail(email));
+        if (patient != null) {
+            patient.setAccountActivated(true);
+            userRepository.save(patient);
+        }
     }
 }
