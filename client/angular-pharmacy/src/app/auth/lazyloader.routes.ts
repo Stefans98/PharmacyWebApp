@@ -12,8 +12,9 @@ import { PharmacistSchedulingComponent } from '../patient/pharmacist/pharmacist-
 import { ReservedDrugsComponent } from '../patient/drugs/reserved-drugs/reserved-drugs.component';
 import { DispensedDrugsComponent } from '../patient/drugs/dispensed-drugs/dispensed-drugs.component';
 import { TakingDrugsComponent } from '../patient/drugs/taking-drugs/taking-drugs.component';
-import { EPrescriptionComponent } from '../patient/e-prescription/e-prescription.component';
 import { PenaltyComponent } from '../patient/penalty/penalty.component';
+import { MyEPrescriptionsComponent } from '../patient/e-prescriptions/my-e-prescriptions/my-e-prescriptions.component';
+import { NewEPrescriptionComponent } from '../patient/e-prescriptions/new-e-prescription/new-e-prescription.component';
 import { ComplaintsComponent } from '../patient/complaints/complaints.component';
 import { DermatologistWorkCalendarComponent } from '../dermatologist/dermatologist-work-calendar/dermatologist-work-calendar.component';
 import { DermatologistPatientsComponent } from '../dermatologist/dermatologist-patients/dermatologist-patients.component';
@@ -80,9 +81,10 @@ export const appRoutes: Routes = [{
         { path: 'patient/drugs/reserved-drugs', component: ReservedDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/drugs/dispensed-drugs', component: DispensedDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/drugs/taking-drugs', component: TakingDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
-        { path: 'patient/e-prescription', component: EPrescriptionComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/penalty', component: PenaltyComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/complaints', component: ComplaintsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
+        { path: 'patient/my-e-prescriptions', component: MyEPrescriptionsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
+        { path: 'patient/new-e-prescription', component: NewEPrescriptionComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/patient-profile', component: PatientProfileComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/grading/new-grading', component: NewGradingComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/grading/change-grade', component: ChangeGradeComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },

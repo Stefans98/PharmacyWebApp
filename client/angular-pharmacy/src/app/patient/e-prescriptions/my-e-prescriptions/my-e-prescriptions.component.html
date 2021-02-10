@@ -1,0 +1,78 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="105" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacy-list-container">
+			
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+        <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Apoteke koje imaju u ponudi učitane lekove</h3> 
+
+      </div>
+                
+			<mat-divider></mat-divider>
+
+      <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" >
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+          <div class="pharmacy-list">
+            <ng-container matColumnDef="pharmacy">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apoteka </th>
+            <td mat-cell *matCellDef="let element"> {{element.pharmacy.name}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Datum izdavanja </th>
+            <td mat-cell *matCellDef="let element"> {{convertDate(element.issuingDate)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="items">
+                <th mat-header-cell *matHeaderCellDef> Prikaži lekove </th>
+                <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" (click)="showMedicines(element)">Prikaži</button> </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">Nema apoteka koje sadrže učitane lekove</td>
+            </tr>
+          </div>             
+        </table>
+        <mat-divider></mat-divider>			
+      </div>
+        </div>
+      <div fxFlex="35" fxLayout="column" fxLayoutAlign="none none" class="mat-elevation-z2 pharmacy-list-container-second">
+        <div fxFlex="15" fxLayout="row" >		
+            <h3 class="mat-title" fxFlex>Spisak lekova u eReceptu</h3> 
+        </div>
+        <mat-divider></mat-divider>	  
+       
+        <div fxFlex="80" fxLayout="column" fxLayoutAlign="none none">
+            <div fxLayout="row" fxFlex="15" class="mat-h3">
+                Spisak lekova:
+            </div> 
+            <div fxLayout="row" fxFlex style="border: 1px solid; overflow: auto;" fxLayoutAlign="center start">
+                <div fxFlex fxLayout="column" fxFlex="80" >
+                    <table>
+                        <tr>
+                            <th class="mat-h4">Šifra</th>
+                            <th class="mat-h4">Naziv</th>
+                            <th class="mat-h4">Količina</th>
+                        </tr>
+                        <tr *ngFor="let element of medicines">
+                            <td class="mat-h4" style="text-align: center;">{{element.medicineCode}}</td>
+                            <td class="mat-h4" style="text-align: center;">{{element.medicineName}}</td>
+                            <td class="mat-h4" style="text-align: center;">{{element.quantity}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+</div>

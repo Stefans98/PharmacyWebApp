@@ -434,6 +434,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(pharmacyAdministrator);
     }
 
+    public void addPointsToPatient(Long patientId, int points) {
+        Patient patient = (Patient) Hibernate.unproxy(findById(patientId));
+        patient.setPoints(patient.getPoints() + points);
+        userRepository.save(patient);
+    }
+
     public List<PharmacistDto> removePharmacistDuplicates(List<PharmacistDto> pharmacistDtos){
         Map<Long, PharmacistDto> map = new HashMap<>();
         List<PharmacistDto> pharmacistDtoWithoutDuplicates = new ArrayList<>();

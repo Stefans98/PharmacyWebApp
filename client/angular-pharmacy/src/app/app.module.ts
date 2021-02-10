@@ -16,7 +16,6 @@ import { PharmacistSchedulingComponent } from './patient/pharmacist/pharmacist-s
 import { ReservedDrugsComponent } from './patient/drugs/reserved-drugs/reserved-drugs.component';
 import { DispensedDrugsComponent } from './patient/drugs/dispensed-drugs/dispensed-drugs.component';
 import { TakingDrugsComponent } from './patient/drugs/taking-drugs/taking-drugs.component';
-import { EPrescriptionComponent } from './patient/e-prescription/e-prescription.component';
 import { PenaltyComponent } from './patient/penalty/penalty.component';
 import { ComplaintsComponent } from './patient/complaints/complaints.component';
 import { HomeComponent } from './home/home.component';
@@ -112,6 +111,8 @@ import { PharmacyPricelistComponent } from './pharmacy-administrator/pharmacy-pr
 import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
 import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
 import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
+import { MyEPrescriptionsComponent } from './patient/e-prescriptions/my-e-prescriptions/my-e-prescriptions.component';
+import { NewEPrescriptionComponent } from './patient/e-prescriptions/new-e-prescription/new-e-prescription.component';
 import { NonAuthenticatedUserToolbarComponent } from './core-non-auth/non-authenticated-user-toolbar/non-authenticated-user-toolbar.component';
 import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authenticated-user-menu/non-authenticated-user-menu.component';
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
@@ -150,7 +151,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ReservedDrugsComponent,
     DispensedDrugsComponent,
     TakingDrugsComponent,
-    EPrescriptionComponent,
     PenaltyComponent,
     ComplaintsComponent,
     HomeComponent,
@@ -241,11 +241,14 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
     PharmacyChoosingComponent,
+    MyEPrescriptionsComponent,
+    NewEPrescriptionComponent,
     NewGradingComponent,
     ChangeGradeComponent,
     ChooseGradeEntityModalDialogComponent,
     ChangePasswordModalDialogComponent,
     ChangePasswordModalDialogPharmacistComponent
+
   ],
   imports: [
     BrowserModule,
