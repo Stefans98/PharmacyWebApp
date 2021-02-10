@@ -44,6 +44,11 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
   } 
 
+  public findMedicinesByNameAndPharmacyId(name: string, pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findMedicinesByNameAndPharmacyId/' + name + '/' + pharmacyId);
+  } 
+
   public reserveMedicine(medicineReservation: MedicineReservation): Observable<void> {
     const body = { id: medicineReservation.id, finalPurchasingDate: medicineReservation.finalPurchasingDate,
       isCanceled: medicineReservation.isCanceled, medicineId: medicineReservation.medicineId,
