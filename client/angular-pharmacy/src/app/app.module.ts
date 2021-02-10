@@ -118,6 +118,9 @@ import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authentic
 import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
 import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
 import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MedicinesForPharmacyComponent } from './pharmacy-profile/medicines-for-pharmacy/medicines-for-pharmacy.component';
+import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for-pharmacy/free-terms-for-pharmacy.component';
 import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
 import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
 import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
@@ -242,6 +245,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SpecificationModalDialogComponent,
     MedicinePharmacyModalDialogComponent,
     PharmacyChoosingComponent,
+    MedicinesForPharmacyComponent,
+    FreeTermsForPharmacyComponent,
     MyEPrescriptionsComponent,
     NewEPrescriptionComponent,
     NewGradingComponent,
@@ -250,7 +255,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ChangePasswordModalDialogComponent,
     ChangePasswordModalDialogPharmacistComponent,
     MedicineReservationComponent
-
   ],
   imports: [
     BrowserModule,
@@ -273,6 +277,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CommonModule,
     ChartModule,
     FlexLayoutModule,
+    NgxChartsModule,
     MatTableModule,
     FullCalendarModule 
   ],

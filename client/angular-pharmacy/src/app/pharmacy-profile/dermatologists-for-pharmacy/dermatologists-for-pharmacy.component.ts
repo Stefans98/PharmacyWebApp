@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { DermatologistsForPharmacyDialogComponent } from './dermatologists-for-p
   templateUrl: './dermatologists-for-pharmacy.component.html',
   styleUrls: ['./dermatologists-for-pharmacy.component.scss']
 })
-export class DermatologistsForPharmacyComponent implements OnInit {
+export class DermatologistsForPharmacyComponent implements OnInit, AfterViewInit  {
 
   dataSourceChangeIn = 1;
   searchInputLenght = 0;
@@ -24,7 +24,6 @@ export class DermatologistsForPharmacyComponent implements OnInit {
   selectedGradeRange = 'Ništa od navedenog';
 
   public pharmacy: Pharmacy;
-  public pharmacyId: number;
   public dermatologistsForPharmacy: Dermatologist[] = [];
   public dermatologistsAfterFilter: Dermatologist[] = [];
   public pharmaciesForDermatologist: Pharmacy[];
@@ -42,23 +41,10 @@ export class DermatologistsForPharmacyComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  @Input() pharmacyId: number;
+
   constructor(private snackBar: MatSnackBar, private dermatologistService: DermatologistService, private pharmacyService: PharmacyService, 
               private authService: AuthenticationService, public dialog: MatDialog) { 
-    this.pharmacyService.getPharmacyById(1).subscribe(
-      data => {
-        this.pharmacy = data;
-        console.log(this.pharmacy.id);
-        this.getDermatologistsForPharmacy(this.pharmacy.id);
-      }
-    );
-
-    this.pharmacyService.getAllPharmacies().subscribe(
-      data => {
-        this.allPharmacies = data;
-      }
-    );
-
-    this.pharmaciesForDermatologist = [];
 
   }
 
@@ -75,6 +61,24 @@ export class DermatologistsForPharmacyComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  ngAfterViewInit() {
+    this.pharmacyService.getPharmacyById(this.pharmacyId).subscribe(
+      data => {
+        this.pharmacy = data;
+        this.getDermatologistsForPharmacy(this.pharmacy.id);
+      }
+    );
+
+    this.pharmacyService.getAllPharmacies().subscribe(
+      data => {
+        this.allPharmacies = data;
+      }
+    );
+
+    this.pharmaciesForDermatologist = [];
+  }
+
   applySearch(event: Event) {
 
     this.dataSource = new MatTableDataSource(this.dermatologistsForPharmacy);

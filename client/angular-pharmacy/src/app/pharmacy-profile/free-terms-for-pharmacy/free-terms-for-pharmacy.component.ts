@@ -1,24 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Appointment } from '../../models/appointment.model';
+import { PharmacyMedicine } from '../../models/pharmacy-medicine.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { MedicineService } from '../../services/medicines/medicine.service';
+import { PharmacyMedicineService } from '../../services/medicines/pharmacy-medicine.service';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { AppointmentService } from '../../services/schedule/appointment.service';
-import { AuthenticationService } from '../../services/users/authentication.service';
 
 @Component({
-  selector: 'app-free-appointments',
-  templateUrl: './free-appointments.component.html',
-  styleUrls: ['./free-appointments.component.scss']
+  selector: 'app-free-terms-for-pharmacy',
+  templateUrl: './free-terms-for-pharmacy.component.html',
+  styleUrls: ['./free-terms-for-pharmacy.component.scss']
 })
-export class FreeAppointmentsComponent implements OnInit {
+export class FreeTermsForPharmacyComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['firstName', 'lastName', 'startTime', 'endTime', 'price'];
 
   public freeAppointments: Appointment[];
   public pharmacy: Pharmacy;
 
-  constructor(private pharmacyService: PharmacyService, private authService: AuthenticationService, private appointmentService: AppointmentService) {
-    this.pharmacyService.getPharmacyByFullPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+  @Input() pharmacyId: number;
+
+  constructor(private pharmacyService: PharmacyService, private medicineService: MedicineService, private pharmacyMedicineService: PharmacyMedicineService, 
+              private appointmentService: AppointmentService) {
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(){
+    this.pharmacyService.getPharmacyById(this.pharmacyId).subscribe(
       data => {
         this.pharmacy = data;
         this.appointmentService.getFreeAppointmentForPharmacy(this.pharmacy.id).subscribe(
@@ -28,9 +39,6 @@ export class FreeAppointmentsComponent implements OnInit {
         );
       }
     )
-   }
-
-  ngOnInit(): void {
   }
 
   convertDate(milliseconds : number): string {

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AnnualStatistics } from '../../models/annual-statistics.model';
 import { AppointmentReport } from '../../models/appointment-report.model';
 import { Appointment } from '../../models/appointment.model';
 import { DermatologistExamination } from '../../models/dermatologist-examination.model';
@@ -93,6 +94,17 @@ export class AppointmentService {
   public saveAppointmentReport(appointmentReport: AppointmentReport): Observable<AppointmentReport> {
     return this.http
       .post<AppointmentReport>(this.appointmentsUrl + 'saveAppointmentReport', appointmentReport);
+  }
+
+  public appointmentStatistic(pharmacyId: number): Observable<AnnualStatistics> {
+    return this.http
+        .get<AnnualStatistics>(this.appointmentsUrl + 'appointmentStatistic/' + pharmacyId);
+  } 
+
+  public getFreeAppointmentForPharmacy(pharmacyId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getFreeAppointmentForPharmacy/' + pharmacyId);
+
   }
 
   public getExaminationsForDermatologistWorkCalendar(dermatologistId: number): Observable<Appointment[]> {

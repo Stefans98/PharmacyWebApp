@@ -1,65 +1,58 @@
-
 <div class="pharmacy-administrator-my-pharmacy">
 
-    <mat-tab-group mat-align-tabs="start">
+    <table style="width: 100%;">
+        <tr>
+        <mat-form-field class="pharmacy-name-input">
+            <mat-label>Naziv Apoteke</mat-label>
+            <input matInput [(ngModel)]="name">
+        </mat-form-field>
+        </tr>
+        <tr>
+        <mat-form-field style="float: left;">
+            <mat-label>Država</mat-label>
+            <input matInput [(ngModel)]="country">
+        </mat-form-field>
 
-        <mat-tab label="Profil apoteke">
-        
-            <table>
-                <tr>
-                <mat-form-field class="pharmacy-name-input">
-                    <mat-label>Naziv Apoteke</mat-label>
-                    <input matInput [value]="name">
-                </mat-form-field>
-                </tr>
-                <tr>
-                <mat-form-field class="pharmacy-address-input">
-                    <mat-label>Adresa Apoteke</mat-label>
-                    <input matInput [value]="address">
-                </mat-form-field>
-                </tr>
-            </table>           
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Grad</mat-label>
+            <input matInput [(ngModel)]="city">
+        </mat-form-field>
 
-            <div class="pharmacy-description-div">
-                <mat-card class="pharmacy-description-card">
-                    <mat-form-field style="width: 500px;">
-                        <mat-label>Opis apoteke</mat-label>
-                        <textarea matInput class="pharmacy-description-text" style="height: 200px; width: 480px;" [value] = "description"></textarea>
-                      </mat-form-field>
-                </mat-card>
-            </div>
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Ulica</mat-label>
+            <input matInput [(ngModel)]="street">
+        </mat-form-field>
 
-            <div class="pharmacy-medicines-div">
-                <mat-card class="pharmacy-medicines-card">
-                    <table class="pharmacy-medicines-table">
-                        <tr>
-                            <th>Kod</th>
-                            <th>Naziv</th>
-                            <th>Kolicina</th>
-                            <th>Ukloni</th>
-                        </tr>
-                        <tr *ngFor="let med of medicineList" [value]="med" style="height: 10px;">
-                            <td> {{ med.code }} </td>
-                            <td> {{ med.name }} </td>
-                            <td> 
-                                <mat-form-field style="width: 70px;">
-                                    <input matInput type="number" style="width: 70px;">
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <button mat-raised-button color="warn" style="margin-left: 10%;">
-                                    Ukloni
-                                </button>
-                            </td>
-                        </tr>  
-                    </table>
-                </mat-card>
-            </div>
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Longitude</mat-label>
+            <input matInput [(ngModel)]="lng">
+        </mat-form-field>
 
+        <mat-form-field style="float: left; margin-left: 2%;">
+            <mat-label>Latitude</mat-label>
+            <input matInput [(ngModel)]="lat">
+        </mat-form-field>
 
-        </mat-tab>
+        </tr>
+    </table>  
 
-        <mat-tab label="Zaposleni">Content 2</mat-tab>
-        <mat-tab label="Slobodni termini">Content 3</mat-tab>
-    </mat-tab-group>
+    <h2 class="mat-h2">Ocena apoteke: {{ averageGrade }}</h2>
+    
+    <div class="pharmacy-description-div">
+        <mat-card class="pharmacy-description-card">
+            <mat-form-field style="width: 500px;">
+                <mat-label>Opis apoteke</mat-label>
+                <textarea matInput class="pharmacy-description-text" style="height: 250px; width: 480px;" [(ngModel)] = "description"></textarea>
+              </mat-form-field>
+        </mat-card>
+    </div>
+
+    <div class="pharmacy-medicines-div">
+        <div class="map">
+            <div id="map" class="map"></div>
+        </div>
+    </div>
+
+    <button mat-raised-button color="primary" style="height: 50px; width: 200; float: right; margin-right: 5%; margin-top: 2%;" (click)="updatePharmacy()">Sačuvaj</button>
+
 </div>

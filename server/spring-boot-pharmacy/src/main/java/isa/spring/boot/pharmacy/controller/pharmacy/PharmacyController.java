@@ -114,7 +114,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getPharmaciesByDermatologist/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','DERMATOLOGIST','PATIENT')")
     public ResponseEntity<List<PharmacyDto>> getPharmaciesByDermatologist(@PathVariable Long dermatologistId){
         List<PharmacyDto> pharmaciesForDermatologist = new ArrayList<>();
         if(pharmacyService.getPharmaciesForDermatologist(dermatologistId) == null){
@@ -161,6 +161,14 @@ public class PharmacyController {
             pharmacyDtos.add(PharmacyMapper.convertToDto(pharmacy));
         }
         return new ResponseEntity<>(pharmacyDtos, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/updatePharmacy", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<PharmacyDto> updatePharmacy(@RequestBody PharmacyDto pharmacyDto) {
+        Pharmacy pharmacy = pharmacyService.savePharmacy(PharmacyMapper.convertToEntityWithId(pharmacyDto));
+
+        return new ResponseEntity<>(PharmacyMapper.convertToDto(pharmacy), HttpStatus.OK);
     }
 
     @PutMapping(value="/pharmaciesWithEPrescriptionItems", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,6 +1,7 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
 import isa.spring.boot.pharmacy.dto.medicines.PrescriptionDto;
+import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentReportDto;
 import isa.spring.boot.pharmacy.mapper.medicines.PrescriptionMapper;
@@ -223,6 +224,30 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentPrice, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/appointmentStatistic/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<AnnualStatistics> appointmentStatistic(@PathVariable Long pharmacyId) {
+        AnnualStatistics annualStatistics = appointmentService.appointmentStatistic(pharmacyId);
+        if(annualStatistics == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getFreeAppointmentForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','PATIENT')")
+    public ResponseEntity<List<AppointmentDto>> getFreeAppointmentForPharmacy(@PathVariable Long pharmacyId) {
+        List<AppointmentDto> freeAppointments = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getFreeDermatologistsAppointmentForPharmacy(pharmacyId)) {
+            freeAppointments.add(AppointmentMapper.convertToDto(appointment));
+        }
+
+        if (freeAppointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(freeAppointments, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getExaminationsForDermatologistWorkCalendar/{dermatologistId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('DERMATOLOGIST')")
     public ResponseEntity<List<AppointmentDto>> getExaminationsForDermatologistWorkCalendar(@PathVariable Long dermatologistId) {
@@ -250,5 +275,4 @@ public class AppointmentController {
         }
         return new ResponseEntity<>(pharmacistCounselings, HttpStatus.OK);
     }
-
 }
