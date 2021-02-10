@@ -1,19 +1,17 @@
 package isa.spring.boot.pharmacy.controller.schedule;
 
-import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
 import isa.spring.boot.pharmacy.dto.medicines.PrescriptionDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentDto;
 import isa.spring.boot.pharmacy.dto.schedule.AppointmentReportDto;
-import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.PrescriptionMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentMapper;
 import isa.spring.boot.pharmacy.dto.schedule.ExaminationDto;
 import isa.spring.boot.pharmacy.mapper.schedule.AppointmentReportMapper;
 import isa.spring.boot.pharmacy.mapper.schedule.ExaminationMapper;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.Prescription;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentReport;
+import isa.spring.boot.pharmacy.model.schedule.AppointmentType;
 import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentReportService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
@@ -135,6 +133,14 @@ public class AppointmentController {
         if(appointment == null) {
             return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
         }
+
+        try {
+            if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
+                appointmentService.sendEmailForExamination(appointment);
+            } else if(appointment.getAppointmentType() == AppointmentType.COUNSELING) {
+                appointmentService.sendEmailForCounseling(appointment);
+            }
+        } catch( Exception ignored ){ }
         return new ResponseEntity<>(AppointmentMapper.convertToDto(appointment), HttpStatus.OK);
     }
 

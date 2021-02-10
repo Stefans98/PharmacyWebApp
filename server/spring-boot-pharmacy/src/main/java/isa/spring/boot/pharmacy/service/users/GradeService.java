@@ -30,6 +30,13 @@ public class GradeService {
         return gradeRepository.findAll();
     }
 
+    public Grade findById(long id) {
+        return gradeRepository.findById(id);
+    }
+
+    public List<Grade> findByPatientId(long patientId) {
+        return gradeRepository.findByPatientId(patientId);
+    }
     public Grade saveDermatologistGrade(DermatologistGrade grade, long patientId, long dermatologistId) {
         if(checkIfPatientHasAlreadyGivenGrade("DERMATOLOGIST_GRADE", patientId, dermatologistId)) {
             return null;
@@ -37,7 +44,7 @@ public class GradeService {
         Dermatologist dermatologist = (Dermatologist)userService.findById(dermatologistId);
         grade.setDermatologist(dermatologist);
         grade.setPatient((Patient) userService.findById(patientId));
-        calculateNewAverageGradeForDermatologist(dermatologist, grade.getGrade());
+        calculateNewAverageGradeForDermatologist(dermatologist, grade.getGrade(), false);
         return gradeRepository.save(grade);
     }
 
@@ -48,7 +55,7 @@ public class GradeService {
         Pharmacist pharmacist = (Pharmacist)userService.findById(pharmacistId);
         grade.setPharmacist(pharmacist);
         grade.setPatient((Patient) userService.findById(patientId));
-        calculateNewAverageGradeForPharmacist(pharmacist, grade.getGrade());
+        calculateNewAverageGradeForPharmacist(pharmacist, grade.getGrade(), false);
         return gradeRepository.save(grade);
     }
 
@@ -59,7 +66,7 @@ public class GradeService {
         Pharmacy pharmacy = pharmacyService.findById(pharmacyId);
         grade.setPharmacy(pharmacy);
         grade.setPatient((Patient) userService.findById(patientId));
-        calculateNewAverageGradeForPharmacy(pharmacy, grade.getGrade());
+        calculateNewAverageGradeForPharmacy(pharmacy, grade.getGrade(), false);
         return gradeRepository.save(grade);
     }
 
@@ -70,8 +77,33 @@ public class GradeService {
         Medicine medicine = medicineService.findById(medicineId);
         grade.setMedicine(medicine);
         grade.setPatient((Patient) userService.findById(patientId));
-        calculateNewAverageGradeForMedicine(medicine, grade.getGrade());
+        calculateNewAverageGradeForMedicine(medicine, grade.getGrade(), false);
         return gradeRepository.save(grade);
+    }
+
+    public Grade updateGrade(Grade grade, int newGrade) {
+        grade.setGrade(newGrade);
+        Grade updatedGrade = gradeRepository.save(grade);
+
+        switch (grade.getDiscriminatorValue()) {
+            case "DERMATOLOGIST_GRADE":
+                DermatologistGrade dermatologistGrade = (DermatologistGrade) grade;
+                calculateNewAverageGradeForDermatologist(dermatologistGrade.getDermatologist(), newGrade, true);
+                break;
+            case "PHARMACIST_GRADE":
+                PharmacistGrade pharmacistGrade = (PharmacistGrade) grade;
+                calculateNewAverageGradeForPharmacist(pharmacistGrade.getPharmacist(), newGrade, true);
+                break;
+            case "PHARMACY_GRADE":
+                PharmacyGrade pharmacyGrade = (PharmacyGrade) grade;
+                calculateNewAverageGradeForPharmacy(pharmacyGrade.getPharmacy(), newGrade, true);
+                break;
+            case "MEDICINE_GRADE":
+                MedicineGrade medicineGrade = (MedicineGrade) grade;
+                calculateNewAverageGradeForMedicine(medicineGrade.getMedicine(), newGrade, true);
+                break;
+        }
+        return updatedGrade;
     }
 
     private boolean checkIfPatientHasAlreadyGivenGrade(String gradeType, long patientId, long id) {
@@ -112,7 +144,7 @@ public class GradeService {
         return false;
     }
 
-    private void calculateNewAverageGradeForDermatologist(Dermatologist dermatologist, int grade) {
+    private void calculateNewAverageGradeForDermatologist(Dermatologist dermatologist, int grade, boolean isGradeUpdated) {
         int gradesSum = 0, numberOfGrades = 0;
         for (Grade oldGrade: findAll()) {
             if (oldGrade.getDiscriminatorValue().equals("DERMATOLOGIST_GRADE")) {
@@ -123,11 +155,17 @@ public class GradeService {
                 }
             }
         }
-        dermatologist.setAverageGrade((double)(gradesSum + grade)/(numberOfGrades + 1));
+
+        if (!isGradeUpdated) {
+            dermatologist.setAverageGrade((double)(gradesSum + grade)/(numberOfGrades + 1));
+        } else {
+            dermatologist.setAverageGrade((double)(gradesSum)/(numberOfGrades));
+        }
+
         userService.saveUpdatedUser(dermatologist);
     }
 
-    private void calculateNewAverageGradeForPharmacist(Pharmacist pharmacist, int grade) {
+    private void calculateNewAverageGradeForPharmacist(Pharmacist pharmacist, int grade, boolean isGradeUpdated) {
         int gradesSum = 0, numberOfGrades = 0;
         for (Grade oldGrade: findAll()) {
             if (oldGrade.getDiscriminatorValue().equals("PHARMACIST_GRADE")) {
@@ -138,11 +176,16 @@ public class GradeService {
                 }
             }
         }
-        pharmacist.setAverageGrade((double)(gradesSum + grade)/(numberOfGrades + 1));
+
+        if (!isGradeUpdated) {
+            pharmacist.setAverageGrade((double) (gradesSum + grade) / (numberOfGrades + 1));
+        } else {
+            pharmacist.setAverageGrade((double) (gradesSum) / (numberOfGrades));
+        }
         userService.saveUpdatedUser(pharmacist);
     }
 
-    private void calculateNewAverageGradeForPharmacy(Pharmacy pharmacy, int grade) {
+    private void calculateNewAverageGradeForPharmacy(Pharmacy pharmacy, int grade, boolean isGradeUpdated) {
         int gradesSum = 0, numberOfGrades = 0;
         for (Grade oldGrade: findAll()) {
             if (oldGrade.getDiscriminatorValue().equals("PHARMACY_GRADE")) {
@@ -153,11 +196,16 @@ public class GradeService {
                 }
             }
         }
-        pharmacy.setAverageGrade((double)(gradesSum + grade)/(numberOfGrades + 1));
+
+        if (!isGradeUpdated) {
+            pharmacy.setAverageGrade((double) (gradesSum + grade) / (numberOfGrades + 1));
+        } else {
+            pharmacy.setAverageGrade((double) (gradesSum) / (numberOfGrades));
+        }
         pharmacyService.savePharmacy(pharmacy);
     }
 
-    private void calculateNewAverageGradeForMedicine(Medicine medicine, int grade) {
+    private void calculateNewAverageGradeForMedicine(Medicine medicine, int grade, boolean isGradeUpdated) {
         int gradesSum = 0, numberOfGrades = 0;
         for (Grade oldGrade: findAll()) {
             if (oldGrade.getDiscriminatorValue().equals("MEDICINE_GRADE")) {
@@ -168,7 +216,12 @@ public class GradeService {
                 }
             }
         }
-        medicine.setAverageGrade((double)(gradesSum + grade)/(numberOfGrades + 1));
+
+        if (!isGradeUpdated) {
+            medicine.setAverageGrade((double) (gradesSum + grade) / (numberOfGrades + 1));
+        } else {
+            medicine.setAverageGrade((double) (gradesSum) / (numberOfGrades));
+        }
         medicineService.save(medicine);
     }
 }

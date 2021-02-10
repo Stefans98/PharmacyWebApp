@@ -1,6 +1,5 @@
 package isa.spring.boot.pharmacy.controller.users;
 
-import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
 import isa.spring.boot.pharmacy.dto.users.PharmacistDto;

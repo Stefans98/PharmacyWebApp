@@ -11,6 +11,10 @@ import { Grade } from "../../models/grade.model";
   
     constructor(private http: HttpClient) { }
 
+    public getAllGradesByPatientId(patientId: number): Observable<Grade[]> {
+        return this.http.get<Grade[]>(this.gradeUrl + 'getAllGradesByPatientId/' + patientId);
+    }
+
     public gradeDermatologist(grade : Grade): Observable<Grade> {
         const body = { id: grade.id, grade: grade.grade, gradeType: grade.gradeType, 
             patientId: grade.patientId, dermatologistId: grade.dermatologistId
@@ -47,4 +51,12 @@ import { Grade } from "../../models/grade.model";
             .post<Grade>(this.gradeUrl + 'gradeMedicine', body);
     }
 
+    public updateGrade(grade: Grade): Observable<Grade> {   
+        const body = { id: grade.id, grade: grade.grade, gradeType: grade.gradeType, 
+            patientId: grade.patientId, medicineId: grade.medicineId
+        };  
+
+        return this.http
+            .put<Grade>(this.gradeUrl + 'updateGrade', body );
+    }
   }

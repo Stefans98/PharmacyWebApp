@@ -8,7 +8,6 @@ import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -61,15 +60,6 @@ public class MedicineReservationService {
 
         String uniqueCode = ((new Date().getTime() / 1000L) % Integer.MAX_VALUE) + medicineReservation.getPatient().getId().toString();
         medicineReservation.setUniqueReservationCode(uniqueCode);
-
-        try {
-            emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
-                    "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + uniqueCode +
-                            "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
-                            " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
-                            " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
-                            "<br><br>S poštovanjem, <br>Health Pharmacy");
-        } catch( Exception ignored ){}
 
         return medicineReservationRepository.save(medicineReservation);
     }
@@ -183,5 +173,16 @@ public class MedicineReservationService {
                             "<br><br>S poštovanjem, <br>Health Pharmacy");
         } catch( Exception ignored ){}
         return  medicineReservationRepository.save(medicineReservation);
+    }
+
+    public void sendEmailForMedicineReservation(MedicineReservation medicineReservation) {
+        try {
+            emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
+            "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + medicineReservation.getUniqueReservationCode() +
+                    "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
+                    " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
+                    " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +
+                    "<br><br>S poštovanjem, <br>Health Pharmacy");
+        } catch( Exception ignored ){}
     }
 }

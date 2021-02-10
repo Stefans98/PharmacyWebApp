@@ -260,13 +260,6 @@ public class AppointmentService {
         appointment.setPatient((Patient)userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
         appointment.setAppointmentState(AppointmentState.OCCUPIED);
-        try {
-            if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
-                sendEmailForExamination(appointment);
-            } else if(appointment.getAppointmentType() == AppointmentType.COUNSELING) {
-                sendEmailForCounseling(appointment);
-            }
-        } catch( Exception ignored ){}
         return appointmentRepository.save(appointment);
     }
 

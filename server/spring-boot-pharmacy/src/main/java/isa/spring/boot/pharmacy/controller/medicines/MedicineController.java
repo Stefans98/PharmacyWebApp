@@ -3,14 +3,11 @@ package isa.spring.boot.pharmacy.controller.medicines;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineInquiryDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
-import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
-import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineInquiry;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.service.medicines.MedicineInquiryService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
@@ -119,6 +116,7 @@ public class MedicineController {
         if (medicineReservation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        medicineReservationService.sendEmailForMedicineReservation(medicineReservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

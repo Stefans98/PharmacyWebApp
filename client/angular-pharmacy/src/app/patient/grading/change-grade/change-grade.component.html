@@ -1,1 +1,62 @@
-<p>change-grade works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px" fxLayoutAlign="center center">
+
+		<div fxFlex="78" fxLayout="column" fxLayoutAlign="space-between stretch" class="mat-elevation-z2 pharmacy-list-container">
+			
+            <div fxFlex="10" fxLayout="row" fxLayoutAlign="start center">		
+                <h3 class="mat-headline" fxFlex="80" style="margin-top:10px; margin-left: 12px; font-size: 24px;">Izmena postojećih ocena</h3> 
+            </div>
+                
+			<mat-divider></mat-divider>
+
+        <div fxFlex="90" fxLayout="column" fxLayoutAlign="space-between stretch" class="pharmacy-list-container" style="padding-top: 0;" >
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+                <div class="pharmacy-list">
+                <ng-container matColumnDef="gradeEntity">
+                <th mat-header-cell *matHeaderCellDef> Ocena ostavljena za </th>
+                
+                <td mat-cell *matCellDef="let element"> 
+                    <ng-template [ngIf]="element.dermatologist != null" [ngIfElse]="second"><b>Dermatolog:</b> {{element.dermatologist.firstName}} {{element.dermatologist.lastName}} ({{element.dermatologist.email}}) </ng-template>
+                    <ng-template #second>
+                        <ng-template [ngIf]="element.pharmacist != null" [ngIfElse]="third"><b>Farmaceut:</b> {{element.pharmacist.firstName}} {{element.pharmacist.lastName}} ({{element.pharmacist.email}}) </ng-template>
+                    </ng-template>
+                    <ng-template #third>
+                        <ng-template [ngIf]="element.pharmacy != null" [ngIfElse]="fourth"><b>Apoteka:</b> {{element.pharmacy.name}} </ng-template>
+                    </ng-template>
+                    <ng-template #fourth>
+                        <ng-template [ngIf]="element.medicine != null"><b>Lek:</b> {{element.medicine.name}} </ng-template>
+                    </ng-template>            
+                </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="grade">
+                <th mat-header-cell *matHeaderCellDef> Ocena </th>
+                <td mat-cell *matCellDef="let element">                        
+                    <mat-form-field style="width: 70px; text-align: center;">
+                        <input matInput type="number" min="5" max="10" style="width: 70px;" [(ngModel)]="element.grade" onKeyDown="return false">
+                    </mat-form-field>
+                </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="changingGrade">
+                    <th mat-header-cell *matHeaderCellDef> Izmena ocene </th>
+                    <td mat-cell *matCellDef="let element"><button mat-raised-button color="warn" (click)="changeGrade(element)">Izmeni</button> </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="3">Trenutno niste ostavili nijednu ocenu</td>
+                </tr>
+                </div>             
+            </table>
+        <mat-divider></mat-divider>			
+        </div>
+
+		</div>  
+                   		
+    </div>
+
+</div>

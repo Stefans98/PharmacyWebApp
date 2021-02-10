@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Complaint } from '../../../models/complaint.model';
 import { Dermatologist } from '../../../models/dermatologist.model';
 import { Grade } from '../../../models/grade.model';
 import { Medicine } from '../../../models/medicine.model';
 import { Pharmacist } from '../../../models/pharmacist.model';
 import { Pharmacy } from '../../../models/pharmacy.model';
 import { AuthenticationService } from '../../../services/users/authentication.service';
-import { ComplaintService } from '../../../services/users/complaint.service';
 import { GradeService } from '../../../services/users/grade.service';
 import { ChooseGradeEntityModalDialogComponent } from './choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
 
@@ -35,7 +32,6 @@ export class NewGradingComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  // napravi servis za ocenjivanje i dodaj ga ovde
   constructor(private snackBar: MatSnackBar, private dialog: MatDialog, 
       private authService: AuthenticationService, private gradeService: GradeService) {
     this.selectedGradeType = 'Ocena za apoteku';
