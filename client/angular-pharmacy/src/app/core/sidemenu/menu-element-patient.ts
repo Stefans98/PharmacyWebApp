@@ -98,6 +98,26 @@ export const patientMenus = [
         ]
     },
     {
+        'name': 'Ocenjivanje',
+        'icon': 'grading',
+        'link': false,
+        'open': false,
+        'sub': [
+            {
+                'name': 'Novo ocenjivanje',
+                'icon': 'add_circle_outline',
+                'link': 'patient/grading/new-grading',
+                'open': false,
+            },
+            {
+                'name': 'Izmena postojećih ocena',
+                'icon': 'create',
+                'link': 'patient/grading/change-grade',
+                'open': false,
+            }
+        ]
+    },
+    {
         'name': 'ERecepti',
         'open': false,
         'link': 'patient/e-prescription',

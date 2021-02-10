@@ -109,6 +109,11 @@ insert into medicines (name, code, medicine_type, medicine_form, on_prescription
 insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Bromazepam', 'L127', 6, 1, true, 1, 'Hemofarm', 0.0, 5);
 insert into medicines (name, code, medicine_type, medicine_form, on_prescription, points, manufacturer, average_grade, medicine_specification_id) values ('Lorazepam', 'L128', 6, 1, true, 3, 'Hemofarm', 0.0, 6);
 
+insert into grades (grade, grade_type, patient_id, pharmacist_id) values (7, 'PHARMACIST_GRADE', 1, 5);
+insert into grades (grade, grade_type, patient_id, dermatologist_id) values (8, 'DERMATOLOGIST_GRADE', 1, 7);
+insert into grades (grade, grade_type, patient_id, pharmacy_id) values (9, 'PHARMACY_GRADE', 1, 1);
+insert into grades (grade, grade_type, patient_id, medicine_id) values (10, 'MEDICINE_GRADE', 2, 1);
+
 insert into allergies (name, patient_id, medicine_id) values ('Brufen', 1, 1);
 insert into allergies (name, patient_id, medicine_id) values ('Lorazepam', 1, 6);
 insert into allergies (name, patient_id, medicine_id) values ('Nimulid', 2, 2);
@@ -209,6 +214,7 @@ insert into medicine_reservations (final_purchasing_date, medicine_reservation_s
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-01', 0, false, 1, 1, 1,'16123213631');
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-02-02', 0, false, 1, 1, 1,'16123211631');
 insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-03-03', 0, false, 1, 2, 1,'16123213641');
+insert into medicine_reservations (final_purchasing_date, medicine_reservation_state, got_penalty, medicine_id, patient_id, pharmacy_id, unique_reservation_code) values ('2021-01-03', 2, false, 1, 1, 1,'16553213641');
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 

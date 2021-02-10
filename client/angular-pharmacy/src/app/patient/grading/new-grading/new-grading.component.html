@@ -1,0 +1,59 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs " >
+
+	<div fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFil fxFill fxLayoutGap="20px">
+
+		<div fxFlex="35" fxLayout="column" class="mat-elevation-z2 patient-profile" >
+
+			<div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" >
+					
+				<h3  class="mat-headline"  fxFill fxLayoutAlign="space-around center">Novo ocenjivanje</h3> 
+
+			</div>
+			<mat-divider></mat-divider>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+        <mat-form-field class="example-full-width" style="padding-left: 150px;">
+          <mat-label>Izberite ocenu</mat-label>
+          <mat-select [(ngModel)]="selectedGrade" (ngModelChange)="onChangeGrade($event)" required>
+            <mat-option [value]="grade" *ngFor="let grade of grades">{{grade}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+				
+			</div>
+
+			<div fxFlex="10"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+        <mat-form-field class="example-full-width" style="padding-left: 150px;">
+          <mat-label>Izberite tip ocene</mat-label>
+          <mat-select [(ngModel)]="selectedGradeType" (ngModelChange)="changeGradeEntityType($event)" required>
+            <mat-option [value]="gradeType" *ngFor="let gradeType of gradeTypes">{{gradeType}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+        <div fxFlex="10" fxLayout="column" fxLayoutAlign="center start" >
+          <mat-form-field class="example-form-field">
+              <mat-label>{{parseGradeEntityType()}}</mat-label>
+              <input matInput type="text"  [(ngModel)]="entityName" required disabled>
+              <button mat-button *ngIf="entityName"  matSuffix mat-icon-button aria-label="Clear" (click)="entityName=''">
+                  <mat-icon>close</mat-icon>
+              </button>
+          </mat-form-field>
+        </div>
+        <div fxFlex="55" fxLayout="column" fxLayoutAlign="center start" >
+          <button mat-raised-button color="basic" (click)="chooseGradeEntityClick()">{{selectEntityButtonText()}}</button>
+        </div>
+      </div>   
+			
+			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" style="margin-bottom: 30px;">
+				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
+					<button mat-raised-button color="primary" (click)="gradeClick()" [disabled]="!selectedGrade || !entityName">Oceni</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</div>
