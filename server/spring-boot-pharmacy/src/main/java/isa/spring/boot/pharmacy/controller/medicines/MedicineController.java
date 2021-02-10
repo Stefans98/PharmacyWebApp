@@ -111,6 +111,20 @@ public class MedicineController {
         return new ResponseEntity<>(medicineDto, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/findMedicinesByNameAndPharmacyId/{name}/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<MedicineDto>> findMedicinesByNameAndPharmacyId(@PathVariable String name, @PathVariable Long pharmacyId) {
+        List<MedicineDto> medicineDto = new ArrayList<>();
+        for (Medicine medicine : medicineService.findMedicinesByNameAndPharmacyId(name, pharmacyId)) {
+            medicineDto.add(MedicineMapper.convertToDto(medicine));
+        }
+
+        if (medicineDto.isEmpty()){
+            return new ResponseEntity<>(medicineDto, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+    }
+
     @GetMapping(value="/getMedicinePrice/medicinePrice", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasAuthority('PATIENT')")

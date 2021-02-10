@@ -128,6 +128,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import listPlugin from '@fullcalendar/list';
+import { MedicineReservationComponent } from './pharmacy-profile/medicine-reservation/medicine-reservation.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -247,7 +248,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ChangeGradeComponent,
     ChooseGradeEntityModalDialogComponent,
     ChangePasswordModalDialogComponent,
-    ChangePasswordModalDialogPharmacistComponent
+    ChangePasswordModalDialogPharmacistComponent,
+    MedicineReservationComponent
 
   ],
   imports: [

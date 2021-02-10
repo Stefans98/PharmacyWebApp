@@ -70,6 +70,20 @@ public class MedicineService {
         return medicines;
     }
 
+    public List<Medicine> findMedicinesByNameAndPharmacyId(String name, long pharmacyId) {
+        List<Medicine> medicines = new ArrayList<>();
+        for(Medicine medicine : findAll()) {
+            if (medicine.getName().toLowerCase().startsWith(name)) {
+                for(PharmacyMedicine pharmacyMedicine : medicine.getPharmacyMedicines()) {
+                    if(pharmacyMedicine.getPharmacy().getId() == pharmacyId) {
+                        medicines.add(medicine);
+                    }
+                }
+            }
+        }
+        return medicines;
+    }
+
     public List<Medicine> getMedicinesToWhichPatientIsNotAllergic(Long patientId) {
         List<Medicine> patientNotAllergicMedicine = new ArrayList<>();
         Patient patient = (Patient)userService.findById(patientId);
