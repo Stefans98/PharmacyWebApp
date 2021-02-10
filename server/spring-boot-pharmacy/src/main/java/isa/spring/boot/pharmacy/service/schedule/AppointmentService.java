@@ -455,4 +455,14 @@ public class AppointmentService {
         }
         return annualStatistics;
     }
+
+    public List<Appointment> getFreeDermatologistsAppointmentForPharmacy(Long pharmacyId){
+        List<Appointment> appointments = new ArrayList<>();
+        for(Appointment appointment : getAppointmentsForPharmacy(pharmacyId)){
+            if(appointment.getWorkDay().getEmployee().getDiscriminatorValue().equals("DERMATOLOGIST") && appointment.getAppointmentState() == AppointmentState.AVAILABLE){
+                appointments.add(appointment);
+            }
+        }
+        return appointments;
+    }
 }

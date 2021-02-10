@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AnnualStatistics } from '../../models/annual-statistics.model';
+import { MedicineInquiry } from '../../models/medicine-inquiry.model';
 import { Medicine } from '../../models/medicine.model';
 import { MedicineReservation } from '../../models/medicineReservation.model';
 
@@ -134,4 +135,9 @@ export class MedicineService {
     return this.http
         .get<AnnualStatistics>(this.medicineUrl + 'calculatePharmacyProfit/' + pharmacyId, {params});
   }
+
+  public getMedicineInquiriesForPharmacy(pharmacyId: number): Observable<MedicineInquiry[]> {
+    return this.http
+      .get<MedicineInquiry[]>(this.medicineUrl + 'getMedicineInquiriesForPharmacy/' + pharmacyId);
+  }  
 }

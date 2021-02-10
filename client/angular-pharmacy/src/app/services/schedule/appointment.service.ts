@@ -96,4 +96,9 @@ export class AppointmentService {
         .get<AnnualStatistics>(this.appointmentsUrl + 'appointmentStatistic/' + pharmacyId);
   } 
 
+  public getFreeAppointmentForPharmacy(pharmacyId: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(this.appointmentsUrl + 'getFreeAppointmentForPharmacy/' + pharmacyId);
+  }
+
 }

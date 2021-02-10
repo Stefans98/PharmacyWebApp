@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.dto.medicines.MedicineDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineInquiryDto;
 import isa.spring.boot.pharmacy.dto.medicines.MedicineReservationDto;
 import isa.spring.boot.pharmacy.dto.schedule.AnnualStatistics;
+import isa.spring.boot.pharmacy.mapper.medicines.MedicineInquiryMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineReservationMapper;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
@@ -267,5 +268,19 @@ public class MedicineController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getMedicineInquiriesForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<MedicineInquiryDto>> getMedicineInquiriesForPharmacy(@PathVariable Long pharmacyId) {
+        List<MedicineInquiryDto> medicineInquiriesForPharmacy = new ArrayList<MedicineInquiryDto>();
+        for (MedicineInquiry medicineInquiry : medicineInquiryService.getMedicineInquiriesForPharmacy(pharmacyId)) {
+            medicineInquiriesForPharmacy.add(MedicineInquiryMapper.convertToDto(medicineInquiry));
+        }
+
+        if (medicineInquiriesForPharmacy.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(medicineInquiriesForPharmacy, HttpStatus.OK);
     }
 }

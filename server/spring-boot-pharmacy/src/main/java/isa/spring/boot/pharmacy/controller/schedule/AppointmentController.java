@@ -217,4 +217,18 @@ public class AppointmentController {
         }
         return new ResponseEntity<>(annualStatistics, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getFreeAppointmentForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<AppointmentDto>> getFreeAppointmentForPharmacy(@PathVariable Long pharmacyId) {
+        List<AppointmentDto> freeAppointments = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getFreeDermatologistsAppointmentForPharmacy(pharmacyId)) {
+            freeAppointments.add(AppointmentMapper.convertToDto(appointment));
+        }
+
+        if (freeAppointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(freeAppointments, HttpStatus.OK);
+    }
 }

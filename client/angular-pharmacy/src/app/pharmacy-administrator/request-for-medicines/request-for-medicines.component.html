@@ -1,1 +1,29 @@
-<p>request-for-medicines works!</p>
+<div class="free-appointments-div" style="margin-right: 15%; margin-left: 15%; margin-top: 2%;">
+    <div class="example-container mat-elevation-z8" style="height: 600px; overflow: auto;">
+        <table mat-table [dataSource]="medicineInquires" style="width: 100%;">
+      
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> Ime zaposlenog </th>
+            <td mat-cell *matCellDef="let medicineInquiry"> {{medicineInquiry.employee.firstName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Prezime zaposlenog </th>
+            <td mat-cell *matCellDef="let medicineInquiry"> {{medicineInquiry.employee.lastName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Kod leka </th>
+            <td mat-cell *matCellDef="let medicineInquiry"> {{ medicineInquiry.medicine.code }} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Naziv leka </th>
+            <td mat-cell *matCellDef="let medicineInquiry"> {{ medicineInquiry.medicine.name }} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</div>
