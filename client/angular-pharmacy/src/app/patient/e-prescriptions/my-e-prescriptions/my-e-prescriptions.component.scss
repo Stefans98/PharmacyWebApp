@@ -39,8 +39,8 @@
 
 .pharmacy-list-container-second {
 	background-color: white;
-    padding: 10px;
-    height: 450px;
+	padding: 10px;
+    height: 675px;
     overflow: auto;
 
 	.pharmacy-list {
@@ -83,4 +83,39 @@
 		h3 {
 			margin: auto;
 		}
+}
+
+.pharmacy-list-container-third {
+	background-color: white;
+    padding: 10px;
+    height: 150px;
+    overflow: auto;
+
+	.pharmacy-list {
+		height: 400px;
+		overflow: auto;
+		div {
+			margin: 0;
+		}
+		h3 {
+			margin: 0;
+		}
+		p {
+			margin: 0;
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+	}
+	
+	.pharmacy-list-header {
+		background-color: #eee;
+		padding: 10px;
+		div {
+			margin: auto;
+		}
+		
+	}
 }
