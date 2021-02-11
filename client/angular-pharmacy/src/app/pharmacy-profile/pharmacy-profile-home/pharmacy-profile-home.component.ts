@@ -17,6 +17,9 @@ import TileJSON from 'ol/source/TileJSON';
 import VectorSource from 'ol/source/Vector';
 import {fromLonLat} from 'ol/proj';
 import { PharmacyFull } from '../../models/pharmacy-full.model';
+import { Subscription } from '../../models/subscription.model';
+import { SubscriptionService } from '../../services/pharmacy/subscription.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pharmacy-profile-home',
@@ -42,7 +45,18 @@ export class PharmacyProfileHomeComponent implements OnInit, AfterViewInit {
   public lng: number;
   public lat: number;
 
-  constructor(private authService: AuthenticationService, private pharmacyService: PharmacyService) {}
+  mySubscriptions : Subscription[] = [];
+  subscriptionButtonVisible : boolean;
+
+  constructor(private authService: AuthenticationService, private pharmacyService: PharmacyService, private subscriptionService : SubscriptionService,
+    private snackBar: MatSnackBar) {
+    if (authService.getUserRole() === 'PATIENT') {
+      this.subscriptionButtonVisible = true;
+      this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
+        this.mySubscriptions = data);
+    }
+    this.subscriptionButtonVisible = false;
+  }
 
   ngOnInit(): void {
   }
@@ -86,4 +100,24 @@ export class PharmacyProfileHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  isAlreadySubscribed(): boolean {
+    for (let s of this.mySubscriptions) {
+      if (s.pharmacy.id == this.pharmacyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  subscribeClick(pharmacy) : void {
+    this.subscriptionService.subscribeToPharmacy(new Subscription(0, this.authService.getLoggedUserId(), null,
+    this.pharmacyId, null)).subscribe(data => {
+      this.snackBar.open('Apoteka je dodata u listu vaših pretplata!', null, { 
+        duration : 3000, 
+        verticalPosition: 'top'
+       });
+       this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
+        this.mySubscriptions = data);
+    })
+  }
 }

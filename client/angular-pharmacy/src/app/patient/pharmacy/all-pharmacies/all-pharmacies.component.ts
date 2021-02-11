@@ -29,7 +29,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   searchInputLenght = 0;
 
   pharmacies: Pharmacy[] = [];
-  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'pharmacyProfile', 'subscribe'];
+  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'pharmacyProfile'];
   dataSource = new MatTableDataSource(this.pharmacies);
   newDataSource = new MatTableDataSource(this.pharmacies);
   dataSourceAfterSearch = new MatTableDataSource(this.pharmacies);
