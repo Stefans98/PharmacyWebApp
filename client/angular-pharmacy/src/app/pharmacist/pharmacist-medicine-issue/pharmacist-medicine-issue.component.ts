@@ -52,7 +52,7 @@ export class PharmacistMedicineIssueComponent implements OnInit {
         },
         error => {
           if (error.status == 404){
-            this.openSnackBar('Broj rezervacije leka nije ispravan!', 'Zatvori', 3000);
+            this.openSnackBar('Broj rezervacije leka nije ispravan! MOGUĆI RAZLOZI: 1. Prošao je rok za preuzimanje leka 2. Pacijent je već preuzeo lek ili otkazao rezervaciju 3. Pogrešno unet broj rezervacije', 'Zatvori', 6000);
             this.refreshData();
           }
         }

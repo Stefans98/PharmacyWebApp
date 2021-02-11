@@ -62,6 +62,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
     public prescriptions : Prescription[] = [];
     public prescription : Prescription;
     public appointmentIdFromWorkCalendar : number = 0;
+    public appointmentFromWorkCalendar : Appointment;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
@@ -107,7 +108,14 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         // From work calendar
         this.appointmentService.getAppointmentById(this.appointmentIdFromWorkCalendar).subscribe(
           data => {
-            this.selectedAppointment = data;
+            this.appointmentFromWorkCalendar = data;
+            if (new Date(this.appointmentFromWorkCalendar.startTime).getFullYear() != new Date().getFullYear() ||
+                  new Date(this.appointmentFromWorkCalendar.startTime).getMonth() != new Date().getMonth() ||
+                    new Date(this.appointmentFromWorkCalendar.startTime).getDay() != new Date().getDay()) {
+              this.openSnackBar('Greška! Možete započeti samo one preglede koji su zakazani za današnji dan!', 'Zatvori', 4500);
+              return;
+            } 
+            this.selectedAppointment = this.appointmentFromWorkCalendar;
             this.searchInput.nativeElement.disabled = true;
             this.patientAppointments.push(this.selectedAppointment);
             this.patientFlag = true;
@@ -155,7 +163,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
   firstNextButtonClicked() : void {
     if (!this.firstFormGroup.valid) {
       this.openSnackBar('Morate selektovati pregled da bi ga započeli!', 'Zatvori', 3000);
-    }      
+    }    
   }
 
   secondNextButtonClicked(textAreaValue) : void {  

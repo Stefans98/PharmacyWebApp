@@ -212,6 +212,17 @@ public class AppointmentService {
         return appointments;
     }
 
+    public List<Appointment> getNotHeldAppointmentsForPatient(long patientId) {
+        List<Appointment> appointments = new ArrayList<>();
+        for(Appointment appointment : appointmentRepository.findAll()) {
+            if(appointment.getPatient().getId() == patientId &&
+                    appointment.getAppointmentState() == AppointmentState.NOT_HELD) {
+                appointments.add(appointment);
+            }
+        }
+        return appointments;
+    }
+
     public List<Appointment> getAllCanceledAppointmentsForPatientByEmployee(long patientId, long workDayId) {
         List<Appointment> canceledAppointmentsForPatientByEmployee = new ArrayList<>();
         for(Appointment appointment : appointmentRepository.findAll()) {
@@ -285,7 +296,7 @@ public class AppointmentService {
     }
 
     public void checkIfPatientGotPenaltyForAppointmentsThisMonth(long patientId) {
-        for (Appointment appointment : getOccupiedAvailableNotHeldAppointmentsForPatient(patientId)) {
+        for (Appointment appointment : getNotHeldAppointmentsForPatient(patientId)) {
             if (isAppointmentInThePast(appointment)
                     && isPatientDeservesPenalty(appointment)) {
                 givePenaltyToPatient(appointment);
@@ -382,6 +393,7 @@ public class AppointmentService {
 
     public Appointment patientNotHeldOnAppointment(Appointment appointment, Long patientId, Long workDayId) {
         userService.givePenaltyToPatient(patientId);
+        appointment.setGotPenalty(true);
         appointment.setAppointmentState(AppointmentState.NOT_HELD);
         appointment.setPatient((Patient) userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));

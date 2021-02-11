@@ -60,6 +60,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
     public prescriptions : Prescription[] = [];
     public prescription : Prescription;
     public appointmentIdFromWorkCalendar : number = 0;
+    public appointmentFromWorkCalendar : Appointment;
     
     displayedColumns: string[] = ['name', 'manufacturer', 'type', 'specification', 'prescribe'];
     dataSource = new MatTableDataSource<Medicine>(this.medicinesForPharmacy);
@@ -105,6 +106,13 @@ export class PharmacistStartAppointmentComponent implements OnInit {
         // From work calendar
         this.appointmentService.getAppointmentById(this.appointmentIdFromWorkCalendar).subscribe(
           data => {
+            this.appointmentFromWorkCalendar = data;
+            if (new Date(this.appointmentFromWorkCalendar.startTime).getFullYear() != new Date().getFullYear() ||
+                  new Date(this.appointmentFromWorkCalendar.startTime).getMonth() != new Date().getMonth() ||
+                    new Date(this.appointmentFromWorkCalendar.startTime).getDay() != new Date().getDay()) {
+              this.openSnackBar('Greška! Možete započeti samo ona savetovanja koja su zakazana za današnji dan!', 'Zatvori', 4500);
+              return;
+            } 
             this.selectedAppointment = data;
             this.searchInput.nativeElement.disabled = true;
             this.patientAppointments.push(this.selectedAppointment);
