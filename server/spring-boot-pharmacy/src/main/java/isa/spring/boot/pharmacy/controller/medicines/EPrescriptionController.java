@@ -34,11 +34,17 @@ public class EPrescriptionController {
     @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<Void> generateQRCode() {
-        EPrescriptionItemDto dto1 = new EPrescriptionItemDto("L123", "Brufen", 10);
-        EPrescriptionItemDto dto2 = new EPrescriptionItemDto("L124", "Nimulid", 12);
+        EPrescriptionItemDto dto1 = new EPrescriptionItemDto("L126", "Diklofenak", 1);
+        EPrescriptionItemDto dto2 = new EPrescriptionItemDto("L124", "Nimulid", 14);
+        EPrescriptionItemDto dto3 = new EPrescriptionItemDto("L127", "Bromazepam", 3);
+        EPrescriptionItemDto dto4 = new EPrescriptionItemDto("L123", "Brufen", 4);
+        EPrescriptionItemDto dto5 = new EPrescriptionItemDto("L128", "Lorazepam", 4);
         List<EPrescriptionItemDto> medicines = new ArrayList<>();
         medicines.add(dto1);
         medicines.add(dto2);
+        medicines.add(dto3);
+        medicines.add(dto4);
+        medicines.add(dto5);
         try {
             qrCodeService.generateQRCode(medicines);
         } catch (Exception e) {

@@ -22,7 +22,7 @@ export class NewEPrescriptionComponent implements OnInit {
   displayedColumns: string[] = ['name', 'averageGrade', 'address', 'price', 'reservation'];
   dataSource = new MatTableDataSource(this.pharmacies);
 
-  medicines : EPrescriptionItem[];
+  medicines : EPrescriptionItem[] = [];
 
   selectedFile : ImageSnippet;
 
@@ -68,11 +68,17 @@ export class NewEPrescriptionComponent implements OnInit {
     this.pharmacyService.getAllPharmaciesWithEPrescriptionItems(this.medicines).subscribe(data => {
       this.pharmacies = data;
       this.dataSource.data = this.pharmacies;
+      if (this.pharmacies.length == 0) {
+        this.snackBar.open('Apoteke nemaju u ponudi unete lekove!', null, { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
+      }
     })
   }
 
   medicineReservationClick(element : EPrescriptionPharmacy) : void {
-    this.eprescriptionService.createNewEPrescription(new EPrescription(0, this.authService.getLoggedUserId(), new Date(),
+    this.eprescriptionService.createNewEPrescription(new EPrescription(0, this.authService.getLoggedUserId(), null, new Date(),
       this.medicines, element.pharmacy.id, null, element.price, '')).subscribe(data => {
         this.snackBar.open('ERecept je uspešno kreiran!', null, { 
           duration : 3000, 
@@ -90,5 +96,20 @@ export class NewEPrescriptionComponent implements OnInit {
            });
         }
       });
+  }
+
+  qrCodeSelected() : boolean {
+    if(this.selectedFile) {
+      return true;
+    }
+    return false;
+  }
+
+  checkIfAnyMedicine() : boolean {
+    return this.medicines.length > 0;
+  }
+
+  roundPrice(price : number) : number {
+    return Math.round(price * 100) / 100;
   }
 }
