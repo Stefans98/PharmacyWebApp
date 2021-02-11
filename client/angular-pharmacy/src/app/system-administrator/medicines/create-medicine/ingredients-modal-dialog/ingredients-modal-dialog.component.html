@@ -1,0 +1,31 @@
+<div fxLayout="column" class="components-container-gt-xs" fxFlexFill fxFill>
+    <div fxLayout="row" fxFlex="10" fxLayoutAlign="center center">
+        <h3 class="mat-h2">Spisak sastojaka:</h3>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="column" fxFlex = "50">
+        <div fxLayout="row" style="overflow: auto; height: 250px; width: 100%;border: 1px solid;" fxFlexFil fxFill fxLayoutAlign="center center">
+            <mat-list role="list">
+                <mat-list-item *ngFor="let element of ingredients; index as i;">{{element}}</mat-list-item>
+              </mat-list>
+          </div>
+    </div>
+    <div fxLayout="row" fxFlex="30" fxLayoutAlign="space-around center">
+        <div fxLayout="column" fxFlex="30">
+            <mat-form-field class="example-form-field">
+                <mat-label>Dodaj sastojak</mat-label>
+                <input matInput type="text" [(ngModel)]="newIngredient" required>
+                <button mat-button *ngIf="newIngredient" matSuffix mat-icon-button aria-label="Clear" (click)="newIngredient=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+        </div>
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center start" >
+            <button mat-raised-button color="basic" (click)="addIngredientClick()">Dodaj</button>
+        </div>
+    </div>
+    <div fxLayout="row" fxFlex fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" (click)="confirmClick()">Potvrdi</button>
+    </div>
+</div>
+

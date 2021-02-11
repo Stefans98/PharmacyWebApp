@@ -55,7 +55,12 @@ export class LoginComponent implements OnInit {
     error => {
       if (error.status == 401)
       {
-        this.snackBar.open('Uneli ste neispravan email ili lozinku!', null, { 
+        this.snackBar.open('Uneli ste neispravan email ili lozinku!', 'Zatvori', { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
+      } else if (error.status == 400) {
+        this.snackBar.open('Vaš nalog nije aktiviran!', 'Zatvori', { 
           duration : 3000, 
           verticalPosition: 'top'
          });
@@ -72,17 +77,43 @@ export class LoginComponent implements OnInit {
        return;
     }
     this.authService.userSignup(new Patient(0, this.firstNameSignup, this.lastNameSignup, this.citySignup, this.countrySignup,
-               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup)) 
+               this.streetSignup, this.emailSignup, this.phoneNumberSignup, 0, 0, this.passwordSignup, null)) 
                .subscribe( data => {
                 this.snackBar.open('Nalog je uspešno kreiran!', null, { 
                   duration : 3000, 
                   verticalPosition: 'top'
                  });
-               });               
+               },
+               error => {
+                if (error.status == 409)
+                {
+                  this.snackBar.open('Registracija neuspešna! Uneti email već postoji!', 'Zatvori', { 
+                    duration : 3000, 
+                    verticalPosition: 'top'
+                   });
+                }
+              });               
   }
 
   checkPasswordMatch() : boolean {
     return this.passwordSignup === this.repasswordSignup;
   }
 
+  checkIfFieldsAreEmpty() : boolean {
+    return !this.firstNameSignup || !this.lastNameSignup || !this.emailSignup || !this.phoneNumberSignup || !this.passwordSignup 
+      || !this.repasswordSignup || !this.countrySignup || !this.citySignup || !this.streetSignup || 
+      this.passwordSignup.length < 3 || this.repasswordSignup.length < 3; 
+  }
+
+  clearFields() : void {
+    this.firstNameSignup = null;
+    this.lastNameSignup = null;
+    this.emailSignup = null;
+    this.phoneNumberSignup = null;
+    this.repasswordSignup = null;
+    this.passwordSignup = null;
+    this.countrySignup = null;
+    this.citySignup = null;
+    this.streetSignup = null;
+  }
 }

@@ -2,7 +2,7 @@ export const pharmacyAdministratorMenus = [
     {
         'name': 'Moja apoteka',
         'icon': 'event_note',
-        'link': 'pharmacy-administrator/pharmacy-profile',
+        'link': 'pharmacy-administrator/my-pharmacy',
         'open': false
     },
     {
@@ -21,6 +21,12 @@ export const pharmacyAdministratorMenus = [
         'name': 'Definiši promociju',
         'icon': 'people',
         'link': 'pharmacy-administrator/define-promotion',
+        'open': false
+    },
+    {
+        'name': 'Cenovnik',
+        'icon': 'people',
+        'link': 'pharmacy-administrator/pharmacy-pricelist',
         'open': false
     },
     {

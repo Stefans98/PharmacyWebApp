@@ -20,4 +20,13 @@ import { User } from "../../models/user.model";
         return this.http
         .post<User>(this.pharmacyAdministratorUrl + 'register', body);
       }
+
+      public updatePharmacyAdministrator(id: number, user : User, pharmacyId: number): Observable<User> {
+        const body = { id: id, firstName: user.firstName, lastName: user.lastName, city: user.city, country: user.country,
+          street: user.street, email: user.email, password: user.password, phoneNumber: user.phoneNumber
+        }; 
+    
+        return this.http
+        .put<User>(this.pharmacyAdministratorUrl + 'updateProfile/' + pharmacyId, body );
+      }
   }

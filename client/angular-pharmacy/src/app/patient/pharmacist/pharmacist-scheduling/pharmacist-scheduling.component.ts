@@ -183,14 +183,14 @@ export class PharmacistSchedulingComponent implements OnInit, AfterViewInit {
       data => {
         this.workDay = data;
         var patientId = this.authenticationService.getLoggedUserId();
-        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(patientId, '', '', '', '', '', '', '', 0, 1, ''), this.workDay, null, this.price); 
+        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(patientId, '', '', '', '', '', '', '', 0, 1, '', null), this.workDay, null, this.price); 
         this.appointmentService.scheduleExamination(this.appointment).subscribe(
           data => {
             this.router.navigate(['/auth/patient/pharmacist/pharmacist-scheduled-counseling']);
             this.openSnackBar('Na Vašem email-u možete pogledati potvrdu o zakazivanju pregleda! Pregled možete otkazati ukoliko do datuma pregleda ima više od 24h!', 'Zatvori', 5600);
           },
           error => {
-            this.openSnackBar('Nemate pravo zakazivanja termina, jer već imate zakazan termin za izabran datum i vreme!', 'Zatvori', 4700);
+            this.openSnackBar('Nemate pravo zakazivanja termina kod farmaceuta zato što ste imali ili trenutno imate zakazan termin koji se preklapa sa izabranim datumom i vremenom ili je broj Vaših penala za ovaj mesec preko 2!', 'Zatvori', 8300);
           });
       },
       error => {

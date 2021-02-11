@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AnnualStatistics } from '../../models/annual-statistics.model';
+import { MedicineInquiry } from '../../models/medicine-inquiry.model';
 import { Medicine } from '../../models/medicine.model';
 import { MedicineReservation } from '../../models/medicineReservation.model';
 
@@ -18,9 +20,35 @@ export class MedicineService {
       .get<Medicine[]>(this.medicineUrl + 'getAll');
   } 
 
+  public getMedicinesForPatientCompletedReservations(patientId: number): Observable<Medicine[]> {
+    return this.http
+    .get<Medicine[]>(this.medicineUrl + 'getMedicinesForPatientCompletedReservations/' + patientId);
+  }
+
+  public getMedicinesToWhichPatientIsNotAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsNotAllergic/' + patientId);
+  }
+  
+
+  public getMedicinesFromEPrescriptionByPatientId(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesFromEPrescriptionByPatientId/' + patientId);
+  }
+  
+  public getMedicinesToWhichPatientIsAllergic(patientId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'getMedicinesToWhichPatientIsAllergic/' + patientId);
+  }
+
   public findMedicinesBy(name: string): Observable<Medicine[]> {
     return this.http
       .get<Medicine[]>(this.medicineUrl + 'findMedicinesBy/' + name);
+  } 
+
+  public findMedicinesByNameAndPharmacyId(name: string, pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findMedicinesByNameAndPharmacyId/' + name + '/' + pharmacyId);
   } 
 
   public reserveMedicine(medicineReservation: MedicineReservation): Observable<void> {
@@ -89,4 +117,43 @@ export class MedicineService {
       .put<MedicineReservation>(this.medicineUrl + 'issueMedicineReservation/' + medicineReservationId, null);
   }
 
+  public getQuantityOfMedicineForPharmacy(medicineId : string, pharmacyId: string) : Observable<number> {
+    let params = new HttpParams()
+      .set('medicineId', medicineId)
+      .set('pharmacyId', pharmacyId);
+
+    return this.http.get<number>(this.medicineUrl + 'getQuantityOfMedicineForPharmacy', { params });
+  }
+
+  public getAllMedicinesNotForPharmacy(pharmacyId: number): Observable<Medicine[]> {
+    return this.http
+      .get<Medicine[]>(this.medicineUrl + 'findAllMedicinesNotForPharmacy/' + pharmacyId);
+  }  
+
+  public createMedicine(medicine : Medicine): Observable<Medicine> {
+    const body = { name : medicine.name, code : medicine.code, manufacturer : medicine.manufacturer, 
+      medicineType : medicine.medicineType, medicineForm : medicine.medicineForm, onPrescription : medicine.onPrescription,
+      additionalInformation : medicine.additionalInformation, medicineSpecification : medicine.medicineSpecification  };
+
+    return this.http.post<Medicine>(this.medicineUrl + "save", body);
+  }
+
+  public medicineStatistic(pharmacyId: number): Observable<AnnualStatistics> {
+    return this.http
+        .get<AnnualStatistics>(this.medicineUrl + 'medicineStatistic/' + pharmacyId);
+  }
+  
+  public calculatePharmacyProfit(pharmacyId: number, startDate: string, endDate: string): Observable<AnnualStatistics> {
+    let params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+
+    return this.http
+        .get<AnnualStatistics>(this.medicineUrl + 'calculatePharmacyProfit/' + pharmacyId, {params});
+  }
+
+  public getMedicineInquiriesForPharmacy(pharmacyId: number): Observable<MedicineInquiry[]> {
+    return this.http
+      .get<MedicineInquiry[]>(this.medicineUrl + 'getMedicineInquiriesForPharmacy/' + pharmacyId);
+  }  
 }

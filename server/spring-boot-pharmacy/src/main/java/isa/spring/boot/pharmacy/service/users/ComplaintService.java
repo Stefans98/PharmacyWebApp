@@ -4,6 +4,7 @@ import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.users.ComplaintAnswerRepository;
 import isa.spring.boot.pharmacy.repository.users.ComplaintRepository;
+import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class ComplaintService {
 
     @Autowired
     private PharmacyService pharmacyService;
+
+    @Autowired
+    private EmailService emailService;
 
     public List<Complaint> findAll() {
         return complaintRepository.findAll();
@@ -57,5 +61,16 @@ public class ComplaintService {
         Complaint complaint = complaintRepository.getOne(complaintId);
         complaint.setAnswered(true);
         complaintRepository.save(complaint);
+    }
+
+    public void sendComplaintAnswerMail(ComplaintAnswer complaintAnswer) {
+        emailService.sendEmailAsync(complaintAnswer.getComplaint().getPatient(), "Odgovor na žalbu",
+                "Poštovani\\-a " + complaintAnswer.getComplaint().getPatient().getFirstName() + " " +
+                        complaintAnswer.getComplaint().getPatient().getLastName() + ", primili ste odgovor na vašu žalbu:" +
+                        "<br>Tekst žalbe: " +
+                        "<br>" + complaintAnswer.getComplaint().getText() +
+                        "<br><br>Odgovor: " +
+                        "<br>" + complaintAnswer.getText() +
+                        "<br><br>S poštovanjem, <br>Vaša ISA");
     }
 }

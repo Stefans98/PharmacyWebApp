@@ -31,6 +31,12 @@ public class Pharmacy {
     @Column(name = "average_grade")
     private double averageGrade;
 
+    @Column(name = "longitude")
+    private double longitude;
+
+    @Column(name = "latitude")
+    private double latitude;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
@@ -64,11 +70,17 @@ public class Pharmacy {
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyComplaint> complaints;
 
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PharmacyGrade> grades;
+
      @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PharmacyMedicine> pharmacyMedicines;
 
     @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineInquiry> medicineInquiries;
+
+    @OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<EPrescription> ePrescriptions;
 
     @OneToOne(mappedBy = "pharmacy")
     private Pricelist pricelist;
@@ -76,13 +88,15 @@ public class Pharmacy {
     public Pharmacy() {
     }
 
-    public Pharmacy(String name, String description, double averageGrade, Address address, List<Pharmacist> pharmacists, List<Dermatologist> dermatologists) {
+    public Pharmacy(String name, String description, double averageGrade, Address address, List<Pharmacist> pharmacists, List<Dermatologist> dermatologists, double longitude, double latitude) {
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
         this.address = address;
         this.pharmacists = pharmacists;
         this.dermatologists = dermatologists;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public Long getId() {
@@ -181,13 +195,20 @@ public class Pharmacy {
         this.medicineOrderLists = medicineOrderLists;
     }
 
-
     public List<PharmacyComplaint> getComplaints() {
         return complaints;
     }
 
     public void setComplaints(List<PharmacyComplaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public List<PharmacyGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<PharmacyGrade> grades) {
+        this.grades = grades;
     }
 
     public List<VacationRequest> getVacationRequests() {
@@ -220,5 +241,29 @@ public class Pharmacy {
 
     public void setPricelist(Pricelist pricelist) {
         this.pricelist = pricelist;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public List<EPrescription> getePrescriptions() {
+        return ePrescriptions;
+    }
+
+    public void setePrescriptions(List<EPrescription> ePrescriptions) {
+        this.ePrescriptions = ePrescriptions;
     }
 }

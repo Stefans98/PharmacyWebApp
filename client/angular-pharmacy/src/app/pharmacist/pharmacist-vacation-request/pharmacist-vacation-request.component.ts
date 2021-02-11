@@ -45,7 +45,7 @@ export class PharmacistVacationRequestComponent implements OnInit {
 
   sendVacationRequest(): void {
     this.vacationService.sendVacationRequest(
-      new Vacation(0, 0, this.startTime, this.endTime, false, this.authenticationService.getLoggedUserId(), this.pharmacistPharmacy.id)).subscribe(
+      new Vacation(0, 0, this.startTime, this.endTime, null, this.authenticationService.getLoggedUserId(), this.pharmacistPharmacy.id)).subscribe(
       data => {
         this.vacation = data;
         this.refreshData();

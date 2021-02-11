@@ -1,4 +1,5 @@
 <div class="login-page">
+  <app-non-authenticated-user-toolbar style="z-index: 500;"></app-non-authenticated-user-toolbar>
     <mat-card class="mat-elevation-z12">
       <mat-card-title style="text-align:center; overflow: hidden;">Prijava/Registacija</mat-card-title>
       <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
@@ -159,7 +160,6 @@
   
               </mat-form-field>
               
-              
               <mat-form-field  style="width: 24%; float: left; margin-left: 20px; padding: 0%;">
                   <input
                   matInput
@@ -188,11 +188,13 @@
                 </mat-error>
               <mat-icon matSuffix>address</mat-icon>
             </mat-form-field>
+            <br>
               <button
                 mat-raised-button
                 color="primary"
                 class="login-button"
                 (click)="signupClick()"
+                [disabled]="checkIfFieldsAreEmpty()"
                 >
                 Registruj se
               </button>

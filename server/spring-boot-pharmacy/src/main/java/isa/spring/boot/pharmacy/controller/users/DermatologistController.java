@@ -1,11 +1,14 @@
 package isa.spring.boot.pharmacy.controller.users;
 
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
 import isa.spring.boot.pharmacy.dto.users.UserDto;
 import isa.spring.boot.pharmacy.mapper.users.PatientMapper;
+import isa.spring.boot.pharmacy.mapper.users.PharmacistMapper;
 import isa.spring.boot.pharmacy.mapper.users.UserMapper;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Patient;
+import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.User;
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
@@ -40,7 +43,7 @@ public class DermatologistController {
     @PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<UserDto> registerDermatologist(@RequestBody UserDto dermatologistDto) {
         if (userService.findByEmail(dermatologistDto.getEmail()) != null) {
-            throw new RuntimeException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User dermatologist = userService.saveDermatologist(UserMapper.convertToEntity(dermatologistDto, false));
 
@@ -92,7 +95,7 @@ public class DermatologistController {
     }
 
     @GetMapping(value = "/dermatologistsForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PHARMACY_ADMIN','PATIENT')")
     public ResponseEntity<List<DermatologistDto>> getDermatologistsForPharmacy(@PathVariable Long pharmacyId) {
         List<DermatologistDto> dermatologistsForPharmacy = new ArrayList<>();
         if(userService.getDermatologistsForPharmacy(pharmacyId) == null){
@@ -121,5 +124,56 @@ public class DermatologistController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(patientsForDermatologist, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/dermatologistsNotForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<DermatologistDto>> dermatologistsNotForPharmacy(@PathVariable Long pharmacyId) {
+        List<DermatologistDto> dermatologistsNotForPharmacy = new ArrayList<>();
+        if(userService.getDermatologistsNotForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(Dermatologist dermatologistForPharmacy : userService.getDermatologistsNotForPharmacy(pharmacyId)){
+            dermatologistsNotForPharmacy.add(DermatologistMapper.convertToDto(dermatologistForPharmacy));
+        }
+
+        if(dermatologistsNotForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(dermatologistsNotForPharmacy, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/hireDermatologist/{pharmacyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<Void> hireDermatologist(@PathVariable Long pharmacyId, @RequestBody DermatologistDto dermatologistDto) throws  Exception{
+       Dermatologist dermatologist = (Dermatologist) userService.findById(dermatologistDto.getId());
+        if (dermatologist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Dermatologist hiredDermatologist = userService.hireDermatologist(dermatologist, pharmacyId);
+        if (hiredDermatologist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/fireDermatologist/{pharmacyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<Void> fireDermatologist(@PathVariable Long pharmacyId, @RequestBody DermatologistDto dermatologistDto) throws  Exception{
+        Dermatologist dermatologist = (Dermatologist) userService.findById(dermatologistDto.getId());
+        if (dermatologist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Dermatologist hiredDermatologist = userService.fireDermatologist(dermatologist, pharmacyId);
+        if (hiredDermatologist == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

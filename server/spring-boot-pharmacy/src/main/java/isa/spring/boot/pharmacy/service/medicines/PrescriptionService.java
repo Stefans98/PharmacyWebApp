@@ -22,6 +22,8 @@ public class PrescriptionService {
 
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
+    
+    public Prescription findById(long prescriptionId) { return prescriptionRepository.findById(prescriptionId); }
 
     public Prescription savePrescription(Prescription prescription, Long medicineId, Long patientId, Long pharmacyId) {
         if(userService.isPatientAllergicToMedicine(patientId, medicineId)) {
@@ -30,6 +32,10 @@ public class PrescriptionService {
         pharmacyMedicineService.decrementMedicineQuantity(medicineId, pharmacyId);
         prescription.setMedicine(medicineService.findById(medicineId));
         prescription.setPatient((Patient)userService.findById(patientId));
+        return prescriptionRepository.save(prescription);
+    }
+
+    public Prescription updatePrescription(Prescription prescription) {
         return prescriptionRepository.save(prescription);
     }
 }

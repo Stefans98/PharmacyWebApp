@@ -1,10 +1,15 @@
 package isa.spring.boot.pharmacy.service.users;
 
+import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
+import isa.spring.boot.pharmacy.dto.users.DermatologistDto;
+import isa.spring.boot.pharmacy.dto.users.PharmacistDto;
+import isa.spring.boot.pharmacy.dto.users.SystemAdministratorDto;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
+import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
@@ -37,6 +42,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private MedicineReservationService medicineReservationService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -75,10 +83,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(patient);
     }
 
-    public void givePenaltyToPatient(long patientId) {
+    public Patient givePenaltyToPatient(long patientId) {
         Patient patient = (Patient)findById(patientId);
         patient.setPenalty(patient.getPenalty() + 1);
-        userRepository.save(patient);
+        return userRepository.save(patient);
     }
 
     public Pharmacist updatePharmacist(Pharmacist pharmacist) {
@@ -88,6 +96,11 @@ public class UserService implements UserDetailsService {
         } else {
             pharmacist.setPassword(passwordEncoder.encode(pharmacist.getPassword()), true);
         }
+        User user = userRepository.findByEmail(pharmacist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacist.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
+        pharmacist.setDeleted(false);
         pharmacist.setAuthorities(authorityService.findByName("PHARMACIST"));
         pharmacist.setPharmacy(pharmacyService.getPharmacyForPharmacist(pharmacist.getId()));
         return userRepository.save(pharmacist);
@@ -100,6 +113,10 @@ public class UserService implements UserDetailsService {
         } else {
             dermatologist.setPassword(passwordEncoder.encode(dermatologist.getPassword()), true);
         }
+        User user = userRepository.findByEmail(dermatologist.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            dermatologist.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
         dermatologist.setAuthorities(authorityService.findByName("DERMATOLOGIST"));
         return userRepository.save(dermatologist);
     }
@@ -111,15 +128,40 @@ public class UserService implements UserDetailsService {
         } else {
             supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
         }
+        User user = userRepository.findByEmail(supplier.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            supplier.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
         supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
         return userRepository.save(supplier);
 
+    }
+
+    public SystemAdministrator updateSystemAdministrator(SystemAdministrator systemAdministrator) {
+        if (systemAdministrator.getPassword() == null || systemAdministrator.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(systemAdministrator.getId()).getPassword();
+            systemAdministrator.setPassword(currentPassword, false);
+        } else {
+            systemAdministrator.setPassword(passwordEncoder.encode(systemAdministrator.getPassword()), true);
+        }
+        User user = userRepository.findByEmail(systemAdministrator.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            systemAdministrator.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
+        systemAdministrator.setAuthorities(authorityService.findByName("SYSTEM_ADMIN"));
+        return userRepository.save(systemAdministrator);
+
+    }
+
+    public User saveUpdatedUser (User user) {
+        return userRepository.save(user);
     }
 
     public Patient savePatient(Patient patient) {
         patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         List<Authority> authorities = authorityService.findByName("PATIENT");
         patient.setAuthorities(authorities);
+        patient.setAccountActivated(false);
 
         return userRepository.save(patient);
     }
@@ -159,6 +201,41 @@ public class UserService implements UserDetailsService {
         return userRepository.save(systemAdministrator);
     }
 
+    public int getPenaltiesByPatientId(long patientId){
+        Patient patient = (Patient)userRepository.findById(patientId);
+        if (patient != null) {
+            patient = calculatePatientPenaltiesForCurrentMonth(patient);
+            return Math.max(patient.getPenalty(), 0);
+        }
+        return 0;
+    }
+
+    private Patient calculatePatientPenaltiesForCurrentMonth(Patient patient) {
+        if (patient.getPenaltiesResetDate().before(getFirstDateInCurrentMonth())) {
+            patient = resetPenalties(patient);
+        }
+        medicineReservationService.checkIfPatientGotPenaltyForMedicineReservationsThisMonth(patient.getId());
+        appointmentService.checkIfPatientGotPenaltyForAppointmentsThisMonth(patient.getId());
+        patient = (Patient)userRepository.findById((long)patient.getId());
+        return patient;
+    }
+
+    private Patient resetPenalties(Patient patient) {
+        patient.setPenaltiesResetDate(new Date());
+        patient.setPenalty(0);
+        return userRepository.save(patient);
+    }
+
+    private Date getFirstDateInCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
+    }
+
     public List<Dermatologist> getAllDermatologists(){
         List<Dermatologist> dermatologists = new ArrayList<Dermatologist>();
         for(User user : userRepository.findAll()) {
@@ -175,7 +252,9 @@ public class UserService implements UserDetailsService {
         for(User user : userRepository.findAll()) {
             if(user.getDiscriminatorValue().equals("PHARMACIST")) {
                 Pharmacist pharmacist = (Pharmacist) Hibernate.unproxy(user) ;
-                pharmacists.add(pharmacist);
+                if(!pharmacist.getDeleted()) {
+                    pharmacists.add(pharmacist);
+                }
             }
         }
         return pharmacists;
@@ -303,5 +382,124 @@ public class UserService implements UserDetailsService {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public List<Dermatologist> getDermatologistsNotForPharmacy(Long pharmacyId){
+        List<Dermatologist> dermatologists = new ArrayList<>();
+        for(Dermatologist dermatologist : getAllDermatologists()){
+            boolean works = false;
+            for(Pharmacy pharmacy : dermatologist.getPharmacies()){
+                if(pharmacy.getId() == pharmacyId){
+                    works = true;
+                }
+            }
+            if(works == false) {
+                dermatologists.add(dermatologist);
+            }
+        }
+        return dermatologists;
+    }
+
+    public Dermatologist hireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacy.getDermatologists().add(oldDermatologist);
+        pharmacies.add(pharmacy);
+        oldDermatologist.setPharmacies(pharmacies);
+        pharmacyService.savePharmacy(pharmacy);
+        return userRepository.save(oldDermatologist);
+    }
+
+    public Dermatologist fireDermatologist(Dermatologist dermatologist, long pharmacyId){
+        Dermatologist oldDermatologist = (Dermatologist)findById(dermatologist.getId());
+        for(Appointment appointment : appointmentService.getAllOccupiedAppointmentsForDermatologist(oldDermatologist.getId())){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                return null;
+            }
+        }
+        List<Pharmacy> pharmacies = oldDermatologist.getPharmacies();
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacies.remove(pharmacy);
+        List<Dermatologist> dermatologists = pharmacy.getDermatologists();
+        dermatologists.remove(oldDermatologist);
+        oldDermatologist.setPharmacies(pharmacies);
+        return userRepository.save(oldDermatologist);
+    }
+
+    public User savePharmacist(User user, Long pharmacyId) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+
+        Pharmacist pharmacist = new Pharmacist(user);
+        Pharmacy pharmacy = pharmacyService.getPharmacyById(pharmacyId);
+        pharmacist.setPharmacy(pharmacy);
+        pharmacist.getAddress().setUser(pharmacist);
+        List<Authority> authorities = authorityService.findByName("PHARMACIST");
+        pharmacist.setAuthorities(authorities);
+        pharmacist.setDeleted(false);
+        return userRepository.save(pharmacist);
+    }
+
+    public Pharmacist firePharmacist(Pharmacist pharmacist, long pharmacyId){
+        Pharmacist oldPharmacist = (Pharmacist) findById(pharmacist.getId());
+        for(Appointment appointment : appointmentService.getAllOccupiedAppointmentsForPharmacist(oldPharmacist.getId())){
+            if(appointment.getWorkDay().getPharmacy().getId() == pharmacyId){
+                return null;
+            }
+        }
+
+        oldPharmacist.setDeleted(true);
+        return userRepository.save(oldPharmacist);
+    }
+
+    public PharmacyAdministrator updatePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
+        if (pharmacyAdministrator.getPassword() == null || pharmacyAdministrator.getPassword().trim().isEmpty()) {
+            String currentPassword = userRepository.getOne(pharmacyAdministrator.getId()).getPassword();
+            pharmacyAdministrator.setPassword(currentPassword, false);
+        } else {
+            pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
+        }
+        pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
+        List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
+        pharmacyAdministrator.setAuthorities(authorities);
+        return userRepository.save(pharmacyAdministrator);
+    }
+
+    public void addPointsToPatient(Long patientId, int points) {
+        Patient patient = (Patient) Hibernate.unproxy(findById(patientId));
+        patient.setPoints(patient.getPoints() + points);
+        userRepository.save(patient);
+    }
+
+    public List<PharmacistDto> removePharmacistDuplicates(List<PharmacistDto> pharmacistDtos){
+        Map<Long, PharmacistDto> map = new HashMap<>();
+        List<PharmacistDto> pharmacistDtoWithoutDuplicates = new ArrayList<>();
+        for(PharmacistDto p: pharmacistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            pharmacistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return pharmacistDtoWithoutDuplicates;
+    }
+
+    public List<DermatologistDto> removeDermatologistDuplicates(List<DermatologistDto> dermatologistDtos){
+        Map<Long, DermatologistDto> map = new HashMap<>();
+        List<DermatologistDto> dermatologistDtoWithoutDuplicates = new ArrayList<>();
+        for(DermatologistDto p: dermatologistDtos){
+            map.put(p.getId(), p);
+        }
+        for (Long id: map.keySet()) {
+            dermatologistDtoWithoutDuplicates.add(map.get(id));
+        }
+        return dermatologistDtoWithoutDuplicates;
+    }
+
+    public void activatePatientAccount(String email) {
+        Patient patient = (Patient) Hibernate.unproxy(userRepository.findByEmail(email));
+        if (patient != null) {
+            patient.setAccountActivated(true);
+            userRepository.save(patient);
+        }
     }
 }

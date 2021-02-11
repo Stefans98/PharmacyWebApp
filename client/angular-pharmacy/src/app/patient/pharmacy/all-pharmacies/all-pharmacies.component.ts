@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Pharmacy } from '../../../models/pharmacy.model';
 import { Subscription } from '../../../models/subscription.model';
 import { PharmacyService } from '../../../services/pharmacy/pharmacy.service';
@@ -18,7 +19,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   checked = false;
   indeterminate = false;
 
-  mySubscriptions : Subscription[];
+  mySubscriptions : Subscription[] = [];
 
   selectedGradeRange = 'Ništa od navedenog';
   selectedName = 'Ništa od navedenog';
@@ -28,7 +29,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   searchInputLenght = 0;
 
   pharmacies: Pharmacy[] = [];
-  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'subscribe'];
+  displayedColumns: string[] = ['name', 'averageGrade', 'address', 'pharmacyProfile', 'subscribe'];
   dataSource = new MatTableDataSource(this.pharmacies);
   newDataSource = new MatTableDataSource(this.pharmacies);
   dataSourceAfterSearch = new MatTableDataSource(this.pharmacies);
@@ -43,7 +44,7 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(private snackBar: MatSnackBar, private pharmacyService: PharmacyService, private subscriptionService : SubscriptionService,
-              private authService : AuthenticationService) {
+              private authService : AuthenticationService, private router : Router) {
     this.pharmacyService.getAllPharmacies().subscribe(
       data => {
         this.pharmacies = data;
@@ -218,5 +219,9 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
       }
     }
     return false;
+  }
+
+  viewProfileClick(pharmacy): void {
+    this.router.navigate(['/auth/pharmacy-administrator/pharmacy-profile'], {queryParams: {pharmacyId: pharmacy.id, tab: 0}});
   }
 }

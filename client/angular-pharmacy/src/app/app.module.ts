@@ -16,7 +16,6 @@ import { PharmacistSchedulingComponent } from './patient/pharmacist/pharmacist-s
 import { ReservedDrugsComponent } from './patient/drugs/reserved-drugs/reserved-drugs.component';
 import { DispensedDrugsComponent } from './patient/drugs/dispensed-drugs/dispensed-drugs.component';
 import { TakingDrugsComponent } from './patient/drugs/taking-drugs/taking-drugs.component';
-import { EPrescriptionComponent } from './patient/e-prescription/e-prescription.component';
 import { PenaltyComponent } from './patient/penalty/penalty.component';
 import { ComplaintsComponent } from './patient/complaints/complaints.component';
 import { HomeComponent } from './home/home.component';
@@ -96,6 +95,53 @@ import { VacationRequestPharmacistsComponent } from './pharmacy-administrator/al
 import { EmployeeForRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/employee-for-request-dialog/employee-for-request-dialog.component';
 import { RejectRequestDialogComponent } from './pharmacy-administrator/all-dermatologists/vacation-request/reject-request-dialog/reject-request-dialog.component';
 import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation-request/pharmacist-for-request/pharmacist-for-request.component';
+import { AllMedicinesComponent } from './system-administrator/medicines/all-medicines/all-medicines.component';
+import { CreateMedicineComponent } from './system-administrator/medicines/create-medicine/create-medicine.component';
+import { SubstitutionsModalDialogComponent } from './system-administrator/medicines/create-medicine/substitutions-modal-dialog/substitutions-modal-dialog.component';
+import { IngredientsModalDialogComponent } from './system-administrator/medicines/create-medicine/ingredients-modal-dialog/ingredients-modal-dialog.component';
+import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
+import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
+import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
+import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
+import { SubscriptionMedicinesModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/subscription-medicines-modal-dialog-pharmacist/subscription-medicines-modal-dialog-pharmacist.component';
+import { PharmacyPricelistComponent } from './pharmacy-administrator/pharmacy-pricelist/pharmacy-pricelist.component';
+import { SpecificationModalDialogComponent } from './system-administrator/medicines/all-medicines/specification-modal-dialog/specification-modal-dialog.component';
+import { MedicinePharmacyModalDialogComponent } from './system-administrator/medicines/all-medicines/medicine-pharmacy-modal-dialog/medicine-pharmacy-modal-dialog.component';
+import { PharmacyChoosingComponent } from './patient/dermatologist/pharmacy-choosing/pharmacy-choosing.component';
+import { MyEPrescriptionsComponent } from './patient/e-prescriptions/my-e-prescriptions/my-e-prescriptions.component';
+import { NewEPrescriptionComponent } from './patient/e-prescriptions/new-e-prescription/new-e-prescription.component';
+import { NonAuthenticatedUserToolbarComponent } from './core-non-auth/non-authenticated-user-toolbar/non-authenticated-user-toolbar.component';
+import { NonAuthenticatedUserMenuComponent } from './core-non-auth/non-authenticated-user-menu/non-authenticated-user-menu.component';
+import { NonAuthenticatedHomePageComponent } from './core-non-auth/non-authenticated-home-page/non-authenticated-home-page.component';
+import { NonAuthenticatedPharamcySearchComponent } from './core-non-auth/non-authenticated-pharamcy-search/non-authenticated-pharamcy-search.component';
+import { NonAuthenticatedMedicinesSearchComponent } from './core-non-auth/non-authenticated-medicines-search/non-authenticated-medicines-search.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MedicinesForPharmacyComponent } from './pharmacy-profile/medicines-for-pharmacy/medicines-for-pharmacy.component';
+import { FreeTermsForPharmacyComponent } from './pharmacy-profile/free-terms-for-pharmacy/free-terms-for-pharmacy.component';
+import { NewGradingComponent } from './patient/grading/new-grading/new-grading.component';
+import { ChangeGradeComponent } from './patient/grading/change-grade/change-grade.component';
+import { ChooseGradeEntityModalDialogComponent } from './patient/grading/new-grading/choose-grade-entity-modal-dialog/choose-grade-entity-modal-dialog.component';
+import { ChangePasswordModalDialogComponent } from './dermatologist/dermatologist-work-calendar/change-password-modal-dialog/change-password-modal-dialog.component';
+import { ChangePasswordModalDialogPharmacistComponent } from './pharmacist/pharmacist-work-calendar/change-password-modal-dialog-pharmacist/change-password-modal-dialog-pharmacist.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listPlugin from '@fullcalendar/list';
+import { MedicineReservationComponent } from './pharmacy-profile/medicine-reservation/medicine-reservation.component';
+import { CounselingSchedulingComponent } from './pharmacy-profile/counseling-scheduling/counseling-scheduling.component';
+import { SysAdminProfileComponent } from './system-administrator/sys-admin-profile/sys-admin-profile.component';
+import { SysAdmChangePasswordModalDialogComponent } from './system-administrator/pharmacy-registration/sys-adm-change-password-modal-dialog/sys-adm-change-password-modal-dialog.component';
+import { SupplierPasswordChangeModalDialogComponent } from './supplier/medicine-order-lists/supplier-password-change-modal-dialog/supplier-password-change-modal-dialog.component';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -112,7 +158,6 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     ReservedDrugsComponent,
     DispensedDrugsComponent,
     TakingDrugsComponent,
-    EPrescriptionComponent,
     PenaltyComponent,
     ComplaintsComponent,
     HomeComponent,
@@ -181,7 +226,43 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     VacationRequestPharmacistsComponent,
     EmployeeForRequestDialogComponent,
     RejectRequestDialogComponent,
-    PharmacistForRequestComponent
+    PharmacistForRequestComponent,
+    AllMedicinesComponent,
+    CreateMedicineComponent,
+    SubstitutionsModalDialogComponent,
+    IngredientsModalDialogComponent,
+    DefineTermsDialogComponent,
+    PharmacyAdministratorProfileComponent,
+    AllergiesModalDialogComponent,
+    DefineTermsDialogComponent,
+    PenaltyGraphComponent,
+    MedicineSpecificationModalDialogPharmacistComponent,
+    SubscriptionMedicinesModalDialogPharmacistComponent,
+    PharmacyChoosingComponent,
+    NonAuthenticatedUserToolbarComponent,
+    NonAuthenticatedUserMenuComponent,
+    NonAuthenticatedHomePageComponent,
+    NonAuthenticatedPharamcySearchComponent,
+    NonAuthenticatedMedicinesSearchComponent,
+    PharmacyPricelistComponent,
+    SpecificationModalDialogComponent,
+    MedicinePharmacyModalDialogComponent,
+    PharmacyChoosingComponent,
+    MedicinesForPharmacyComponent,
+    FreeTermsForPharmacyComponent,
+    MyEPrescriptionsComponent,
+    NewEPrescriptionComponent,
+    NewGradingComponent,
+    ChangeGradeComponent,
+    ChooseGradeEntityModalDialogComponent,
+    ChangePasswordModalDialogComponent,
+    ChangePasswordModalDialogPharmacistComponent,
+    MedicineReservationComponent,
+    CounselingSchedulingComponent,
+    MedicineReservationComponent,
+    SysAdminProfileComponent,
+    SysAdmChangePasswordModalDialogComponent,
+    SupplierPasswordChangeModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -200,7 +281,12 @@ import { PharmacistForRequestComponent } from './pharmacy-administrator/vacation
     NgxMatTimepickerModule,
     NgxMaterialTimepickerModule,
     NgxMatNativeDateModule,
-    NgxSliderModule
+    NgxSliderModule,
+    CommonModule,
+    FlexLayoutModule,
+    NgxChartsModule,
+    MatTableModule,
+    FullCalendarModule 
   ],
   providers: [
     {

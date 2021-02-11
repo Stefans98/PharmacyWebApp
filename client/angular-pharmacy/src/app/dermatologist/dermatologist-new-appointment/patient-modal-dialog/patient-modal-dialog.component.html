@@ -1,17 +1,16 @@
-<ng-template>Pretraga leka</ng-template>
-    <div class="parent">
-        <mat-form-field style="margin-left: 78px; text-align:center;width: 250px;">
-            <input matInput placeholder="Pronađite pacijenta" #searchInput>
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-        <button mat-stroked-button color="primary" style="margin-left:8px">Pronađi</button>
-        
-        <h3 class="mat-title" style="margin-left: 32px;margin-top: 10px;">Izaberite pacijenta za kog zakazujete pregled:</h3>
-        <mat-selection-list #shoes [multiple]="false">
-            <mat-list-option *ngFor="let shoe of typesOfShoes" 
-                             [value]="shoe">
-              {{shoe}}
-            </mat-list-option>
-          </mat-selection-list>
-    </div>
-<button mat-raised-button color="primary" style="margin-left: 200px;">Potvrdi</button>
+<div class="parent">
+    <!-- <mat-form-field style="margin-left: 78px; text-align:center;width: 250px;">
+        <input matInput placeholder="Pronađite pacijenta" #searchInput>
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <button mat-stroked-button color="primary" style="margin-left:8px">Pronađi</button> -->
+    
+    <h3 class="mat-title" style="margin-left: 32px;margin-top: 10px;">Izaberite pacijenta za kog zakazujete pregled:</h3>
+    <mat-selection-list [(ngModel)]="selectedPatient" [multiple]="false" style="overflow-y: auto;height: 150px;">
+        <mat-list-option *ngFor="let patient of patientsForDermatologist" [value]="patient" style="text-align: center;">
+            {{ patient.firstName + ' ' + patient.lastName + ', ' + patient.email }}
+        </mat-list-option>
+    </mat-selection-list>
+</div>
+
+<button mat-raised-button color="primary" (click)="scheduleAppointment()" style="margin-top: 10px;margin-left: 200px;">Potvrdi</button>

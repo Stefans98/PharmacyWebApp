@@ -7,6 +7,7 @@ import isa.spring.boot.pharmacy.model.pharmacy.Subscription;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,14 @@ public class Patient extends User {
     @Column(name = "penalty")
     private int penalty;
 
+    @Column(name = "penalties_reset_date")
+    private Date penaltiesResetDate;
+
     @Column(name = "user_category")
     private UserCategory userCategory;
+
+    @Column(name = "account_activated")
+    private boolean accountActivated;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Allergy> allergies;
@@ -69,6 +76,14 @@ public class Patient extends User {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public boolean isAccountActivated() {
+        return accountActivated;
+    }
+
+    public void setAccountActivated(boolean accountActivated) {
+        this.accountActivated = accountActivated;
     }
 
     public UserCategory getUserCategory() {
@@ -141,5 +156,13 @@ public class Patient extends User {
 
     public void setPenalty(int penalty) {
         this.penalty = penalty;
+    }
+
+    public Date getPenaltiesResetDate() {
+        return penaltiesResetDate;
+    }
+
+    public void setPenaltiesResetDate(Date penaltiesResetDate) {
+        this.penaltiesResetDate = penaltiesResetDate;
     }
 }

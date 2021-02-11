@@ -21,6 +21,13 @@ export class PharmacistPatientsComponent implements OnInit, AfterViewInit {
   public patientsForPharmacist : Patient[] = [];
   public counselingsHistory : DermatologistExamination[] = [];
 
+  dataSourceChangeIn = 1;
+  searchInputLenght = 0;
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'phoneNumber', 'button'];
+  dataSource = new MatTableDataSource(this.patientsForPharmacist);
+  newDataSource = new MatTableDataSource(this.patientsForPharmacist);
+  dataSourceAfterSearch = new MatTableDataSource(this.patientsForPharmacist);
+
   constructor(private pharmacistService : PharmacistService, private appointmentService : AppointmentService,
        private authenticationService : AuthenticationService, private snackBar : MatSnackBar) {
       this.pharmacistService.getPatientsForPharmacist(this.authenticationService.getLoggedUserId()).subscribe(
@@ -40,12 +47,29 @@ export class PharmacistPatientsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
-  displayedColumns: string[] = ['name', 'surname', 'email', 'phoneNumber', 'button'];
-  dataSource = new MatTableDataSource(this.patientsForPharmacist);
-
   @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  setFilterPredict() {
+    this.dataSource.filterPredicate = (data, filter: string) => {
+      if (this.dataSourceChangeIn == 1) {
+        return data.firstName.toLowerCase().startsWith(filter) || data.lastName.toLowerCase().startsWith(filter);
+      }   
+    };
+  }
+
+  applySearch(event: Event) {
+    this.dataSource = new MatTableDataSource(this.patientsForPharmacist);
+    this.setFilterPredict();
+    this.dataSourceChangeIn = 1;
+    const filter = (event.target as HTMLInputElement).value
+    this.searchInputLenght = filter.length;
+    this.dataSource.filter = filter.trim().toLowerCase();
+    this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
+    this.dataSourceAfterSearch = new MatTableDataSource(this.dataSource.filteredData);
     this.dataSource.sort = this.sort;
   }
 

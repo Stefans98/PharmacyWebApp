@@ -1,5 +1,6 @@
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MedicineOrderList } from '../../../models/medicine-order-list.model';
 import { Offer } from '../../../models/offer.model';
 import { OfferService } from '../../../services/medicines/offer.service';
 import { AuthenticationService } from '../../../services/users/authentication.service';
@@ -16,8 +17,8 @@ export class IssueOfferModalDialogComponent implements OnInit {
   public minDate : Date;
 
   constructor(public dialogRef: MatDialogRef<IssueOfferModalDialogComponent>,  private offerService: OfferService, private authService: AuthenticationService, 
-                @Inject(MAT_DIALOG_DATA) private medicineOrderListId: number) {
-    this.minDate = new Date();
+                @Inject(MAT_DIALOG_DATA) private medicineOrderList: MedicineOrderList) {
+    this.minDate = new Date(medicineOrderList.finalOfferDate);
    }
 
   ngOnInit(): void {
@@ -25,7 +26,7 @@ export class IssueOfferModalDialogComponent implements OnInit {
 
   sendOfferClick(): void {
     const supplierId = this.authService.getLoggedUserId();
-    this.offerService.createOffer(new Offer(0, this.price, this.deliveryDate, 0, null, this.medicineOrderListId, supplierId))
+    this.offerService.createOffer(new Offer(0, this.price, this.deliveryDate, 0, null, this.medicineOrderList.id, supplierId))
               .subscribe(data => {
                   this.dialogRef.close({successfull : true});
               });

@@ -37,7 +37,7 @@
       
       <ng-container matColumnDef="pharmacies">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Apoteke </th>
-      <td mat-cell *matCellDef="let pharmacist">{{pharmacy.name}}</td>
+      <td mat-cell *matCellDef="let pharmacist">{{pharmacyName}}</td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
@@ -68,7 +68,7 @@
           <mat-label>Izberite naziv apoteke</mat-label>
           <mat-select>
             <mat-option>Ništa od navedenog</mat-option>
-            <mat-option [value]="pharmacy">{{ pharmacy.name }}</mat-option>
+            <mat-option [value]="pharmacy">{{pharmacyName}}</mat-option>
           </mat-select>
         </mat-form-field>
 

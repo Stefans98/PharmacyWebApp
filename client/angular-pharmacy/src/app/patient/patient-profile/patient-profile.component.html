@@ -14,7 +14,7 @@
 			<div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
 				
 				<div fxFlex="40" fxLayoutAlign="space-between center">
-					<img class="avatar" src="assets/images/user.png"/>
+					<img class="avatar" src="assets/images/patient.png"/>
 				</div>
 
 				<div fxFlex="0" fxLayout="column" fxLayoutAlign="center start" >
@@ -109,19 +109,12 @@
 						</button>
 					</mat-form-field>
 
-
-					  <mat-form-field class="example-full-width">
-						<mat-label>Alergije na lekove</mat-label>
-						<mat-select [formControl]="medicines" multiple>
-						  <mat-select-trigger>
-							{{medicines.value ? medicines.value[0].name : ''}}
-							<span *ngIf="medicines.value?.length > 1" class="example-additional-selection">
-							  (+ još {{medicines.value.length - 1}}) 
-							</span>
-						  </mat-select-trigger>
-						  <mat-option *ngFor="let medicine of medicineList" [value]="medicine">{{medicine.name}}</mat-option>
+					<mat-form-field appearance="example-form-field">
+						<mat-label>Dodaj alergije na lekove</mat-label>
+						<mat-select [formControl]="medicines" multiple [(ngModel)]="selectedMedicines">
+							<mat-option *ngFor="let medicine of medicineList" [value]="medicine">{{medicine.name}}</mat-option>
 						</mat-select>
-					  </mat-form-field>
+					</mat-form-field>
 				</div>
 				
 			</div> 
@@ -151,7 +144,8 @@
 			<div fxFlex fxLayout="column" fxLayoutAlign="end stretch" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
 					<button mat-raised-button color="warn" (click)="cancelClick()">Odustani</button>
-					<button mat-raised-button color="basic" (click)="openDialog()" class="modal-dialog">Pogledaj pogodnosti</button>
+					<button mat-raised-button color="basic" (click)="openBenefitsDialog()" class="modal-dialog">Pogledaj pogodnosti</button>
+					<button mat-raised-button color="basic" (click)="openAllergiesDialog()" class="modal-dialog">Pogledaj alergije</button>
 					<button mat-raised-button color="primary" (click)="saveClick()">Sačuvaj</button>
 				</div>
 			</div>

@@ -12,8 +12,10 @@ public class ExaminationMapper {
 
         ExaminationDto dto = new ExaminationDto();
 
+        if (appointment.getPatient() != null) {
+            dto.setPatientFullName(appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName());
+        }
         dto.setId(appointment.getId());
-        dto.setPatientFullName(appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName());
         dto.setDermatologistFullName(appointment.getWorkDay().getEmployee().getFirstName() + " " + appointment.getWorkDay().getEmployee().getLastName());
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy.");
         dto.setDateOfExamination(dateFormat.format(appointment.getStartTime().getTime()));

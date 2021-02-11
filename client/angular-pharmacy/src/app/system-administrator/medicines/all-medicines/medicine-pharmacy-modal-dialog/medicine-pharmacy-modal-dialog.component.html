@@ -1,0 +1,36 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill >
+        <div fxLayout="row" fxFlex="10">
+            <h3 class="mat-h2">Spisak apoteka sa selektovanim lekom:</h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" style="overflow: auto; height: 250px; width: 100%;" fxFlex fxLayoutAlign="center none">
+            <table mat-table fxFlex="90" [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                <div class="pharmacy-list">
+                <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="averageGrade">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ocena </th>
+                <td mat-cell *matCellDef="let element"> {{element.averageGrade}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
+                <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getRecord(row)"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">Ne postoje apoteke</td>
+                </tr>
+                </div>             
+            </table>
+        </div>
+    </div>
+</div>

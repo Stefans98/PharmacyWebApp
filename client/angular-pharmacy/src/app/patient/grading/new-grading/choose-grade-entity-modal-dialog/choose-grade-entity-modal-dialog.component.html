@@ -1,0 +1,95 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill class="components-container-gt-xs">
+
+	<div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFil fxFill >
+     <div fxLayout="row" style="overflow: auto; height: 250px; width: 100%;" fxFlexFil fxFill >
+      <table mat-table *ngIf="gradeType === 'Ocena za apoteku'" [dataSource]="pharmacyDataSource" class="mat-elevation-z8"  style="width: 100%;">
+        <div class="pharmacy-list">
+          <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Naziv </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="averageGrade">
+          <th mat-header-cell *matHeaderCellDef> Ocena </th>
+          <td mat-cell *matCellDef="let element"> {{element.averageGrade}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Adresa </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="pharmacyDisplayedColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns: pharmacyDisplayedColumns;" (click)="choosePharmacy(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Ne postoje apoteke</td>
+          </tr>
+        </div>             
+      </table>
+      <table mat-table *ngIf="gradeType === 'Ocena za farmaceuta'" [dataSource]="pharmacistDataSource" class="mat-elevation-z8"  style="width: 100%;">
+        <div class="pharmacy-list">
+          <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Ime i prezime </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="pharmacistDisplayedColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns:pharmacistDisplayedColumns;" (click)="choosePharmacist(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="3">Niste imali savetovanje ni kod jednog farmaceuta</td>
+          </tr>
+        </div>             
+      </table>
+      <table mat-table *ngIf="gradeType === 'Ocena za dermatologa'" [dataSource]="dermatologistDataSource" class="mat-elevation-z8"  style="width: 100%;">
+        <div class="pharmacy-list">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Ime i prezime </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+            
+      
+          <tr mat-header-row *matHeaderRowDef="dermatologistDisplayedColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns: dermatologistDisplayedColumns;" (click)="chooseDermatologist(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Niste imali pregled ni kod jednog dermatologa</td>
+          </tr>
+        </div>             
+      </table>
+      <table mat-table *ngIf="gradeType === 'Ocena za lek'" [dataSource]="medicineDataSource" class="mat-elevation-z8"  style="width: 100%;">
+        <div class="pharmacy-list">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Ime leka </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef> Šifra leka </th>
+                <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+            </ng-container>
+            
+      
+          <tr mat-header-row *matHeaderRowDef="medicineDisplayedColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns: medicineDisplayedColumns;" (click)="chooseMedicine(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="2">Niste nijednom rezervisali i preuzeli lek ili lek nijednom nije prepisan putem eRecepta</td>
+          </tr>
+        </div>             
+      </table>
+    </div>
+  </div>
+</div>
+

@@ -1,4 +1,16 @@
-<p>home works!</p>
+<div class="image">        
+    <app-non-authenticated-user-toolbar style="z-index: 500;"></app-non-authenticated-user-toolbar>
 
-<a [routerLink]="['/login']">Login</a>
-
+    <div style="background-image:none; background-color: #e8eaf6;">
+        <router-outlet></router-outlet>
+    </div>
+    <div>
+        <mat-card class="mat-elevation-z12" style="background-color: #e8eaf6;">
+            <mat-card-title style="text-align:center; "> <b>Zašto smo baš mi pravi izbor?</b></mat-card-title>
+            <mat-card-content>Health Pharmacy je informacioni sistem <br>apoteka sa dugom tradicijom. 
+                <br><br> Naš fokus je da omogućimo apotekama, zaposlenima i njihovim pacijentima da na brz i jednostavan način koriste <br> usluge koje naš informacioni sistem pruža. 
+                <br><br> Vaše zdravlje je u našim rukama!</mat-card-content>
+        </mat-card>
+    </div>
+</div>
+    

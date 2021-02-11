@@ -1,3 +1,5 @@
+import { Medicine } from "./medicine.model";
+
 export class Patient {
     constructor(
         public id: number,
@@ -10,6 +12,7 @@ export class Patient {
         public phoneNumber: string,
         public points: number,
         public userCategory: number,
-        public password: string
+        public password: string,
+        public medicines: Medicine[]
     ) { }
 }

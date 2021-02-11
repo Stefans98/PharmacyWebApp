@@ -13,22 +13,26 @@ public class PharmacyMedicine {
     @Column(name="id", unique=true, nullable=false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Medicine medicine;
 
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     public PharmacyMedicine() {
     }
 
-    public PharmacyMedicine(Pharmacy pharmacy, Medicine medicine, int quantity) {
+    public PharmacyMedicine(Pharmacy pharmacy, Medicine medicine, int quantity, Boolean deleted) {
         this.pharmacy = pharmacy;
         this.medicine = medicine;
         this.quantity = quantity;
+        this.deleted = deleted;
     }
 
     public Long getId() {
@@ -61,5 +65,13 @@ public class PharmacyMedicine {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

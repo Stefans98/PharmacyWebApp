@@ -1,1 +1,34 @@
-<p>free-appointments works!</p>
+<div class="free-appointments-div" style="margin-right: 5%; margin-left: 5%; margin-top: 2%;">
+    <div class="example-container mat-elevation-z8" style="height: 600px; overflow: auto;">
+        <table mat-table [dataSource]="freeAppointments" style="width: 100%;">
+      
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> Ime dermatologa </th>
+            <td mat-cell *matCellDef="let appointment"> {{appointment.workDay.employee.firstName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Prezime dermatologa </th>
+            <td mat-cell *matCellDef="let appointment"> {{appointment.workDay.employee.lastName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="startTime">
+            <th mat-header-cell *matHeaderCellDef> Početak </th>
+            <td mat-cell *matCellDef="let appointment"> {{ convertDate(appointment.startTime) }} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="endTime">
+            <th mat-header-cell *matHeaderCellDef> Kraj </th>
+            <td mat-cell *matCellDef="let appointment"> {{ convertDate(appointment.endTime) }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Cena </th>
+            <td mat-cell *matCellDef="let appointment"> {{appointment.price}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</div>

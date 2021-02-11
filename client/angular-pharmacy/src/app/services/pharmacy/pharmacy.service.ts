@@ -1,6 +1,9 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { PharmacyFull } from "../../models/pharmacy-full.model";
+import { EPrescriptionItem } from "../../models/e-prescription-item.model";
+import { EPrescriptionPharmacy } from "../../models/e-prescription-pharmacy.model";
 import { Pharmacy } from "../../models/pharmacy.model";
 
 
@@ -15,9 +18,10 @@ export class PharmacyService{
 
   constructor(private http: HttpClient) { }
 
-  public registerPharmacy(pharmacy: Pharmacy): Observable<Pharmacy> {
+  public registerPharmacy(pharmacy: Pharmacy, latitude: number, longitude: number): Observable<Pharmacy> {
     const body = { name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
-      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade 
+      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade , latitude : latitude,
+      longitude : longitude
     };  
 
     return this.http
@@ -27,6 +31,11 @@ export class PharmacyService{
   public getPharmacyByPharmacyAdminId(id: number): Observable<Pharmacy> {
     return this.http
       .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
+  } 
+
+  public getPharmacyByPharmacist(id: number): Observable<Pharmacy> {
+    return this.http
+      .get<Pharmacy>(this.pharmacyUrl + 'getPharmacyByPharmacist/' + id);
   } 
 
   public getAllPharmacies(): Observable<Pharmacy[]> {
@@ -64,4 +73,32 @@ export class PharmacyService{
       get<Pharmacy[]>(this.pharmacyUrl + 'getPharmaciesWithAvailablePharmacistsByDateTime', { params } );
   }
 
+  public getAllPharmaciesWithMedicine(code : string): Observable<Pharmacy[]> {
+    return this.http
+      .get<Pharmacy[]>(this.pharmacyUrl + 'getAllWithMedicine/' + code);
+  } 
+
+  public updatePharmacy(pharmacy: Pharmacy, lng: number, lat: number): Observable<Pharmacy> {
+    const body = { id: pharmacy.id, name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
+      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade, longitude: lng, latitude: lat
+    };  
+
+    return this.http
+    .post<Pharmacy>(this.pharmacyUrl + 'updatePharmacy', body);
+  }
+
+  public getPharmacyByFullPharmacyAdminId(id: number): Observable<PharmacyFull> {
+    return this.http
+      .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyByPharmacyAdmin/' + id);
+  } 
+
+  public getFullPharmacyById(id: number): Observable<PharmacyFull> {
+    return this.http
+      .get<PharmacyFull>(this.pharmacyUrl + 'getPharmacyById/' + id);
+  } 
+
+  public getAllPharmaciesWithEPrescriptionItems(medicines : EPrescriptionItem[]) : Observable<EPrescriptionPharmacy[]> {
+    return this.http
+      .put<EPrescriptionPharmacy[]>(this.pharmacyUrl + 'pharmaciesWithEPrescriptionItems', medicines);
+  }
 }
