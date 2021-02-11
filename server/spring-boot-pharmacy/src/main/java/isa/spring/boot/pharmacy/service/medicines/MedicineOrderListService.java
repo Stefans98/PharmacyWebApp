@@ -1,6 +1,8 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
 import isa.spring.boot.pharmacy.model.medicines.MedicineOrderList;
+import isa.spring.boot.pharmacy.model.medicines.Offer;
+import isa.spring.boot.pharmacy.model.medicines.OfferState;
 import isa.spring.boot.pharmacy.model.medicines.OrderItem;
 import isa.spring.boot.pharmacy.repository.medicines.MedicineOrderListRepository;
 import org.hibernate.criterion.Order;
@@ -19,6 +21,9 @@ public class MedicineOrderListService {
 
     @Autowired
     private OrderItemService orderItemService;
+    
+    @Autowired
+    private OfferService offerService;
 
     public MedicineOrderList createMedicineOrderList(MedicineOrderList medicineOrderList){
         medicineOrderList.setDeleted(false);
@@ -87,5 +92,41 @@ public class MedicineOrderListService {
             }
         }
         return null;
+    }
+
+    public List<MedicineOrderList> findWaitingOffersMedicineOrderListsForPharmacy(Long pharmacyId){
+        List<MedicineOrderList> medicineOrderListsForPharmacy = new ArrayList<>();
+        for(MedicineOrderList medicineOrderList : getAll()){
+            if (medicineOrderList.getPharmacy().getId() == pharmacyId) {
+                boolean flag = false;
+                for (Offer offer : offerService.findOffersForMedicineOrderList(medicineOrderList.getId())) {
+                    if(offer.getOfferState() != OfferState.ON_HOLD){
+                        flag = true;
+                    }
+                }
+                if(!flag) {
+                    medicineOrderListsForPharmacy.add(medicineOrderList);
+                }
+            }
+        }
+        return medicineOrderListsForPharmacy;
+    }
+
+    public List<MedicineOrderList> findDoneMedicineOrderListsForPharmacy(Long pharmacyId){
+        List<MedicineOrderList> medicineOrderListsForPharmacy = new ArrayList<>();
+        for(MedicineOrderList medicineOrderList : getAll()){
+            if (medicineOrderList.getPharmacy().getId() == pharmacyId) {
+                boolean flag = false;
+                for (Offer offer : offerService.findOffersForMedicineOrderList(medicineOrderList.getId())) {
+                    if(offer.getOfferState() != OfferState.ON_HOLD){
+                        flag = true;
+                    }
+                }
+                if(flag) {
+                    medicineOrderListsForPharmacy.add(medicineOrderList);
+                }
+            }
+        }
+        return medicineOrderListsForPharmacy;
     }
 }

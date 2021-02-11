@@ -472,10 +472,35 @@ public class AppointmentService {
     public List<Appointment> getFreeDermatologistsAppointmentForPharmacy(Long pharmacyId){
         List<Appointment> appointments = new ArrayList<>();
         for(Appointment appointment : getAppointmentsForPharmacy(pharmacyId)){
-            if(appointment.getWorkDay().getEmployee().getDiscriminatorValue().equals("DERMATOLOGIST") && appointment.getAppointmentState() == AppointmentState.AVAILABLE){
+            if(appointment.getWorkDay().getEmployee().getDiscriminatorValue().equals("DERMATOLOGIST") && appointment.getAppointmentState() == AppointmentState.AVAILABLE
+                && appointment.getEndTime().after(new Date())){
                 appointments.add(appointment);
             }
         }
         return appointments;
+    }
+
+    public Appointment scheduleAppointmentForDermatologist(Appointment appointment, Long patientId, Long workDayId) {
+        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))
+                || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))){
+            return null;
+        }
+        User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
+        if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
+            }
+        } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
+            }
+        }
+
+        appointment.setPatient((Patient)userService.findById(patientId));
+        appointment.setWorkDay(workDayService.findById(workDayId));
+        appointment.setAppointmentState(AppointmentState.OCCUPIED);
+        return appointmentRepository.save(appointment);
     }
 }

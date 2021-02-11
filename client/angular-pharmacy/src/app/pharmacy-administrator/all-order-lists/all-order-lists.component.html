@@ -1,4 +1,7 @@
 <div style="margin-bottom: 6%;">
+    <button mat-raised-button color="primary" style="float: left; margin-top: 1%; margin-left: 1%;" (click)="getAll()">Sve</button>
+    <button mat-raised-button color="primary" style="float: left; margin-top: 1%; margin-left: 1%;" (click)="getWaiting()">Neobrađene</button>
+    <button mat-raised-button color="primary" style="float: left; margin-top: 1%; margin-right: 3%; margin-left: 1%;" (click)="getDone()">Obrađene</button>
 <div class="create-order-list" *ngFor="let medicineOrderList of medicineOrderListsForPharmacy">
     <mat-card class="create-order-list-card">
         <div class="create-order-list-table mat-elevation-z8">

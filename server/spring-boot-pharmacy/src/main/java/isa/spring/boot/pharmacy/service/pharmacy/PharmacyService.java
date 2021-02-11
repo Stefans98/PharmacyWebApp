@@ -7,6 +7,7 @@ import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
+import isa.spring.boot.pharmacy.model.users.Address;
 import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
@@ -63,6 +64,16 @@ public class PharmacyService {
 
     public Pharmacy savePharmacy(Pharmacy pharmacy) {
         return pharmacyRepository.save(pharmacy);
+    }
+
+    public Pharmacy updatePharmacy(PharmacyDto pharmacyDto) {
+        Pharmacy oldPharmacy = findById(pharmacyDto.getId());
+        oldPharmacy.setName(pharmacyDto.getName());
+        oldPharmacy.setAddress(new Address(pharmacyDto.getCountry(), pharmacyDto.getCity(), pharmacyDto.getStreet()));
+        oldPharmacy.setLatitude(pharmacyDto.getLatitude());
+        oldPharmacy.setLongitude(pharmacyDto.getLongitude());
+        oldPharmacy.setDescription(pharmacyDto.getDescription());
+        return pharmacyRepository.save(oldPharmacy);
     }
 
     public List<Pharmacy> getPharmaciesWithAvailablePharmacistsByDateTime(String reservationDate, String startTime, String endTime) {

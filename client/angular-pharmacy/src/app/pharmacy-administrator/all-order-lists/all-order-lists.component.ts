@@ -201,4 +201,48 @@ export class AllOrderListsComponent implements OnInit {
     );
   }
 
+  getAll(){
+    this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+      data => {
+        this.pharmacy = data;
+        this.medicineOrderListService.getAllMedicineOrderListsForPharmacy(this.pharmacy.id).subscribe(
+          data => {
+            this.medicineOrderListsForPharmacy = data;
+          }
+        );
+      }
+    );
+  }
+
+  getWaiting(){
+    this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+      data => {
+        this.pharmacy = data;
+        this.medicineOrderListService.getWaitingOffersMedicineOrderListsForPharmacy(this.pharmacy.id).subscribe(
+          data => {
+            this.medicineOrderListsForPharmacy = data;
+          }
+        );
+      }
+    );
+  }
+
+  getDone(){
+    this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+      data => {
+        this.pharmacy = data;
+        this.medicineOrderListService.getDoneMedicineOrderListsForPharmacy(this.pharmacy.id).subscribe(
+          data => {
+            this.medicineOrderListsForPharmacy = data;
+          },
+          error => {
+            if(error.status == 404){
+              this.medicineOrderListsForPharmacy = [];
+            }
+          }
+        );
+      }
+    );
+  }
+
 }

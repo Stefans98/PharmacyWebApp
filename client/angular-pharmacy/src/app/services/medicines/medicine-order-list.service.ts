@@ -37,4 +37,13 @@ export class MedicineOrderListService {
     const body = {id: medicineOrderList.id, finalOfferDate: medicineOrderList.finalOfferDate, orderItems: medicineOrderList.orderItems, pharmacyAdministratorId : medicineOrderList.pharmacyAdministratorId};  
     return this.http.put<any>(this.medicineOrderListUrl + 'deleteMedicineOrderList', body);
   }
+
+  public getWaitingOffersMedicineOrderListsForPharmacy(id: number) : Observable<MedicineOrderList[]>{
+    return this.http.get<MedicineOrderList[]>(this.medicineOrderListUrl + 'getWaitingOffersMedicineOrderListsForPharmacy/' + id);
+  }
+
+  public getDoneMedicineOrderListsForPharmacy(id: number) : Observable<MedicineOrderList[]>{
+    return this.http.get<MedicineOrderList[]>(this.medicineOrderListUrl + 'getDoneMedicineOrderListsForPharmacy/' + id);
+  }
+  
 }
