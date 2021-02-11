@@ -69,7 +69,7 @@ export class MedicineOrderListsComponent implements OnInit {
       panelClass: 'my-centered-dialog',
       width: '350px',
       height: '350px',
-      data: this.selectedMedicineOrderList.id
+      data: this.selectedMedicineOrderList
     });
 
     dialogRef.afterClosed().subscribe(result => {

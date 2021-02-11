@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.service.medicines;
 
 import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionItem;
+import isa.spring.boot.pharmacy.model.medicines.EPrescriptionState;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.EPrescriptionRepository;
@@ -40,6 +41,7 @@ public class EPrescriptionService {
 
     public EPrescription createNewPrescription(EPrescription ePrescription, Long patientId, Long pharmacyId,
                                                HashMap<String, Integer> codesWithQuantities) {
+        boolean ePrescriptionSuccessful = true;
         if (userService.getPenaltiesByPatientId(patientId) > 2) {
             return null;
         }
@@ -53,12 +55,20 @@ public class EPrescriptionService {
             item.setMedicine(medicineService.findByCode(code));
             items.add(item);
             item.setePrescription(ePrescription);
-            pharmacyMedicineService.reduceMedicineQuantityInPharmacy(code, codesWithQuantities.get(code), pharmacyId);
+            if (!pharmacyMedicineService.reduceMedicineQuantityInPharmacy(code, codesWithQuantities.get(code), pharmacyId)) {
+                ePrescriptionSuccessful = false;
+                continue;
+            }
             userService.addPointsToPatient(patientId, item.getMedicine().getPoints());
         }
         ePrescription.setePrescriptionItems(items);
 
-        return ePrescriptionRepository.save(ePrescription);
+        if (ePrescriptionSuccessful) {
+            ePrescription.setePrescriptionState(EPrescriptionState.CONFIRMED);
+            return ePrescriptionRepository.save(ePrescription);
+        }
+        ePrescription.setePrescriptionState(EPrescriptionState.REJECTED);
+        return null;
     }
 
     public List<EPrescription> getEPrescriptionsForPatient(Long patientId) {
