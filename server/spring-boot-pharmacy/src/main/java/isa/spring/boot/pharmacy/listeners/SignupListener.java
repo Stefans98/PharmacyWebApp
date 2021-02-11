@@ -35,7 +35,7 @@ public class SignupListener implements ApplicationListener<SignupCompletedEvent>
         String confirmationUrl
                 = event.getAppUrl() + "/api/auth/confirmRegistration?token=" + token;
         String text = "Poštovani/-a, <br><br> Aktivirajte svoj nalog selektovanjem linka: " +
-                "http://localhost:8081" + confirmationUrl;
+                "http://localhost:8081" + confirmationUrl + "<br><br>S poštovanjem, <br>Vaša ISA";
 
         emailService.sendEmailAsync(null, "Potvrda registracije", text);
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { SystemAdministratorService } from '../../services/users/system-administrator.service';
@@ -24,7 +25,7 @@ export class SysAdminProfileComponent implements OnInit {
   public country: string = '';
 
   constructor(private userService: UserService, private authService: AuthenticationService, private sysAdminService : SystemAdministratorService,
-                private snackBar: MatSnackBar) {
+                private snackBar: MatSnackBar, private router: Router) {
     this.userService.getUserById(this.authService.getLoggedUserId()).subscribe(user =>
         this.fillData(user)
       ); 
@@ -58,6 +59,10 @@ export class SysAdminProfileComponent implements OnInit {
           duration : 3000, 
           verticalPosition: 'top'
           });
+          if (this.password.length > 0) {
+            this.authService.logout();
+            this.router.navigate(['login']);
+          }
       })
   }
 
