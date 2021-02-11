@@ -29,4 +29,5 @@ import { User } from "../../models/user.model";
         return this.http
         .post<User>(this.supplierUrl + 'update', body);
       }
+
   }
