@@ -102,7 +102,6 @@ import { IngredientsModalDialogComponent } from './system-administrator/medicine
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
 import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
-import { ChartModule } from 'angular2-chartjs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
@@ -282,7 +281,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NgxMatNativeDateModule,
     NgxSliderModule,
     CommonModule,
-    ChartModule,
     FlexLayoutModule,
     NgxChartsModule,
     MatTableModule,

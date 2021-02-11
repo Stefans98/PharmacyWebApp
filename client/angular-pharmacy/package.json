@@ -41,7 +41,6 @@
     "@syncfusion/ej2-angular-notifications": "^18.4.39",
     "angular-jwt": "^0.1.11",
     "angular-svg-round-progressbar": "^5.0.2",
-    "angular2-chartjs": "^0.5.1",
     "angular8-yandex-maps": "^11.0.0",
     "chart.js": "^2.9.4",
     "core-js": "^2.6.11",
