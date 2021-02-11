@@ -36,6 +36,8 @@ public class PharmacyMapper {
         pharmacy.setAddress(new Address(pharmacyDto.getCountry(), pharmacyDto.getCity(), pharmacyDto.getStreet()));
         pharmacy.setDescription(pharmacyDto.getDescription());
         pharmacy.setAverageGrade(0.0);
+        pharmacy.setLatitude(pharmacyDto.getLatitude());
+        pharmacy.setLongitude(pharmacyDto.getLongitude());
 
         return pharmacy;
     }

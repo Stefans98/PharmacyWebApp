@@ -18,9 +18,10 @@ export class PharmacyService{
 
   constructor(private http: HttpClient) { }
 
-  public registerPharmacy(pharmacy: Pharmacy): Observable<Pharmacy> {
+  public registerPharmacy(pharmacy: Pharmacy, latitude: number, longitude: number): Observable<Pharmacy> {
     const body = { name: pharmacy.name, city: pharmacy.city, country: pharmacy.country,
-      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade 
+      street: pharmacy.street, description: pharmacy.description, averageGrade: pharmacy.averageGrade , latitude : latitude,
+      longitude : longitude
     };  
 
     return this.http

@@ -64,6 +64,30 @@
                 <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
                 </div>
             </div> 
+
+            <div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
+
+                <div fxFlex="20" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Geografska širina:</mat-label>
+                        <input matInput type="number" [(ngModel)]="latitude" required>
+                        <button mat-button *ngIf="latitude" matSuffix mat-icon-button aria-label="Clear" (click)="latitude=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start" >
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Geografska dužina:</mat-label>
+                        <input matInput type="number" [(ngModel)]="longitude" required>
+                        <button mat-button *ngIf="longitude" matSuffix mat-icon-button aria-label="Clear" (click)="longitude=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>   
+                </div>
+                
+            </div>
             
             <div fxFlex="50"  fxLayout="row" fxLayoutAlign="space-between center" class="center-data">
                 <mat-form-field class="example-form-field" style="width: 66.5%;">
@@ -77,7 +101,7 @@
 			
 			<div fxFlex fxLayout="column" fxLayoutAlign="space-between center" >
 				<div fxLayout="row" fxLayoutAlign="space-between stretch" >
-					<button mat-raised-button color="primary" (click)="registrationClick()">Potvrdi</button>
+					<button mat-raised-button color="primary" (click)="registrationClick()" [disabled]="checkIfFieldsAreEmpty()">Potvrdi</button>
 				</div>
 			</div>
 

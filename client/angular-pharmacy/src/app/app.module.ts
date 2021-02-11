@@ -132,6 +132,8 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import listPlugin from '@fullcalendar/list';
 import { MedicineReservationComponent } from './pharmacy-profile/medicine-reservation/medicine-reservation.component';
 import { CounselingSchedulingComponent } from './pharmacy-profile/counseling-scheduling/counseling-scheduling.component';
+import { SysAdminProfileComponent } from './system-administrator/sys-admin-profile/sys-admin-profile.component';
+import { SysAdmChangePasswordModalDialogComponent } from './system-administrator/pharmacy-registration/sys-adm-change-password-modal-dialog/sys-adm-change-password-modal-dialog.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -256,7 +258,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ChangePasswordModalDialogPharmacistComponent,
     MedicineReservationComponent,
     CounselingSchedulingComponent,
-    MedicineReservationComponent
+    MedicineReservationComponent,
+    SysAdminProfileComponent,
+    SysAdmChangePasswordModalDialogComponent
   ],
   imports: [
     BrowserModule,

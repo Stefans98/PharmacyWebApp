@@ -47,7 +47,16 @@ export class PharmacyAdministratorRegistrationComponent implements OnInit {
           duration : 3000, 
           verticalPosition: 'top'
          });
-      })
+      },
+      error => {
+       if (error.status == 409)
+       {
+         this.snackBar.open('Registracija neuspešna! Uneti email već postoji!', 'Zatvori', { 
+           duration : 3000, 
+           verticalPosition: 'top'
+          });
+       }
+     })
   }
 
   selectPharmacyClick() : void {
@@ -68,6 +77,11 @@ export class PharmacyAdministratorRegistrationComponent implements OnInit {
 
   checkPasswordMatch() : boolean {
     return this.password === this.repeatPassword;
+  }
+
+  checkIfFieldsAreEmpty() : boolean {
+    return !this.firstName || !this.lastName || !this.country || !this.street || !this.city ||
+     !this.email || !this.password || !this.pharmacy || !this.phoneNumber;
   }
 
 }
