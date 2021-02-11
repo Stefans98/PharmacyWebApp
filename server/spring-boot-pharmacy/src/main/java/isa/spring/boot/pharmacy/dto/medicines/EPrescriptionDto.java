@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.dto.medicines;
 
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
 import isa.spring.boot.pharmacy.dto.users.PatientDto;
+import isa.spring.boot.pharmacy.model.medicines.EPrescriptionState;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 
 import java.util.*;
@@ -17,6 +18,7 @@ public class EPrescriptionDto {
     private Long patientId;
     private PatientDto patient;
     private List<EPrescriptionItemDto> items;
+    private EPrescriptionState ePrescriptionState;
 
     public EPrescriptionDto() {
     }
@@ -99,5 +101,13 @@ public class EPrescriptionDto {
             codes.put(item.getMedicineCode(), item.getQuantity());
         }
         return codes;
+    }
+
+    public EPrescriptionState getePrescriptionState() {
+        return ePrescriptionState;
+    }
+
+    public void setePrescriptionState(EPrescriptionState ePrescriptionState) {
+        this.ePrescriptionState = ePrescriptionState;
     }
 }

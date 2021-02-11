@@ -73,7 +73,7 @@ export class NewEPrescriptionComponent implements OnInit {
 
   medicineReservationClick(element : EPrescriptionPharmacy) : void {
     this.eprescriptionService.createNewEPrescription(new EPrescription(0, this.authService.getLoggedUserId(), new Date(),
-      this.medicines, element.pharmacy.id, null, element.price)).subscribe(data => {
+      this.medicines, element.pharmacy.id, null, element.price, '')).subscribe(data => {
         this.snackBar.open('ERecept je uspešno kreiran!', null, { 
           duration : 3000, 
           verticalPosition: 'top'
