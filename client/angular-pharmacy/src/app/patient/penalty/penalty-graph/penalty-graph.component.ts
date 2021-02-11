@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 import { PatientService } from '../../../services/users/patient.service';
-declare const Chart;
 
 @Component({
   selector: 'app-penalty-graph',
@@ -10,6 +9,21 @@ declare const Chart;
   styleUrls: ['./penalty-graph.component.scss']
 })
 export class PenaltyGraphComponent implements OnInit {
+  
+  @ViewChild('ele', { static: true }) el: ElementRef;
+
+	public penaltyData = [];
+	public showLegend = true;
+	public colorScheme = {
+		domain: ['rgba(38, 166, 154, .9)',
+            'rgba(255, 99, 132, .9)',]
+	};
+	public showLabels = false;
+	public explodeSlices = false;
+	public doughnut = true;
+	public view: any[] = [];
+  public width: number;
+
   penalty: number = 0;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -21,9 +35,17 @@ export class PenaltyGraphComponent implements OnInit {
     this.patientService.getPenaltiesByPatientId(this.authenticationService.getLoggedUserId()).subscribe(
       data => {
         this.penalty = data;
-        setTimeout(() => {
-          this.createChart();
-        }, 250)
+        this.view = [this.el.nativeElement.offsetWidth, 335];
+        this.penaltyData = [
+          {
+            "name": "Dozvoljeno penala na mesečnom nivou",
+            "value": 2
+          },
+          {
+            "name": "Vaši penali za trenutni mesec",
+            "value": this.penalty
+          }
+        ];
       },
       error => {
         if (error.status == 404){
@@ -33,40 +55,11 @@ export class PenaltyGraphComponent implements OnInit {
     );
   }
 
-  createChart() {
-    new Chart('graph-penalty', {
-      type: 'doughnut',
-      data: {
-        labels: ['Vaši penali (trenutni mesec) ', 'Dozvoljeno penala (mesečno)'],
-        datasets: [{
-          data: [this.penalty, 2],
-          backgroundColor: [
-            'rgba(255, 99, 132,.7)',
-            'rgba(38, 166, 154,.7)'
-          ],
-        }]
-      },
-      options: {
-        elements: {
-          line: {
-            tension: 0.0000001
-          }
-        },
-        responsive: true,
-        title: {
-          display: true,
-          text: 'UVID U PENALE ZA TRENUTNI MESEC',
-          fontSize: 20
-        },
-        legend: {
-          display: true,
-          labels:{
-            fontSize: 15
-        }
-        },
-        maintainAspectRatio: false
-      }
-    })
+  ngDoCheck() {
+		if (this.el.nativeElement.offsetWidth != this.width) {
+			this.width = this.el.nativeElement.offsetWidth;
+			this.ngOnInit();
+		}
   }
 
   openSnackBar(message: string, action: string, duration: number) {
