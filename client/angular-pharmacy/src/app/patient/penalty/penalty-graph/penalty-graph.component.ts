@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../../services/users/authentication.service';
 import { PatientService } from '../../../services/users/patient.service';
-// declare const Chart;
 
 @Component({
   selector: 'app-penalty-graph',
@@ -39,11 +38,11 @@ export class PenaltyGraphComponent implements OnInit {
         this.view = [this.el.nativeElement.offsetWidth, 335];
         this.penaltyData = [
           {
-            "name": "Dozvoljeno",
+            "name": "Dozvoljeno penala na mesečnom nivou",
             "value": 2
           },
           {
-            "name": "Penali",
+            "name": "Vaši penali za trenutni mesec",
             "value": this.penalty
           }
         ];
