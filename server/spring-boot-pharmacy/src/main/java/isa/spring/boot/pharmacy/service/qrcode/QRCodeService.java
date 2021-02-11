@@ -33,7 +33,7 @@ public class QRCodeService {
         String medicineConverted = mapper.writeValueAsString(medicines);
         BitMatrix bitMatrix = qrCodeWriter.encode(medicineConverted, BarcodeFormat.QR_CODE, 400, 400);
 
-        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", Paths.get("./src/main/resources/QRCode.png"));
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", Paths.get("./src/main/resources/static/qr-codes/code9.png"));
     }
 
     public List<EPrescriptionItemDto> decodeQRCode(MultipartFile code) throws IOException {
