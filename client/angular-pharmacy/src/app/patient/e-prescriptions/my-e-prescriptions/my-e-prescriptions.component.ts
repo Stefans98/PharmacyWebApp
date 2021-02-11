@@ -14,10 +14,14 @@ import { AuthenticationService } from '../../../services/users/authentication.se
 })
 export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
   @ViewChild('t1Sort') t1Sort: MatSort;
+
+  ePrescriptionStatus: string[] = ['Obrađen', 'Odbijen']
+  selectedStatus = 'Poništi filtraciju';
   
   ePrescriptions : EPrescription[] = [];
-  displayedColumns: string[] = ['pharmacy', 'issuingDate', 'price', 'items'];
+  displayedColumns: string[] = ['ePrescriptionState', 'pharmacy', 'issuingDate', 'price', 'items'];
   dataSource = new MatTableDataSource(this.ePrescriptions);
+  newDataSource = new MatTableDataSource(this.ePrescriptions);
 
   medicines : EPrescriptionItem[] = [];
 
@@ -25,6 +29,7 @@ export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
     this.ePrescriptionService.getAllEPrescriptionsForPatient(authService.getLoggedUserId()).subscribe(data => {
       this.ePrescriptions = data;
       this.dataSource.data = this.ePrescriptions;
+      this.newDataSource.data = this.ePrescriptions;
     })
    }
 
@@ -39,6 +44,36 @@ export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
         default: return item[property];
       }
     };
+    this.setFilterPreditct();
+  }
+
+  checkEPrescriptionState(state) : string {
+    if (state === 'CONFIRMED') {
+      return 'Obrađen';
+    } else {
+      return 'Odbijen';
+    }
+    
+  }
+
+  setFilterPreditct() {
+    this.dataSource.filterPredicate = (data, filter: string) => {
+        return this.checkEPrescriptionState(data.ePrescriptionState).includes(filter);     
+    };
+  }
+
+  onChangeEPrescriptionFilter(value) {
+      this.setFilterPreditct();
+      this.selectedStatus = value;
+      this.dataSource.filter = this.newDataSource.filter;
+
+      if (this.selectedStatus === undefined) {
+        this.dataSource.filter = this.newDataSource.filter;
+      } else if (this.selectedStatus === 'Obrađen') {
+        this.dataSource.filter = 'Obrađen';
+      } else if (this.selectedStatus === 'Odbijen') {
+        this.dataSource.filter = 'Odbijen';
+      } 
   }
 
   showMedicines(element : EPrescription) : void {

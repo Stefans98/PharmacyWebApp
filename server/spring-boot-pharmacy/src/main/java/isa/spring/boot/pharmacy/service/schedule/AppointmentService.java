@@ -393,6 +393,7 @@ public class AppointmentService {
 
     public Appointment patientNotHeldOnAppointment(Appointment appointment, Long patientId, Long workDayId) {
         userService.givePenaltyToPatient(patientId);
+        appointment.setGotPenalty(true);
         appointment.setAppointmentState(AppointmentState.NOT_HELD);
         appointment.setPatient((Patient) userService.findById(patientId));
         appointment.setWorkDay(workDayService.findById(workDayId));
