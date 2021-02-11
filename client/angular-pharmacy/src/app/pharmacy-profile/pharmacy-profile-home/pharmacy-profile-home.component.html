@@ -2,10 +2,15 @@
 
     <table style="width: 100%;">
         <tr>
-        <mat-form-field class="pharmacy-name-input">
+        <mat-form-field class="pharmacy-name-input" style="float: left;">
             <mat-label>Naziv Apoteke</mat-label>
             <input matInput readonly [(ngModel)]="name">
         </mat-form-field>
+
+        <div ng-show="subscriptionButtonVisible" style="float: left; margin-left: 2%; margin-top: 15px;">
+            <button *ngIf="!isAlreadySubscribed()" mat-raised-button color="primary" (click)="subscribeClick(element)">Pretplati se</button>
+            <button *ngIf="isAlreadySubscribed()" mat-raised-button color="basic" [disabled]="true">Pretplaćeni ste</button>
+        </div>
         </tr>
         <tr>
         <mat-form-field style="float: left;">

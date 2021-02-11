@@ -80,6 +80,7 @@ export const appRoutes: Routes = [{
         { path: 'patient/pharmacist/pharmacist-scheduled-counseling', component: PharmacistScheduledCounselingComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/pharmacist/pharmacist-scheduling', component: PharmacistSchedulingComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/drugs/reserved-drugs', component: ReservedDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
+        { path: 'patient/drugs/all-medicines', component: AllMedicinesComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/drugs/dispensed-drugs', component: DispensedDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/drugs/taking-drugs', component: TakingDrugsComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
         { path: 'patient/penalty', component: PenaltyComponent, canActivate: [RouteGuardService], data : { role: 'PATIENT'} },
