@@ -271,6 +271,9 @@ public class AppointmentService {
     }
 
     public Appointment scheduleAppointment(Appointment appointment, Long patientId, Long workDayId) {
+        if(workDayService.findById(workDayId) != null) {
+            appointment.setWorkDay(workDayService.findById(workDayId));
+        }
         if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))
                 || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))
                     || userService.getPenaltiesByPatientId(patientId) > 2) {
@@ -290,7 +293,6 @@ public class AppointmentService {
         }
 
         appointment.setPatient((Patient)userService.findById(patientId));
-        appointment.setWorkDay(workDayService.findById(workDayId));
         appointment.setAppointmentState(AppointmentState.OCCUPIED);
         return appointmentRepository.save(appointment);
     }
@@ -362,7 +364,8 @@ public class AppointmentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Employee employee = (Employee) userService.findById(employeeId);
         for(WorkDay workDay : employee.getWorkDays()) {
-            if(sdf.format(newAppointment.getStartTime()).equals(sdf.format(workDay.getStartTime()))) {
+            if(sdf.format(newAppointment.getStartTime()).equals(sdf.format(workDay.getStartTime())) &&
+                    newAppointment.getWorkDay().getPharmacy().getId().equals(workDay.getPharmacy().getId())) {
                 if(newAppointment.getStartTime().compareTo(workDay.getStartTime()) >= 0 &&
                     newAppointment.getEndTime().compareTo(workDay.getEntTime()) <= 0) {
                     return true;

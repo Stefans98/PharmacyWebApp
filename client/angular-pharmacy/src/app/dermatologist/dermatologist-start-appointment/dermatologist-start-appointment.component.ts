@@ -290,7 +290,7 @@ export class DermatologistStartAppointmentComponent implements OnInit {
         this.selectedAppointment = null;
         this.patientAppointments = [];
         this.searchInput.nativeElement.value = '';
-        this.openSnackBar('Uspešno ste završili pregled!', 'Zatvori', 3000);
+        this.openSnackBar('Uspešno ste završili pregled. Pacijent je dobio jedan penal zbog nedolaženja na pregled!', 'Zatvori', 4200);
       },
       error => {
         if (error.status = 404){
