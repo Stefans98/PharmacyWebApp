@@ -229,7 +229,7 @@ insert into medicine_reservations (final_purchasing_date, medicine_reservation_s
 
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 1);
 
-insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price) values ('eprscrpt111', '2021-03-02', 1, 1, 8000);
+insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('eprscrpt111', '2021-03-02', 1, 1, 8000, 0);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 1);
 

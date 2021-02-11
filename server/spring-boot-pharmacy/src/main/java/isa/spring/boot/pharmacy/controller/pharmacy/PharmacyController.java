@@ -154,7 +154,6 @@ public class PharmacyController {
     }
 
     @GetMapping(value="/getAllWithMedicine/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
     public ResponseEntity<List<PharmacyDto>> getPharmacyById(@PathVariable String code){
         List<PharmacyDto> pharmacyDtos = new ArrayList<>();
         for (Pharmacy pharmacy : pharmacyMedicineService.getAllPharmaciesWithMedicine(code)) {

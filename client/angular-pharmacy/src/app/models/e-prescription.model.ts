@@ -9,6 +9,7 @@ export class EPrescription {
         public items : EPrescriptionItem[],
         public pharmacyId : number,
         public pharmacy : Pharmacy,
-        public price : number
+        public price : number,
+        public ePrescriptionState: string
     ) {}
 }
