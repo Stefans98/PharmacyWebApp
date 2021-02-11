@@ -209,11 +209,12 @@ export class DermatologistNewAppointmentComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(), selectedAvailableAppointment.workDay.pharmacy.id).subscribe(
-        data => {
-          this.availableAppointments = data;
-          this.dataSource.data = this.availableAppointments;
-        });
+      // this.appointmentService.getAvailableExaminationTermsForDermatologist(this.authenticationService.getLoggedUserId(), selectedAvailableAppointment.workDay.pharmacy.id).subscribe(
+      //   data => {
+      //     this.availableAppointments = data;
+      //     this.dataSource.data = this.availableAppointments;
+      //   });
+      this.getAllAvailableExaminationTermsForDermatologist();
     });
   }
 

@@ -18,6 +18,7 @@ export class PatientModalDialogComponent implements OnInit {
   @ViewChild(MatSelectionList) patientsList: MatSelectionList;
   public patientsForDermatologist : Patient[] = [];
   public selectedPatient : Patient;
+  public appointmentForSchedule : Appointment;
 
   constructor(private dermatologistService : DermatologistService, private appointmentService : AppointmentService,
     private authenticationService : AuthenticationService, private snackBar : MatSnackBar,
@@ -35,9 +36,17 @@ export class PatientModalDialogComponent implements OnInit {
       this.openSnackBar('Morate selektovati pacijenta da bi zakazali pregled!', 'Zatvori', 3000);
       return;
      } else {
-        this.appointmentService.scheduleExamination(this.selectedAvailableAppointmentData.selectedAvailableAppointment).subscribe(
+        this.appointmentForSchedule = this.selectedAvailableAppointmentData.selectedAvailableAppointment;
+        this.appointmentForSchedule.patient = this.selectedPatient[0];
+        this.appointmentService.scheduleExamination(this.appointmentForSchedule).subscribe(
           data => {
             this.openSnackBar('Uspešno ste zakazali novi pregled za pacijenta i obavestili ga o novom pregledu putem e-mail pošte!', 'Zatvori', 4200);
+            this.dermatologistService.getPatientsForDermatologist(this.authenticationService.getLoggedUserId()).subscribe(
+              data => {
+                this.patientsForDermatologist = data;
+              }
+            );
+            this.dialogRef.close();
           },
           error => {
             this.openSnackBar('Zakazivanje izabranog termina trenutno nije moguće ! MOGUĆI RAZLOZI: 1. Dermatolog ne radi u izabranom vremenu! 2. Pacijent ili dermatolog imaju zakazan termin u izabranom vremenu!', 'Zatvori', 6000);
