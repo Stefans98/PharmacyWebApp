@@ -23,6 +23,7 @@ public class EPrescriptionMapper {
         dto.setIssuingDate(ePrescription.getIssuingDate());
         dto.setPatient(PatientMapper.convertToDto(ePrescription.getPatient()));
         dto.setPharmacy(PharmacyMapper.convertToDto(ePrescription.getPharmacy()));
+        dto.setePrescriptionState(ePrescription.getePrescriptionState());
 
         List<EPrescriptionItemDto> itemDtos = new ArrayList<>();
         for (EPrescriptionItem item : ePrescription.getePrescriptionItems()) {

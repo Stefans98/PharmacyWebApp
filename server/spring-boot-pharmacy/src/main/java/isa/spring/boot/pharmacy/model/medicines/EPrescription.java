@@ -28,6 +28,9 @@ public class EPrescription {
     @Column(name = "price", nullable = false)
     private double price;
 
+    @Column(name = "e_prescription_state", nullable = false)
+    private EPrescriptionState ePrescriptionState;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
 
@@ -101,5 +104,13 @@ public class EPrescription {
 
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
+    }
+
+    public EPrescriptionState getePrescriptionState() {
+        return ePrescriptionState;
+    }
+
+    public void setePrescriptionState(EPrescriptionState ePrescriptionState) {
+        this.ePrescriptionState = ePrescriptionState;
     }
 }
