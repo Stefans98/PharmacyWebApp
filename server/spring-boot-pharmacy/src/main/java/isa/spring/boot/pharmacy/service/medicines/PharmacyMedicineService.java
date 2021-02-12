@@ -65,6 +65,16 @@ public class PharmacyMedicineService {
         }
     }
 
+    public void incrementMedicineQuantity(long medicineId, long pharmacyId) {
+        for(PharmacyMedicine pharmacyMedicine : pharmacyMedicineRepository.findAll()) {
+            if(pharmacyMedicine.getPharmacy().getId() == pharmacyId && pharmacyMedicine.getMedicine().getId() == medicineId) {
+                pharmacyMedicine.setQuantity(pharmacyMedicine.getQuantity() + 1);
+                pharmacyMedicineRepository.save(pharmacyMedicine);
+                return;
+            }
+        }
+    }
+
     public List<PharmacyMedicine> getMedicinesForPharmacy(Long pharmacyId){
         List<PharmacyMedicine> pharmacyMedicines = new ArrayList<>();
         for(PharmacyMedicine pharmacyMedicine : findAll()){
