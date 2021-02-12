@@ -1,14 +1,19 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
+import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.pharmacy.AppointmentPrice;
+import isa.spring.boot.pharmacy.model.pharmacy.MedicinePrice;
+import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.pharmacy.Pricelist;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.repository.pharmacy.PricelistRepository;
+import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
@@ -20,6 +25,16 @@ public class PricelistService {
 
     @Autowired
     private AppointmentPriceService appointmentPriceService;
+
+    @Autowired
+    private MedicineService medicineService;
+
+    @Autowired
+    private MedicinePriceService medicinePriceService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
+
 
     public List<Pricelist> findByPharmacyId(Long pharmacyId) {
         return pricelistRepository.findByPharmacyId(pharmacyId);
@@ -66,8 +81,39 @@ public class PricelistService {
         return null;
     }
 
-    public Pricelist save(Pricelist pricelist){
-        return pricelistRepository.save(pricelist);
+    public Pricelist findById(Long id){
+        for(Pricelist pricelist : pricelistRepository.findAll()){
+            if(pricelist.getId() == id){
+                return pricelist;
+            }
+        }
+        return null;
     }
 
+    public Pricelist save(Pricelist pricelist){
+
+        Pricelist oldPriceList = findById(pricelist.getId());
+        List<MedicinePrice> medicinePrices = new ArrayList<>();
+        for(MedicinePrice medicinePrice : pricelist.getMedicinePrices()){
+            Medicine medicine = medicineService.findById(medicinePrice.getMedicine().getId());
+            MedicinePrice oldMedicinePrice = medicinePriceService.findById(medicinePrice.getId());
+            oldMedicinePrice.setMedicine(medicine);
+            oldMedicinePrice.setPricelist(pricelist);
+            oldMedicinePrice.setPrice(medicinePrice.getPrice());
+            oldMedicinePrice.setStartTime(medicinePrice.getStartTime());
+            oldMedicinePrice.setEndTime(medicinePrice.getEndTime());
+            medicinePrices.add(oldMedicinePrice);
+        }
+
+        /*List<AppointmentPrice> appointmentPrices = new ArrayList<>();
+        for(AppointmentPrice appointmentPrice : pricelist.getAppointmentPrices()){
+            //appointmentPriceService.save(appointmentPrice);
+            AppointmentPrice oldAppointmentPrice = appointmentPriceService.findById(appointmentPrice.getId());
+            appointmentPrices.add(oldAppointmentPrice);
+        }
+        pricelist.setAppointmentPrices(appointmentPrices);*/
+
+        pricelist.setMedicinePrices(medicinePrices);
+        return pricelistRepository.save(pricelist);
+    }
 }

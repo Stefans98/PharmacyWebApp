@@ -34,10 +34,11 @@ public class PricelistMapper {
         return pricelistDto;
     }
 
-    public static Pricelist convertToEntity(PricelistDto pricelistDto){
+    public static Pricelist convertToEntity(PricelistDto pricelistDto, Pharmacy pharmacy){
         Pricelist pricelist = new Pricelist();
         pricelist.setId(pricelistDto.getId());
-        pricelist.setPharmacy(PharmacyMapper.convertToEntityWithId(pricelistDto.getPharmacy()));
+        //pricelist.setPharmacy(PharmacyMapper.convertToEntityWithId(pricelistDto.getPharmacy()));
+        pricelist.setPharmacy(pharmacy);
 
         List<MedicinePrice> medicinePrices = new ArrayList<>();
         for(MedicinePriceDto medicinePriceDto : pricelistDto.getMedicinePrices()){

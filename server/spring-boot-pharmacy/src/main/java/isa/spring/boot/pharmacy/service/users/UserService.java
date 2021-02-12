@@ -492,6 +492,10 @@ public class UserService implements UserDetailsService {
         } else {
             pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
         }
+        User user = userRepository.findByEmail(pharmacyAdministrator.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacyAdministrator.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
         pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
         pharmacyAdministrator.setAuthorities(authorities);

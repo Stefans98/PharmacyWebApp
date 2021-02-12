@@ -275,4 +275,23 @@ public class AppointmentController {
         }
         return new ResponseEntity<>(pharmacistCounselings, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/scheduleExaminationForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('DERMATOLOGIST','PHARMACIST','PATIENT','PHARMACY_ADMIN')")
+    public ResponseEntity<AppointmentDto> scheduleExaminationForDermatologist(@RequestBody AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentService.scheduleAppointmentForDermatologist(AppointmentMapper.convertToEntity(appointmentDto),
+                appointmentDto.getPatient().getId(), appointmentDto.getWorkDay().getId());
+        if(appointment == null) {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            if(appointment.getAppointmentType() == AppointmentType.EXAMINATION) {
+                appointmentService.sendEmailForExamination(appointment);
+            } else if(appointment.getAppointmentType() == AppointmentType.COUNSELING) {
+                appointmentService.sendEmailForCounseling(appointment);
+            }
+        } catch( Exception ignored ){ }
+        return new ResponseEntity<>(AppointmentMapper.convertToDto(appointment), HttpStatus.OK);
+    }
 }

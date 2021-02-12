@@ -5,12 +5,16 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
+import { AppointmentPrice } from '../../models/appointment-price.model';
 import { Appointment } from '../../models/appointment.model';
 import { Dermatologist } from '../../models/dermatologist.model';
+import { MedicinePrice } from '../../models/medicine-price.model';
 import { Patient } from '../../models/patient.model';
 import { Pharmacy } from '../../models/pharmacy.model';
+import { Pricelist } from '../../models/pricelist.model';
 import { WorkDay } from '../../models/work-day.model';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
+import { PricelistService } from '../../services/pharmacy/pricelist.service';
 import { AppointmentService } from '../../services/schedule/appointment.service';
 import { WorkDayService } from '../../services/schedule/work-day.service';
 import { AuthenticationService } from '../../services/users/authentication.service';
@@ -75,6 +79,12 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
   time2: string = '00:00';
   maxDate: Date;
 
+  public pricelist: Pricelist;
+  public medicinePrices: MedicinePrice[];
+  public appointmentPrices: AppointmentPrice[];
+
+  public price: number = 0;
+
 
   gradeRanges: string[] = ['5 - 6', '6 - 7', '7 - 8', '8 - 9', '9 - 10', '10'];
 
@@ -88,12 +98,23 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
 
   constructor(private snackBar: MatSnackBar, private dermatologistService: DermatologistService, private pharmacyService: PharmacyService, 
               private authService: AuthenticationService, public dialog: MatDialog, private appointmentService: AppointmentService, 
-              private workDayService: WorkDayService) { 
+              private workDayService: WorkDayService, private pricelistService: PricelistService) { 
     this.pharmacyService.getPharmacyByPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
       data => {
         this.pharmacy = data;
-        console.log(this.pharmacy.id);
         this.getDermatologistsForPharmacy(this.pharmacy.id);
+        this.pricelistService.getPricelistForPharmacy(this.pharmacy.id).subscribe(
+          data => {
+            this.pricelist = data;
+            this.medicinePrices = this.pricelist.medicinePrices;
+            this.appointmentPrices = this.pricelist.appointmentPrices;
+            for(var appPrice of this.appointmentPrices){
+              if(appPrice.appointmentType == 0){
+                this.price = appPrice.price;
+              }
+            }
+          }
+        );
       }
     );
 
@@ -104,6 +125,8 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
     );
 
     this.pharmaciesForDermatologist = [];
+
+
 
   }
 
@@ -278,12 +301,20 @@ export class AllDermatologistsComponent implements OnInit, AfterViewInit {
     const forrmatedStartTime = this.chosenDate + ' ' + this.startTime;
     const forrmatedEndTime = this.chosenDate + ' ' + this.endTime;
 
+    var sec = (new Date(forrmatedEndTime).getTime() - new Date(forrmatedStartTime).getTime()) / 1000;
+    var min = new Date(sec).getTime() / 60;
+    var priceMultiplier = Math.round(min / 30);
+    if(min % 30 != 0){
+      priceMultiplier += 1;
+    }
+    var finalPrice = this.price * priceMultiplier;
+
     //var appointment = new Appointment(null, 0, 0, this.startTime, this.endTime, new Patient(1, '', '', '', '', '', '', '', 0, 1, ''), );
     this.workDayService.getWorkDayInPharmacyByDateAndEmployeeId(this.chosenDate, this.dermatologistForDefiningTerms.id.toString(), this.pharmacy.id.toString()).subscribe(
       data => {
         this.workDay = data;
-        this.appointment = new Appointment(0, 1, 1, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(1, '', '', '', '', '', '', '', 0, 1, '', null), this.workDay, null, this.pharmacy.price); 
-        this.appointmentService.scheduleExamination(this.appointment).subscribe(
+        this.appointment = new Appointment(0, 1, 0, new Date(forrmatedStartTime), new Date(forrmatedEndTime), new Patient(1, '', '', '', '', '', '', '', 0, 1, '', null), this.workDay, null, finalPrice); 
+        this.appointmentService.scheduleExaminationForDermatologist(this.appointment).subscribe(
           data => {
             this.openSnackBar('Uspešno ste definisali termin za dermatologa!', 'Zatvori');
           },

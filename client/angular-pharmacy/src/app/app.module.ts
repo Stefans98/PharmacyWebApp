@@ -134,6 +134,7 @@ import { MedicineReservationComponent } from './pharmacy-profile/medicine-reserv
 import { CounselingSchedulingComponent } from './pharmacy-profile/counseling-scheduling/counseling-scheduling.component';
 import { SysAdminProfileComponent } from './system-administrator/sys-admin-profile/sys-admin-profile.component';
 import { SysAdmChangePasswordModalDialogComponent } from './system-administrator/pharmacy-registration/sys-adm-change-password-modal-dialog/sys-adm-change-password-modal-dialog.component';
+import { PharmacyAdminChangePasswordComponent } from './pharmacy-administrator/pharmacy-administrator-my-pharmacy/pharmacy-admin-change-password/pharmacy-admin-change-password.component';
 import { SupplierPasswordChangeModalDialogComponent } from './supplier/medicine-order-lists/supplier-password-change-modal-dialog/supplier-password-change-modal-dialog.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -262,6 +263,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MedicineReservationComponent,
     SysAdminProfileComponent,
     SysAdmChangePasswordModalDialogComponent,
+    PharmacyAdminChangePasswordComponent,
     SupplierPasswordChangeModalDialogComponent
   ],
   imports: [

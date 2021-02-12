@@ -6,6 +6,7 @@ import isa.spring.boot.pharmacy.repository.pharmacy.AppointmentPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,19 @@ public class AppointmentPriceService {
                         && appointmentPrice.getEndTime().compareTo(date) >= 0) {
                 return appointmentPrice;
 
+            }
+        }
+        return null;
+    }
+
+    public AppointmentPrice save(AppointmentPrice appointmentPrice){
+        return appointmentPriceRepository.save(appointmentPrice);
+    }
+
+    public AppointmentPrice findById(Long id){
+        for(AppointmentPrice appointmentPrice : appointmentPriceRepository.findAll()){
+            if(appointmentPrice.getId() == id) {
+                return appointmentPrice;
             }
         }
         return null;

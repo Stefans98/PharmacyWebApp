@@ -117,4 +117,9 @@ export class AppointmentService {
       .get<Appointment[]>(this.appointmentsUrl + 'getCounselingsForPharmacistWorkCalendar/' + pharmacistId);
   }
 
+  public scheduleExaminationForDermatologist(appointment: Appointment): Observable<Appointment> {
+    return this.http
+      .post<Appointment>(this.appointmentsUrl + 'scheduleExaminationForDermatologist', appointment);
+  }
+
 }

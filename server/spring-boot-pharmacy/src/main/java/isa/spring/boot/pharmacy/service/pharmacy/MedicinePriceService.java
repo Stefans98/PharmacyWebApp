@@ -25,4 +25,17 @@ public class MedicinePriceService {
         }
         return 0.0;
     }
+
+    public MedicinePrice save(MedicinePrice medicinePrice){
+        return medicinePriceRepository.save(medicinePrice);
+    }
+
+    public MedicinePrice findById(Long id){
+        for(MedicinePrice medicinePrice : medicinePriceRepository.findAll()){
+            if(medicinePrice.getId() == id){
+                return medicinePrice;
+            }
+        }
+        return null;
+    }
 }
