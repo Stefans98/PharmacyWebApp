@@ -19,7 +19,7 @@ export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
   selectedStatus = 'Poništi filtraciju';
   
   ePrescriptions : EPrescription[] = [];
-  displayedColumns: string[] = ['ePrescriptionState', 'pharmacy', 'issuingDate', 'price', 'items'];
+  displayedColumns: string[] = ['code','ePrescriptionState', 'pharmacy', 'issuingDate', 'price', 'items'];
   dataSource = new MatTableDataSource(this.ePrescriptions);
   newDataSource = new MatTableDataSource(this.ePrescriptions);
 
@@ -86,5 +86,9 @@ export class MyEPrescriptionsComponent implements OnInit, AfterViewInit {
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
     return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' +  year;
+  }
+
+  roundPrice(price : number) : number {
+    return Math.round(price * 100) / 100;
   }
 }

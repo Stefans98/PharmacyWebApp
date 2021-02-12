@@ -133,7 +133,8 @@ export class MedicineService {
   public createMedicine(medicine : Medicine): Observable<Medicine> {
     const body = { name : medicine.name, code : medicine.code, manufacturer : medicine.manufacturer, 
       medicineType : medicine.medicineType, medicineForm : medicine.medicineForm, onPrescription : medicine.onPrescription,
-      additionalInformation : medicine.additionalInformation, medicineSpecification : medicine.medicineSpecification  };
+      additionalInformation : medicine.additionalInformation, medicineSpecification : medicine.medicineSpecification, 
+      points : medicine.points  };
 
     return this.http.post<Medicine>(this.medicineUrl + "save", body);
   }

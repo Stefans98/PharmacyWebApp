@@ -165,15 +165,19 @@ public class PharmacyMedicineService {
         return 0.0;
     }
 
-    public void reduceMedicineQuantityInPharmacy(String code, int quantity, Long pharmacyId) {
+    public boolean reduceMedicineQuantityInPharmacy(String code, int quantity, Long pharmacyId) {
         List<PharmacyMedicine> pharmacyMedicines = pharmacyMedicineRepository.findAll();
         for (PharmacyMedicine pm : pharmacyMedicines) {
             if (pm.getPharmacy().getId() == pharmacyId && pm.getMedicine().getCode().equals(code)) {
-                pm.setQuantity(pm.getQuantity() - quantity);
-                pharmacyMedicineRepository.save(pm);
-                return;
+                if (pm.getQuantity() >= quantity) {
+                    pm.setQuantity(pm.getQuantity() - quantity);
+                    pharmacyMedicineRepository.save(pm);
+                    return true;
+                }
+                return false;
             }
         }
+        return false;
     }
 
 }

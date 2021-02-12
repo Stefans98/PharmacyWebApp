@@ -406,8 +406,8 @@ insert into appointment_reports (description ,appointment_id) values ('Na pregle
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 33);
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 34);
 
-insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR12', '2021-11-02', 1, 1, 8000, 0);
-insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR13', '2021-10-02', 1, 1, 8000, 1);
+insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR1', '2021-11-02', 1, 1, 8000, 0);
+insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR2', '2021-11-02', 1, 1, 8000, 1);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 3);
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (3, 2, 1);
@@ -454,7 +454,7 @@ insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) val
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 1, 8, false);
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 2, 20, false);
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 3, 12, false);
-insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 4, 0, false);
+insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 4, 10, false);
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 5, 5, false);
 insert into pharmacy_medicines (pharmacy_id, medicine_id, quantity, deleted) values (2, 6, 15, false);
 

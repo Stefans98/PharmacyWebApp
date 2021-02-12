@@ -8,6 +8,7 @@ public class MedicineDto {
     private String name;
     private String code;
     private String manufacturer;
+    private int points;
     private MedicineType medicineType;
     private MedicineForm medicineForm;
     private double averageGrade;
@@ -107,5 +108,13 @@ public class MedicineDto {
 
     public void setMedicineSpecification(MedicineSpecificationDto medicineSpecificationDto) {
         this.medicineSpecification = medicineSpecificationDto;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
