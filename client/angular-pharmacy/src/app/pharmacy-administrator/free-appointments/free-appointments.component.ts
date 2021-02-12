@@ -38,7 +38,15 @@ export class FreeAppointmentsComponent implements OnInit {
     let year = d.getFullYear();
     let month = d.getMonth() + 1;
     let day = d.getDate(); 
-    return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.';
+    let h = d.getHours();
+    let m = d.getMinutes();
+    return  (day > 9 ? '' : '0') + day + '.' + (month > 9 ? '' : '0') + month + '.' + year + '.' + ' ' + h + ':' + m;
+  }
+
+  convertToDateTime(milliseconds : number): string {
+    var time = new Date(milliseconds).getTime();
+    var date = new Date(time);
+    return date.toString();
   }
 
 }

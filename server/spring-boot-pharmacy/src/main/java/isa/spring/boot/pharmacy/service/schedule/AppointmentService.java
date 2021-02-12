@@ -108,7 +108,7 @@ public class AppointmentService {
         for(Appointment appointment : getDermatologistExaminations()) {
             if(appointment.getPatient().getId() == patientId &&
                     appointment.getAppointmentState() == AppointmentState.OCCUPIED
-                        && appointment.getStartTime().compareTo(new Date()) >= 0) {
+                        && appointment.getStartTime().compareTo(new Date()) > 0) {
                 dermatologistExaminationsForPatient.add(appointment);
             }
         }
@@ -349,6 +349,11 @@ public class AppointmentService {
         Date startNew = newAppointment.getStartTime();
         Date endNew = newAppointment.getEndTime();
         Date startOld, endOld;
+
+        if (startNew.before(new Date())) {
+            return false;
+        }
+
         for(Appointment appointment : appointments) {
             startOld = appointment.getStartTime();
             endOld = appointment.getEndTime();
@@ -487,10 +492,35 @@ public class AppointmentService {
     public List<Appointment> getFreeDermatologistsAppointmentForPharmacy(Long pharmacyId){
         List<Appointment> appointments = new ArrayList<>();
         for(Appointment appointment : getAppointmentsForPharmacy(pharmacyId)){
-            if(appointment.getWorkDay().getEmployee().getDiscriminatorValue().equals("DERMATOLOGIST") && appointment.getAppointmentState() == AppointmentState.AVAILABLE){
+            if(appointment.getWorkDay().getEmployee().getDiscriminatorValue().equals("DERMATOLOGIST") && appointment.getAppointmentState() == AppointmentState.AVAILABLE
+                && appointment.getEndTime().after(new Date())){
                 appointments.add(appointment);
             }
         }
         return appointments;
+    }
+
+    public Appointment scheduleAppointmentForDermatologist(Appointment appointment, Long patientId, Long workDayId) {
+        if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPatient(patientId))
+                || !isAppointmentFreeToSchedule(appointment, getAllCanceledAppointmentsForPatientByEmployee(patientId, workDayId))){
+            return null;
+        }
+        User user = userService.findById(workDayService.findById(workDayId).getEmployee().getId());
+        if(user.getDiscriminatorValue().equals("PHARMACIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForPharmacist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
+            }
+        } else if(user.getDiscriminatorValue().equals("DERMATOLOGIST")) {
+            if(!isAppointmentFreeToSchedule(appointment, getAllOccupiedAppointmentsForDermatologist(user.getId())) ||
+                    !isEmployeeWorkDayValid(appointment, user.getId())) {
+                return null;
+            }
+        }
+
+        appointment.setPatient((Patient)userService.findById(patientId));
+        appointment.setWorkDay(workDayService.findById(workDayId));
+        appointment.setAppointmentState(AppointmentState.AVAILABLE);
+        return appointmentRepository.save(appointment);
     }
 }

@@ -96,4 +96,42 @@ public class MedicineOrderListController {
             return new ResponseEntity(HttpStatus.OK);
         }
     }
+
+    @GetMapping(value="getWaitingOffersMedicineOrderListsForPharmacy/{pharmacyId}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<MedicineOrderListDto>> getWaitingOffersMedicineOrderListsForPharmacy(@PathVariable Long pharmacyId){
+        List<MedicineOrderListDto> medicineOrderListsForPharmacy = new ArrayList<>();
+        if(medicineOrderListService.findWaitingOffersMedicineOrderListsForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(MedicineOrderList medicineOrderListForPharmacy : medicineOrderListService.findWaitingOffersMedicineOrderListsForPharmacy(pharmacyId)){
+            medicineOrderListsForPharmacy.add(MedicineOrderListMapper.convertToDto(medicineOrderListForPharmacy));
+        }
+
+        if(medicineOrderListsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(medicineOrderListsForPharmacy, HttpStatus.OK);
+    }
+
+    @GetMapping(value="getDoneMedicineOrderListsForPharmacy/{pharmacyId}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
+    public ResponseEntity<List<MedicineOrderListDto>> getDoneMedicineOrderListsForPharmacy(@PathVariable Long pharmacyId){
+        List<MedicineOrderListDto> medicineOrderListsForPharmacy = new ArrayList<>();
+        if(medicineOrderListService.findDoneMedicineOrderListsForPharmacy(pharmacyId) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        for(MedicineOrderList medicineOrderListForPharmacy : medicineOrderListService.findDoneMedicineOrderListsForPharmacy(pharmacyId)){
+            medicineOrderListsForPharmacy.add(MedicineOrderListMapper.convertToDto(medicineOrderListForPharmacy));
+        }
+
+        if(medicineOrderListsForPharmacy.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(medicineOrderListsForPharmacy, HttpStatus.OK);
+    }
 }

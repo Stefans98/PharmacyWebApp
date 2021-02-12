@@ -17,6 +17,10 @@ import TileJSON from 'ol/source/TileJSON';
 import VectorSource from 'ol/source/Vector';
 import {fromLonLat} from 'ol/proj';
 import { PharmacyFull } from '../../models/pharmacy-full.model';
+import { UserService } from '../../services/users/user.service';
+import { ResetPassword } from '../../models/reset-password.model';
+import { PharmacyAdminChangePasswordComponent } from './pharmacy-admin-change-password/pharmacy-admin-change-password.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -46,17 +50,26 @@ export class PharmacyAdministratorMyPharmacyComponent implements OnInit, AfterVi
   public lng: number;
   public lat: number;
 
+  public resetPasswordData : ResetPassword;
 
-  constructor(private pharmacyService: PharmacyService, private authService: AuthenticationService) {
-    this.pharmacyService.getPharmacyByFullPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+  constructor(private pharmacyService: PharmacyService, private authService: AuthenticationService, private userService: UserService, private dialog: MatDialog) {
+    this.userService.getPasswordResetDataForUser(authService.getLoggedUserId()).subscribe(
       data => {
-        this.pharmacy = data;
-        console.log(this.pharmacy.longitude);
-        console.log(this.pharmacy.latitude);
-        this.prepareDate(this.pharmacy);
-        this.initMap(); 
+        this.resetPasswordData = data;
+        this.pharmacyService.getPharmacyByFullPharmacyAdminId(this.authService.getLoggedUserId()).subscribe(
+          data => {
+            this.pharmacy = data;
+            console.log(this.pharmacy.longitude);
+            console.log(this.pharmacy.latitude);
+            this.prepareDate(this.pharmacy);
+            this.initMap(); 
+          }
+        );
+        if(this.resetPasswordData.passwordReset == false) { // First login
+          this.openDialog();
+        }
       }
-    )
+    );
   }
 
   prepareDate(pharmacy: PharmacyFull) : void {
@@ -110,6 +123,16 @@ export class PharmacyAdministratorMyPharmacyComponent implements OnInit, AfterVi
       }
     );
     
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PharmacyAdminChangePasswordComponent,{
+      panelClass: 'my-centered-dialog',
+      width: '550px',
+      height: '365px',
+      position: {left: '600px'},
+      disableClose: true
+    });
   }
 
 }

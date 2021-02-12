@@ -6,6 +6,7 @@ import isa.spring.boot.pharmacy.mapper.pharmacy.PharmacyMapper;
 import isa.spring.boot.pharmacy.mapper.pharmacy.PricelistMapper;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.pharmacy.Pricelist;
+import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.pharmacy.PricelistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class PriceListController {
     @Autowired
     PricelistService pricelistService;
 
+    @Autowired
+    PharmacyService pharmacyService;
 
     @GetMapping(value="/getPricelistForPharmacy/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
@@ -34,11 +37,12 @@ public class PriceListController {
 
     @PostMapping(value="/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
-    public ResponseEntity<Pricelist> updatePricelist(@RequestBody PricelistDto pricelistDto){
-        Pricelist pricelist = pricelistService.save(PricelistMapper.convertToEntity(pricelistDto));
+    public ResponseEntity<Void> updatePricelist(@RequestBody PricelistDto pricelistDto){
+        Pharmacy pharmacy = pharmacyService.findById(pricelistDto.getPharmacy().getId());
+        Pricelist pricelist = pricelistService.save(PricelistMapper.convertToEntity(pricelistDto, pharmacy));
         if(pricelist == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(pricelist, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

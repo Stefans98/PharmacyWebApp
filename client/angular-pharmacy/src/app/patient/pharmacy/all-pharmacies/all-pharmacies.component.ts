@@ -54,9 +54,6 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
 
         this.namesWithoutDuplicate = this.getDistinctNames();
         this.citiesWithoutDuplicate = this.getDistinctCities();
-
-        this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
-          this.mySubscriptions = data);
       },
       error => {
         if (error.status == 404){
@@ -74,6 +71,10 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.setFilterPreditct();
+  }
+
+  checkIfLoggedUserIsPatient() : boolean {
+    return this.authService.isAuthenticated();
   }
 
   setFilterPreditct() {
@@ -198,27 +199,6 @@ export class AllPharmaciesComponent implements OnInit, AfterViewInit {
     this.selectedGradeRange = null;
     this.selectedName = null;
     this.selectedCity = null;
-  }
-
-  subscribeClick(pharmacy) : void {
-    this.subscriptionService.subscribeToPharmacy(new Subscription(0, this.authService.getLoggedUserId(), null,
-    pharmacy.id, null)).subscribe(data => {
-      this.snackBar.open('Apoteka je dodata u listu vaših pretplata!', null, { 
-        duration : 3000, 
-        verticalPosition: 'top'
-       });
-       this.subscriptionService.getAllSubscriptionsForPatient(this.authService.getLoggedUserId()).subscribe(data =>
-        this.mySubscriptions = data);
-    })
-  }
-
-  isAlreadySubscribed(pharmacy): boolean {
-    for (let s of this.mySubscriptions) {
-      if (s.pharmacy.id == pharmacy.id) {
-        return true;
-      }
-    }
-    return false;
   }
 
   viewProfileClick(pharmacy): void {

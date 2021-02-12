@@ -90,7 +90,7 @@ export const patientMenus = [
                 'open': false,
             },
             {
-                'name': 'Izdati lekovi preko eRecepta',
+                'name': 'Izdati lekovi preko e-Recepta',
                 'icon': 'fact_check',
                 'link': 'patient/drugs/dispensed-drugs',
                 'open': false,

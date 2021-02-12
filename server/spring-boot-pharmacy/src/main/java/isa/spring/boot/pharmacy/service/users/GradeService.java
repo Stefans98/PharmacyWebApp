@@ -162,6 +162,9 @@ public class GradeService {
             dermatologist.setAverageGrade((double)(gradesSum)/(numberOfGrades));
         }
 
+        if (dermatologist.getAverageGrade() == 0) {
+            dermatologist.setAverageGrade(5);
+        }
         userService.saveUpdatedUser(dermatologist);
     }
 
@@ -181,6 +184,10 @@ public class GradeService {
             pharmacist.setAverageGrade((double) (gradesSum + grade) / (numberOfGrades + 1));
         } else {
             pharmacist.setAverageGrade((double) (gradesSum) / (numberOfGrades));
+        }
+
+        if (pharmacist.getAverageGrade() == 0) {
+            pharmacist.setAverageGrade(5);
         }
         userService.saveUpdatedUser(pharmacist);
     }
@@ -202,6 +209,10 @@ public class GradeService {
         } else {
             pharmacy.setAverageGrade((double) (gradesSum) / (numberOfGrades));
         }
+
+        if (pharmacy.getAverageGrade() == 0) {
+            pharmacy.setAverageGrade(5);
+        }
         pharmacyService.savePharmacy(pharmacy);
     }
 
@@ -221,6 +232,10 @@ public class GradeService {
             medicine.setAverageGrade((double) (gradesSum + grade) / (numberOfGrades + 1));
         } else {
             medicine.setAverageGrade((double) (gradesSum) / (numberOfGrades));
+        }
+
+        if (medicine.getAverageGrade() == 0) {
+            medicine.setAverageGrade(5);
         }
         medicineService.save(medicine);
     }

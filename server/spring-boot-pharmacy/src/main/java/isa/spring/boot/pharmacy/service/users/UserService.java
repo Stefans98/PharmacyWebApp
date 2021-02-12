@@ -8,8 +8,10 @@ import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.schedule.AppointmentState;
 import isa.spring.boot.pharmacy.model.users.*;
+import isa.spring.boot.pharmacy.repository.users.AllergyRepository;
 import isa.spring.boot.pharmacy.repository.users.UserRepository;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
+import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
 import org.apache.commons.logging.Log;
@@ -47,7 +49,13 @@ public class UserService implements UserDetailsService {
     private MedicineReservationService medicineReservationService;
 
     @Autowired
+    private MedicineService medicineService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AllergyRepository allergyRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -72,15 +80,40 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public Patient updatePatient(Patient patient) {
+    public Patient updatePatient(Patient patient, List<Long> medicinesIds) {
         if (patient.getPassword() == null || patient.getPassword().trim().isEmpty()) {
             String currentPassword = userRepository.getOne(patient.getId()).getPassword();
             patient.setPassword(currentPassword, false);
         } else {
             patient.setPassword(passwordEncoder.encode(patient.getPassword()), true);
         }
+        patient.setAccountActivated(true);
         patient.setAuthorities(authorityService.findByName("PATIENT"));
+        updateAllergies(patient, medicinesIds);
         return userRepository.save(patient);
+    }
+
+    public void updateAllergies(Patient patient, List<Long> medicinesIds) {
+        if (patient.getAllergies() == null) {
+            patient.setAllergies(new ArrayList<>());
+        }
+
+        for (long medicineId: medicinesIds) {
+            boolean allergyAlreadyExists = false;
+            for (Allergy allergy: patient.getAllergies()) {
+                if (allergy.getMedicine().getId() == medicineId) {
+                    allergyAlreadyExists = true;
+                    break;
+                }
+            }
+            if (!allergyAlreadyExists) {
+                Allergy allergy = new Allergy();
+                allergy.setMedicine(medicineService.findById(medicineId));
+                allergy.setName(allergy.getMedicine().getName());
+                allergy.setPatient(patient);
+                patient.getAllergies().add(allergy);
+            }
+        }
     }
 
     public Patient givePenaltyToPatient(long patientId) {
@@ -458,6 +491,10 @@ public class UserService implements UserDetailsService {
             pharmacyAdministrator.setPassword(currentPassword, false);
         } else {
             pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
+        }
+        User user = userRepository.findByEmail(pharmacyAdministrator.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            pharmacyAdministrator.setLastPasswordResetDate(user.getLastPasswordResetDate());
         }
         pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
