@@ -102,7 +102,6 @@ import { IngredientsModalDialogComponent } from './system-administrator/medicine
 import { AllergiesModalDialogComponent } from './patient/patient-profile/allergies-modal-dialog/allergies-modal-dialog.component';
 import { DefineTermsDialogComponent } from './pharmacy-administrator/all-dermatologists/define-terms-dialog/define-terms-dialog.component';
 import { PenaltyGraphComponent } from './patient/penalty/penalty-graph/penalty-graph.component';
-import { ChartModule } from 'angular2-chartjs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PharmacyAdministratorProfileComponent } from './pharmacy-administrator/pharmacy-administrator-profile/pharmacy-administrator-profile.component';
 import { MedicineSpecificationModalDialogPharmacistComponent } from './pharmacist/pharmacist-start-appointment/medicine-specification-modal-dialog-pharmacist/medicine-specification-modal-dialog-pharmacist.component';
@@ -136,6 +135,7 @@ import { CounselingSchedulingComponent } from './pharmacy-profile/counseling-sch
 import { SysAdminProfileComponent } from './system-administrator/sys-admin-profile/sys-admin-profile.component';
 import { SysAdmChangePasswordModalDialogComponent } from './system-administrator/pharmacy-registration/sys-adm-change-password-modal-dialog/sys-adm-change-password-modal-dialog.component';
 import { PharmacyAdminChangePasswordComponent } from './pharmacy-administrator/pharmacy-administrator-my-pharmacy/pharmacy-admin-change-password/pharmacy-admin-change-password.component';
+import { SupplierPasswordChangeModalDialogComponent } from './supplier/medicine-order-lists/supplier-password-change-modal-dialog/supplier-password-change-modal-dialog.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -263,7 +263,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MedicineReservationComponent,
     SysAdminProfileComponent,
     SysAdmChangePasswordModalDialogComponent,
-    PharmacyAdminChangePasswordComponent
+    PharmacyAdminChangePasswordComponent,
+    SupplierPasswordChangeModalDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -284,7 +285,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NgxMatNativeDateModule,
     NgxSliderModule,
     CommonModule,
-    ChartModule,
     FlexLayoutModule,
     NgxChartsModule,
     MatTableModule,

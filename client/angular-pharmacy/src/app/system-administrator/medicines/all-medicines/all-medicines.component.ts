@@ -151,7 +151,7 @@ export class AllMedicinesComponent implements OnInit {
   onChangeTypeFilter(value) {
 
     this.setFilterPredicate();
-    this.dataSourceChangeIn = 2;
+    this.dataSourceChangeIn = 3;
     this.selectedType = value;
     
     if (value === undefined) {
@@ -178,8 +178,9 @@ export class AllMedicinesComponent implements OnInit {
   onChangeFormFilter(value) {
 
     this.setFilterPredicate();
-    this.dataSourceChangeIn = 2;
-    this.selectedType = value;
+    this.dataSourceChangeIn = 4;
+    this.selectedForm = value;
+
     
     if (value === undefined) {
       this.dataSource.filter = this.dataSourceAfterSearch.filter;
@@ -206,11 +207,13 @@ export class AllMedicinesComponent implements OnInit {
 
   setFilterPredicate() {
     this.dataSource.filterPredicate = (data, filter: string) => {
-      if (this.dataSourceChangeIn == 1) {
+        if (this.dataSourceChangeIn == 1) {
         return data.name.toLowerCase().startsWith(filter);
       } else if (this.dataSourceChangeIn == 2) {
-        return data.medicineType.toString().toLowerCase().startsWith(filter);
+        return data.averageGrade.toString().startsWith(filter);
       } else if (this.dataSourceChangeIn == 3) {
+        return data.medicineType.toString().toLowerCase().startsWith(filter);
+      } else if (this.dataSourceChangeIn == 4) {
         return data.medicineForm.toString().toLowerCase().startsWith(filter);
       }     
     };

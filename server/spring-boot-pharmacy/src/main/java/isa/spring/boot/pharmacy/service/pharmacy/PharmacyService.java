@@ -1,10 +1,7 @@
 package isa.spring.boot.pharmacy.service.pharmacy;
 
 import isa.spring.boot.pharmacy.dto.pharmacy.PharmacyDto;
-import isa.spring.boot.pharmacy.model.medicines.Medicine;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
-import isa.spring.boot.pharmacy.model.medicines.MedicineReservationState;
-import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
+import isa.spring.boot.pharmacy.model.medicines.*;
 import isa.spring.boot.pharmacy.model.pharmacy.Pharmacy;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.users.Address;
@@ -12,6 +9,7 @@ import isa.spring.boot.pharmacy.model.users.Dermatologist;
 import isa.spring.boot.pharmacy.model.users.Pharmacist;
 import isa.spring.boot.pharmacy.model.users.PharmacyAdministrator;
 import isa.spring.boot.pharmacy.repository.pharmacy.PharmacyRepository;
+import isa.spring.boot.pharmacy.service.medicines.EPrescriptionService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineReservationService;
 import isa.spring.boot.pharmacy.service.medicines.MedicineService;
 import isa.spring.boot.pharmacy.service.schedule.AppointmentService;
@@ -43,6 +41,9 @@ public class PharmacyService {
 
     @Autowired
     private MedicineReservationService medicineReservationService;
+
+    @Autowired
+    private EPrescriptionService ePrescriptionService;
 
     public List<Pharmacy> getAllPharmacies(){
         return pharmacyRepository.findAll();
@@ -153,9 +154,25 @@ public class PharmacyService {
         return pharmacies;
     }
 
-    public List<Pharmacy> mergePharmacyMapsToList(HashMap<Long, Pharmacy> first, HashMap<Long, Pharmacy> second) {
+    public HashMap<Long, Pharmacy> getPharmaciesForEPrescription(List<EPrescription> prescriptions) {
+        HashMap<Long, Pharmacy> pharmacies = new HashMap<>();
+        for (EPrescription ePrescription : prescriptions) {
+            if (ePrescription.getePrescriptionState() == EPrescriptionState.CONFIRMED) {
+                Long pharmacyId = ePrescription.getPharmacy().getId();
+                pharmacies.put(pharmacyId, findById(pharmacyId));
+            }
+        }
+        return pharmacies;
+    }
+
+    public List<Pharmacy> mergePharmacyMapsToList(HashMap<Long, Pharmacy> first, HashMap<Long, Pharmacy> second, HashMap<Long, Pharmacy> third) {
         for (Pharmacy pharmacy : second.values()) {
-            if (first.containsKey(pharmacy.getId())) {
+            if (!first.containsKey(pharmacy.getId())) {
+                first.put(pharmacy.getId(), pharmacy);
+            }
+        }
+        for (Pharmacy pharmacy : third.values()) {
+            if (!first.containsKey(pharmacy.getId())) {
                 first.put(pharmacy.getId(), pharmacy);
             }
         }
@@ -167,7 +184,9 @@ public class PharmacyService {
                 getPharmaciesForAppointments(appointmentService.getAllCompletedAppointmentsForPatient(patientId));
         HashMap<Long, Pharmacy> pharmaciesByMedicineReservations =
                 getPharmaciesForMedicineReservations(medicineReservationService.getAllReservedMedicinesByPatientId(patientId));
-        return mergePharmacyMapsToList(pharmaciesByAppointments, pharmaciesByMedicineReservations);
+        HashMap<Long, Pharmacy> pharmaciesByEPrescriptions =
+                getPharmaciesForEPrescription(ePrescriptionService.getEPrescriptionsForPatient(patientId));
+        return mergePharmacyMapsToList(pharmaciesByAppointments, pharmaciesByMedicineReservations, pharmaciesByEPrescriptions);
     }
 
     public List<Pharmacy> findAll(){

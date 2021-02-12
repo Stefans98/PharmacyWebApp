@@ -53,6 +53,7 @@ public class MedicineMapper {
             medicine.setMedicineSpecification(MedicineSpecificationMapper.convertToEntity(dto.getMedicineSpecification()));
             medicine.getMedicineSpecification().setMedicine(medicine);
         }
+        medicine.setMedicineSpecification(MedicineSpecificationMapper.convertToEntity(dto.getMedicineSpecification()));
         return medicine;
     }
 

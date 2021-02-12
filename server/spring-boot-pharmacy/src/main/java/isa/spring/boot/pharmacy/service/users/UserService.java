@@ -128,6 +128,10 @@ public class UserService implements UserDetailsService {
         } else {
             supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
         }
+        User user = userRepository.findByEmail(supplier.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            supplier.setLastPasswordResetDate(user.getLastPasswordResetDate());
+        }
         supplier.setAuthorities(authorityService.findByName("SUPPLIER"));
         return userRepository.save(supplier);
 
@@ -140,8 +144,9 @@ public class UserService implements UserDetailsService {
         } else {
             systemAdministrator.setPassword(passwordEncoder.encode(systemAdministrator.getPassword()), true);
         }
-        if(systemAdministrator.getLastPasswordResetDate() != null) {
-            systemAdministrator.setLastPasswordResetDate(systemAdministrator.getLastPasswordResetDate());
+        User user = userRepository.findByEmail(systemAdministrator.getEmail());
+        if(user.getLastPasswordResetDate() != null) {
+            systemAdministrator.setLastPasswordResetDate(user.getLastPasswordResetDate());
         }
         systemAdministrator.setAuthorities(authorityService.findByName("SYSTEM_ADMIN"));
         return userRepository.save(systemAdministrator);

@@ -115,9 +115,18 @@ public class MedicineService {
         return medicines;
     }
 
-    public List<Medicine> getMedicinesForPatientCompletedReservations(Long patientId) {
-        List<MedicineReservation> medicineReservations = medicineReservationService.getAllCompletedMedicineReservationByPatientId(patientId);
-        return getMedicinesByCompletedMedicineReservation(medicineReservations);
+    public HashMap<Long, Medicine> getMedicinesForEPrescription(List<EPrescription> prescriptions) {
+        HashMap<Long, Medicine> medicines = new HashMap<>();
+        for (EPrescription ePrescription : prescriptions) {
+            if (ePrescription.getePrescriptionState() == EPrescriptionState.CONFIRMED) {
+                for (EPrescriptionItem ePrescriptionItem : ePrescription.getePrescriptionItems()) {
+                    Long medicinesId = ePrescriptionItem.getMedicine().getId();
+                    medicines.put(medicinesId, findById(medicinesId));
+                }
+
+            }
+        }
+        return medicines;
     }
 
     public List<Medicine> getMedicinesByCompletedMedicineReservation(List<MedicineReservation> medicineReservations) {
@@ -126,6 +135,21 @@ public class MedicineService {
             medicines.add(findById(medicineReservation.getMedicine().getId()));
         }
         return medicines;
+    }
+
+    public List<Medicine> getMedicinesForPatientCompletedReservationsAndEPrescription(Long patientId) {
+        HashMap<Long, Medicine> medicinesByEPrescriptions =
+                getMedicinesForEPrescription(ePrescriptionService.getEPrescriptionsForPatient(patientId));
+        List<MedicineReservation> medicineReservations =
+                medicineReservationService.getAllCompletedMedicineReservationByPatientId(patientId);
+
+        for (Medicine medicine : getMedicinesByCompletedMedicineReservation(medicineReservations)) {
+            if (!medicinesByEPrescriptions.containsKey(medicine.getId())) {
+                medicinesByEPrescriptions.put(medicine.getId(), medicine);
+            }
+        }
+
+        return new ArrayList<Medicine>(medicinesByEPrescriptions.values());
     }
 
 

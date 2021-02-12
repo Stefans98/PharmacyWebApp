@@ -172,7 +172,7 @@ public class MedicineController {
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<List<MedicineDto>> getMedicinesForPatientCompletedReservations(@PathVariable Long patientId) {
         List<MedicineDto> medicineDtos = new ArrayList<>();
-        for (Medicine medicine : medicineService.getMedicinesForPatientCompletedReservations(patientId)) {
+        for (Medicine medicine : medicineService.getMedicinesForPatientCompletedReservationsAndEPrescription(patientId)) {
             medicineDtos.add(MedicineMapper.convertToDto(medicine));
         }
         return new ResponseEntity<>(medicineService.removeMedicineDuplicates(medicineDtos), HttpStatus.OK);
