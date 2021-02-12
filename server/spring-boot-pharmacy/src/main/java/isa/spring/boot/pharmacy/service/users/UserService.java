@@ -200,24 +200,25 @@ public class UserService implements UserDetailsService {
     }
 
     public User saveDermatologist(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()), false);
 
         Dermatologist dermatologist = new Dermatologist(user);
         dermatologist.getAddress().setUser(dermatologist);
         List<Authority> authorities = authorityService.findByName("DERMATOLOGIST");
         dermatologist.setAuthorities(authorities);
+        dermatologist.setAverageGrade(5.0);
         return userRepository.save(dermatologist);
     }
 
     public Supplier saveSupplier(Supplier supplier) {
-        supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), true);
+        supplier.setPassword(passwordEncoder.encode(supplier.getPassword()), false);
         List<Authority> authorities = authorityService.findByName("SUPPLIER");
         supplier.setAuthorities(authorities);
         return userRepository.save(supplier);
     }
 
     public PharmacyAdministrator savePharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator, Long pharmacyId) {
-        pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), true);
+        pharmacyAdministrator.setPassword(passwordEncoder.encode(pharmacyAdministrator.getPassword()), false);
         pharmacyAdministrator.setPharmacy(pharmacyService.findById(pharmacyId));
         List<Authority> authorities = authorityService.findByName("PHARMACY_ADMIN");
         pharmacyAdministrator.setAuthorities(authorities);
@@ -225,7 +226,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User saveSystemAdministrator(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()), true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()), false);
 
         SystemAdministrator systemAdministrator = new SystemAdministrator(user);
         systemAdministrator.getAddress().setUser(systemAdministrator);
@@ -469,6 +470,8 @@ public class UserService implements UserDetailsService {
         pharmacist.getAddress().setUser(pharmacist);
         List<Authority> authorities = authorityService.findByName("PHARMACIST");
         pharmacist.setAuthorities(authorities);
+        pharmacist.setLastPasswordResetDate(null);
+        pharmacist.setAverageGrade(5);
         pharmacist.setDeleted(false);
         return userRepository.save(pharmacist);
     }

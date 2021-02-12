@@ -94,6 +94,11 @@ export class NewEPrescriptionComponent implements OnInit {
             duration : 3000, 
             verticalPosition: 'top'
            });
+        } else if (error.status == 409) {
+          this.snackBar.open('Vaš recept je odbijen!', null, { 
+            duration : 3000, 
+            verticalPosition: 'top'
+           });
         }
       });
   }
