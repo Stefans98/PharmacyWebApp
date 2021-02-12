@@ -62,8 +62,6 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.password = password;
-        Timestamp now = new Timestamp(new Date().getTime());
-        this.setLastPasswordResetDate(now);
     }
 
     public Long getId() {
