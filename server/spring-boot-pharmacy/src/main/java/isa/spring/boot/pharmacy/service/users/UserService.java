@@ -469,6 +469,8 @@ public class UserService implements UserDetailsService {
         pharmacist.getAddress().setUser(pharmacist);
         List<Authority> authorities = authorityService.findByName("PHARMACIST");
         pharmacist.setAuthorities(authorities);
+        pharmacist.setLastPasswordResetDate(null);
+        pharmacist.setAverageGrade(5);
         pharmacist.setDeleted(false);
         return userRepository.save(pharmacist);
     }
