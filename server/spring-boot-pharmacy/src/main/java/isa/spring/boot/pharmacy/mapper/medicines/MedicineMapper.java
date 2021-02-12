@@ -16,6 +16,7 @@ public class MedicineMapper {
         dto.setMedicineForm(medicine.getMedicineForm());
         dto.setAverageGrade(medicine.getAverageGrade());
         dto.setOnPrescription(medicine.isOnPrescription());
+        dto.setPoints(medicine.getPoints());
         dto.setAdditionalInformation(medicine.getAdditionalInformation());
         if (medicine.getMedicineSpecification() != null) {
             dto.setMedicineSpecification(MedicineSpecificationMapper.convertToDto(medicine.getMedicineSpecification()));
@@ -32,6 +33,7 @@ public class MedicineMapper {
         medicine.setMedicineForm(dto.getMedicineForm());
         medicine.setOnPrescription(dto.isOnPrescription());
         medicine.setAdditionalInformation(dto.getAdditionalInformation());
+        medicine.setPoints(dto.getPoints());
         if (dto.getMedicineSpecification() != null) {
             medicine.setMedicineSpecification(MedicineSpecificationMapper.convertToEntity(dto.getMedicineSpecification()));
             medicine.getMedicineSpecification().setMedicine(medicine);

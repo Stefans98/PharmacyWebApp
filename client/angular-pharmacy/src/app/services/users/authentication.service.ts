@@ -63,4 +63,8 @@ export class AuthenticationService {
     localStorage.removeItem('email');
 
   }
+
+  public getUserRole() : string {
+    return localStorage.getItem('userRole');
+  }
 }

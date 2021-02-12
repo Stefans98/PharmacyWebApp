@@ -5,6 +5,7 @@ export class EPrescription {
     constructor(
         public id : number,
         public patientId : number,
+        public code : string,
         public issuingDate : Date,
         public items : EPrescriptionItem[],
         public pharmacyId : number,

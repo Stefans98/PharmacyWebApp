@@ -78,13 +78,19 @@ export const patientMenus = [
         'open': false,
         'sub': [
             {
+                'name': 'Svi lekovi',
+                'icon': 'healing',
+                'link': 'patient/drugs/all-medicines',
+                'open': false,
+            },
+            {
                 'name': 'Rezervisani lekovi',
                 'icon': 'check_circle',
                 'link': 'patient/drugs/reserved-drugs',
                 'open': false,
             },
             {
-                'name': 'Izdati lekovi preko eRecepta',
+                'name': 'Izdati lekovi preko e-Recepta',
                 'icon': 'fact_check',
                 'link': 'patient/drugs/dispensed-drugs',
                 'open': false,

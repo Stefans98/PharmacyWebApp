@@ -54,6 +54,19 @@ public class MedicineService {
         return medicineRepository.findAll();
     }
 
+    public List<Medicine> findAllMedicineWhichAreNotDeleted() {
+        List<Medicine> medicines = new ArrayList<>();
+        for (Medicine medicine : findAll()) {
+            for (PharmacyMedicine pharmacyMedicine: pharmacyMedicineService.findAll()) {
+                if (pharmacyMedicine.getMedicine().getId().equals(medicine.getId()) &&
+                        !pharmacyMedicine.getDeleted()) {
+                    medicines.add(medicine);
+                }
+            }
+        }
+        return removeDuplicates(medicines);
+    }
+
     public Medicine findById(long id) {
         return medicineRepository.findById(id);
     }
@@ -62,7 +75,7 @@ public class MedicineService {
 
     public List<Medicine> findMedicinesBy(String name) {
         List<Medicine> medicines = new ArrayList<>();
-        for(Medicine medicine : findAll()) {
+        for(Medicine medicine : findAllMedicineWhichAreNotDeleted()) {
             if (medicine.getName().toLowerCase().startsWith(name)) {
                 medicines.add(medicine);
             }
@@ -108,8 +121,10 @@ public class MedicineService {
     public List<Medicine> getMedicinesFromEPrescriptionByPatientId(long patientId) {
         List<Medicine> medicines = new ArrayList<>();
         for(EPrescription ePrescription : ePrescriptionService.getEPrescriptionsForPatient(patientId)) {
-            for(EPrescriptionItem ePrescriptionItem: ePrescription.getePrescriptionItems()) {
-                medicines.add(ePrescriptionItem.getMedicine());
+            if(ePrescription.getePrescriptionState() == EPrescriptionState.CONFIRMED) {
+                for(EPrescriptionItem ePrescriptionItem: ePrescription.getePrescriptionItems()) {
+                    medicines.add(ePrescriptionItem.getMedicine());
+                }
             }
         }
         return medicines;
@@ -196,6 +211,18 @@ public class MedicineService {
             medicineDtoWithoutDuplicates.add(map.get(id));
         }
         return medicineDtoWithoutDuplicates;
+    }
+
+    public List<Medicine> removeDuplicates(List<Medicine> medicines){
+        Map<Long, Medicine> map = new HashMap<>();
+        List<Medicine> medicineWithoutDuplicates = new ArrayList<>();
+        for(Medicine m: medicines){
+            map.put(m.getId(), m);
+        }
+        for (Long id: map.keySet()) {
+            medicineWithoutDuplicates.add(map.get(id));
+        }
+        return medicineWithoutDuplicates;
     }
 
 }

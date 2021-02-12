@@ -17,7 +17,7 @@ export class EditOfferModalDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditOfferModalDialogComponent>,  private offerService: OfferService, private authService: AuthenticationService, 
                 @Inject(MAT_DIALOG_DATA) private offer: Offer) {
-    this.minDate = new Date();
+    this.minDate = new Date(offer.medicineOrderList.finalOfferDate);
     this.price = offer.price;
     this.deliveryDate = new Date(offer.deliveryDeadline);
    }

@@ -45,7 +45,7 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Patient updatedPatient = userService.updatePatient(PatientMapper.convertToEntity(patientDto, true));
+        Patient updatedPatient = userService.updatePatient(PatientMapper.convertToEntity(patientDto, true), patientDto.getMedicinesId());
         if (updatedPatient == null){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

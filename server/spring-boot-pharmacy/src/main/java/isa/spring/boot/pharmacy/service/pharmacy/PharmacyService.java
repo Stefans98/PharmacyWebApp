@@ -99,7 +99,8 @@ public class PharmacyService {
         Medicine medicine = medicineService.findById(medicineId);
         List<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
         for(PharmacyMedicine pharmacyMedicine : medicine.getPharmacyMedicines()) {
-            if(pharmacyMedicine.getMedicine().getId() == medicineId) {
+            if(pharmacyMedicine.getMedicine().getId().equals(medicineId) &&
+                    !pharmacyMedicine.getDeleted()) {
                 pharmacies.add(pharmacyMedicine.getPharmacy());
             }
         }

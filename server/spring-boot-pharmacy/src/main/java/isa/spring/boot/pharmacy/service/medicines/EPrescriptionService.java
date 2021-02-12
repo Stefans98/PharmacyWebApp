@@ -2,11 +2,13 @@ package isa.spring.boot.pharmacy.service.medicines;
 
 import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionItem;
+import isa.spring.boot.pharmacy.model.medicines.EPrescriptionState;
 import isa.spring.boot.pharmacy.model.schedule.Appointment;
 import isa.spring.boot.pharmacy.model.users.Patient;
 import isa.spring.boot.pharmacy.repository.medicines.EPrescriptionRepository;
 import isa.spring.boot.pharmacy.service.email.EmailService;
 import isa.spring.boot.pharmacy.service.pharmacy.PharmacyService;
+import isa.spring.boot.pharmacy.service.users.LoyaltyProgramService;
 import isa.spring.boot.pharmacy.service.users.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +40,18 @@ public class EPrescriptionService {
     @Autowired
     private PharmacyMedicineService pharmacyMedicineService;
 
+    @Autowired
+    private LoyaltyProgramService loyaltyProgramService;
+
     public EPrescription createNewPrescription(EPrescription ePrescription, Long patientId, Long pharmacyId,
                                                HashMap<String, Integer> codesWithQuantities) {
+        boolean ePrescriptionSuccessful = true;
         if (userService.getPenaltiesByPatientId(patientId) > 2) {
             return null;
         }
         ePrescription.setPharmacy(pharmacyService.getPharmacyById(pharmacyId));
         ePrescription.setPatient((Patient) Hibernate.unproxy(userService.findById(patientId)));
+        ePrescription.setCode("EPR" + String.valueOf(ePrescriptionRepository.findAll().size() + 1));
 
         List<EPrescriptionItem> items = new ArrayList<>();
         for (String code : codesWithQuantities.keySet()) {
@@ -53,13 +60,25 @@ public class EPrescriptionService {
             item.setMedicine(medicineService.findByCode(code));
             items.add(item);
             item.setePrescription(ePrescription);
-            pharmacyMedicineService.reduceMedicineQuantityInPharmacy(code, codesWithQuantities.get(code), pharmacyId);
+            if (!pharmacyMedicineService.reduceMedicineQuantityInPharmacy(code, codesWithQuantities.get(code), pharmacyId)) {
+                ePrescriptionSuccessful = false;
+                continue;
+            }
             userService.addPointsToPatient(patientId, item.getMedicine().getPoints());
         }
         ePrescription.setePrescriptionItems(items);
 
-        return ePrescriptionRepository.save(ePrescription);
+        if (ePrescriptionSuccessful) {
+            ePrescription.setePrescriptionState(EPrescriptionState.CONFIRMED);
+            double priceWithDiscount = loyaltyProgramService.
+                    calculatePriceBasedOnUserCategory(ePrescription.getPatient().getId(), ePrescription.getPrice());
+            ePrescription.setPrice(priceWithDiscount);
+            return ePrescriptionRepository.save(ePrescription);
+        }
+        ePrescription.setePrescriptionState(EPrescriptionState.REJECTED);
+        return null;
     }
+
 
     public List<EPrescription> getEPrescriptionsForPatient(Long patientId) {
         return ePrescriptionRepository.findByPatientId(patientId);

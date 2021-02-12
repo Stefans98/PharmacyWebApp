@@ -185,7 +185,7 @@ public class MedicineReservationService {
     public void sendEmailForMedicineReservation(MedicineReservation medicineReservation) {
         try {
             emailService.sendEmailAsync(medicineReservation.getPatient(), "Rezervacija leka",
-            "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Šifra za preuzimanje je: " + medicineReservation.getUniqueReservationCode() +
+            "Poštovani, <br><br>Uspešno ste rezervisali lek. <br> Jedinstven broj rezervacije koji se koristi prilikom preuzimanja leka je: " + medicineReservation.getUniqueReservationCode() +
                     "<br><br>Napomena: Ukoliko ne otkažete rezervaciju leka 24h ranije ili ne preuzmete lek do datuma preuzimanja,<br>" +
                     " broj penala na Vašem nalogu će se povećati za 1. Ako dobijete više od 2 penala u trenutnom mesecu, gubite pravo<br>" +
                     " rezervacije leka, kao i zakazivanja savetovanja i pregleda za taj mesec!" +

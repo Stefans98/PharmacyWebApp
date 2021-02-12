@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/users/authentication.service';
 import { SupplierService } from '../../services/users/supplier.service';
@@ -24,7 +25,7 @@ export class SupplierProfileComponent implements OnInit {
   public country: string = '';
 
   constructor(private userService: UserService, private authService: AuthenticationService, private supplierService: SupplierService,
-                private snackBar: MatSnackBar) {
+                private snackBar: MatSnackBar, private router: Router) {
     this.userService.getUserById(this.authService.getLoggedUserId()).subscribe(user =>
         this.fillData(user)
       ); 
@@ -51,6 +52,10 @@ export class SupplierProfileComponent implements OnInit {
           duration : 3000, 
           verticalPosition: 'top'
          });
+         if (this.password.length > 0) {
+          this.authService.logout();
+          this.router.navigate(['login']);
+        }
       })
   }
 

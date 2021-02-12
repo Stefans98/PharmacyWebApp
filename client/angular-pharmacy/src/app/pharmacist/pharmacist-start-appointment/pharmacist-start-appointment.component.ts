@@ -258,7 +258,7 @@ export class PharmacistStartAppointmentComponent implements OnInit {
         this.patientAppointments = [];
         this.searchInput.nativeElement.disabled = false;
         this.searchInput.nativeElement.value = '';
-        this.openSnackBar('Uspešno ste završili savetovanje!', 'Zatvori', 3000);
+        this.openSnackBar('Uspešno ste završili savetovanje. Pacijent je dobio jedan penal zbog nedolaženja na savetovanje!', 'Zatvori', 4200);
       },
       error => {
         if (error.status = 404){
