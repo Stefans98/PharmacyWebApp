@@ -8,6 +8,7 @@ export class Complaint {
         public id: number,
         public complaintType: string,
         public text: string,
+        public answered: boolean,
         public patientId: number,
         public patient: Patient,
         public pharmacyId: number,

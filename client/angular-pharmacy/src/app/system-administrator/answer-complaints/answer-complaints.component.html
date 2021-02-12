@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div fxLayout="column" fxLayoutAlign="center center" style="height: 5%;">
-                <button mat-raised-button color="primary" (click)="answerComplaintClick(element)" style="width: 200px;">Odgovori</button>
+                <button mat-raised-button color="primary" (click)="answerComplaintClick(element)" style="width: 200px;" [disabled]="checkIfAlreadyAnswered(element)">Odgovori</button>
             </div>
         </div>
     </div>

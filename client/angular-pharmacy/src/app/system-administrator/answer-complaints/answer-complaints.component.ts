@@ -46,8 +46,18 @@ export class AnswerComplaintsComponent implements OnInit {
           duration : 3000, 
           verticalPosition: 'top'
          });
+         this.complaintService.getAllComplaints().subscribe(data => this.complaints = data);
+      } else {
+        this.snackBar.open('Greška prilikom slanja odgovora! Odgovor na žalbu možda već postoji!', null, { 
+          duration : 3000, 
+          verticalPosition: 'top'
+         });
       }
     })
+  }
+
+  checkIfAlreadyAnswered(element : Complaint) : boolean {
+    return element.answered;
   }
 
 }

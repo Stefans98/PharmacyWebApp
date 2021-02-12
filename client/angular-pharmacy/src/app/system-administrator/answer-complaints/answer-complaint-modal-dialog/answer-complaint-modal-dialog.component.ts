@@ -26,6 +26,9 @@ export class AnswerComplaintModalDialogComponent implements OnInit {
     console.log(this.complaint);
     this.complaintService.sendComplaintAnswer(new ComplaintAnswer(0, this.answerText, this.complaint.id, null)).subscribe(data => {
       this.dialogRef.close({successfull : true});
+    }, 
+    error => {
+      this.dialogRef.close({successfull : false});
     })
   }
 
