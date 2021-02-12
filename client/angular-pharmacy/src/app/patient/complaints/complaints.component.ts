@@ -65,7 +65,7 @@ export class ComplaintsComponent implements OnInit {
 
   sendComplaintClick(): void {
     if (this.complaintType == 1) {
-      this.complaintService.sendPharmacyComplaint(new Complaint(0, this.complaintEntityType, this.complaintText,
+      this.complaintService.sendPharmacyComplaint(new Complaint(0, this.complaintEntityType, this.complaintText, false,
         this.authService.getLoggedUserId(), null, this.chosenPharmacy.id, null, 0, null, 0, null)).subscribe(data => {
          this.snackBar.open('Vaša žalba je poslata!', null, { 
            duration : 3000, 
@@ -73,7 +73,7 @@ export class ComplaintsComponent implements OnInit {
           });
         });
     } else if (this.complaintType == 2) {
-      this.complaintService.sendPharmacistComplaint(new Complaint(0, this.complaintEntityType, this.complaintText,
+      this.complaintService.sendPharmacistComplaint(new Complaint(0, this.complaintEntityType, this.complaintText, false,
         this.authService.getLoggedUserId(), null, 0, null, this.chosenPharmacist.id, null, 0, null)).subscribe(data => {
          this.snackBar.open('Vaša žalba je poslata!', null, { 
            duration : 3000, 
@@ -81,7 +81,7 @@ export class ComplaintsComponent implements OnInit {
           });
         });
     } else if (this.complaintType == 3) {
-      this.complaintService.sendDermatologistComplaint(new Complaint(0, this.complaintEntityType, this.complaintText,
+      this.complaintService.sendDermatologistComplaint(new Complaint(0, this.complaintEntityType, this.complaintText, false,
          this.authService.getLoggedUserId(), null, 0, null, 0, null, this.chosenDermatologist.id, null)).subscribe(data => {
           this.snackBar.open('Vaša žalba je poslata!', null, { 
             duration : 3000, 
