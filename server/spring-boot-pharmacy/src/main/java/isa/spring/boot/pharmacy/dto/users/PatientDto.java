@@ -2,6 +2,7 @@ package isa.spring.boot.pharmacy.dto.users;
 
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDto {
@@ -20,6 +21,7 @@ public class PatientDto {
     private List<Medicine> medicines;
 
     public PatientDto() {
+        medicines = new ArrayList<>();
     }
 
     public Long getId() {
@@ -116,5 +118,13 @@ public class PatientDto {
 
     public void setMedicines(List<Medicine> medicines) {
         this.medicines = medicines;
+    }
+
+    public List<Long> getMedicinesId() {
+        List<Long> ids = new ArrayList<>();
+        for (Medicine medicine: getMedicines()) {
+            ids.add(medicine.getId());
+        }
+        return ids;
     }
 }
