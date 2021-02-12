@@ -69,9 +69,10 @@ public class ComplaintController {
     public ResponseEntity<ComplaintAnswerDto> answerComplaint(@RequestBody ComplaintAnswerDto complaintAnswerDto) {
         ComplaintAnswer complaintAnswer = complaintService.saveComplaintAnswer(ComplaintAnswerMapper.convertToEntity(complaintAnswerDto),
                 complaintAnswerDto.getComplaintId());
-        if (complaintAnswer != null) {
-            complaintService.sendComplaintAnswerMail(complaintAnswer);
+        if (complaintAnswer == null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        complaintService.sendComplaintAnswerMail(complaintAnswer);
         return new ResponseEntity<>(ComplaintAnswerMapper.convertToDto(complaintAnswer), HttpStatus.OK);
     }
 }

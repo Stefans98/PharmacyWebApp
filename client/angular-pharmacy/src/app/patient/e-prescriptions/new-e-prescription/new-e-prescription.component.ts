@@ -69,7 +69,7 @@ export class NewEPrescriptionComponent implements OnInit {
       this.pharmacies = data;
       this.dataSource.data = this.pharmacies;
       if (this.pharmacies.length == 0) {
-        this.snackBar.open('Apoteke nemaju u ponudi unete lekove!', null, { 
+        this.snackBar.open('Apoteke nemaju u ponudi potrebnu količinu unetih lekova!', null, { 
           duration : 3000, 
           verticalPosition: 'top'
          });

@@ -52,6 +52,9 @@ public class ComplaintService {
     }
 
     public ComplaintAnswer saveComplaintAnswer(ComplaintAnswer complaintAnswer, Long complaintId) {
+        if (complaintRepository.getOne(complaintId).isAnswered()) {
+            return null;
+        }
         complaintAnswer.setComplaint(complaintRepository.getOne(complaintId));
         changeComplaintStatusToAnswered(complaintId);
         return complaintAnswerRepository.save(complaintAnswer);
