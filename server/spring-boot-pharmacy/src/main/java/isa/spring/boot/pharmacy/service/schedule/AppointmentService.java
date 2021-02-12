@@ -369,8 +369,7 @@ public class AppointmentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Employee employee = (Employee) userService.findById(employeeId);
         for(WorkDay workDay : employee.getWorkDays()) {
-            if(sdf.format(newAppointment.getStartTime()).equals(sdf.format(workDay.getStartTime())) &&
-                    newAppointment.getWorkDay().getPharmacy().getId().equals(workDay.getPharmacy().getId())) {
+            if(sdf.format(newAppointment.getStartTime()).equals(sdf.format(workDay.getStartTime()))) {
                 if(newAppointment.getStartTime().compareTo(workDay.getStartTime()) >= 0 &&
                     newAppointment.getEndTime().compareTo(workDay.getEntTime()) <= 0) {
                     return true;

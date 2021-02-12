@@ -47,6 +47,9 @@ public class EPrescriptionService {
 
     public EPrescription createEPrescription(EPrescription ePrescription, Long patientId, Long pharmacyId,
                                              HashMap<String, Integer> codesWithQuantities) {
+        if (userService.getPenaltiesByPatientId(patientId) > 2) {
+            return null;
+        }
         ePrescription.setPharmacy(pharmacyService.getPharmacyById(pharmacyId));
         ePrescription.setPatient((Patient) Hibernate.unproxy(userService.findById(patientId)));
         ePrescription.setCode("EPR" + String.valueOf(ePrescriptionRepository.findAll().size() + 1));

@@ -210,7 +210,7 @@ insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 20:00:00', 8, 2);
 
 -- (61) radno vreme za ostale dermatologe
-insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 20:00:00', 15, 2);
+    insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 20:00:00', 15, 2);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 20:00:00', 16, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 20:00:00', 17, 1);
 insert into work_days (start_time, end_time, employee_id, pharmacy_id) values ('2021-02-21 08:00:00', '2021-02-21 14:00:00', 18, 1);
@@ -407,7 +407,7 @@ insert into appointment_reports (description ,appointment_id) values ('Na pregle
 insert into appointment_reports (description ,appointment_id) values ('Na pregledu je sve bilo u redu', 34);
 
 insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR1', '2021-11-02', 1, 1, 8000, 0);
-insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR2', '2021-11-02', 1, 1, 8000, 1);
+insert into e_prescriptions(code, issuing_date, patient_id, pharmacy_id, price, e_prescription_state) values ('EPR2', '2021-10-02', 1, 1, 8000, 1);
 
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (4, 1, 3);
 insert into e_prescription_items (quantity, e_prescription_id, medicine_id) values (3, 2, 1);
