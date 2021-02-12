@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
+import isa.spring.boot.pharmacy.exceptions.InvalidMedicineAmountException;
 import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionItem;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionState;
@@ -14,6 +15,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,16 +45,39 @@ public class EPrescriptionService {
     @Autowired
     private LoyaltyProgramService loyaltyProgramService;
 
-    public EPrescription createNewPrescription(EPrescription ePrescription, Long patientId, Long pharmacyId,
-                                               HashMap<String, Integer> codesWithQuantities) {
-        boolean ePrescriptionSuccessful = true;
-        if (userService.getPenaltiesByPatientId(patientId) > 2) {
-            return null;
-        }
+    public EPrescription createEPrescription(EPrescription ePrescription, Long patientId, Long pharmacyId,
+                                             HashMap<String, Integer> codesWithQuantities) {
         ePrescription.setPharmacy(pharmacyService.getPharmacyById(pharmacyId));
         ePrescription.setPatient((Patient) Hibernate.unproxy(userService.findById(patientId)));
         ePrescription.setCode("EPR" + String.valueOf(ePrescriptionRepository.findAll().size() + 1));
+        ePrescription.setePrescriptionItems(createEPrescriptionItems(codesWithQuantities, ePrescription));
+        double priceWithDiscount = loyaltyProgramService.
+                calculatePriceBasedOnUserCategory(ePrescription.getPatient().getId(), ePrescription.getPrice());
+        ePrescription.setPrice(priceWithDiscount);
+        try {
+            updatePharmacyStorageQuantities(ePrescription.getePrescriptionItems(), pharmacyId);
+            ePrescription.setePrescriptionState(EPrescriptionState.CONFIRMED);
+            return ePrescriptionRepository.save(ePrescription);
+        } catch (Exception e) {
+            ePrescription.setePrescriptionState(EPrescriptionState.REJECTED);
+            return ePrescriptionRepository.save(ePrescription);
+        }
+    }
 
+    @Transactional(rollbackOn = InvalidMedicineAmountException.class)
+    public void updatePharmacyStorageQuantities(List<EPrescriptionItem> items, Long pharmacyId) throws InvalidMedicineAmountException {
+        try {
+            for (EPrescriptionItem item : items) {
+                pharmacyMedicineService.reduceMedicineQuantityInPharmacy(item.getMedicine().getCode(),item.getQuantity(),
+                        pharmacyId);
+            }
+        } catch (InvalidMedicineAmountException e) {
+            throw new InvalidMedicineAmountException(e.toString());
+        }
+    }
+
+    public List<EPrescriptionItem> createEPrescriptionItems(HashMap<String, Integer> codesWithQuantities,
+                                                            EPrescription ePrescription) {
         List<EPrescriptionItem> items = new ArrayList<>();
         for (String code : codesWithQuantities.keySet()) {
             EPrescriptionItem item = new EPrescriptionItem();
@@ -60,25 +85,9 @@ public class EPrescriptionService {
             item.setMedicine(medicineService.findByCode(code));
             items.add(item);
             item.setePrescription(ePrescription);
-            if (!pharmacyMedicineService.reduceMedicineQuantityInPharmacy(code, codesWithQuantities.get(code), pharmacyId)) {
-                ePrescriptionSuccessful = false;
-                continue;
-            }
-            userService.addPointsToPatient(patientId, item.getMedicine().getPoints());
         }
-        ePrescription.setePrescriptionItems(items);
-
-        if (ePrescriptionSuccessful) {
-            ePrescription.setePrescriptionState(EPrescriptionState.CONFIRMED);
-            double priceWithDiscount = loyaltyProgramService.
-                    calculatePriceBasedOnUserCategory(ePrescription.getPatient().getId(), ePrescription.getPrice());
-            ePrescription.setPrice(priceWithDiscount);
-            return ePrescriptionRepository.save(ePrescription);
-        }
-        ePrescription.setePrescriptionState(EPrescriptionState.REJECTED);
-        return null;
+        return items;
     }
-
 
     public List<EPrescription> getEPrescriptionsForPatient(Long patientId) {
         return ePrescriptionRepository.findByPatientId(patientId);

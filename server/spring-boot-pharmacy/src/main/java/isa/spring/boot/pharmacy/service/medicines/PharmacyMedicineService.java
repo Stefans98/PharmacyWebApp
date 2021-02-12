@@ -1,5 +1,6 @@
 package isa.spring.boot.pharmacy.service.medicines;
 
+import isa.spring.boot.pharmacy.exceptions.InvalidMedicineAmountException;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.model.medicines.MedicineReservation;
 import isa.spring.boot.pharmacy.model.medicines.PharmacyMedicine;
@@ -11,6 +12,7 @@ import isa.spring.boot.pharmacy.service.users.LoyaltyProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -165,7 +167,8 @@ public class PharmacyMedicineService {
         return 0.0;
     }
 
-    public boolean reduceMedicineQuantityInPharmacy(String code, int quantity, Long pharmacyId) {
+    @Transactional
+    public boolean reduceMedicineQuantityInPharmacy(String code, int quantity, Long pharmacyId) throws InvalidMedicineAmountException {
         List<PharmacyMedicine> pharmacyMedicines = pharmacyMedicineRepository.findAll();
         for (PharmacyMedicine pm : pharmacyMedicines) {
             if (pm.getPharmacy().getId() == pharmacyId && pm.getMedicine().getCode().equals(code)) {
@@ -174,7 +177,7 @@ public class PharmacyMedicineService {
                     pharmacyMedicineRepository.save(pm);
                     return true;
                 }
-                return false;
+                throw new InvalidMedicineAmountException("Not enough medicine amount in storage!");
             }
         }
         return false;

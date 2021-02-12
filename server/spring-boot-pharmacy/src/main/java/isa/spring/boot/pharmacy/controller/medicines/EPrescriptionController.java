@@ -7,6 +7,7 @@ import isa.spring.boot.pharmacy.mapper.medicines.EPrescriptionMapper;
 import isa.spring.boot.pharmacy.mapper.medicines.MedicineMapper;
 import isa.spring.boot.pharmacy.model.medicines.EPrescription;
 import isa.spring.boot.pharmacy.model.medicines.EPrescriptionItem;
+import isa.spring.boot.pharmacy.model.medicines.EPrescriptionState;
 import isa.spring.boot.pharmacy.model.medicines.Medicine;
 import isa.spring.boot.pharmacy.service.medicines.EPrescriptionService;
 import isa.spring.boot.pharmacy.service.qrcode.QRCodeService;
@@ -69,10 +70,12 @@ public class EPrescriptionController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<EPrescriptionDto> createNewEPrescription(@RequestBody EPrescriptionDto ePrescriptionDto) {
-        EPrescription ePrescription = ePrescriptionService.createNewPrescription(EPrescriptionMapper.convertToEntity(ePrescriptionDto),
+        EPrescription ePrescription = ePrescriptionService.createEPrescription(EPrescriptionMapper.convertToEntity(ePrescriptionDto),
                 ePrescriptionDto.getPatientId(), ePrescriptionDto.getPharmacyId(), ePrescriptionDto.getMedicineCodesWithQuantities());
         if (ePrescription == null) {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        } else if (ePrescription.getePrescriptionState() == EPrescriptionState.REJECTED) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         ePrescriptionService.sendEmailForEPrescription(ePrescription);
         return new ResponseEntity<>(EPrescriptionMapper.convertToDto(ePrescription), HttpStatus.OK);
