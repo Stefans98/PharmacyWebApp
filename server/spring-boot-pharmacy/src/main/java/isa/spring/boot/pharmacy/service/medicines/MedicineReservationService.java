@@ -145,6 +145,8 @@ public class MedicineReservationService {
 
         if(calendar.getTime().before(medicineReservation.getFinalPurchasingDate())) {
             medicineReservation.setMedicineReservationState(MedicineReservationState.CANCELED);
+            pharmacyMedicineService.incrementMedicineQuantity(medicineReservation.getMedicine().getId(),
+                    medicineReservation.getPharmacy().getId());
             medicineReservationRepository.save(medicineReservation);
             return true;
         }
