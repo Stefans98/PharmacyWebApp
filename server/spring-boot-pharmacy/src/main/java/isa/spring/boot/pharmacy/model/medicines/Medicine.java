@@ -80,8 +80,8 @@ public class Medicine {
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineInquiry> medicineInquiries;
 
-    @OneToOne(mappedBy = "medicine")
-    private Allergy allergy;
+    @OneToMany(mappedBy = "medicine")
+    private List<Allergy> allergies;
 
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MedicineGrade> grades;
@@ -238,12 +238,12 @@ public class Medicine {
         this.medicineSpecifications = medicineSpecifications;
     }
 
-    public Allergy getAllergy() {
-        return allergy;
+    public List<Allergy> getAllergies() {
+        return allergies;
     }
 
-    public void setAllergy(Allergy allergy) {
-        this.allergy = allergy;
+    public void setAllergies(List<Allergy> allergies) {
+        this.allergies = allergies;
     }
 
     public List<PharmacyMedicine> getPharmacyMedicines() {

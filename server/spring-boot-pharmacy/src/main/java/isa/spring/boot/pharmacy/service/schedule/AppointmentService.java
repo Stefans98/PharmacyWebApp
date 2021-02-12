@@ -108,7 +108,7 @@ public class AppointmentService {
         for(Appointment appointment : getDermatologistExaminations()) {
             if(appointment.getPatient().getId() == patientId &&
                     appointment.getAppointmentState() == AppointmentState.OCCUPIED
-                        && appointment.getStartTime().compareTo(new Date()) >= 0) {
+                        && appointment.getStartTime().compareTo(new Date()) > 0) {
                 dermatologistExaminationsForPatient.add(appointment);
             }
         }
@@ -349,6 +349,11 @@ public class AppointmentService {
         Date startNew = newAppointment.getStartTime();
         Date endNew = newAppointment.getEndTime();
         Date startOld, endOld;
+
+        if (startNew.before(new Date())) {
+            return false;
+        }
+
         for(Appointment appointment : appointments) {
             startOld = appointment.getStartTime();
             endOld = appointment.getEndTime();
